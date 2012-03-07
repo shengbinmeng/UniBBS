@@ -1,0 +1,342 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E88A6E4C1507760600EED88D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E88A6E4B1507760600EED88D /* UIKit.framework */; };
+		E88A6E4E1507760600EED88D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E88A6E4D1507760600EED88D /* Foundation.framework */; };
+		E88A6E501507760600EED88D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E88A6E4F1507760600EED88D /* CoreGraphics.framework */; };
+		E88A6E561507760600EED88D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E88A6E541507760600EED88D /* InfoPlist.strings */; };
+		E88A6E581507760600EED88D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E88A6E571507760600EED88D /* main.m */; };
+		E88A6E5C1507760600EED88D /* UniBBSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E88A6E5B1507760600EED88D /* UniBBSAppDelegate.m */; };
+		E88A6E5F1507760600EED88D /* UniBBSFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E88A6E5E1507760600EED88D /* UniBBSFirstViewController.m */; };
+		E88A6E611507760600EED88D /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = E88A6E601507760600EED88D /* first.png */; };
+		E88A6E631507760600EED88D /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E88A6E621507760600EED88D /* first@2x.png */; };
+		E88A6E661507760600EED88D /* UniBBSSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E88A6E651507760600EED88D /* UniBBSSecondViewController.m */; };
+		E88A6E681507760600EED88D /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = E88A6E671507760600EED88D /* second.png */; };
+		E88A6E6A1507760600EED88D /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E88A6E691507760600EED88D /* second@2x.png */; };
+		E88A6E6D1507760600EED88D /* UniBBSFirstViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = E88A6E6B1507760600EED88D /* UniBBSFirstViewController_iPhone.xib */; };
+		E88A6E701507760600EED88D /* UniBBSFirstViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E88A6E6E1507760600EED88D /* UniBBSFirstViewController_iPad.xib */; };
+		E88A6E731507760600EED88D /* UniBBSSecondViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = E88A6E711507760600EED88D /* UniBBSSecondViewController_iPhone.xib */; };
+		E88A6E761507760600EED88D /* UniBBSSecondViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E88A6E741507760600EED88D /* UniBBSSecondViewController_iPad.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		E88A6E471507760600EED88D /* UniBBS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniBBS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E88A6E4B1507760600EED88D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		E88A6E4D1507760600EED88D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		E88A6E4F1507760600EED88D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		E88A6E531507760600EED88D /* UniBBS-Info.plist */ = {isa = PBXFileReference; path = "UniBBS-Info.plist"; sourceTree = "<group>"; };
+		E88A6E551507760600EED88D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E88A6E571507760600EED88D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E88A6E591507760600EED88D /* UniBBS-Prefix.pch */ = {isa = PBXFileReference; path = "UniBBS-Prefix.pch"; sourceTree = "<group>"; };
+		E88A6E5A1507760600EED88D /* UniBBSAppDelegate.h */ = {isa = PBXFileReference; path = UniBBSAppDelegate.h; sourceTree = "<group>"; };
+		E88A6E5B1507760600EED88D /* UniBBSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UniBBSAppDelegate.m; sourceTree = "<group>"; };
+		E88A6E5D1507760600EED88D /* UniBBSFirstViewController.h */ = {isa = PBXFileReference; path = UniBBSFirstViewController.h; sourceTree = "<group>"; };
+		E88A6E5E1507760600EED88D /* UniBBSFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UniBBSFirstViewController.m; sourceTree = "<group>"; };
+		E88A6E601507760600EED88D /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
+		E88A6E621507760600EED88D /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
+		E88A6E641507760600EED88D /* UniBBSSecondViewController.h */ = {isa = PBXFileReference; path = UniBBSSecondViewController.h; sourceTree = "<group>"; };
+		E88A6E651507760600EED88D /* UniBBSSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UniBBSSecondViewController.m; sourceTree = "<group>"; };
+		E88A6E671507760600EED88D /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
+		E88A6E691507760600EED88D /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+		E88A6E6C1507760600EED88D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/UniBBSFirstViewController_iPhone.xib; sourceTree = "<group>"; };
+		E88A6E6F1507760600EED88D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/UniBBSFirstViewController_iPad.xib; sourceTree = "<group>"; };
+		E88A6E721507760600EED88D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/UniBBSSecondViewController_iPhone.xib; sourceTree = "<group>"; };
+		E88A6E751507760600EED88D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/UniBBSSecondViewController_iPad.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E88A6E441507760600EED88D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E88A6E4C1507760600EED88D /* UIKit.framework in Frameworks */,
+				E88A6E4E1507760600EED88D /* Foundation.framework in Frameworks */,
+				E88A6E501507760600EED88D /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E88A6E3C1507760500EED88D = {
+			isa = PBXGroup;
+			children = (
+				E88A6E511507760600EED88D /* UniBBS */,
+				E88A6E4A1507760600EED88D /* Frameworks */,
+				E88A6E481507760600EED88D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E88A6E481507760600EED88D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E88A6E471507760600EED88D /* UniBBS.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E88A6E4A1507760600EED88D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E88A6E4B1507760600EED88D /* UIKit.framework */,
+				E88A6E4D1507760600EED88D /* Foundation.framework */,
+				E88A6E4F1507760600EED88D /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E88A6E511507760600EED88D /* UniBBS */ = {
+			isa = PBXGroup;
+			children = (
+				E88A6E5A1507760600EED88D /* UniBBSAppDelegate.h */,
+				E88A6E5B1507760600EED88D /* UniBBSAppDelegate.m */,
+				E88A6E5D1507760600EED88D /* UniBBSFirstViewController.h */,
+				E88A6E5E1507760600EED88D /* UniBBSFirstViewController.m */,
+				E88A6E601507760600EED88D /* first.png */,
+				E88A6E621507760600EED88D /* first@2x.png */,
+				E88A6E641507760600EED88D /* UniBBSSecondViewController.h */,
+				E88A6E651507760600EED88D /* UniBBSSecondViewController.m */,
+				E88A6E671507760600EED88D /* second.png */,
+				E88A6E691507760600EED88D /* second@2x.png */,
+				E88A6E6B1507760600EED88D /* UniBBSFirstViewController_iPhone.xib */,
+				E88A6E6E1507760600EED88D /* UniBBSFirstViewController_iPad.xib */,
+				E88A6E711507760600EED88D /* UniBBSSecondViewController_iPhone.xib */,
+				E88A6E741507760600EED88D /* UniBBSSecondViewController_iPad.xib */,
+				E88A6E521507760600EED88D /* Supporting Files */,
+			);
+			path = UniBBS;
+			sourceTree = "<group>";
+		};
+		E88A6E521507760600EED88D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E88A6E531507760600EED88D /* UniBBS-Info.plist */,
+				E88A6E541507760600EED88D /* InfoPlist.strings */,
+				E88A6E571507760600EED88D /* main.m */,
+				E88A6E591507760600EED88D /* UniBBS-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E88A6E461507760600EED88D /* UniBBS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E88A6E791507760600EED88D /* Build configuration list for PBXNativeTarget "UniBBS" */;
+			buildPhases = (
+				E88A6E431507760600EED88D /* Sources */,
+				E88A6E441507760600EED88D /* Frameworks */,
+				E88A6E451507760600EED88D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UniBBS;
+			productName = UniBBS;
+			productReference = E88A6E471507760600EED88D /* UniBBS.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E88A6E3E1507760500EED88D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "Peking University";
+			};
+			buildConfigurationList = E88A6E411507760500EED88D /* Build configuration list for PBXProject "UniBBS" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E88A6E3C1507760500EED88D;
+			productRefGroup = E88A6E481507760600EED88D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E88A6E461507760600EED88D /* UniBBS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E88A6E451507760600EED88D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E88A6E561507760600EED88D /* InfoPlist.strings in Resources */,
+				E88A6E611507760600EED88D /* first.png in Resources */,
+				E88A6E631507760600EED88D /* first@2x.png in Resources */,
+				E88A6E681507760600EED88D /* second.png in Resources */,
+				E88A6E6A1507760600EED88D /* second@2x.png in Resources */,
+				E88A6E6D1507760600EED88D /* UniBBSFirstViewController_iPhone.xib in Resources */,
+				E88A6E701507760600EED88D /* UniBBSFirstViewController_iPad.xib in Resources */,
+				E88A6E731507760600EED88D /* UniBBSSecondViewController_iPhone.xib in Resources */,
+				E88A6E761507760600EED88D /* UniBBSSecondViewController_iPad.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E88A6E431507760600EED88D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E88A6E581507760600EED88D /* main.m in Sources */,
+				E88A6E5C1507760600EED88D /* UniBBSAppDelegate.m in Sources */,
+				E88A6E5F1507760600EED88D /* UniBBSFirstViewController.m in Sources */,
+				E88A6E661507760600EED88D /* UniBBSSecondViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E88A6E541507760600EED88D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E88A6E551507760600EED88D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		E88A6E6B1507760600EED88D /* UniBBSFirstViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E88A6E6C1507760600EED88D /* en */,
+			);
+			name = UniBBSFirstViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		E88A6E6E1507760600EED88D /* UniBBSFirstViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E88A6E6F1507760600EED88D /* en */,
+			);
+			name = UniBBSFirstViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+		E88A6E711507760600EED88D /* UniBBSSecondViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E88A6E721507760600EED88D /* en */,
+			);
+			name = UniBBSSecondViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		E88A6E741507760600EED88D /* UniBBSSecondViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E88A6E751507760600EED88D /* en */,
+			);
+			name = UniBBSSecondViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E88A6E771507760600EED88D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E88A6E781507760600EED88D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E88A6E7A1507760600EED88D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "UniBBS/UniBBS-Prefix.pch";
+				INFOPLIST_FILE = "UniBBS/UniBBS-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		E88A6E7B1507760600EED88D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "UniBBS/UniBBS-Prefix.pch";
+				INFOPLIST_FILE = "UniBBS/UniBBS-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E88A6E411507760500EED88D /* Build configuration list for PBXProject "UniBBS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E88A6E771507760600EED88D /* Debug */,
+				E88A6E781507760600EED88D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E88A6E791507760600EED88D /* Build configuration list for PBXNativeTarget "UniBBS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E88A6E7A1507760600EED88D /* Debug */,
+				E88A6E7B1507760600EED88D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E88A6E3E1507760500EED88D /* Project object */;
+}
