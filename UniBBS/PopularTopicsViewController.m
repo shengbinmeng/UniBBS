@@ -1,20 +1,21 @@
 //
-//  UniBBSFirstViewController.m
+//  PopularTopicsViewController.m
 //  UniBBS
 //
 //  Created by Meng Shengbin on 3/7/12.
 //  Copyright (c) 2012 Peking University. All rights reserved.
 //
 
-#import "UniBBSFirstViewController.h"
+#import "PopularTopicsViewController.h"
+#import "PostViewController.h"
 
-@implementation UniBBSFirstViewController
+@implementation PopularTopicsViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithStyle:(UITableViewStyle)style
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super initWithStyle:style];
     if (self) {
-        self.title = NSLocalizedString(@"First", @"First");
+        self.title = @"热点话题";
         self.tabBarItem.image = [UIImage imageNamed:@"first"];
     }
     return self;
@@ -70,5 +71,40 @@
         return YES;
     }
 }
+
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"PopularCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    }
+    cell.textLabel.text = @"A Popular Post";
+    return cell;
+}
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    PostViewController *postViewController = [[[PostViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+    [self.navigationController pushViewController:postViewController animated:YES];
+}
+
+
 
 @end

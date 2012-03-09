@@ -8,9 +8,9 @@
 
 #import "UniBBSAppDelegate.h"
 
-#import "UniBBSFirstViewController.h"
+#import "PopularTopicsViewController.h"
 
-#import "UniBBSSecondViewController.h"
+#import "BoardListViewController.h"
 
 @implementation UniBBSAppDelegate
 
@@ -19,18 +19,19 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    
     // Override point for customization after application launch.
-    UIViewController *viewController1, *viewController2;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        viewController1 = [[UniBBSFirstViewController alloc] initWithNibName:@"UniBBSFirstViewController_iPhone" bundle:nil];
-        viewController2 = [[UniBBSSecondViewController alloc] initWithNibName:@"UniBBSSecondViewController_iPhone" bundle:nil];
-    } else {
-        viewController1 = [[UniBBSFirstViewController alloc] initWithNibName:@"UniBBSFirstViewController_iPad" bundle:nil];
-        viewController2 = [[UniBBSSecondViewController alloc] initWithNibName:@"UniBBSSecondViewController_iPad" bundle:nil];
-    }
-    self.tabBarController = [[UITabBarController alloc] init];
-    self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2, nil];
+    PopularTopicsViewController *viewController1 = [[[PopularTopicsViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+    BoardListViewController *viewController2 = [[[BoardListViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+    viewController2.listAddress = @"http://www.bdwm.net/bbs/bbsxboa.php?group=0";
+    
+    UINavigationController *popularViewController, *boardListViewController;
+    popularViewController = [[[UINavigationController alloc] initWithRootViewController:viewController1] autorelease];
+    boardListViewController = [[[UINavigationController alloc] initWithRootViewController:viewController2] autorelease];
+
+    self.tabBarController = [[[UITabBarController alloc] init] autorelease];
+    self.tabBarController.viewControllers = [NSArray arrayWithObjects:popularViewController, boardListViewController, nil];
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
     return YES;

@@ -1,5 +1,5 @@
 //
-//  UniBBSSecondViewController.h
+//  PostListViewController.h
 //  UniBBS
 //
 //  Created by Meng Shengbin on 3/7/12.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UniBBSSecondViewController : UIViewController
+@interface PostListViewController : UITableViewController <UISearchDisplayDelegate>
 
 @end

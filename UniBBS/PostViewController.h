@@ -1,5 +1,5 @@
 //
-//  UniBBSFirstViewController.h
+//  PostViewController.h
 //  UniBBS
 //
 //  Created by Meng Shengbin on 3/7/12.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UniBBSFirstViewController : UIViewController
+@interface PostViewController : UITableViewController
 
 @end
