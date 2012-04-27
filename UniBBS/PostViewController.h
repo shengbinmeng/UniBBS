@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PostViewController : UITableViewController
+@class BBSPostReader;
+@interface PostViewController : UITableViewController 
+<UIActionSheetDelegate>
+
+@property (nonatomic, retain) NSString *postAddress;
+@property (nonatomic, retain) NSDictionary *postAttributes;
+@property (nonatomic, retain) BBSPostReader *postReader;
 
 @end

@@ -9,8 +9,9 @@
 #import "UniBBSAppDelegate.h"
 
 #import "PopularTopicsViewController.h"
-
 #import "BoardListViewController.h"
+#import "FavouritesViewController.h"
+#import "SettingsViewController.h"
 
 @implementation UniBBSAppDelegate
 
@@ -25,13 +26,17 @@
     PopularTopicsViewController *viewController1 = [[[PopularTopicsViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
     BoardListViewController *viewController2 = [[[BoardListViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
     viewController2.listAddress = @"http://www.bdwm.net/bbs/bbsxboa.php?group=0";
+    FavouritesViewController *viewController3 = [[[FavouritesViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+    SettingsViewController *viewController4 = [[[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
     
-    UINavigationController *popularViewController, *boardListViewController;
+    UINavigationController *popularViewController, *boardListViewController, *favouritesViewController, *settingsViewController;
     popularViewController = [[[UINavigationController alloc] initWithRootViewController:viewController1] autorelease];
     boardListViewController = [[[UINavigationController alloc] initWithRootViewController:viewController2] autorelease];
+    favouritesViewController = [[[UINavigationController alloc] initWithRootViewController:viewController3] autorelease];
+    settingsViewController = [[[UINavigationController alloc] initWithRootViewController:viewController4] autorelease];
 
     self.tabBarController = [[[UITabBarController alloc] init] autorelease];
-    self.tabBarController.viewControllers = [NSArray arrayWithObjects:popularViewController, boardListViewController, nil];
+    self.tabBarController.viewControllers = [NSArray arrayWithObjects:popularViewController, boardListViewController, favouritesViewController, settingsViewController, nil];
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
     return YES;

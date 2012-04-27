@@ -7,17 +7,30 @@
 //
 
 #import "PostViewController.h"
+#import "BBSPostReader.h"
+#import "TopicViewController.h"
+#import "BBSFavouritesManager.h"
+#import "AttachmentsViewController.h"
 
 @implementation PostViewController
+
+@synthesize postAddress, postAttributes, postReader;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-        self.title = @"The Post";
     }
     return self;
+}
+
+- (void) dealloc
+{
+    self.postAddress = nil;
+    self.postAttributes = nil;
+    self.postReader = nil;
+    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -28,24 +41,144 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+
+- (void) buttonPressed 
+{
+    UIActionSheet *sheet;
+    if ([self.postAttributes valueForKey:@"attachments"] != nil) {
+        sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"收藏此贴", @"查看附件", nil];
+    } else {
+        sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"收藏此贴", nil];
+    }
+    
+    [sheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
+    [sheet release];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == actionSheet.cancelButtonIndex) {
+        return;
+    }
+    int index = buttonIndex - actionSheet.firstOtherButtonIndex;
+    switch (index) {
+        case 0:{  
+            // add to favourites
+            NSDictionary *postInfo = [[NSDictionary alloc] init];
+            [postInfo setValue:[postAttributes valueForKey:@"content"] forKey:@"content"];
+            [postInfo setValue:[postAttributes valueForKey:@"attachments"] forKey:@"attachments"];
+            [[BBSFavouritesManager favouritePosts] addObject:postInfo];
+            [postInfo release];
+            break;
+        }
+        case 1:{
+            //view attachments
+            AttachmentsViewController *attachViewController = [[[AttachmentsViewController alloc] init] autorelease];
+            NSArray *attachments = [self.postAttributes valueForKey:@"attachments"];
+            attachViewController.title = @"附件列表";
+            attachViewController.attachments = attachments;
+            [self.navigationController pushViewController:attachViewController animated:YES];
+            break; 
+        }
+        default:
+            break;
+    }
+}
+
+
+- (void) displayPreviousPost
+{
+    NSString *address = [self.postAttributes valueForKey:@"prevPostAddress"];
+    if (address == nil) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"已没有上一篇" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+        [alert release];
+    } else {
+        self.postReader.dataAddress = address;
+        self.postAttributes = [self.postReader getPostAttributes];
+        self.title = [self.postAttributes valueForKey:@"title"];
+        [self.tableView reloadData];
+        [self.tableView scrollsToTop];
+    }
+}
+
+- (void) displayNextPost
+{
+    NSString *address = [self.postAttributes valueForKey:@"nextPostAddress"];
+    if (address == nil) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"已没有下一篇" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+        [alert release];
+    } else {
+        self.postReader.dataAddress = address;
+        self.postAttributes = [self.postReader getPostAttributes];
+        self.title = [self.postAttributes valueForKey:@"title"];
+        [self.tableView reloadData];
+        [self.tableView scrollsToTop];
+    }
+}
+
+- (void) expandSameTopic
+{
+    NSString *address = [self.postAttributes valueForKey:@"sameTopicAddress"];
+    if (address == nil) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"展开失败，奇怪" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+        [alert release];
+    } else {
+        TopicViewController *topicViewController = [[[TopicViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+        topicViewController.title = @"同主题展开";
+        topicViewController.topicAddress = address;
+        [self.navigationController pushViewController:topicViewController animated:YES];   
+    }
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(buttonPressed)];
+    self.navigationItem.rightBarButtonItem = button;
+    [button release];
+    
+    UIBarButtonItem *prev = [[[UIBarButtonItem alloc] initWithTitle:@"上一篇"
+                                  style:UIBarButtonItemStyleBordered   
+                                  target:self
+                                  action:@selector(displayPreviousPost)] autorelease];
+    UIBarButtonItem *expan = [[[UIBarButtonItem alloc] initWithTitle:@"同主题展开"
+                                                                  style:UIBarButtonItemStyleBordered
+                                                                 target:self
+                                                                 action:@selector(expandSameTopic)] autorelease];
+    UIBarButtonItem *next = [[[UIBarButtonItem alloc] initWithTitle:@"下一篇"
+                                    style:UIBarButtonItemStyleBordered
+                                    target:self
+                                    action:@selector(displayNextPost)] autorelease];
+    UIBarButtonItem *space = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
+    NSArray *toolbarItems = [NSArray arrayWithObjects: 
+                             prev,
+                             space,
+                             expan,
+                             space,
+                             next,
+                             nil];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self setToolbarItems:toolbarItems animated:YES];
+    
+    if (self.postReader == nil) {
+        // first time load, alloc the model
+        BBSPostReader *reader = [[BBSPostReader alloc] initWithAddress:self.postAddress];
+        self.postReader = reader;
+        [reader release];
+        self.postAttributes = [self.postReader getPostAttributes];
+    }
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -55,11 +188,15 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [self.navigationController setToolbarHidden:NO animated:YES];
+
     [super viewDidAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [self.navigationController setToolbarHidden:YES animated:YES];
+
     [super viewWillDisappear:animated];
 }
 
@@ -71,7 +208,11 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    } else {
+        return YES;
+    }
 }
 
 #pragma mark - Table view data source
@@ -85,7 +226,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 2;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -97,21 +238,41 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     // Configure the cell...
-    cell.textLabel.text = @"The Post Content";
+    NSString *content = [self.postAttributes valueForKey:@"content"];
+    CGFloat contentWidth = self.tableView.frame.size.width;
+    UIFont *font = [UIFont systemFontOfSize:14];
+    CGSize size = [content sizeWithFont:font constrainedToSize:CGSizeMake(contentWidth, 8000) lineBreakMode:UILineBreakModeWordWrap];
+    CGRect rect = CGRectMake(0, 0, contentWidth, MAX(size.height, 44.0f) + 40);
+    cell.textLabel.frame = rect;
+    cell.textLabel.numberOfLines = 0;
+    cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
+    cell.textLabel.font = font;
+    cell.textLabel.text = content;
+    
     return cell;
 }
 
 #pragma mark - Table view delegate
 
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return nil;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    
+}
+
+- (CGFloat)tableView:(UITableView *) tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat contentWidth = self.tableView.frame.size.width;
+    UIFont *font = [UIFont systemFontOfSize:14];
+    
+    NSString *content = [self.postAttributes valueForKey:@"content"];
+    CGSize size = [content sizeWithFont:font constrainedToSize:CGSizeMake(contentWidth, 8000) lineBreakMode:UILineBreakModeWordWrap];
+    
+    return MAX(size.height, 44.0f) + 40; 
 }
 
 @end

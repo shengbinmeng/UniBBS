@@ -7,13 +7,15 @@
 //
 
 #import "SettingsViewController.h"
-
+#import "WebViewController.h"
 @implementation SettingsViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
+        self.title = @"更多";
+        self.tabBarItem.image = [UIImage imageNamed:@"second"];
         // Custom initialization
     }
     return self;
@@ -70,88 +72,123 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    } else {
+        return YES;
+    }
 }
 
-#pragma mark - Table view data source
 
+#pragma mark - Table View delegate and data source
+
+// Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
-    return 0;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return 0;
+    if (section == 0) {
+        return 1;
+    } else if (section == 1) {
+        return 2;
+    } else if (section == 2) {
+        return 1;
+    } else if (section == 3) {
+        return 2;
+    }
+    return 1;
 }
 
+// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    if ([indexPath section] == 0) {
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"DefaultStyleCell"];
+        if(cell == nil) {
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"] autorelease];
+        }
+        if ([indexPath row] == 0) {
+            [cell.textLabel setText:@"关于此程序"];
+            [cell.textLabel setTextAlignment:UITextAlignmentCenter];
+        }
+        return cell;
     }
     
-    // Configure the cell...
+    if ([indexPath section] == 1) {
+
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"Value1StyleCell"];
+        if(cell == nil) {
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Value1StyleCell"] autorelease];
+        }
+        
+        if ([indexPath row] == 0) {
+            [cell.textLabel setText:@"未名站点"];
+            [cell.textLabel setFont:[UIFont systemFontOfSize:17.0]];
+            [cell.detailTextLabel setText:@"http://www.bdwm.net"];
+        }
+        if ([indexPath row] == 1) {
+            [cell.textLabel setText:@"支持开发者"];
+            [cell.textLabel setFont:[UIFont systemFontOfSize:17.0]];
+            [cell.detailTextLabel setText:@"click to go!"];
+        }
+        
+        return cell;
+    }
     
-    return cell;
+    
+    return nil;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+- (NSString *)tableView:(UITableView*)tableView titleForHeaderInSection:(NSInteger)section {
+    NSString *header = @"";
+    if (section == 0) {
+        header = @"";
+    }
+    if (section == 1) {
+        header = @"网页访问";
+    }
+	return header;
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+	NSString *footerText = @"";
+    if (section == 0) {
+        
+    }    
+    return footerText;
 }
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
+    if ([indexPath section] == 0) {
+        if ([indexPath row] == 0) {
+            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"关于" message:@"北大未名Lite - 这是用于在北大未名BBS潜水的iOS客户端。该版本不具备用户登录和回复功能，是实实在在的潜水版。如果有任何问题和建议，可以发信至：shengbinmeng@gmail.com。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
+            [alert show];
+            [alert release];
+            return;
+        }
+    }
+    
+    if ([indexPath section] == 1) {
+        if ([indexPath row] == 0) {
+            WebViewController *aboutViewController =[[[WebViewController alloc] init] autorelease];
+            aboutViewController.webAddress = @"http://www.bdwm.net/bbs";
+            [self.navigationController pushViewController:aboutViewController animated:YES];
+            return;
+        }
+        if ([indexPath row] == 1) {
+            WebViewController *aboutViewController =[[[WebViewController alloc] init] autorelease];
+            aboutViewController.webAddress = @"http://shengbin.sinaapp.com/unibbs";
+            [self.navigationController pushViewController:aboutViewController animated:YES];
+            return;
+        }
+    }
 }
 
 @end

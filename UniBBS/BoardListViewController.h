@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface BoardListViewController : UITableViewController
+@class BBSBoardListExplorer;
+@interface BoardListViewController : UITableViewController 
+<UIActionSheetDelegate, UISearchDisplayDelegate, UISearchBarDelegate>
 
 @property (nonatomic, retain) NSString *listAddress;
+@property (nonatomic, retain) NSMutableArray *boardList;
+@property (nonatomic, retain) BBSBoardListExplorer *boardExplorer;
 
 @end
