@@ -61,7 +61,20 @@
     self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    self.editButtonItem.title = @"编辑";
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    // Make sure you call super first
+    [super setEditing:editing animated:animated];
+    
+    if (editing) {
+        self.editButtonItem.title = @"完成";
+    } else {
+        self.editButtonItem.title = @"编辑";
+    }
 }
 
 - (void)viewDidUnload
