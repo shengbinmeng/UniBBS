@@ -274,7 +274,7 @@
     UIFont *font = [UIFont systemFontOfSize:14];
     
     NSString *content = [[self.topicPosts objectAtIndex:indexPath.row] valueForKey:@"content"];
-    CGSize size = [content sizeWithFont:font constrainedToSize:CGSizeMake(contentWidth, 8000) lineBreakMode:UILineBreakModeWordWrap];
+    CGSize size = [content sizeWithFont:font constrainedToSize:CGSizeMake(contentWidth, 8000) lineBreakMode:NSLineBreakByWordWrapping];
     CGRect rect = CGRectMake(0, 0, contentWidth, MAX(size.height, 44.0f) + 40);
     cell.textLabel.frame = rect;
     cell.textLabel.numberOfLines = 0;
@@ -315,7 +315,7 @@
     UIFont *font = [UIFont systemFontOfSize:14];
     
     NSString *content = [[self.topicPosts objectAtIndex:indexPath.row] valueForKey:@"content"];
-    CGSize size = [content sizeWithFont:font constrainedToSize:CGSizeMake(contentWidth, 8000) lineBreakMode:UILineBreakModeWordWrap];
+    CGSize size = [content sizeWithFont:font constrainedToSize:CGSizeMake(contentWidth, 8000) lineBreakMode:NSLineBreakByWordWrapping];
     
     return MAX(size.height, 44.0f) + 40; 
 }

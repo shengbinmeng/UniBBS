@@ -112,7 +112,7 @@
         }
         if ([indexPath row] == 0) {
             [cell.textLabel setText:@"关于此程序"];
-            [cell.textLabel setTextAlignment:UITextAlignmentCenter];
+            [cell.textLabel setTextAlignment:NSTextAlignmentCenter];
         }
         return cell;
     }
