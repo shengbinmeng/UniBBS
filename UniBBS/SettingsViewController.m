@@ -183,9 +183,7 @@
             return;
         }
         if ([indexPath row] == 1) {
-            WebViewController *aboutViewController =[[[WebViewController alloc] init] autorelease];
-            aboutViewController.webAddress = @"http://shengbin.sinaapp.com/unibbs";
-            [self.navigationController pushViewController:aboutViewController animated:YES];
+            [[UIApplication sharedApplication] openURL:[[[NSURL alloc] initWithString:@"http://www.shengbin.me/apps/unibbs"] autorelease]];
             return;
         }
     }
