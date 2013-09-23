@@ -306,6 +306,11 @@
 			attributes = {
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Peking University";
+				TargetAttributes = {
+					E88A6E461507760600EED88D = {
+						DevelopmentTeam = RAE237RSGC;
+					};
+				};
 			};
 			buildConfigurationList = E88A6E411507760500EED88D /* Build configuration list for PBXProject "UniBBS" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -464,6 +469,7 @@
 		E88A6E7A1507760600EED88D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UniBBS/UniBBS-Prefix.pch";
 				INFOPLIST_FILE = "UniBBS/UniBBS-Info.plist";
@@ -477,6 +483,7 @@
 		E88A6E7B1507760600EED88D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UniBBS/UniBBS-Prefix.pch";
 				INFOPLIST_FILE = "UniBBS/UniBBS-Info.plist";

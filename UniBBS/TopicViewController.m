@@ -93,9 +93,9 @@
         }
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:topicPosts.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"已经是末页" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alert show];
-        [alert release];
+        if (self.topicPosts.count != 0) {
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:topicPosts.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        }
     }
 }
  
@@ -111,9 +111,9 @@
         }
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"已经是首页" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alert show];
-        [alert release];
+        if (self.topicPosts.count != 0) {
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        }
     }
 }
 
@@ -147,7 +147,7 @@
         switch (index) {
             case 0:{
                 NSDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
-                [[BBSFavouritesManager favouritePosts] addObject:post]; 
+                [[BBSFavouritesManager favouritePosts] addObject:post];
                 [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
                 break;
             }
@@ -161,8 +161,8 @@
                 [self.navigationController pushViewController:attachViewController animated:YES];
                 break;
             }
-                
             default:
+                [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
                 break;
         }
 
@@ -189,10 +189,10 @@
     UIToolbar *toolBar = [[[UIToolbar alloc] initWithFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)] autorelease];
     UIBarButtonItem *prev = [[[UIBarButtonItem alloc] initWithTitle:@"上一页" style:UIBarButtonItemStyleBordered target:self action:@selector(displayPreviousPage)] autorelease];
     UIBarButtonItem *next = [[[UIBarButtonItem alloc] initWithTitle:@"下一页" style:UIBarButtonItemStyleBordered target:self action:@selector(displayNextPage)] autorelease];
-    UIBarButtonItem *first = [[[UIBarButtonItem alloc] initWithTitle:@"最早贴" style:UIBarButtonItemStyleBordered target:self action:@selector(displayFirstPage)] autorelease];
-    UIBarButtonItem *last = [[[UIBarButtonItem alloc] initWithTitle:@"最新贴" style:UIBarButtonItemStyleBordered target:self action:@selector(displayLastPage)] autorelease];
+    //UIBarButtonItem *first = [[[UIBarButtonItem alloc] initWithTitle:@"最旧贴" style:UIBarButtonItemStyleBordered target:self action:@selector(displayFirstPage)] autorelease];
+    //UIBarButtonItem *last = [[[UIBarButtonItem alloc] initWithTitle:@"最新贴" style:UIBarButtonItemStyleBordered target:self action:@selector(displayLastPage)] autorelease];
     UIBarButtonItem *space = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
-    NSArray *toolbarItems = [NSArray arrayWithObjects: first, prev, space, next, last, nil];
+    NSArray *toolbarItems = [NSArray arrayWithObjects: prev, space, next, nil];
     [toolBar setItems:toolbarItems];
     [self.tableView setTableFooterView:toolBar];
 
@@ -208,7 +208,6 @@
         [indicator startAnimating];
         
         [self.tableView.tableFooterView setHidden:YES];
-        //[self performSelectorInBackground:@selector(loadData:) withObject:indicator];
         [self loadData:indicator];
     }
 }
@@ -224,8 +223,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -286,17 +283,13 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
-    CGFloat contentWidth = self.tableView.frame.size.width;
+    //CGFloat contentWidth = self.tableView.frame.size.width;
     UIFont *font = [UIFont systemFontOfSize:14];
-    
     NSString *content = [[self.topicPosts objectAtIndex:indexPath.row] valueForKey:@"content"];
-    CGSize size = [content sizeWithFont:font constrainedToSize:CGSizeMake(contentWidth, 8000) lineBreakMode:NSLineBreakByWordWrapping];
-    CGRect rect = CGRectMake(0, 0, contentWidth, MAX(size.height, 44.0f) + 40);
-    cell.textLabel.frame = rect;
     cell.textLabel.numberOfLines = 0;
-    cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
     cell.textLabel.font = font;
     cell.textLabel.text = content;
+    
     if ([indexPath row] % 2 == 0) {
         cell.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
         cell.textLabel.backgroundColor = [UIColor groupTableViewBackgroundColor];
