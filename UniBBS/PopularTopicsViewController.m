@@ -12,7 +12,7 @@
 #import "EGORefreshTableHeaderView.h"
 
 @implementation PopularTopicsViewController {
-    EGORefreshTableHeaderView *_refreshHeaderView; 
+    EGORefreshTableHeaderView *_refreshHeaderView;
     BOOL _reloading; 
     int numLimit;
     int popType; // 0 for instance, 1 for day, 2 for week
@@ -46,7 +46,7 @@
 
 - (void) buttonPressed 
 {
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"实时热点", @"当天最热", @"一周热点", nil];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"实时热点", @"当天最热", @"一周热点", @"刷新", nil];
     [sheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
 }
 
@@ -74,6 +74,10 @@
             self.popularReader.dataAddress = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=2520";
             popType = 2;
             break;
+        case 3:
+            self.popularTopics = [self.popularReader readPopularTopics];
+            [self.tableView reloadData];
+            return;
         default:
             break;
     }
@@ -114,7 +118,8 @@
     [button1 addTarget:self action:@selector(showMore) forControlEvents:UIControlEventTouchUpInside];
     [self.tableView setTableFooterView:button1];
 
-    
+
+    /*
     if (_refreshHeaderView == nil) { 
         EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, - 100.0f, self.tableView.frame.size.width, 100)]; 
         view.delegate = self; 
@@ -122,6 +127,7 @@
         _refreshHeaderView = view; 
         [view release]; 
     }
+     */
 
     if (self.popularTopics == nil) {
         BBSPopularReader *reader = [[BBSPopularReader alloc] initWithAddress:@"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=180"]; //7, 180, 2520
@@ -226,7 +232,7 @@
 - (void)doneLoadingTableViewData 
 {
     _reloading = NO; 
-    [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+    //[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
 }
 
 - (void)reloadTableViewDataSource 
@@ -242,12 +248,12 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {    
-    [_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView]; 
+    //[_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 { 
-    [_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView]; 
+    //[_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
 } 
 
 #pragma mark - EGORefreshTableHeaderDelegate Methods 
