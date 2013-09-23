@@ -132,7 +132,7 @@
         if ([indexPath row] == 1) {
             [cell.textLabel setText:@"支持开发者"];
             [cell.textLabel setFont:[UIFont systemFontOfSize:17.0]];
-            [cell.detailTextLabel setText:@"click to go!"];
+            [cell.detailTextLabel setText:@"shengbin.me"];
         }
         
         return cell;
