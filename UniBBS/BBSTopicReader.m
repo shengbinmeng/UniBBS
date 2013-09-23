@@ -106,7 +106,7 @@
                 
                 
         NSTextCheckingResult *r;
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=.{0,5}(bbstcon.php[^>]*)>上一页</a>" options:0 error:NULL];
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=.{0,6}(bbstcon.php[^\"]*)\"([^>]*)>上一页</a>" options:0 error:NULL];
         r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         range = [r rangeAtIndex:1];
         if (r && range.length) {
@@ -117,7 +117,7 @@
             previousPage = nil;
         }
         
-        regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=.{0,5}(bbstcon.php[^>]*)>下一页</a>" options:0 error:NULL];
+        regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=.{0,6}(bbstcon.php[^\"]*)\"([^>]*)>下一页</a>" options:0 error:NULL];
         r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         range = [r rangeAtIndex:1];
         if (r && range.length) {
@@ -128,7 +128,7 @@
             nextPage = nil;
         }
         
-        regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=.{0,5}(bbstcon.php[^>]*)>第一页</a>" options:0 error:NULL];
+        regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=.{0,6}(bbstcon.php[^\"]*\")([^>]*)>第一页</a>" options:0 error:NULL];
         r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         range = [r rangeAtIndex:1];
         if (r && range.length) {
@@ -139,7 +139,7 @@
             firstPage = nil;
         }
         
-        regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=.{0,5}(bbstcon.php[^>]*)>末页</a>" options:0 error:NULL];
+        regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=.{0,6}(bbstcon.php[^\"]*)\"([^>]*)>末页</a>" options:0 error:NULL];
         r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         range = [r rangeAtIndex:1];
         if (r && range.length) {

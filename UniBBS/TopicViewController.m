@@ -51,6 +51,10 @@
     if(posts != nil) {
         self.topicPosts = posts;
         [self.tableView reloadData];
+        if (posts.count == 0) {
+            // should not continu to scrollToRow
+            return;
+        }
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"已没有下一页" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
@@ -65,6 +69,10 @@
     if(posts != nil) {
         self.topicPosts = posts;
         [self.tableView reloadData];
+        if (posts.count == 0) {
+            // should not continu to scrollToRow
+            return;
+        }
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"已没有上一页" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
@@ -79,6 +87,10 @@
     if(posts != nil) {
         self.topicPosts = posts;
         [self.tableView reloadData];
+        if (posts.count == 0) {
+            // should not continu to scrollToRow
+            return;
+        }
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:topicPosts.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"已经是末页" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
@@ -93,6 +105,10 @@
     if(posts != nil) {
         self.topicPosts = posts;
         [self.tableView reloadData];
+        if (posts.count == 0) {
+            // should not continu to scrollToRow
+            return;
+        }
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"已经是首页" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];

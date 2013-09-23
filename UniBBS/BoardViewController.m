@@ -43,6 +43,10 @@
         if(topics != nil) {
             self.boardTopics = topics;
             [self.tableView reloadData];
+            if (topics.count == 0) {
+                // should not continu to scrollToRow
+                return;
+            }
             [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
         } else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"已是最后一页" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
@@ -54,6 +58,10 @@
         if(posts != nil) {
             self.boardPosts = posts;
             [self.tableView reloadData];
+            if (posts.count == 0) {
+                // should not continu to scrollToRow
+                return;
+            }
             [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
         } else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"已是最后一页" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
@@ -70,6 +78,10 @@
         if(topics != nil && topics.count > 0) {
             self.boardTopics = topics;
             [self.tableView reloadData];
+            if (topics.count == 0) {
+                // should not continu to scrollToRow
+                return;
+            }
             [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
         } else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"已是第一页" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
@@ -81,6 +93,10 @@
         if(posts != nil && posts.count > 0) {
             self.boardPosts = posts;
             [self.tableView reloadData];
+            if (posts.count == 0) {
+                // should not continu to scrollToRow
+                return;
+            }
             [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
         } else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"已是第一页" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];

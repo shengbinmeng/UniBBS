@@ -85,29 +85,26 @@
         }
         
         NSTextCheckingResult *r;
-        regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=.{0,5}(bbscon.php[^>]*)>上篇</a>" options:0 error:NULL];
+        regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=.{0,6}(bbscon.php[^\"]*)\"([^>]*)>上篇</a>" options:0 error:NULL];
         r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         range = [r rangeAtIndex:1];
         if (r && range.length) {
-            range.length --; // there is a " in the end, so omit it
             NSString *prevPost = [pageSource substringWithRange:range];
             [postAttributes setValue:[NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", prevPost] forKey:@"prevPostAddress"];
         }
         
-        regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=.{0,5}(bbscon.php[^>]*)>下篇</a>" options:0 error:NULL];
+        regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=.{0,6}(bbscon.php[^\"]*)\"([^>]*)>下篇</a>" options:0 error:NULL];
         r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         range = [r rangeAtIndex:1];
         if (r && range.length) {
-            range.length --;
             NSString *nextPost = [pageSource substringWithRange:range];
             [postAttributes setValue:[NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", nextPost] forKey:@"nextPostAddress"];
         }
         
-        regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=.{0,5}(bbstcon.php[^>]*)>同主题展开</a>" options:0 error:NULL];
+        regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=.{0,6}(bbstcon.php[^\"]*)\"([^>]*)>同主题展开</a>" options:0 error:NULL];
         r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         range = [r rangeAtIndex:1];
         if (r && range.length) {
-            range.length --;
             NSString *sameTopic = [pageSource substringWithRange:range];
             [postAttributes setValue:[NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", sameTopic] forKey:@"sameTopicAddress"];
         }

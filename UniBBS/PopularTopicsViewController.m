@@ -46,7 +46,7 @@
 
 - (void) buttonPressed 
 {
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"实时热点", @"当天最热", @"一周热点", @"刷新", nil];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"实时热点", @"当天最热", @"一周热点", nil];
     [sheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
 }
 
@@ -74,10 +74,6 @@
             self.popularReader.dataAddress = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=2520";
             popType = 2;
             break;
-        case 3:
-            self.popularTopics = [self.popularReader readPopularTopics];
-            [self.tableView reloadData];
-            return;
         default:
             break;
     }
@@ -102,14 +98,35 @@
     }
 }
 
+- (void) loadData:(UIActivityIndicatorView*) indicator {
+    self.popularTopics = [self.popularReader readPopularTopics];
+    [self.tableView reloadData];
+    [indicator stopAnimating];
+    [indicator removeFromSuperview];
+}
+
+- (void) doRefresh {
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self.view insertSubview:indicator aboveSubview:self.tableView];
+    indicator.center = self.view.center;
+    [indicator startAnimating];
+    
+    [self performSelectorInBackground:@selector(loadData:) withObject:indicator];
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
-	// Do any additional setup after loading the view, typically from a nib.
     // Do any additional setup after loading the view, typically from a nib.
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(buttonPressed)];
     self.navigationItem.rightBarButtonItem = button;
+    [button release];
+    
+    button = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStyleBordered target:self action:@selector(doRefresh)];
+    self.navigationItem.leftBarButtonItem = button;
     [button release];
     
     UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
