@@ -63,7 +63,6 @@
         [regex replaceMatchesInString:postContent options:0 range:NSMakeRange(0, [postContent length]) withTemplate:@""];
         [postAttributes setValue:postContent forKey:@"content"];
         
-        //TODO: set title, etc
         regex = [NSRegularExpression regularExpressionWithPattern:@"标  题: ([^\n]*)\n发信站" options:0 error:NULL];
         range = [[regex firstMatchInString:postContent options:0 range:NSMakeRange(0, [postContent length])] rangeAtIndex:1];
         NSString * title = [postContent substringWithRange:range];
@@ -90,6 +89,7 @@
         r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         range = [r rangeAtIndex:1];
         if (r && range.length) {
+            range.length --; // there is a " in the end, so omit it
             NSString *prevPost = [pageSource substringWithRange:range];
             [postAttributes setValue:[NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", prevPost] forKey:@"prevPostAddress"];
         }
@@ -98,6 +98,7 @@
         r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         range = [r rangeAtIndex:1];
         if (r && range.length) {
+            range.length --;
             NSString *nextPost = [pageSource substringWithRange:range];
             [postAttributes setValue:[NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", nextPost] forKey:@"nextPostAddress"];
         }
@@ -106,6 +107,7 @@
         r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         range = [r rangeAtIndex:1];
         if (r && range.length) {
+            range.length --;
             NSString *sameTopic = [pageSource substringWithRange:range];
             [postAttributes setValue:[NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", sameTopic] forKey:@"sameTopicAddress"];
         }
