@@ -52,6 +52,11 @@
 		E8F19F62150B5DB3001008B4 /* BBSPostReader.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F19F61150B5DB3001008B4 /* BBSPostReader.m */; };
 		E8F19F7F150BC81F001008B4 /* BBSBoardReader.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F19F7E150BC81E001008B4 /* BBSBoardReader.m */; };
 		F7062E6019E6CCEC00F61328 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F7062E5F19E6CCEC00F61328 /* libxml2.2.dylib */; };
+		F7062E6619E6CE2C00F61328 /* BDWMAlertMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F7062E6219E6CE2C00F61328 /* BDWMAlertMessage.m */; };
+		F7062E6719E6CE2C00F61328 /* BDWMString.m in Sources */ = {isa = PBXBuildFile; fileRef = F7062E6519E6CE2C00F61328 /* BDWMString.m */; };
+		F7062E7019E6D19800F61328 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = F7062E6B19E6D19800F61328 /* TFHpple.m */; };
+		F7062E7119E6D19800F61328 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = F7062E6D19E6D19800F61328 /* TFHppleElement.m */; };
+		F7062E7219E6D19800F61328 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = F7062E6F19E6D19800F61328 /* XPathQuery.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -121,6 +126,17 @@
 		E8F19F7D150BC81E001008B4 /* BBSBoardReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSBoardReader.h; sourceTree = "<group>"; };
 		E8F19F7E150BC81E001008B4 /* BBSBoardReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSBoardReader.m; sourceTree = "<group>"; };
 		F7062E5F19E6CCEC00F61328 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
+		F7062E6119E6CE2C00F61328 /* BDWMAlertMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDWMAlertMessage.h; sourceTree = "<group>"; };
+		F7062E6219E6CE2C00F61328 /* BDWMAlertMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDWMAlertMessage.m; sourceTree = "<group>"; };
+		F7062E6319E6CE2C00F61328 /* BDWMGlobalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDWMGlobalData.h; sourceTree = "<group>"; };
+		F7062E6419E6CE2C00F61328 /* BDWMString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDWMString.h; sourceTree = "<group>"; };
+		F7062E6519E6CE2C00F61328 /* BDWMString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDWMString.m; sourceTree = "<group>"; };
+		F7062E6A19E6D19800F61328 /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
+		F7062E6B19E6D19800F61328 /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
+		F7062E6C19E6D19800F61328 /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
+		F7062E6D19E6D19800F61328 /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHppleElement.m; sourceTree = "<group>"; };
+		F7062E6E19E6D19800F61328 /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
+		F7062E6F19E6D19800F61328 /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +214,8 @@
 		E88A6E511507760600EED88D /* UniBBS */ = {
 			isa = PBXGroup;
 			children = (
+				F7062E6919E6D15000F61328 /* Hpple */,
+				F7062E6819E6CE4100F61328 /* Utils */,
 				E8FE83A915247F5200CC112D /* BBSReaderModel */,
 				E86D93B9152722DD0037F06D /* ViewControllers */,
 				E8E5BD7015735062004BE6F9 /* Resources */,
@@ -289,6 +307,31 @@
 				E86D93BB15273C720037F06D /* BBSFavouritesManager.m */,
 			);
 			name = BBSReaderModel;
+			sourceTree = "<group>";
+		};
+		F7062E6819E6CE4100F61328 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				F7062E6119E6CE2C00F61328 /* BDWMAlertMessage.h */,
+				F7062E6219E6CE2C00F61328 /* BDWMAlertMessage.m */,
+				F7062E6319E6CE2C00F61328 /* BDWMGlobalData.h */,
+				F7062E6419E6CE2C00F61328 /* BDWMString.h */,
+				F7062E6519E6CE2C00F61328 /* BDWMString.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		F7062E6919E6D15000F61328 /* Hpple */ = {
+			isa = PBXGroup;
+			children = (
+				F7062E6A19E6D19800F61328 /* TFHpple.h */,
+				F7062E6B19E6D19800F61328 /* TFHpple.m */,
+				F7062E6C19E6D19800F61328 /* TFHppleElement.h */,
+				F7062E6D19E6D19800F61328 /* TFHppleElement.m */,
+				F7062E6E19E6D19800F61328 /* XPathQuery.h */,
+				F7062E6F19E6D19800F61328 /* XPathQuery.m */,
+			);
+			name = Hpple;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -386,6 +429,10 @@
 				E88A6E851507913F00EED88D /* BoardViewController.m in Sources */,
 				E843C4261508E3F800A83C22 /* BBSBoardListExplorer.m in Sources */,
 				E843C42E150904AD00A83C22 /* SettingsViewController.m in Sources */,
+				F7062E7119E6D19800F61328 /* TFHppleElement.m in Sources */,
+				F7062E6619E6CE2C00F61328 /* BDWMAlertMessage.m in Sources */,
+				F7062E7219E6D19800F61328 /* XPathQuery.m in Sources */,
+				F7062E7019E6D19800F61328 /* TFHpple.m in Sources */,
 				E843C454150A777900A83C22 /* BBSPopularReader.m in Sources */,
 				E843C457150A790900A83C22 /* TopicViewController.m in Sources */,
 				E8F19F58150B2577001008B4 /* FavouritesViewController.m in Sources */,
@@ -397,6 +444,7 @@
 				E831794A1537EFF000A219E4 /* AttachmentsViewController.m in Sources */,
 				E89AA62E15411E6100506BA4 /* Utility.m in Sources */,
 				E8E5BD6115734EA2004BE6F9 /* EGORefreshTableHeaderView.m in Sources */,
+				F7062E6719E6CE2C00F61328 /* BDWMString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
