@@ -24,3 +24,7 @@ build/
 *~.nib
 \#*#
 .#*
+
+#CocoaPod files
+UniBBS.xcworkspace
+Pods/
