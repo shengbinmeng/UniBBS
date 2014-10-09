@@ -51,6 +51,7 @@
 		E8F19F5F150B544F001008B4 /* BBSTopicReader.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F19F5E150B544F001008B4 /* BBSTopicReader.m */; };
 		E8F19F62150B5DB3001008B4 /* BBSPostReader.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F19F61150B5DB3001008B4 /* BBSPostReader.m */; };
 		E8F19F7F150BC81F001008B4 /* BBSBoardReader.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F19F7E150BC81E001008B4 /* BBSBoardReader.m */; };
+		F7062E6019E6CCEC00F61328 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F7062E5F19E6CCEC00F61328 /* libxml2.2.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -119,6 +120,7 @@
 		E8F19F61150B5DB3001008B4 /* BBSPostReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSPostReader.m; sourceTree = "<group>"; };
 		E8F19F7D150BC81E001008B4 /* BBSBoardReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSBoardReader.h; sourceTree = "<group>"; };
 		E8F19F7E150BC81E001008B4 /* BBSBoardReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSBoardReader.m; sourceTree = "<group>"; };
+		F7062E5F19E6CCEC00F61328 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7062E6019E6CCEC00F61328 /* libxml2.2.dylib in Frameworks */,
 				E86D644D15162FFB0001DA10 /* QuartzCore.framework in Frameworks */,
 				E88A6E4C1507760600EED88D /* UIKit.framework in Frameworks */,
 				E88A6E4E1507760600EED88D /* Foundation.framework in Frameworks */,
@@ -183,6 +186,7 @@
 		E88A6E4A1507760600EED88D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F7062E5F19E6CCEC00F61328 /* libxml2.2.dylib */,
 				E86D644C15162FFB0001DA10 /* QuartzCore.framework */,
 				E88A6E4B1507760600EED88D /* UIKit.framework */,
 				E88A6E4D1507760600EED88D /* Foundation.framework */,
@@ -488,6 +492,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UniBBS/UniBBS-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SDKROOT)/usr/include/libxml2",
+				);
 				INFOPLIST_FILE = "UniBBS/UniBBS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -502,6 +511,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UniBBS/UniBBS-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SDKROOT)/usr/include/libxml2",
+				);
 				INFOPLIST_FILE = "UniBBS/UniBBS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
