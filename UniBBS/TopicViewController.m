@@ -146,12 +146,17 @@
         // action from select row
         switch (index) {
             case 0:{
+                // reply
+            }
+            case 1:{
+                // favourite
                 NSDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
                 [[BBSFavouritesManager favouritePosts] addObject:post];
                 [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
                 break;
             }
-            case 1:{
+            case 2:{
+                // attachments
                 AttachmentsViewController *attachViewController = [[[AttachmentsViewController alloc] init] autorelease];
                 NSDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
                 [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
@@ -310,9 +315,9 @@
     UIActionSheet *sheet;
     NSDictionary * post = [self.topicPosts objectAtIndex:indexPath.row];
     if ([post valueForKey:@"attachments"] != nil) {
-        sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"收藏此贴", @"查看附件", nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复此帖", @"收藏此帖", @"查看附件", nil];
     } else {
-        sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"收藏此贴", nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"收藏此帖", nil];
     }
     [sheet showInView:self.view.window];
     [sheet release];
