@@ -8,6 +8,8 @@
 
 #import "SettingsViewController.h"
 #import "WebViewController.h"
+#import "LoginViewController.h"
+
 @implementation SettingsViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -85,7 +87,7 @@
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -95,7 +97,7 @@
     } else if (section == 1) {
         return 2;
     } else if (section == 2) {
-        return 1;
+        return 2;
     } else if (section == 3) {
         return 2;
     }
@@ -135,6 +137,22 @@
             [cell.detailTextLabel setText:@"shengbin.me"];
         }
         
+        return cell;
+    }
+    
+    if ([indexPath section] == 2) {
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"DefaultStyleCell"];
+        if(cell == nil) {
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"] autorelease];
+        }
+        if ([indexPath row] == 0) {
+            [cell.textLabel setText:@"用户登录"];
+            [cell.textLabel setTextAlignment:NSTextAlignmentCenter];
+        }
+        if ([indexPath row] == 1) {
+            [cell.textLabel setText:@"退出账户"];
+            [cell.textLabel setTextAlignment:NSTextAlignmentCenter];
+        }
         return cell;
     }
     
@@ -185,6 +203,19 @@
         if ([indexPath row] == 1) {
             [[UIApplication sharedApplication] openURL:[[[NSURL alloc] initWithString:@"http://www.shengbin.me/apps/unibbs"] autorelease]];
             return;
+        }
+    }
+    
+    if ([indexPath section] == 2) {
+        if ([indexPath row] == 0) {
+            LoginViewController *login = [[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] autorelease];
+            [self.navigationController pushViewController:login animated:YES];
+        }
+        if ([indexPath row] == 1) {
+            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"已经退出。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
+            [alert show];
+            [alert release];
         }
     }
 }
