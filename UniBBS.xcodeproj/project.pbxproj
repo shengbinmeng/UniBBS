@@ -62,6 +62,10 @@
 		F7062E7019E6D19800F61328 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = F7062E6B19E6D19800F61328 /* TFHpple.m */; };
 		F7062E7119E6D19800F61328 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = F7062E6D19E6D19800F61328 /* TFHppleElement.m */; };
 		F7062E7219E6D19800F61328 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = F7062E6F19E6D19800F61328 /* XPathQuery.m */; };
+		F785A81419E97F580001FB65 /* AFAppDotNetAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A81119E97F580001FB65 /* AFAppDotNetAPIClient.m */; };
+		F785A81519E97F580001FB65 /* BDWMUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A81319E97F580001FB65 /* BDWMUserModel.m */; };
+		F785A81919E983140001FB65 /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A81719E983140001FB65 /* UserInfoViewController.m */; };
+		F785A81A19E983140001FB65 /* UserInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F785A81819E983140001FB65 /* UserInfoViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -151,6 +155,13 @@
 		F7062E6D19E6D19800F61328 /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHppleElement.m; sourceTree = "<group>"; };
 		F7062E6E19E6D19800F61328 /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
 		F7062E6F19E6D19800F61328 /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
+		F785A81019E97F580001FB65 /* AFAppDotNetAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFAppDotNetAPIClient.h; sourceTree = "<group>"; };
+		F785A81119E97F580001FB65 /* AFAppDotNetAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFAppDotNetAPIClient.m; sourceTree = "<group>"; };
+		F785A81219E97F580001FB65 /* BDWMUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDWMUserModel.h; sourceTree = "<group>"; };
+		F785A81319E97F580001FB65 /* BDWMUserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDWMUserModel.m; sourceTree = "<group>"; };
+		F785A81619E983140001FB65 /* UserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoViewController.h; sourceTree = "<group>"; };
+		F785A81719E983140001FB65 /* UserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoViewController.m; sourceTree = "<group>"; };
+		F785A81819E983140001FB65 /* UserInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserInfoViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +217,9 @@
 				E83179491537EFF000A219E4 /* AttachmentsViewController.m */,
 				E83179441537BF9900A219E4 /* WebViewController.h */,
 				E83179451537BF9900A219E4 /* WebViewController.m */,
+				F785A81619E983140001FB65 /* UserInfoViewController.h */,
+				F785A81719E983140001FB65 /* UserInfoViewController.m */,
+				F785A81819E983140001FB65 /* UserInfoViewController.xib */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -246,6 +260,7 @@
 		E88A6E511507760600EED88D /* UniBBS */ = {
 			isa = PBXGroup;
 			children = (
+				F785A80F19E97EC70001FB65 /* Model */,
 				F7062E6919E6D15000F61328 /* Hpple */,
 				F7062E6819E6CE4100F61328 /* Utils */,
 				E8FE83A915247F5200CC112D /* BBSReaderModel */,
@@ -366,6 +381,17 @@
 			name = Hpple;
 			sourceTree = "<group>";
 		};
+		F785A80F19E97EC70001FB65 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F785A81019E97F580001FB65 /* AFAppDotNetAPIClient.h */,
+				F785A81119E97F580001FB65 /* AFAppDotNetAPIClient.m */,
+				F785A81219E97F580001FB65 /* BDWMUserModel.h */,
+				F785A81319E97F580001FB65 /* BDWMUserModel.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -445,6 +471,7 @@
 				E8E5BD6615734EA2004BE6F9 /* grayArrow.png in Resources */,
 				6C9117C217F3284000D1A1E4 /* unibbs_152x152.png in Resources */,
 				E8E5BD6715734EA2004BE6F9 /* grayArrow@2x.png in Resources */,
+				F785A81A19E983140001FB65 /* UserInfoViewController.xib in Resources */,
 				E8E5BD6815734EA2004BE6F9 /* whiteArrow.png in Resources */,
 				E8E5BD6915734EA2004BE6F9 /* whiteArrow@2x.png in Resources */,
 			);
@@ -490,10 +517,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F785A81519E97F580001FB65 /* BDWMUserModel.m in Sources */,
 				E88A6E581507760600EED88D /* main.m in Sources */,
 				E88A6E5C1507760600EED88D /* UniBBSAppDelegate.m in Sources */,
 				6CEAAC8619E942C600C29CA4 /* LoginViewController.m in Sources */,
 				E88A6E5F1507760600EED88D /* PopularTopicsViewController.m in Sources */,
+				F785A81419E97F580001FB65 /* AFAppDotNetAPIClient.m in Sources */,
 				E88A6E661507760600EED88D /* BoardListViewController.m in Sources */,
 				E88A6E801507882100EED88D /* PostViewController.m in Sources */,
 				E88A6E851507913F00EED88D /* BoardViewController.m in Sources */,
@@ -514,6 +543,7 @@
 				E83179461537BF9900A219E4 /* WebViewController.m in Sources */,
 				E831794A1537EFF000A219E4 /* AttachmentsViewController.m in Sources */,
 				E89AA62E15411E6100506BA4 /* Utility.m in Sources */,
+				F785A81919E983140001FB65 /* UserInfoViewController.m in Sources */,
 				E8E5BD6115734EA2004BE6F9 /* EGORefreshTableHeaderView.m in Sources */,
 				F7062E6719E6CE2C00F61328 /* BDWMString.m in Sources */,
 			);

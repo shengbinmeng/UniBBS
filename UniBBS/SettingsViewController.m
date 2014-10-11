@@ -87,7 +87,7 @@
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 2;//3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -96,11 +96,13 @@
         return 1;
     } else if (section == 1) {
         return 2;
-    } else if (section == 2) {
-        return 2;
-    } else if (section == 3) {
-        return 2;
     }
+//    else if (section == 2) {
+//        return 2;
+//    }
+//    else if (section == 3) {
+//        return 2;
+//    }
     return 1;
 }
 
@@ -139,7 +141,7 @@
         
         return cell;
     }
-    
+    /*
     if ([indexPath section] == 2) {
         UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"DefaultStyleCell"];
         if(cell == nil) {
@@ -155,7 +157,7 @@
         }
         return cell;
     }
-    
+    */
     
     return nil;
 }
@@ -205,7 +207,7 @@
             return;
         }
     }
-    
+    /*
     if ([indexPath section] == 2) {
         if ([indexPath row] == 0) {
             LoginViewController *login = [[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] autorelease];
@@ -218,6 +220,7 @@
             [alert release];
         }
     }
+     */
 }
 
 @end

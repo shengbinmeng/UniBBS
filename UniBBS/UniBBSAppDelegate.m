@@ -12,7 +12,7 @@
 #import "BoardListViewController.h"
 #import "FavouritesViewController.h"
 #import "SettingsViewController.h"
-
+#import "LoginViewController.h"
 @implementation UniBBSAppDelegate
 
 @synthesize window = _window;
@@ -26,17 +26,19 @@
     PopularTopicsViewController *viewController1 = [[[PopularTopicsViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
     BoardListViewController *viewController2 = [[[BoardListViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
     viewController2.listAddress = @"http://www.bdwm.net/bbs/bbsxboa.php?group=0";
-    FavouritesViewController *viewController3 = [[[FavouritesViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+//    FavouritesViewController *viewController3 = [[[FavouritesViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
     SettingsViewController *viewController4 = [[[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
+    LoginViewController    *viewController5 = [[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] autorelease];
     
-    UINavigationController *popularViewController, *boardListViewController, *favouritesViewController, *settingsViewController;
+    UINavigationController *popularViewController, *boardListViewController, *settingsViewController, *loginViewController;
     popularViewController = [[[UINavigationController alloc] initWithRootViewController:viewController1] autorelease];
     boardListViewController = [[[UINavigationController alloc] initWithRootViewController:viewController2] autorelease];
-    favouritesViewController = [[[UINavigationController alloc] initWithRootViewController:viewController3] autorelease];
+//    favouritesViewController = [[[UINavigationController alloc] initWithRootViewController:viewController3] autorelease];
     settingsViewController = [[[UINavigationController alloc] initWithRootViewController:viewController4] autorelease];
+    loginViewController = [[[UINavigationController alloc] initWithRootViewController:viewController5] autorelease];
 
     self.tabBarController = [[[UITabBarController alloc] init] autorelease];
-    self.tabBarController.viewControllers = [NSArray arrayWithObjects:popularViewController, boardListViewController, favouritesViewController, settingsViewController, nil];
+    self.tabBarController.viewControllers = [NSArray arrayWithObjects:popularViewController, boardListViewController, loginViewController,settingsViewController, nil];
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
     return YES;
