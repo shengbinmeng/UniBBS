@@ -11,6 +11,7 @@
 #import "TopicViewController.h"
 #import "BBSBoardReader.h"
 #import "BBSFavouritesManager.h"
+#import "WritingViewController.h"
 
 @implementation BoardViewController {
     BOOL topicMode;
@@ -113,7 +114,13 @@
     }
     int index = buttonIndex - actionSheet.firstOtherButtonIndex;
     switch (index) {
-        case 0:
+        case 0:{
+            // new post
+            WritingViewController *newPost = [[[WritingViewController alloc] initWithNibName:@"WritingViewController" bundle:nil] autorelease];
+            [self.navigationController pushViewController:newPost animated:YES];
+            break;
+        }
+        case 1:
             topicMode = !topicMode;
             self.boardReader.dataAddress = nil;
             if (topicMode) {
@@ -122,7 +129,7 @@
                 self.boardPosts = [self.boardReader readBoardPosts];
             }
             break;
-        case 1:
+        case 2:
             self.boardReader.showSticky = !(self.boardReader.showSticky);
             if (topicMode) {
                 self.boardTopics = [self.boardReader readBoardTopics];
@@ -130,7 +137,7 @@
                 self.boardPosts = [self.boardReader readBoardPosts];
             }
             break;
-        case 2:
+        case 3:
             [[BBSFavouritesManager favouriteBoards]addObject:self.boardInfo];
             break;
         default:
@@ -151,7 +158,7 @@
         option2 = @"不显示置顶";
     }
     
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:option1,option2, @"收藏本版", nil];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发表新帖", option1, option2, @"收藏本版", nil];
     [sheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
     [sheet release];
 }

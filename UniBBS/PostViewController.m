@@ -11,6 +11,7 @@
 #import "TopicViewController.h"
 #import "BBSFavouritesManager.h"
 #import "AttachmentsViewController.h"
+#import "WritingViewController.h"
 
 @implementation PostViewController
 
@@ -46,9 +47,9 @@
 {
     UIActionSheet *sheet;
     if ([self.postAttributes valueForKey:@"attachments"] != nil) {
-        sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"收藏此贴", @"查看附件", nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"收藏此贴", @"查看附件", nil];
     } else {
-        sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"收藏此贴", nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"收藏此贴", nil];
     }
     
     [sheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
@@ -62,7 +63,13 @@
     }
     int index = buttonIndex - actionSheet.firstOtherButtonIndex;
     switch (index) {
-        case 0:{  
+        case 0:{
+            // reply
+            WritingViewController *reply = [[[WritingViewController alloc] initWithNibName:@"WritingViewController" bundle:nil] autorelease];
+            [self.navigationController pushViewController:reply animated:YES];
+            break;
+        }
+        case 1:{
             // add to favourites
             NSDictionary *postInfo = [[NSDictionary alloc] init];
             [postInfo setValue:[postAttributes valueForKey:@"content"] forKey:@"content"];
@@ -71,7 +78,7 @@
             [postInfo release];
             break;
         }
-        case 1:{
+        case 2:{
             //view attachments
             AttachmentsViewController *attachViewController = [[[AttachmentsViewController alloc] init] autorelease];
             NSArray *attachments = [self.postAttributes valueForKey:@"attachments"];

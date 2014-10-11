@@ -11,6 +11,7 @@
 #import "PostViewController.h"
 #import "BBSFavouritesManager.h"
 #import "AttachmentsViewController.h"
+#import "WritingViewController.h"
 
 #define ACTION_FROM_BAR_BUTTON 8888
 #define ACTION_FROM_VIEW_ATTACH 9999
@@ -147,6 +148,9 @@
         switch (index) {
             case 0:{
                 // reply
+                WritingViewController *reply = [[[WritingViewController alloc] initWithNibName:@"WritingViewController" bundle:nil] autorelease];
+                [self.navigationController pushViewController:reply animated:YES];
+                break;
             }
             case 1:{
                 // favourite
@@ -175,7 +179,7 @@
 }
 
 
-- (void) barButtonPressed 
+- (void) barButtonPressed
 {
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"底部工具栏", @"收藏此话题", nil];
     [sheet setTag:ACTION_FROM_BAR_BUTTON];
@@ -315,7 +319,7 @@
     UIActionSheet *sheet;
     NSDictionary * post = [self.topicPosts objectAtIndex:indexPath.row];
     if ([post valueForKey:@"attachments"] != nil) {
-        sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复此帖", @"收藏此帖", @"查看附件", nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"收藏此帖", @"查看附件", nil];
     } else {
         sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"收藏此帖", nil];
     }
