@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface WritingMailViewController : UIViewController
-
+@property (nonatomic, retain) NSString *href;
 @end

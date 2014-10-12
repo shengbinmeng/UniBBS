@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MailViewController : UIViewController
+@interface MailViewController : UIViewController <UIActionSheetDelegate>
 @property (nonatomic, retain) NSString *href;
 @end
