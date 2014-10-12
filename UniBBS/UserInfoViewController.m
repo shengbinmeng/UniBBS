@@ -8,7 +8,7 @@
 
 #import "UserInfoViewController.h"
 #import "BDWMUserModel.h"
-#import "MailListTableViewController.h"
+#import "MailListViewController.h"
 #import "LoginViewController.h"
 @interface UserInfoViewController ()
 @property (retain, nonatomic) IBOutlet UILabel *userNameLabel;
@@ -41,7 +41,7 @@
 
 - (void)segueToUserMail
 {
-    MailListTableViewController *mailListViewController = [[[MailListTableViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    MailListViewController *mailListViewController = [[[MailListViewController alloc] initWithNibName:nil bundle:nil] autorelease];
     mailListViewController.userName = self.userName;
     [self.navigationController pushViewController:mailListViewController animated:YES];
 }

@@ -6,19 +6,19 @@
 //  Copyright (c) 2014 Peking University. All rights reserved.
 //
 
-#import "MailListTableViewController.h"
+#import "MailListViewController.h"
 #import "MailViewController.h"
 #import "UIRefreshControl+AFNetworking.h"
 #import "UIAlertView+AFNetworking.h"
 #import "MailModel.h"
 #import "MailLookViewController.h"
 
-@interface MailListTableViewController ()
+@interface MailListViewController ()
 @property (strong, nonatomic) NSArray *mails;
 @property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl;
 @end
 
-@implementation MailListTableViewController
+@implementation MailListViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
