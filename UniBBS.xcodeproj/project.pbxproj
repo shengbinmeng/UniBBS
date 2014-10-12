@@ -62,6 +62,7 @@
 		F7062E7119E6D19800F61328 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = F7062E6D19E6D19800F61328 /* TFHppleElement.m */; };
 		F7062E7219E6D19800F61328 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = F7062E6F19E6D19800F61328 /* XPathQuery.m */; };
 		F72939AC19EAA21800EA68ED /* MailListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F72939AB19EAA21800EA68ED /* MailListTableViewController.m */; };
+		F72939B319EAB57A00EA68ED /* MailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F72939B219EAB57A00EA68ED /* MailModel.m */; };
 		F785A81419E97F580001FB65 /* AFAppDotNetAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A81119E97F580001FB65 /* AFAppDotNetAPIClient.m */; };
 		F785A81519E97F580001FB65 /* BDWMUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A81319E97F580001FB65 /* BDWMUserModel.m */; };
 		F785A81919E983140001FB65 /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A81719E983140001FB65 /* UserInfoViewController.m */; };
@@ -163,6 +164,8 @@
 		F7062E6F19E6D19800F61328 /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
 		F72939AA19EAA21800EA68ED /* MailListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailListTableViewController.h; sourceTree = "<group>"; };
 		F72939AB19EAA21800EA68ED /* MailListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailListTableViewController.m; sourceTree = "<group>"; };
+		F72939B119EAB57A00EA68ED /* MailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailModel.h; sourceTree = "<group>"; };
+		F72939B219EAB57A00EA68ED /* MailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailModel.m; sourceTree = "<group>"; };
 		F785A81019E97F580001FB65 /* AFAppDotNetAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFAppDotNetAPIClient.h; sourceTree = "<group>"; };
 		F785A81119E97F580001FB65 /* AFAppDotNetAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFAppDotNetAPIClient.m; sourceTree = "<group>"; };
 		F785A81219E97F580001FB65 /* BDWMUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDWMUserModel.h; sourceTree = "<group>"; };
@@ -453,6 +456,8 @@
 				F785A81119E97F580001FB65 /* AFAppDotNetAPIClient.m */,
 				F785A81219E97F580001FB65 /* BDWMUserModel.h */,
 				F785A81319E97F580001FB65 /* BDWMUserModel.m */,
+				F72939B119EAB57A00EA68ED /* MailModel.h */,
+				F72939B219EAB57A00EA68ED /* MailModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -597,6 +602,7 @@
 				F785A83A19EA2C650001FB65 /* BDWMTopic.m in Sources */,
 				E843C42E150904AD00A83C22 /* SettingsViewController.m in Sources */,
 				F7062E7119E6D19800F61328 /* TFHppleElement.m in Sources */,
+				F72939B319EAB57A00EA68ED /* MailModel.m in Sources */,
 				F7062E6619E6CE2C00F61328 /* BDWMAlertMessage.m in Sources */,
 				F7062E7219E6D19800F61328 /* XPathQuery.m in Sources */,
 				F7062E7019E6D19800F61328 /* TFHpple.m in Sources */,

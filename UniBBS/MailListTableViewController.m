@@ -8,8 +8,12 @@
 
 #import "MailListTableViewController.h"
 #import "MailViewController.h"
+#import "UIRefreshControl+AFNetworking.h"
+#import "UIAlertView+AFNetworking.h"
+#import "MailModel.h"
 @interface MailListTableViewController ()
-
+@property (strong, nonatomic) NSArray *mails;
+@property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl;
 @end
 
 @implementation MailListTableViewController
@@ -23,12 +27,32 @@
     return self;
 }
 
+- (void)reload:(__unused id)sender {
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    NSString *userName = self.userName;
+    NSURLSessionTask *task = [MailModel getAllMailWithBlock:userName blockFunction:^(NSArray *mails, NSError *error) {
+        if (!error) {
+            self.mails = mails;
+            [self.tableView reloadData];
+        }
+    }];
+    
+    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:task delegate:nil];
+    [self.refreshControl setRefreshingWithStateOfTask:task];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"写信" style:UIBarButtonItemStyleBordered target:self action:@selector(segueToComposeMail)];
     self.navigationItem.rightBarButtonItem = button;
     [button release];
+    
+    self.refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
+    [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
+    [self.tableView.tableHeaderView addSubview:self.refreshControl];
+    
+    [self reload:nil];
 }
 
 - (void)segueToComposeMail
@@ -46,26 +70,34 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return self.mails.count;
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    static NSString *CellIdentifier = @"MailCell";
     
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+    }
     // Configure the cell...
+    NSDictionary *mail = [self.mails objectAtIndex:indexPath.row];
+    cell.textLabel.text = [mail objectForKey:@"title"];
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
     
+    NSString *detail = [NSString stringWithFormat:@"%@    -   %@",[mail valueForKey:@"date"], [mail valueForKey:@"author"]];
+    cell.detailTextLabel.text = detail;
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:13];
     return cell;
 }
-*/
+
 
 /*
 // Override to support conditional editing of the table view.

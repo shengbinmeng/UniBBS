@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MailListTableViewController : UITableViewController
-
+@interface MailListTableViewController : UITableViewController<UIActionSheetDelegate>
+@property (nonatomic, retain) NSString *userName;
 @end

@@ -42,7 +42,7 @@
 - (void)segueToUserMail
 {
     MailListTableViewController *mailListViewController = [[[MailListTableViewController alloc] initWithNibName:nil bundle:nil] autorelease];
- //   MailListTableViewController.userName = mailListViewController;
+    mailListViewController.userName = self.userName;
     [self.navigationController pushViewController:mailListViewController animated:YES];
 }
 
