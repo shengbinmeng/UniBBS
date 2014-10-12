@@ -11,4 +11,5 @@
 @interface MailModel : NSObject
 + (NSURLSessionDataTask *)getAllMailWithBlock:(NSString *)userName blockFunction:(void (^)(NSArray *mails, NSError *error))block;
 + (NSMutableArray *)loadMails:(NSData *)htmlData;
++ (NSDictionary *)loadMailByhref:(NSString *)href;
 @end

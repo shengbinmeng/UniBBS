@@ -1,5 +1,5 @@
 //
-//  MailListTableViewController.h
+//  MailLookViewController.h
 //  UniBBS
 //
 //  Created by fanyingming on 10/12/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MailListTableViewController : UITableViewController
-@property (nonatomic, retain) NSString *userName;
+@interface MailLookViewController : UIViewController
+@property (nonatomic, retain) NSString *href;
 @end

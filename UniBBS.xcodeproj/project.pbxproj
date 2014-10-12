@@ -63,6 +63,8 @@
 		F7062E7219E6D19800F61328 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = F7062E6F19E6D19800F61328 /* XPathQuery.m */; };
 		F72939AC19EAA21800EA68ED /* MailListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F72939AB19EAA21800EA68ED /* MailListTableViewController.m */; };
 		F72939B319EAB57A00EA68ED /* MailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F72939B219EAB57A00EA68ED /* MailModel.m */; };
+		F72939B719EAC8A500EA68ED /* MailLookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F72939B519EAC8A500EA68ED /* MailLookViewController.m */; };
+		F72939B819EAC8A500EA68ED /* MailLookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F72939B619EAC8A500EA68ED /* MailLookViewController.xib */; };
 		F785A81419E97F580001FB65 /* AFAppDotNetAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A81119E97F580001FB65 /* AFAppDotNetAPIClient.m */; };
 		F785A81519E97F580001FB65 /* BDWMUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A81319E97F580001FB65 /* BDWMUserModel.m */; };
 		F785A81919E983140001FB65 /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A81719E983140001FB65 /* UserInfoViewController.m */; };
@@ -166,6 +168,9 @@
 		F72939AB19EAA21800EA68ED /* MailListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailListTableViewController.m; sourceTree = "<group>"; };
 		F72939B119EAB57A00EA68ED /* MailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailModel.h; sourceTree = "<group>"; };
 		F72939B219EAB57A00EA68ED /* MailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailModel.m; sourceTree = "<group>"; };
+		F72939B419EAC8A500EA68ED /* MailLookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailLookViewController.h; sourceTree = "<group>"; };
+		F72939B519EAC8A500EA68ED /* MailLookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailLookViewController.m; sourceTree = "<group>"; };
+		F72939B619EAC8A500EA68ED /* MailLookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MailLookViewController.xib; sourceTree = "<group>"; };
 		F785A81019E97F580001FB65 /* AFAppDotNetAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFAppDotNetAPIClient.h; sourceTree = "<group>"; };
 		F785A81119E97F580001FB65 /* AFAppDotNetAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFAppDotNetAPIClient.m; sourceTree = "<group>"; };
 		F785A81219E97F580001FB65 /* BDWMUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDWMUserModel.h; sourceTree = "<group>"; };
@@ -417,6 +422,9 @@
 				F785A81E19EA16C90001FB65 /* MailViewController.h */,
 				F785A81F19EA16C90001FB65 /* MailViewController.m */,
 				F785A82019EA16C90001FB65 /* MailViewController.xib */,
+				F72939B419EAC8A500EA68ED /* MailLookViewController.h */,
+				F72939B519EAC8A500EA68ED /* MailLookViewController.m */,
+				F72939B619EAC8A500EA68ED /* MailLookViewController.xib */,
 			);
 			name = MailController;
 			sourceTree = "<group>";
@@ -544,6 +552,7 @@
 				E8E5BD6715734EA2004BE6F9 /* grayArrow@2x.png in Resources */,
 				F785A81A19E983140001FB65 /* UserInfoViewController.xib in Resources */,
 				E8E5BD6815734EA2004BE6F9 /* whiteArrow.png in Resources */,
+				F72939B819EAC8A500EA68ED /* MailLookViewController.xib in Resources */,
 				E8E5BD6915734EA2004BE6F9 /* whiteArrow@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -624,6 +633,7 @@
 				F785A81919E983140001FB65 /* UserInfoViewController.m in Sources */,
 				E8E5BD6115734EA2004BE6F9 /* EGORefreshTableHeaderView.m in Sources */,
 				F7062E6719E6CE2C00F61328 /* BDWMString.m in Sources */,
+				F72939B719EAC8A500EA68ED /* MailLookViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

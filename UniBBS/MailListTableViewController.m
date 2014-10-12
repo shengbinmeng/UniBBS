@@ -11,6 +11,8 @@
 #import "UIRefreshControl+AFNetworking.h"
 #import "UIAlertView+AFNetworking.h"
 #import "MailModel.h"
+#import "MailLookViewController.h"
+
 @interface MailListTableViewController ()
 @property (strong, nonatomic) NSArray *mails;
 @property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl;
@@ -96,6 +98,15 @@
     cell.detailTextLabel.text = detail;
     cell.detailTextLabel.font = [UIFont systemFontOfSize:13];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *mail = [self.mails objectAtIndex:[indexPath row]];
+    MailLookViewController * mailLookViewController = [[MailLookViewController alloc] initWithNibName:@"MailLookViewController" bundle:nil];
+    mailLookViewController.href = [mail objectForKey:@"href"];
+    [self.navigationController pushViewController:mailLookViewController animated:YES];
+    [mailLookViewController release];
 }
 
 
