@@ -68,7 +68,7 @@
     }else{
         TFHppleElement *reply_link = [reply objectAtIndex:0];
         NSString *reply_href = [reply_link objectForKey:@"href"];
-        [dict setValue:reply_href forKey:@"reply_href"];
+        [dict setValue:reply_href forKey:@"href"];
     }
     
     [dict setValue:content forKey:@"content"];
