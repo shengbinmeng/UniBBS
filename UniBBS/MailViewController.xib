@@ -6,7 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MailViewController">
             <connections>
-                <outlet property="MailContentTextView" destination="S1D-EO-AAa" id="0yZ-xO-l82"/>
+                <outlet property="mailContentTextView" destination="S1D-EO-AAa" id="n43-bL-qS5"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
