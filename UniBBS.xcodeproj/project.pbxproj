@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		6C2A0DCA17EC738D007C3997 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C2A0DC917EC738D007C3997 /* Default-568h@2x.png */; };
-		6C6BB4C419E8516C00BA7A3B /* WritingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C6BB4C219E8516C00BA7A3B /* WritingViewController.m */; };
-		6C6BB4C519E8516C00BA7A3B /* WritingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C6BB4C319E8516C00BA7A3B /* WritingViewController.xib */; };
 		6C9117C017F3284000D1A1E4 /* unibbs_76x76.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C9117BD17F3284000D1A1E4 /* unibbs_76x76.png */; };
 		6C9117C117F3284000D1A1E4 /* unibbs_120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C9117BE17F3284000D1A1E4 /* unibbs_120x120.png */; };
 		6C9117C217F3284000D1A1E4 /* unibbs_152x152.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C9117BF17F3284000D1A1E4 /* unibbs_152x152.png */; };
@@ -66,14 +64,18 @@
 		F785A81519E97F580001FB65 /* BDWMUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A81319E97F580001FB65 /* BDWMUserModel.m */; };
 		F785A81919E983140001FB65 /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A81719E983140001FB65 /* UserInfoViewController.m */; };
 		F785A81A19E983140001FB65 /* UserInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F785A81819E983140001FB65 /* UserInfoViewController.xib */; };
+		F785A82119EA16C90001FB65 /* MailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A81F19EA16C90001FB65 /* MailViewController.m */; };
+		F785A82219EA16C90001FB65 /* MailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F785A82019EA16C90001FB65 /* MailViewController.xib */; };
+		F785A83019EA2A240001FB65 /* WrittingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A82E19EA2A240001FB65 /* WrittingViewController.m */; };
+		F785A83119EA2A240001FB65 /* WrittingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F785A82F19EA2A240001FB65 /* WrittingViewController.xib */; };
+		F785A83419EA2C190001FB65 /* BDWMTopicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A83319EA2C190001FB65 /* BDWMTopicModel.m */; };
+		F785A83919EA2C650001FB65 /* BDWMPosting.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A83619EA2C650001FB65 /* BDWMPosting.m */; };
+		F785A83A19EA2C650001FB65 /* BDWMTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A83819EA2C650001FB65 /* BDWMTopic.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5D57E3888AA1D894B2FC3690 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C2A0DC917EC738D007C3997 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		6C6BB4C119E8516C00BA7A3B /* WritingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WritingViewController.h; sourceTree = "<group>"; };
-		6C6BB4C219E8516C00BA7A3B /* WritingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WritingViewController.m; sourceTree = "<group>"; };
-		6C6BB4C319E8516C00BA7A3B /* WritingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WritingViewController.xib; sourceTree = "<group>"; };
 		6C9117BD17F3284000D1A1E4 /* unibbs_76x76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unibbs_76x76.png; sourceTree = "<group>"; };
 		6C9117BE17F3284000D1A1E4 /* unibbs_120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unibbs_120x120.png; sourceTree = "<group>"; };
 		6C9117BF17F3284000D1A1E4 /* unibbs_152x152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unibbs_152x152.png; sourceTree = "<group>"; };
@@ -162,6 +164,18 @@
 		F785A81619E983140001FB65 /* UserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoViewController.h; sourceTree = "<group>"; };
 		F785A81719E983140001FB65 /* UserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoViewController.m; sourceTree = "<group>"; };
 		F785A81819E983140001FB65 /* UserInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserInfoViewController.xib; sourceTree = "<group>"; };
+		F785A81E19EA16C90001FB65 /* MailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailViewController.h; sourceTree = "<group>"; };
+		F785A81F19EA16C90001FB65 /* MailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailViewController.m; sourceTree = "<group>"; };
+		F785A82019EA16C90001FB65 /* MailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MailViewController.xib; sourceTree = "<group>"; };
+		F785A82D19EA2A240001FB65 /* WrittingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WrittingViewController.h; sourceTree = "<group>"; };
+		F785A82E19EA2A240001FB65 /* WrittingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrittingViewController.m; sourceTree = "<group>"; };
+		F785A82F19EA2A240001FB65 /* WrittingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WrittingViewController.xib; sourceTree = "<group>"; };
+		F785A83219EA2C190001FB65 /* BDWMTopicModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDWMTopicModel.h; sourceTree = "<group>"; };
+		F785A83319EA2C190001FB65 /* BDWMTopicModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDWMTopicModel.m; sourceTree = "<group>"; };
+		F785A83519EA2C650001FB65 /* BDWMPosting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDWMPosting.h; sourceTree = "<group>"; };
+		F785A83619EA2C650001FB65 /* BDWMPosting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDWMPosting.m; sourceTree = "<group>"; };
+		F785A83719EA2C650001FB65 /* BDWMTopic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDWMTopic.h; sourceTree = "<group>"; };
+		F785A83819EA2C650001FB65 /* BDWMTopic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDWMTopic.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,9 +208,6 @@
 			isa = PBXGroup;
 			children = (
 				E88A6E641507760600EED88D /* BoardListViewController.h */,
-				6C6BB4C119E8516C00BA7A3B /* WritingViewController.h */,
-				6C6BB4C219E8516C00BA7A3B /* WritingViewController.m */,
-				6C6BB4C319E8516C00BA7A3B /* WritingViewController.xib */,
 				6CEAAC8319E942C600C29CA4 /* LoginViewController.h */,
 				6CEAAC8419E942C600C29CA4 /* LoginViewController.m */,
 				6CEAAC8519E942C600C29CA4 /* LoginViewController.xib */,
@@ -220,6 +231,12 @@
 				F785A81619E983140001FB65 /* UserInfoViewController.h */,
 				F785A81719E983140001FB65 /* UserInfoViewController.m */,
 				F785A81819E983140001FB65 /* UserInfoViewController.xib */,
+				F785A81E19EA16C90001FB65 /* MailViewController.h */,
+				F785A81F19EA16C90001FB65 /* MailViewController.m */,
+				F785A82019EA16C90001FB65 /* MailViewController.xib */,
+				F785A82D19EA2A240001FB65 /* WrittingViewController.h */,
+				F785A82E19EA2A240001FB65 /* WrittingViewController.m */,
+				F785A82F19EA2A240001FB65 /* WrittingViewController.xib */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -384,6 +401,12 @@
 		F785A80F19E97EC70001FB65 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F785A83519EA2C650001FB65 /* BDWMPosting.h */,
+				F785A83619EA2C650001FB65 /* BDWMPosting.m */,
+				F785A83719EA2C650001FB65 /* BDWMTopic.h */,
+				F785A83819EA2C650001FB65 /* BDWMTopic.m */,
+				F785A83219EA2C190001FB65 /* BDWMTopicModel.h */,
+				F785A83319EA2C190001FB65 /* BDWMTopicModel.m */,
 				F785A81019E97F580001FB65 /* AFAppDotNetAPIClient.h */,
 				F785A81119E97F580001FB65 /* AFAppDotNetAPIClient.m */,
 				F785A81219E97F580001FB65 /* BDWMUserModel.h */,
@@ -451,6 +474,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E88A6E561507760600EED88D /* InfoPlist.strings in Resources */,
+				F785A82219EA16C90001FB65 /* MailViewController.xib in Resources */,
 				E88A6E611507760600EED88D /* first.png in Resources */,
 				6C9117C017F3284000D1A1E4 /* unibbs_76x76.png in Resources */,
 				E88A6E631507760600EED88D /* first@2x.png in Resources */,
@@ -461,9 +485,9 @@
 				E89AA62715411DF900506BA4 /* unibbs_114x114.png in Resources */,
 				E89AA62915411E0700506BA4 /* unibbs_72x72.png in Resources */,
 				E89AA62B15411E0E00506BA4 /* unibbs_144x144.png in Resources */,
-				6C6BB4C519E8516C00BA7A3B /* WritingViewController.xib in Resources */,
 				E8E5BD6215734EA2004BE6F9 /* blackArrow.png in Resources */,
 				E8E5BD6315734EA2004BE6F9 /* blackArrow@2x.png in Resources */,
+				F785A83119EA2A240001FB65 /* WrittingViewController.xib in Resources */,
 				6C2A0DCA17EC738D007C3997 /* Default-568h@2x.png in Resources */,
 				6CEAAC8719E942C600C29CA4 /* LoginViewController.xib in Resources */,
 				E8E5BD6415734EA2004BE6F9 /* blueArrow.png in Resources */,
@@ -527,18 +551,22 @@
 				E88A6E801507882100EED88D /* PostViewController.m in Sources */,
 				E88A6E851507913F00EED88D /* BoardViewController.m in Sources */,
 				E843C4261508E3F800A83C22 /* BBSBoardListExplorer.m in Sources */,
+				F785A82119EA16C90001FB65 /* MailViewController.m in Sources */,
+				F785A83A19EA2C650001FB65 /* BDWMTopic.m in Sources */,
 				E843C42E150904AD00A83C22 /* SettingsViewController.m in Sources */,
 				F7062E7119E6D19800F61328 /* TFHppleElement.m in Sources */,
 				F7062E6619E6CE2C00F61328 /* BDWMAlertMessage.m in Sources */,
-				6C6BB4C419E8516C00BA7A3B /* WritingViewController.m in Sources */,
 				F7062E7219E6D19800F61328 /* XPathQuery.m in Sources */,
 				F7062E7019E6D19800F61328 /* TFHpple.m in Sources */,
 				E843C454150A777900A83C22 /* BBSPopularReader.m in Sources */,
+				F785A83419EA2C190001FB65 /* BDWMTopicModel.m in Sources */,
 				E843C457150A790900A83C22 /* TopicViewController.m in Sources */,
 				E8F19F58150B2577001008B4 /* FavouritesViewController.m in Sources */,
 				E8F19F5F150B544F001008B4 /* BBSTopicReader.m in Sources */,
 				E8F19F62150B5DB3001008B4 /* BBSPostReader.m in Sources */,
+				F785A83919EA2C650001FB65 /* BDWMPosting.m in Sources */,
 				E8F19F7F150BC81F001008B4 /* BBSBoardReader.m in Sources */,
+				F785A83019EA2A240001FB65 /* WrittingViewController.m in Sources */,
 				E86D93BC15273C720037F06D /* BBSFavouritesManager.m in Sources */,
 				E83179461537BF9900A219E4 /* WebViewController.m in Sources */,
 				E831794A1537EFF000A219E4 /* AttachmentsViewController.m in Sources */,

@@ -22,7 +22,7 @@
 
 #import "AFAppDotNetAPIClient.h"
 #import "BDWMGlobalData.h"
-static NSString * const AFAppDotNetAPIBaseURLString = BDWM_PREFIX;
+//static NSString * const AFAppDotNetAPIBaseURLString = BDWM_PREFIX;
 
 @implementation AFAppDotNetAPIClient
 

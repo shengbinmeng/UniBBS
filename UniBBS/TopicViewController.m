@@ -11,8 +11,8 @@
 #import "PostViewController.h"
 #import "BBSFavouritesManager.h"
 #import "AttachmentsViewController.h"
-#import "WritingViewController.h"
-
+#import "WrittingViewController.h"
+#import "MailViewController.h"
 #define ACTION_FROM_BAR_BUTTON 8888
 #define ACTION_FROM_VIEW_ATTACH 9999
 
@@ -148,18 +148,26 @@
         switch (index) {
             case 0:{
                 // reply
-                WritingViewController *reply = [[[WritingViewController alloc] initWithNibName:@"WritingViewController" bundle:nil] autorelease];
+                WrittingViewController *reply = [[[WrittingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
+                NSDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+                reply.href = [post objectForKey:@"replyAddress"];
                 [self.navigationController pushViewController:reply animated:YES];
                 break;
             }
             case 1:{
+                // reply mail
+                MailViewController *mail = [[[MailViewController alloc] initWithNibName:@"MailViewController" bundle:nil] autorelease];
+                [self.navigationController pushViewController:mail animated:YES];
+                break;
+            }
+            case 2:{
                 // favourite
                 NSDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
                 [[BBSFavouritesManager favouritePosts] addObject:post];
                 [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
                 break;
             }
-            case 2:{
+            case 3:{
                 // attachments
                 AttachmentsViewController *attachViewController = [[[AttachmentsViewController alloc] init] autorelease];
                 NSDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
@@ -319,9 +327,9 @@
     UIActionSheet *sheet;
     NSDictionary * post = [self.topicPosts objectAtIndex:indexPath.row];
     if ([post valueForKey:@"attachments"] != nil) {
-        sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"收藏此帖", @"查看附件", nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"回信给作者", @"收藏此帖", @"查看附件", nil];
     } else {
-        sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"收藏此帖", nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"回信给作者", @"收藏此帖", nil];
     }
     [sheet showInView:self.view.window];
     [sheet release];

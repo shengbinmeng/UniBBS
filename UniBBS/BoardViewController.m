@@ -11,7 +11,7 @@
 #import "TopicViewController.h"
 #import "BBSBoardReader.h"
 #import "BBSFavouritesManager.h"
-#import "WritingViewController.h"
+#import "WrittingViewController.h"
 
 @implementation BoardViewController {
     BOOL topicMode;
@@ -116,7 +116,7 @@
     switch (index) {
         case 0:{
             // new post
-            WritingViewController *newPost = [[[WritingViewController alloc] initWithNibName:@"WritingViewController" bundle:nil] autorelease];
+            WrittingViewController *newPost = [[[WrittingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
             [self.navigationController pushViewController:newPost animated:YES];
             break;
         }
