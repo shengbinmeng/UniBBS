@@ -12,7 +12,7 @@
 #import "BBSFavouritesManager.h"
 #import "AttachmentsViewController.h"
 #import "WrittingViewController.h"
-#import "MailViewController.h"
+#import "WritingMailViewController.h"
 #import "LoginViewController.h"
 #import "BDWMAlertMessage.h"
 #define ACTION_FROM_BAR_BUTTON 8888
@@ -168,7 +168,7 @@
             case 1:{
                  if ([LoginViewController isLogined]) {
                      // reply mail
-                     MailViewController *mail = [[[MailViewController alloc] initWithNibName:@"MailViewController" bundle:nil] autorelease];
+                     WritingMailViewController *mail = [[[WritingMailViewController alloc] initWithNibName:@"MailViewController" bundle:nil] autorelease];
                      [self.navigationController pushViewController:mail animated:YES];
                  }else{
                      //did not logined

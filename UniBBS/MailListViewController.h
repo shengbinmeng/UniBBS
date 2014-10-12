@@ -1,5 +1,5 @@
 //
-//  MailListTableViewController.h
+//  MailListViewController.h
 //  UniBBS
 //
 //  Created by fanyingming on 10/12/14.

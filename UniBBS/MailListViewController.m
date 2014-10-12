@@ -1,5 +1,5 @@
 //
-//  MailListTableViewController.m
+//  MailListViewController.m
 //  UniBBS
 //
 //  Created by fanyingming on 10/12/14.
@@ -7,11 +7,11 @@
 //
 
 #import "MailListViewController.h"
-#import "MailViewController.h"
+#import "WritingMailViewController.h"
 #import "UIRefreshControl+AFNetworking.h"
 #import "UIAlertView+AFNetworking.h"
 #import "MailModel.h"
-#import "MailLookViewController.h"
+#import "MailViewController.h"
 
 @interface MailListViewController ()
 @property (strong, nonatomic) NSArray *mails;
@@ -59,7 +59,7 @@
 
 - (void)segueToComposeMail
 {
-    MailViewController *composeMailViewController = [[[MailViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    WritingMailViewController *composeMailViewController = [[[WritingMailViewController alloc] initWithNibName:nil bundle:nil] autorelease];
     
     [self.navigationController pushViewController:composeMailViewController animated:YES];
 }
@@ -103,7 +103,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *mail = [self.mails objectAtIndex:[indexPath row]];
-    MailLookViewController * mailLookViewController = [[MailLookViewController alloc] initWithNibName:@"MailLookViewController" bundle:nil];
+    MailViewController * mailLookViewController = [[MailViewController alloc] initWithNibName:@"MailLookViewController" bundle:nil];
     mailLookViewController.href = [mail objectForKey:@"href"];
     [self.navigationController pushViewController:mailLookViewController animated:YES];
     [mailLookViewController release];

@@ -7,9 +7,10 @@
 //
 
 #import "MailViewController.h"
-
+#import "MailModel.h"
 @interface MailViewController ()
-
+@property (retain, nonatomic) IBOutlet UITextView *MailContentTextView;
+@property (retain, nonatomic) NSDictionary *mail;
 @end
 
 @implementation MailViewController
@@ -17,6 +18,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.mail = [MailModel loadMailByhref:self.href];
+    self.MailContentTextView.text = [self.mail objectForKey:@"content"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -34,4 +37,8 @@
 }
 */
 
+- (void)dealloc {
+    [_MailContentTextView release];
+    [super dealloc];
+}
 @end

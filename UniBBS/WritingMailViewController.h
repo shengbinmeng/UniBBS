@@ -1,5 +1,5 @@
 //
-//  MailLookViewController.h
+//  WritingMailViewController.h
 //  UniBBS
 //
 //  Created by fanyingming on 10/12/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MailLookViewController : UIViewController
-@property (nonatomic, retain) NSString *href;
+@interface WritingMailViewController : UIViewController
+
 @end

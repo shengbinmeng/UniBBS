@@ -1,25 +1,22 @@
 //
-//  MailLookViewController.m
+//  WritingMailViewController.m
 //  UniBBS
 //
 //  Created by fanyingming on 10/12/14.
 //  Copyright (c) 2014 Peking University. All rights reserved.
 //
 
-#import "MailLookViewController.h"
-#import "MailModel.h"
-@interface MailLookViewController ()
-@property (retain, nonatomic) IBOutlet UITextView *MailContentTextView;
-@property (retain, nonatomic) NSDictionary *mail;
+#import "WritingMailViewController.h"
+
+@interface WritingMailViewController ()
+
 @end
 
-@implementation MailLookViewController
+@implementation WritingMailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.mail = [MailModel loadMailByhref:self.href];
-    self.MailContentTextView.text = [self.mail objectForKey:@"content"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -37,8 +34,4 @@
 }
 */
 
-- (void)dealloc {
-    [_MailContentTextView release];
-    [super dealloc];
-}
 @end
