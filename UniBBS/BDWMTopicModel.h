@@ -12,7 +12,9 @@
 
 @interface BDWMTopicModel : NSObject
 
++ (NSDictionary* )getNeededComposeData:(NSString *)href;
 + (NSDictionary* )getNeededReplyData:(NSString *)href;
 + (NSMutableArray *)LoadPosting:(NSString *)href;
 + (NSArray *)getPlateTopics:(NSString *)href;
+
 @end

@@ -214,4 +214,56 @@
     return dic;
 }
 
++ (NSDictionary* )getNeededComposeData:(NSString *)href
+{
+    TFHpple * doc;
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    
+    NSString *string = [NSString stringWithFormat:@"%@%@", BDWM_PREFIX, href];
+    
+    
+    NSData *htmlData = [NSData dataWithContentsOfURL:[NSURL URLWithString:string]];
+    htmlData = [BDWMString DataConverse_GB2312_to_UTF8:htmlData];
+    doc = [[TFHpple alloc] initWithHTMLData:htmlData];
+    
+    TFHppleElement *e;
+    
+//    NSArray *titles = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='title_exp']"];
+//    e = [titles objectAtIndex:0];
+//    NSString *reply_title = [e objectForKey:@"value"];
+    [dic setValue:@"" forKey:@"title_exp"];
+    
+    NSArray *boards = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='board']"];
+    e = [boards objectAtIndex:0];
+    NSString *board = [e objectForKey:@"value"];
+    [dic setValue:board forKey:@"board"];
+    
+    NSArray *threadids = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='threadid']"];
+    e = [threadids objectAtIndex:0];
+    NSString *threadid = [e objectForKey:@"value"];
+    [dic setValue:threadid forKey:@"threadid"];
+    
+    NSArray *postids = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='postid']"];
+    e = [postids objectAtIndex:0];
+    NSString *postid = [e objectForKey:@"value"];
+    [dic setValue:postid forKey:@"postid"];
+    
+    NSArray *userIds = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='id']"];
+    e = [userIds objectAtIndex:0];
+    NSString *user_id = [e objectForKey:@"value"];
+    [dic setValue:user_id forKey:@"id"];
+    
+    NSArray *codes = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='code']"];
+    e = [codes objectAtIndex:0];
+    NSString *code = [e objectForKey:@"value"];
+    [dic setValue:code forKey:@"code"];
+    
+    NSArray *notice_authors = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='notice_author']"];
+    e = [notice_authors objectAtIndex:0];
+    NSString *notice_author = [e objectForKey:@"value"];
+    [dic setValue:notice_author forKey:@"notice_author"];
+    
+    return dic;
+}
+
 @end

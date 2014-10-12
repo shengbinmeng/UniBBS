@@ -14,7 +14,7 @@
 @interface WrittingViewController ()
 @property (retain, nonatomic) IBOutlet UITextField *titleTextField;
 @property (retain, nonatomic) IBOutlet UITextView *contentTextView;
-@property (strong, nonatomic) NSDictionary *replyDict;
+@property (strong, nonatomic) NSDictionary *postDict;
 @end
 
 @implementation WrittingViewController
@@ -30,8 +30,9 @@
     return self;
 }
 
-- (IBAction)clickReplyButton:(id)sender {
-    NSDictionary *dic_needed_data = self.replyDict;
+- (void)doReply
+{
+    NSDictionary *dic_needed_data = self.postDict;
     
     NSString *board         = [dic_needed_data objectForKey:@"board"];
     NSString *threadid      = [dic_needed_data objectForKey:@"threadid"];
@@ -78,6 +79,61 @@
         NSLog(@"Reply failed!");
         [BDWMAlertMessage alertMessage:@"发布失败"];
     }];
+}
+
+- (void)doCompose
+{
+    NSString *title = self.titleTextField.text;
+    NSString *content = self.contentTextView.text;
+    
+    if (title.length==0) {
+        [BDWMAlertMessage alertMessage:@"亲，忘记写标题了。"];
+    }
+    if(content.length==0){
+        [BDWMAlertMessage alertMessage:@"怎么也得写点东西再发啊～"];
+    }
+    
+    NSMutableDictionary* dic = [NSMutableDictionary dictionary];
+    [dic setObject:[self.postDict objectForKey:@"board"]    forKey:@"board"];
+    [dic setObject:[self.postDict objectForKey:@"threadid"] forKey:@"threadid"];
+    [dic setObject:[self.postDict objectForKey:@"postid"]   forKey:@"postid"];
+    [dic setObject:[self.postDict objectForKey:@"id"]  forKey:@"id"];
+    
+    [dic setObject:[self.postDict objectForKey:@"code"]             forKey:@"code"];
+    [dic setObject:[self.postDict objectForKey:@"title_exp"]      forKey:@"title_exp"];
+    [dic setObject:[self.postDict objectForKey:@"notice_author"]    forKey:@"notice_author"];
+    [dic setObject:self.titleTextField.text     forKey:@"title"];
+    
+    //SecretGarden plate need weather anonymous flag.
+    if ( [[self.postDict objectForKey:@"board"]  isEqual: @"SecretGarden"]) {
+        [dic setObject:@"Y" forKey:@"anonymous"];
+    }
+    
+    //some data below may be changeable for user in later version.
+    [dic setObject:@"N" forKey:@"noreply"];
+    [dic setObject:@"0" forKey:@"signature"];
+    [dic setObject:content forKey:@"text"];
+    [dic setObject:@"on" forKey:@"unfoldpic"];
+    
+    
+    [[AFAppDotNetAPIClient sharedClient] POST:@"http://www.bdwm.net/bbs/bbssnd.php" parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"Compose pose success!");
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"Reply failed!");
+        [BDWMAlertMessage alertMessage:@"发布失败"];
+    }];
+
+}
+
+- (IBAction)clickReplyButton:(id)sender {
+    if ([self.fromWhere isEqualToString:@"reply"]) {
+        [self doReply];
+    }else if( [self.fromWhere isEqualToString:@"compose"]){
+        [self doCompose];
+    }else{
+        [BDWMAlertMessage alertMessage:@"我去！从哪里点过来的！"];
+    }
 
 }
 
@@ -97,11 +153,11 @@
     }
 
     if ( [self.fromWhere isEqualToString:@"reply"] ) {
-        self.replyDict = [BDWMTopicModel getNeededReplyData:[self href]];
-        self.titleTextField.text = [self.replyDict objectForKey:@"title_exp"];
-        self.contentTextView.text = [self.replyDict objectForKey:@"quote"];
+        self.postDict = [BDWMTopicModel getNeededReplyData:[self href]];
+        self.titleTextField.text = [self.postDict objectForKey:@"title_exp"];
+        self.contentTextView.text = [self.postDict objectForKey:@"quote"];
     }else if( [self.fromWhere isEqualToString:@"compose"] ){
-        
+        self.postDict = [BDWMTopicModel getNeededComposeData:self.href];
     }else{
         [BDWMAlertMessage alertMessage:@"我去！从哪里点过来的！"];
     }

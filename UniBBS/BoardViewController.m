@@ -12,7 +12,8 @@
 #import "BBSBoardReader.h"
 #import "BBSFavouritesManager.h"
 #import "WrittingViewController.h"
-
+#import "BDWMString.h"
+#import "BDWMGlobalData.h"
 @implementation BoardViewController {
     BOOL topicMode;
 }
@@ -118,6 +119,8 @@
             // new post
             WrittingViewController *newPost = [[[WrittingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
             newPost.fromWhere = @"compose";
+            newPost.href  = [BDWMString linkString:@"bbspst.php?board=" string:self.boardName];
+            NSLog(@"compose href:%@",newPost.href);
             [self.navigationController pushViewController:newPost animated:YES];
             break;
         }
