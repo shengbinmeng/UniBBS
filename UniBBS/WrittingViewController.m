@@ -73,7 +73,7 @@
     
     [[AFAppDotNetAPIClient sharedClient] POST:@"http://www.bdwm.net/bbs/bbssnd.php" parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"Reply success!");
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self.navigationController popViewControllerAnimated:YES];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"Reply failed!");
         [BDWMAlertMessage alertMessage:@"发布失败"];
@@ -98,14 +98,12 @@
 
     if ( [self.fromWhere isEqualToString:@"reply"] ) {
         
-        if (self.href == nil) {
-            //TODO: what if href is nil?
-            return;
+        if (self.href != nil) {
+            //TODO: 1. what if href is nil? 2. getNeededReplayData has bugs, needs more error handling
+            self.replyDict = [BDWMTopicModel getNeededReplyData:[self href]];
+            self.titleTextField.text = [self.replyDict objectForKey:@"title_exp"];
+            self.contentTextView.text = [self.replyDict objectForKey:@"quote"];
         }
-        //TODO: getNeededReplayData has bugs, needs more error handling
-        self.replyDict = [BDWMTopicModel getNeededReplyData:[self href]];
-        self.titleTextField.text = [self.replyDict objectForKey:@"title_exp"];
-        self.contentTextView.text = [self.replyDict objectForKey:@"quote"];
     }else if( [self.fromWhere isEqualToString:@"compose"] ){
         
     }else{
