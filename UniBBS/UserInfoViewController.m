@@ -20,9 +20,10 @@
 
 @implementation UserInfoViewController
 
-- (void) backToLoginView {
+- (void) logoutButtonPressed {
     [BDWMUserModel logout];
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
@@ -31,9 +32,6 @@
     if(self != nil)
     {
         self.title = @"个人信息";
-        UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"注销" style:UIBarButtonItemStyleBordered target:self action:@selector(backToLoginView)];
-        self.navigationItem.leftBarButtonItem = button;
-        [button release];
         
     }
     return self;
@@ -42,6 +40,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"注销" style:UIBarButtonItemStyleBordered target:self action:@selector(logoutButtonPressed)];
+    self.navigationItem.rightBarButtonItem = button;
+    [button release];
+    
     NSMutableDictionary *userInfoDict = [BDWMUserModel LoadUserInfo:self.userName];
     self.userNameLabel.text = [userInfoDict objectForKey:@"userName"];
     self.loginTimesLabel.text = [userInfoDict objectForKey:@"loginTimes"];
@@ -56,15 +58,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (void)dealloc {
     [_userNameLabel release];
