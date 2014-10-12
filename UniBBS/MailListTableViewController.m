@@ -7,21 +7,35 @@
 //
 
 #import "MailListTableViewController.h"
-
+#import "MailViewController.h"
 @interface MailListTableViewController ()
 
 @end
 
 @implementation MailListTableViewController
 
+- (id)initWithStyle:(UITableViewStyle)style
+{
+    self = [super initWithStyle:style];
+    if (self) {
+        self.title = @"站内信";
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"写信" style:UIBarButtonItemStyleBordered target:self action:@selector(segueToComposeMail)];
+    self.navigationItem.rightBarButtonItem = button;
+    [button release];
+}
+
+- (void)segueToComposeMail
+{
+    MailViewController *composeMailViewController = [[[MailViewController alloc] initWithNibName:nil bundle:nil] autorelease];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self.navigationController pushViewController:composeMailViewController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -14,6 +14,8 @@
 #import "WrittingViewController.h"
 #import "BDWMString.h"
 #import "BDWMGlobalData.h"
+#import "BDWMAlertMessage.h"
+#import "LoginViewController.h"
 @implementation BoardViewController {
     BOOL topicMode;
 }
@@ -116,12 +118,18 @@
     int index = buttonIndex - actionSheet.firstOtherButtonIndex;
     switch (index) {
         case 0:{
-            // new post
-            WrittingViewController *newPost = [[[WrittingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
-            newPost.fromWhere = @"compose";
-            newPost.href  = [BDWMString linkString:@"bbspst.php?board=" string:self.boardName];
-            NSLog(@"compose href:%@",newPost.href);
-            [self.navigationController pushViewController:newPost animated:YES];
+            if ([LoginViewController isLogined]) {
+                // new post
+                WrittingViewController *newPost = [[[WrittingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
+                newPost.fromWhere = @"compose";
+                newPost.href  = [BDWMString linkString:@"bbspst.php?board=" string:self.boardName];
+                NSLog(@"compose href:%@",newPost.href);
+                [self.navigationController pushViewController:newPost animated:YES];
+            }else{
+                //Todo: segue to login view, and if login success, segue to compose topic view.
+                [BDWMAlertMessage alertMessage:@"登陆以后才能发帖呢."];
+            }
+            
             break;
         }
         case 1:

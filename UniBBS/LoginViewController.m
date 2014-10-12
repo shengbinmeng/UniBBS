@@ -11,13 +11,25 @@
 #import "BDWMUserModel.h"
 #import "BDWMAlertMessage.h"
 
+
+
 @interface LoginViewController ()
 @property (retain, nonatomic) IBOutlet UITextField *userNameTextField;
 @property (retain, nonatomic) IBOutlet UITextField *userPasswordTextField;
-
 @end
 
 @implementation LoginViewController
+
+static BOOL logined = NO;
+
++ (BOOL)isLogined{
+    return logined;
+}
+
++ (void)setUnlogined
+{
+    logined = NO;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nil bundle:nil];
@@ -51,8 +63,9 @@
             [self.navigationController pushViewController:userInfoViewController animated:YES];
             self.userNameTextField.text = @"";
             self.userPasswordTextField.text = @"";
-            
+            logined = YES;
         }else{
+            logined = NO;
             self.userPasswordTextField.text = @"";
             [BDWMAlertMessage alertMessage:@"用户名或密码错误"];
         }
@@ -84,6 +97,7 @@
     // See: http://stackoverflow.com/questions/5525519/iphone-uinavigation-issue-nested-push-animation-can-result-in-corrupted-naviga
     
     // Try auto login (maybe not a good idea).
+    logined = NO;
     if (self.userNameTextField.text.length!=0 && self.userPasswordTextField.text!=0) {
         [self clickLoginButton:nil];
     }

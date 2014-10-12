@@ -13,6 +13,8 @@
 #import "AttachmentsViewController.h"
 #import "WrittingViewController.h"
 #import "MailViewController.h"
+#import "LoginViewController.h"
+#import "BDWMAlertMessage.h"
 @implementation PostViewController
 
 @synthesize postAddress, postAttributes, postReader;
@@ -64,18 +66,31 @@
     int index = buttonIndex - actionSheet.firstOtherButtonIndex;
     switch (index) {
         case 0:{
-            // reply
-            WrittingViewController *reply = [[[WrittingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
-            // the attribute replyAddress doesn't exist; maybe need a better model
-            reply.href = [self.postAttributes objectForKey:@"replyAddress"];
-            reply.fromWhere = @"reply";
-            [self.navigationController pushViewController:reply animated:YES];
+            //check if logined
+            if ([LoginViewController isLogined]) {
+                // reply
+                WrittingViewController *reply = [[[WrittingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
+                //Todo: the attribute replyAddress doesn't exist; maybe need a better model
+                reply.href = [self.postAttributes objectForKey:@"replyAddress"];
+                reply.fromWhere = @"reply";
+                [self.navigationController pushViewController:reply animated:YES];
+            }else{
+                //did not logined
+                //Todo: segue to login view, and if login success, segue to reply view.
+                [BDWMAlertMessage alertMessage:@"登陆以后才能回复呢."];
+            }
             break;
         }
         case 1:{
-            // send mail to post author
-            MailViewController *mail = [[[MailViewController alloc] initWithNibName:@"MailViewController" bundle:nil] autorelease];
-            [self.navigationController pushViewController:mail animated:YES];
+            if ([LoginViewController isLogined]) {
+                // reply mail
+                MailViewController *mail = [[[MailViewController alloc] initWithNibName:@"MailViewController" bundle:nil] autorelease];
+                [self.navigationController pushViewController:mail animated:YES];
+            }else{
+                //did not logined
+                //Todo: segue to login view, and if login success, segue to reply mail view.
+                [BDWMAlertMessage alertMessage:@"登陆以后才能写信呢."];
+            }
             break;
         }
         case 2:{

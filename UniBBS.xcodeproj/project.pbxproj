@@ -271,7 +271,6 @@
 				F72939AE19EAA27F00EA68ED /* MailController */,
 				F72939AD19EAA22900EA68ED /* UserController */,
 				F785A80F19E97EC70001FB65 /* Model */,
-				F7062E6919E6D15000F61328 /* Hpple */,
 				F7062E6819E6CE4100F61328 /* Utils */,
 				E8FE83A915247F5200CC112D /* BBSReaderModel */,
 				E86D93B9152722DD0037F06D /* TopicsControllers */,
@@ -286,6 +285,7 @@
 		E88A6E521507760600EED88D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F7062E6919E6D15000F61328 /* Hpple */,
 				E88A6E531507760600EED88D /* UniBBS-Info.plist */,
 				E88A6E541507760600EED88D /* InfoPlist.strings */,
 				E88A6E571507760600EED88D /* main.m */,

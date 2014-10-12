@@ -8,6 +8,8 @@
 
 #import "UserInfoViewController.h"
 #import "BDWMUserModel.h"
+#import "MailListTableViewController.h"
+#import "LoginViewController.h"
 @interface UserInfoViewController ()
 @property (retain, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (retain, nonatomic) IBOutlet UILabel *loginTimesLabel;
@@ -22,7 +24,7 @@
 
 - (void) logoutButtonPressed {
     [BDWMUserModel logout];
-    
+    [LoginViewController setUnlogined];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -39,7 +41,9 @@
 
 - (void)segueToUserMail
 {
-    
+    MailListTableViewController *mailListViewController = [[[MailListTableViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+ //   MailListTableViewController.userName = mailListViewController;
+    [self.navigationController pushViewController:mailListViewController animated:YES];
 }
 
 - (void)viewDidLoad {
