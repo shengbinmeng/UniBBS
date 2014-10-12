@@ -156,6 +156,13 @@
         self.postDict = [BDWMTopicModel getNeededReplyData:[self href]];
         self.titleTextField.text = [self.postDict objectForKey:@"title_exp"];
         self.contentTextView.text = [self.postDict objectForKey:@"quote"];
+        
+        if (self.href != nil) {
+            //TODO: 1. what if href is nil? 2. getNeededReplayData has bugs, needs more error handling
+            self.postDict = [BDWMTopicModel getNeededReplyData:[self href]];
+            self.titleTextField.text = [self.postDict objectForKey:@"title_exp"];
+            self.contentTextView.text = [self.postDict objectForKey:@"quote"];
+        }
     }else if( [self.fromWhere isEqualToString:@"compose"] ){
         self.postDict = [BDWMTopicModel getNeededComposeData:self.href];
     }else{
