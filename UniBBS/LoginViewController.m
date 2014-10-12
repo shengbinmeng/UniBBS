@@ -10,9 +10,10 @@
 #import "UserInfoViewController.h"
 #import "BDWMUserModel.h"
 #import "BDWMAlertMessage.h"
+
 @interface LoginViewController ()
 @property (retain, nonatomic) IBOutlet UITextField *userNameTextField;
-@property (retain, nonatomic) IBOutlet UITextField *UserPasswordTextField;
+@property (retain, nonatomic) IBOutlet UITextField *userPasswordTextField;
 
 @end
 
@@ -32,7 +33,7 @@
 
 - (IBAction)clickLoginButton:(id)sender {
     NSString *userName = self.userNameTextField.text;
-    NSString *userPass = self.UserPasswordTextField.text;
+    NSString *userPass = self.userPasswordTextField.text;
     
     if (userName.length==0 ) {
         [BDWMAlertMessage alertMessage:@"请输入用户名"];
@@ -52,7 +53,7 @@
             [self.navigationController pushViewController:userInfoViewController animated:YES];
             
         }else{
-            self.UserPasswordTextField.text = @"";
+            self.userPasswordTextField.text = @"";
             [BDWMAlertMessage alertMessage:@"用户名或密码错误"];
         }
     }];
@@ -66,7 +67,7 @@
     if (username) {
         self.userNameTextField.text = username;
         if (password) {
-            self.UserPasswordTextField.text = password;
+            self.userPasswordTextField.text = password;
             [self clickLoginButton:nil];
         }
     }
@@ -83,19 +84,14 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+    [theTextField resignFirstResponder];
+    return YES;
 }
-*/
 
 - (void)dealloc {
     [_userNameTextField release];
-    [_UserPasswordTextField release];
+    [_userPasswordTextField release];
     [super dealloc];
 }
 @end
