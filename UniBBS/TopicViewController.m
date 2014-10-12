@@ -151,6 +151,7 @@
                 WrittingViewController *reply = [[[WrittingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
                 NSDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
                 reply.href = [post objectForKey:@"replyAddress"];
+                reply.fromWhere = @"reply";
                 [self.navigationController pushViewController:reply animated:YES];
                 break;
             }

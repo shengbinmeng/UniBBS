@@ -117,6 +117,7 @@
         case 0:{
             // new post
             WrittingViewController *newPost = [[[WrittingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
+            newPost.fromWhere = @"compose";
             [self.navigationController pushViewController:newPost animated:YES];
             break;
         }

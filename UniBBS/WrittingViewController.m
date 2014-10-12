@@ -18,6 +18,17 @@
 
 @implementation WrittingViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+    self = [super initWithNibName:nil bundle:nil];
+    
+    if(self != nil)
+    {
+        
+        
+    }
+    return self;
+}
+
 - (IBAction)clickReplyButton:(id)sender {
     NSDictionary *dic_needed_data = self.replyDict;
     
@@ -70,6 +81,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    if ([self.fromWhere isEqualToString:@"reply"]) {
+        self.title = @"回帖";
+    }else if( [self.fromWhere isEqualToString:@"compose"]){
+        self.title = @"发布新帖";
+    }else{
+        self.title = @"我去！从哪里点过来的！";
+    }
+
     if ( [self.fromWhere isEqualToString:@"reply"] ) {
         self.replyDict = [BDWMTopicModel getNeededReplyData:[self href]];
         self.titleTextField.text = [self.replyDict objectForKey:@"title_exp"];
