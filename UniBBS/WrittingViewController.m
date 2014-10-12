@@ -10,6 +10,7 @@
 #import "BDWMTopicModel.h"
 #import "AFAppDotNetAPIClient.h"
 #import "BDWMAlertMessage.h"
+#import "BDWMString.h"
 @interface WrittingViewController ()
 @property (retain, nonatomic) IBOutlet UITextField *titleTextField;
 @property (retain, nonatomic) IBOutlet UITextView *contentTextView;
@@ -63,7 +64,9 @@
     //some data below may be changeable for user in later version.
     [dic setObject:@"N" forKey:@"noreply"];
     [dic setObject:@"0" forKey:@"signature"];
-    [dic setObject:self.contentTextView.text forKey:@"text"];
+    NSMutableString *content = [[NSMutableString alloc] init];
+    content = [BDWMString linkString:self.contentTextView.text string:@"\nsent from my UniBBS."];
+    [dic setObject:content forKey:@"text"];
     [dic setObject:quser forKey:@"quser"];
     [dic setObject:@"on" forKey:@"unfoldpic"];
     
