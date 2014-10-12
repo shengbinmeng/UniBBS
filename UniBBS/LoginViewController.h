@@ -3,7 +3,7 @@
 //  UniBBS
 //
 //  Created by Shengbin Meng on 14/10/11.
-//  Copyright (c) 2014年 Peking University. All rights reserved.
+//  Copyright (c) 2014 Peking University. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
