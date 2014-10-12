@@ -3,7 +3,7 @@
 //  UniBBS
 //
 //  Created by Shengbin Meng on 14/10/11.
-//  Copyright (c) 2014年 Peking University. All rights reserved.
+//  Copyright (c) 2014 Peking University. All rights reserved.
 //
 
 #import "LoginViewController.h"
@@ -24,9 +24,7 @@
     
     if(self != nil)
     {
-        self.title = @"登陆";
-        self.tabBarItem.image = [UIImage imageNamed:@"first"];
-        
+        self.title = @"登录";
     }
     return self;
 }
@@ -68,7 +66,6 @@
         self.userNameTextField.text = username;
         if (password) {
             self.userPasswordTextField.text = password;
-            [self clickLoginButton:nil];
         }
     }
 }
@@ -76,7 +73,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [self loadSavedUserData];//try auto login.
+    [self loadSavedUserData];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    // Note: Calling pushViewController before viewDidAppear is unsafe.
+    // See: http://stackoverflow.com/questions/5525519/iphone-uinavigation-issue-nested-push-animation-can-result-in-corrupted-naviga
+    
+    // Try auto login (maybe not a good idea).
+    [self clickLoginButton:nil];
 }
 
 - (void)didReceiveMemoryWarning {

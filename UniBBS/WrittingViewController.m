@@ -66,7 +66,7 @@
     [dic setObject:@"N" forKey:@"noreply"];
     [dic setObject:@"0" forKey:@"signature"];
     NSMutableString *content = [[NSMutableString alloc] init];
-    content = [BDWMString linkString:self.contentTextView.text string:@"\nsent from my UniBBS."];
+    content = [BDWMString linkString:self.contentTextView.text string:@"\n发自我的“北大未名”iOS客户端"];
     [dic setObject:content forKey:@"text"];
     [dic setObject:quser forKey:@"quser"];
     [dic setObject:@"on" forKey:@"unfoldpic"];
@@ -74,7 +74,7 @@
     
     [[AFAppDotNetAPIClient sharedClient] POST:@"http://www.bdwm.net/bbs/bbssnd.php" parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"Reply success!");
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self.navigationController popViewControllerAnimated:YES];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"Reply failed!");
         [BDWMAlertMessage alertMessage:@"发布失败"];
