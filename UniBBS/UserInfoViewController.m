@@ -37,10 +37,19 @@
     return self;
 }
 
+- (void)segueToUserMail
+{
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"注销" style:UIBarButtonItemStyleBordered target:self action:@selector(logoutButtonPressed)];
+    self.navigationItem.leftBarButtonItem = button;
+    [button release];
+    
+    button = [[UIBarButtonItem alloc] initWithTitle:@"站内信" style:UIBarButtonItemStyleBordered target:self action:@selector(segueToUserMail)];
     self.navigationItem.rightBarButtonItem = button;
     [button release];
     

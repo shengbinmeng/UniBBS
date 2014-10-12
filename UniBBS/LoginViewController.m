@@ -49,6 +49,8 @@
             UserInfoViewController *userInfoViewController = [[[UserInfoViewController alloc] initWithNibName:@"UserInfoViewController" bundle:nil] autorelease];
             userInfoViewController.userName = userName;
             [self.navigationController pushViewController:userInfoViewController animated:YES];
+            self.userNameTextField.text = @"";
+            self.userPasswordTextField.text = @"";
             
         }else{
             self.userPasswordTextField.text = @"";
@@ -82,7 +84,10 @@
     // See: http://stackoverflow.com/questions/5525519/iphone-uinavigation-issue-nested-push-animation-can-result-in-corrupted-naviga
     
     // Try auto login (maybe not a good idea).
-    [self clickLoginButton:nil];
+    if (self.userNameTextField.text.length!=0 && self.userPasswordTextField.text!=0) {
+        [self clickLoginButton:nil];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {
