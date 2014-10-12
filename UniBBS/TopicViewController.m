@@ -168,7 +168,7 @@
             case 1:{
                  if ([LoginViewController isLogined]) {
                      // reply mail
-                     WritingMailViewController *mail = [[[WritingMailViewController alloc] initWithNibName:@"MailViewController" bundle:nil] autorelease];
+                     WritingMailViewController *mail = [[[WritingMailViewController alloc] initWithNibName:@"WritingMailViewController" bundle:nil] autorelease];
                      [self.navigationController pushViewController:mail animated:YES];
                  }else{
                      //did not logined

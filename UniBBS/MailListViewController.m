@@ -103,10 +103,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *mail = [self.mails objectAtIndex:[indexPath row]];
-    MailViewController * mailLookViewController = [[MailViewController alloc] initWithNibName:@"MailLookViewController" bundle:nil];
-    mailLookViewController.href = [mail objectForKey:@"href"];
-    [self.navigationController pushViewController:mailLookViewController animated:YES];
-    [mailLookViewController release];
+    MailViewController * mailViewController = [[MailViewController alloc] initWithNibName:@"MailViewController" bundle:nil];
+    mailViewController.href = [mail objectForKey:@"href"];
+    [self.navigationController pushViewController:mailViewController animated:YES];
+    [mailViewController release];
 }
 
 
