@@ -160,7 +160,7 @@
                 }else{
                     //did not logined
                     //Todo: segue to login view, and if login success, segue to reply view.
-                    [BDWMAlertMessage alertMessage:@"登陆以后才能回复呢."];
+                    [BDWMAlertMessage alertMessage:@"登录以后才能回复呢."];
                 }
                 
                 break;
@@ -173,7 +173,7 @@
                  }else{
                      //did not logined
                      //Todo: segue to login view, and if login success, segue to reply mail view.
-                     [BDWMAlertMessage alertMessage:@"登陆以后才能写信呢."];
+                     [BDWMAlertMessage alertMessage:@"登录以后才能写信呢."];
                  }
                 
                 break;

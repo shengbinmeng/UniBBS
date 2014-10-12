@@ -127,7 +127,7 @@
                 [self.navigationController pushViewController:newPost animated:YES];
             }else{
                 //Todo: segue to login view, and if login success, segue to compose topic view.
-                [BDWMAlertMessage alertMessage:@"登陆以后才能发帖呢."];
+                [BDWMAlertMessage alertMessage:@"登录以后才能发帖呢."];
             }
             
             break;
