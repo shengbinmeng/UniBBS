@@ -65,7 +65,7 @@
     [dic setObject:@"N" forKey:@"noreply"];
     [dic setObject:@"0" forKey:@"signature"];
     NSMutableString *content = [[NSMutableString alloc] init];
-    content = [BDWMString linkString:self.contentTextView.text string:@"\nsent from my UniBBS."];
+    content = [BDWMString linkString:self.contentTextView.text string:@"\n发自我的“北大未名”iOS客户端"];
     [dic setObject:content forKey:@"text"];
     [dic setObject:quser forKey:@"quser"];
     [dic setObject:@"on" forKey:@"unfoldpic"];
@@ -97,6 +97,12 @@
     }
 
     if ( [self.fromWhere isEqualToString:@"reply"] ) {
+        
+        if (self.href == nil) {
+            //TODO: what if href is nil?
+            return;
+        }
+        //TODO: getNeededReplayData has bugs, needs more error handling
         self.replyDict = [BDWMTopicModel getNeededReplyData:[self href]];
         self.titleTextField.text = [self.replyDict objectForKey:@"title_exp"];
         self.contentTextView.text = [self.replyDict objectForKey:@"quote"];

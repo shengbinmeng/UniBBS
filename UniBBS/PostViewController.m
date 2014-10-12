@@ -66,6 +66,9 @@
         case 0:{
             // reply
             WrittingViewController *reply = [[[WrittingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
+            // the attribute replyAddress doesn't exist; maybe need a better model
+            reply.href = [self.postAttributes objectForKey:@"replyAddress"];
+            reply.fromWhere = @"reply";
             [self.navigationController pushViewController:reply animated:YES];
             break;
         }
