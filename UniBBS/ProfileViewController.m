@@ -22,7 +22,7 @@
     self = [super initWithStyle:style];
     if (self) {
         self.title = @"我的未名";
-        self.tabBarItem.image = [UIImage imageNamed:@"first"];
+        self.tabBarItem.image = [UIImage imageNamed:@"profile"];
     }
     return self;
 }

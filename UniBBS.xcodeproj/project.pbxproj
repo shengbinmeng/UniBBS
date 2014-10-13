@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		6C2A0DCA17EC738D007C3997 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C2A0DC917EC738D007C3997 /* Default-568h@2x.png */; };
+		6C46687319EC0B3C006E2A5C /* boards.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C46686F19EC0B3C006E2A5C /* boards.png */; };
+		6C46687519EC0B3C006E2A5C /* popular.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C46687119EC0B3C006E2A5C /* popular.png */; };
+		6C46687619EC0B3C006E2A5C /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C46687219EC0B3C006E2A5C /* profile.png */; };
+		6C46687E19EC13A3006E2A5C /* boards@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C46687919EC13A3006E2A5C /* boards@2x.png */; };
+		6C46687F19EC13A3006E2A5C /* popular@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C46687A19EC13A3006E2A5C /* popular@2x.png */; };
+		6C46688019EC13A3006E2A5C /* profile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C46687B19EC13A3006E2A5C /* profile@2x.png */; };
+		6C46688119EC13A3006E2A5C /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C46687C19EC13A3006E2A5C /* settings.png */; };
+		6C46688219EC13A3006E2A5C /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C46687D19EC13A3006E2A5C /* settings@2x.png */; };
 		6C9117C017F3284000D1A1E4 /* unibbs_76x76.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C9117BD17F3284000D1A1E4 /* unibbs_76x76.png */; };
 		6C9117C117F3284000D1A1E4 /* unibbs_120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C9117BE17F3284000D1A1E4 /* unibbs_120x120.png */; };
 		6C9117C217F3284000D1A1E4 /* unibbs_152x152.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C9117BF17F3284000D1A1E4 /* unibbs_152x152.png */; };
@@ -81,6 +89,14 @@
 /* Begin PBXFileReference section */
 		5D57E3888AA1D894B2FC3690 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C2A0DC917EC738D007C3997 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		6C46686F19EC0B3C006E2A5C /* boards.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boards.png; sourceTree = "<group>"; };
+		6C46687119EC0B3C006E2A5C /* popular.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popular.png; sourceTree = "<group>"; };
+		6C46687219EC0B3C006E2A5C /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
+		6C46687919EC13A3006E2A5C /* boards@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "boards@2x.png"; sourceTree = "<group>"; };
+		6C46687A19EC13A3006E2A5C /* popular@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popular@2x.png"; sourceTree = "<group>"; };
+		6C46687B19EC13A3006E2A5C /* profile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile@2x.png"; sourceTree = "<group>"; };
+		6C46687C19EC13A3006E2A5C /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
+		6C46687D19EC13A3006E2A5C /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@2x.png"; sourceTree = "<group>"; };
 		6C9117BD17F3284000D1A1E4 /* unibbs_76x76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unibbs_76x76.png; sourceTree = "<group>"; };
 		6C9117BE17F3284000D1A1E4 /* unibbs_120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unibbs_120x120.png; sourceTree = "<group>"; };
 		6C9117BF17F3284000D1A1E4 /* unibbs_152x152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unibbs_152x152.png; sourceTree = "<group>"; };
@@ -345,10 +361,18 @@
 		E8E5BD7015735062004BE6F9 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6C46686F19EC0B3C006E2A5C /* boards.png */,
+				6C46687919EC13A3006E2A5C /* boards@2x.png */,
 				E88A6E601507760600EED88D /* first.png */,
 				E88A6E621507760600EED88D /* first@2x.png */,
+				6C46687119EC0B3C006E2A5C /* popular.png */,
+				6C46687A19EC13A3006E2A5C /* popular@2x.png */,
+				6C46687219EC0B3C006E2A5C /* profile.png */,
+				6C46687B19EC13A3006E2A5C /* profile@2x.png */,
 				E88A6E671507760600EED88D /* second.png */,
 				E88A6E691507760600EED88D /* second@2x.png */,
+				6C46687C19EC13A3006E2A5C /* settings.png */,
+				6C46687D19EC13A3006E2A5C /* settings@2x.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -531,26 +555,34 @@
 				E88A6E561507760600EED88D /* InfoPlist.strings in Resources */,
 				F785A82219EA16C90001FB65 /* WritingMailViewController.xib in Resources */,
 				E88A6E611507760600EED88D /* first.png in Resources */,
+				6C46688119EC13A3006E2A5C /* settings.png in Resources */,
 				6C9117C017F3284000D1A1E4 /* unibbs_76x76.png in Resources */,
+				6C46688219EC13A3006E2A5C /* settings@2x.png in Resources */,
+				6C46687519EC0B3C006E2A5C /* popular.png in Resources */,
 				E88A6E631507760600EED88D /* first@2x.png in Resources */,
 				E88A6E681507760600EED88D /* second.png in Resources */,
 				6C9117C117F3284000D1A1E4 /* unibbs_120x120.png in Resources */,
 				E88A6E6A1507760600EED88D /* second@2x.png in Resources */,
 				E89AA62415411D8000506BA4 /* unibbs_57x57.png in Resources */,
+				6C46687319EC0B3C006E2A5C /* boards.png in Resources */,
 				E89AA62715411DF900506BA4 /* unibbs_114x114.png in Resources */,
 				E89AA62915411E0700506BA4 /* unibbs_72x72.png in Resources */,
+				6C46687619EC0B3C006E2A5C /* profile.png in Resources */,
 				E89AA62B15411E0E00506BA4 /* unibbs_144x144.png in Resources */,
+				6C46687E19EC13A3006E2A5C /* boards@2x.png in Resources */,
 				E8E5BD6215734EA2004BE6F9 /* blackArrow.png in Resources */,
 				E8E5BD6315734EA2004BE6F9 /* blackArrow@2x.png in Resources */,
 				F785A83119EA2A240001FB65 /* WrittingViewController.xib in Resources */,
 				6C2A0DCA17EC738D007C3997 /* Default-568h@2x.png in Resources */,
 				6CEAAC8719E942C600C29CA4 /* LoginViewController.xib in Resources */,
+				6C46687F19EC13A3006E2A5C /* popular@2x.png in Resources */,
 				E8E5BD6415734EA2004BE6F9 /* blueArrow.png in Resources */,
 				E8E5BD6515734EA2004BE6F9 /* blueArrow@2x.png in Resources */,
 				E8E5BD6615734EA2004BE6F9 /* grayArrow.png in Resources */,
 				6C9117C217F3284000D1A1E4 /* unibbs_152x152.png in Resources */,
 				E8E5BD6715734EA2004BE6F9 /* grayArrow@2x.png in Resources */,
 				F785A81A19E983140001FB65 /* UserInfoViewController.xib in Resources */,
+				6C46688019EC13A3006E2A5C /* profile@2x.png in Resources */,
 				E8E5BD6815734EA2004BE6F9 /* whiteArrow.png in Resources */,
 				F72939B819EAC8A500EA68ED /* MailViewController.xib in Resources */,
 				E8E5BD6915734EA2004BE6F9 /* whiteArrow@2x.png in Resources */,

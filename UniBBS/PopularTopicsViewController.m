@@ -25,7 +25,7 @@
     self = [super initWithStyle:style];
     if (self) {
         self.title = @"热点话题";
-        self.tabBarItem.image = [UIImage imageNamed:@"first"];
+        self.tabBarItem.image = [UIImage imageNamed:@"popular"];
         numLimit = 20;
         popType = 1;
     }

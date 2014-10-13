@@ -17,7 +17,7 @@
     self = [super initWithStyle:style];
     if (self) {
         self.title = @"更多";
-        self.tabBarItem.image = [UIImage imageNamed:@"second"];
+        self.tabBarItem.image = [UIImage imageNamed:@"settings"];
         // Custom initialization
     }
     return self;

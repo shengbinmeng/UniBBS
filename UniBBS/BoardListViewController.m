@@ -25,7 +25,7 @@
     self = [super initWithStyle:style];
     if (self) {
         self.title = @"分类讨论区";
-        self.tabBarItem.image = [UIImage imageNamed:@"second"];
+        self.tabBarItem.image = [UIImage imageNamed:@"boards"];
         showingAll = NO;
     }
     return self;
