@@ -9,6 +9,7 @@
 #import "ProfileViewController.h"
 #import "LoginViewController.h"
 #import "FavouritesViewController.h"
+#import "MailListViewController.h"
 
 @interface ProfileViewController ()
 
@@ -82,6 +83,10 @@
             [cell.textLabel setText:@"本地收藏"];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
+        if ([indexPath row] == 1) {
+            [cell.textLabel setText:@"站内信"];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
         
         return cell;
     }
@@ -121,6 +126,11 @@
         if ([indexPath row] == 0) {
             FavouritesViewController *favourites = [[[FavouritesViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
             [self.navigationController pushViewController:favourites animated:YES];
+            return;
+        }
+        if ([indexPath row] == 1) {
+            MailListViewController *mailListViewController = [[[MailListViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+            [self.navigationController pushViewController:mailListViewController animated:YES];
             return;
         }
     }

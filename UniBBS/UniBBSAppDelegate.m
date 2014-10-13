@@ -27,7 +27,7 @@
     BoardListViewController *viewController2 = [[[BoardListViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
     viewController2.listAddress = @"http://www.bdwm.net/bbs/bbsxboa.php?group=0";
 
-    ProfileViewController *viewController3 = [[[ProfileViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+    ProfileViewController *viewController3 = [[[ProfileViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
     SettingsViewController *viewController4 = [[[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
     
     UINavigationController *popularViewController, *boardListViewController, *profileViewController, *settingsViewController;

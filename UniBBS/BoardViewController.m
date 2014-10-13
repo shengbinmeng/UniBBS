@@ -15,7 +15,8 @@
 #import "BDWMString.h"
 #import "BDWMGlobalData.h"
 #import "BDWMAlertMessage.h"
-#import "LoginViewController.h"
+#import "BDWMUserModel.h"
+
 @implementation BoardViewController {
     BOOL topicMode;
 }
@@ -118,7 +119,7 @@
     int index = buttonIndex - actionSheet.firstOtherButtonIndex;
     switch (index) {
         case 0:{
-            if ([LoginViewController isLogined]) {
+            if ([BDWMUserModel isLogined]) {
                 // new post
                 WrittingViewController *newPost = [[[WrittingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
                 newPost.fromWhere = @"compose";

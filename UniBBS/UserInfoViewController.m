@@ -24,7 +24,6 @@
 
 - (void) logoutButtonPressed {
     [BDWMUserModel logout];
-    [LoginViewController setUnlogined];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -39,22 +38,11 @@
     return self;
 }
 
-- (void)segueToUserMail
-{
-    MailListViewController *mailListViewController = [[[MailListViewController alloc] initWithNibName:nil bundle:nil] autorelease];
-    mailListViewController.userName = self.userName;
-    [self.navigationController pushViewController:mailListViewController animated:YES];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"注销" style:UIBarButtonItemStyleBordered target:self action:@selector(logoutButtonPressed)];
     self.navigationItem.leftBarButtonItem = button;
-    [button release];
-    
-    button = [[UIBarButtonItem alloc] initWithTitle:@"站内信" style:UIBarButtonItemStyleBordered target:self action:@selector(segueToUserMail)];
-    self.navigationItem.rightBarButtonItem = button;
     [button release];
     
     NSMutableDictionary *userInfoDict = [BDWMUserModel LoadUserInfo:self.userName];

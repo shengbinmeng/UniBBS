@@ -13,8 +13,9 @@
 #import "AttachmentsViewController.h"
 #import "WrittingViewController.h"
 #import "WritingMailViewController.h"
-#import "LoginViewController.h"
+#import "BDWMUserModel.h"
 #import "BDWMAlertMessage.h"
+
 #define ACTION_FROM_BAR_BUTTON 8888
 #define ACTION_FROM_VIEW_ATTACH 9999
 
@@ -150,7 +151,7 @@
         switch (index) {
             case 0:{
                 //check if logined
-                if ([LoginViewController isLogined]) {
+                if ([BDWMUserModel isLogined]) {
                     // reply
                     WrittingViewController *reply = [[[WrittingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
                     NSDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
@@ -166,7 +167,7 @@
                 break;
             }
             case 1:{
-                 if ([LoginViewController isLogined]) {
+                 if ([BDWMUserModel isLogined]) {
                      // reply mail
                      WritingMailViewController *mail = [[[WritingMailViewController alloc] initWithNibName:@"WritingMailViewController" bundle:nil] autorelease];
                      [self.navigationController pushViewController:mail animated:YES];

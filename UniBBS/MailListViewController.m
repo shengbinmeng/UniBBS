@@ -12,6 +12,8 @@
 #import "UIAlertView+AFNetworking.h"
 #import "MailModel.h"
 #import "MailViewController.h"
+#import "BDWMUserModel.h"
+#import "BDWMAlertMessage.h"
 
 @interface MailListViewController ()
 @property (strong, nonatomic) NSArray *mails;
@@ -31,6 +33,13 @@
 
 - (void)reload:(__unused id)sender {
     self.navigationItem.rightBarButtonItem.enabled = NO;
+    
+    self.userName = [BDWMUserModel getLoginUser];
+    if (self.userName == nil) {
+        //did not logined
+        //Todo: segue to login view, and if login success, segue to reply view.
+        [BDWMAlertMessage alertMessage:@"登录以后才能查看站内信。"];
+    }
     NSString *userName = self.userName;
     NSURLSessionTask *task = [MailModel getAllMailWithBlock:userName blockFunction:^(NSArray *mails, NSError *error) {
         if (!error) {

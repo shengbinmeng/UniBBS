@@ -9,6 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface LoginViewController : UIViewController <UITextFieldDelegate>
-+ (BOOL)isLogined;
-+ (void)setUnlogined;
+
 @end

@@ -13,7 +13,7 @@
 #import "AttachmentsViewController.h"
 #import "WrittingViewController.h"
 #import "WritingMailViewController.h"
-#import "LoginViewController.h"
+#import "BDWMUserModel.h"
 #import "BDWMAlertMessage.h"
 @implementation PostViewController
 
@@ -67,7 +67,7 @@
     switch (index) {
         case 0:{
             //check if logined
-            if ([LoginViewController isLogined]) {
+            if ([BDWMUserModel isLogined]) {
                 // reply
                 WrittingViewController *reply = [[[WrittingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
                 //Todo: the attribute replyAddress doesn't exist; maybe need a better model
@@ -82,7 +82,7 @@
             break;
         }
         case 1:{
-            if ([LoginViewController isLogined]) {
+            if ([BDWMUserModel isLogined]) {
                 // reply mail
                 WritingMailViewController *mail = [[[WritingMailViewController alloc] initWithNibName:@"MailViewController" bundle:nil] autorelease];
                 [self.navigationController pushViewController:mail animated:YES];

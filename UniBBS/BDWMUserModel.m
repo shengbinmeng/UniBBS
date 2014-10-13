@@ -10,6 +10,18 @@
 #import "AFAppDotNetAPIClient.h"
 @implementation BDWMUserModel
 
+
+static BOOL logined = NO;
+static NSString *loginUser = nil;
+
++ (BOOL) isLogined {
+    return logined;
+}
+
++ (NSString*) getLoginUser {
+    return loginUser;
+}
+
 /**
  *  Logout - Just clean the cookies
  */
@@ -19,6 +31,8 @@
         [storage deleteCookie:cookie];
     }
     [self deleteUsernameAndPassword];
+    logined = NO;
+    loginUser = nil;
 }
 
 + (void)deleteUsernameAndPassword {
@@ -49,6 +63,9 @@
             
             NSLog(@"Login success!");
             [BDWMUserModel saveUsernameAndPassword:UserName userPassword:UserPass];
+            logined = YES;
+            loginUser = [UserName retain];
+
             if (block) {
                 block(UserName, nil);
             }
@@ -91,7 +108,7 @@
     doc = [[TFHpple alloc] initWithHTMLData:data];
     NSLog(@"url=%@",string);
     NSArray *arr = [doc searchWithXPathQuery:@"//table[@class='doc']//td[@class='doc']//span"];
-    NSLog(@"arr size:%i",arr.count);
+    NSLog(@"arr size:%lu",(unsigned long)arr.count);
     TFHppleElement *e = [arr objectAtIndex:0];
     
     NSMutableDictionary *userInfoDict = [[NSMutableDictionary alloc] init];
