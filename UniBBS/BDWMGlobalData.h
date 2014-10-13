@@ -26,5 +26,5 @@
 //#define DEFAULT_USET_AGENT @"5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16"
 #define DEFAULT_USET_AGENT @"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36"
 
-#define POST_SUFFIX_STRING          @"\n发自我的“北大未名”iOS客户端"
+#define POST_SUFFIX_STRING          @"\n发自我的“北大未名”iOS客户端(http://t.cn/R7ZhtYc)"
 #endif

@@ -164,7 +164,7 @@
 
     if ([indexPath section] == 0) {
         if ([indexPath row] == 0) {
-            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"关于" message:@"北大未名Lite - 这是用于在北大未名BBS潜水的iOS客户端。该版本不具备用户登录和回复功能，是实实在在的潜水版。如果有任何问题和建议，可以发信至：shengbinmeng@gmail.com。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"关于" message:@"北大未名 - 访问北京大学未名BBS的iOS客户端。如果有任何问题和建议，可以发信至：hello@shengbin.me。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
             [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
             [alert show];
             [alert release];
