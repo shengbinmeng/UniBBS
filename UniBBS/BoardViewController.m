@@ -11,7 +11,7 @@
 #import "TopicViewController.h"
 #import "BBSBoardReader.h"
 #import "BBSFavouritesManager.h"
-#import "WrittingViewController.h"
+#import "WritingViewController.h"
 #import "BDWMString.h"
 #import "BDWMGlobalData.h"
 #import "BDWMAlertMessage.h"
@@ -121,7 +121,7 @@
         case 0:{
             if ([BDWMUserModel isLogined]) {
                 // new post
-                WrittingViewController *newPost = [[[WrittingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
+                WritingViewController *newPost = [[[WritingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
                 newPost.fromWhere = @"compose";
                 newPost.href  = [BDWMString linkString:@"bbspst.php?board=" string:self.boardName];
                 NSLog(@"compose href:%@",newPost.href);

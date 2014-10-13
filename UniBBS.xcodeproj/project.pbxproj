@@ -79,8 +79,8 @@
 		F785A81A19E983140001FB65 /* UserInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F785A81819E983140001FB65 /* UserInfoViewController.xib */; };
 		F785A82119EA16C90001FB65 /* WritingMailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A81F19EA16C90001FB65 /* WritingMailViewController.m */; };
 		F785A82219EA16C90001FB65 /* WritingMailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F785A82019EA16C90001FB65 /* WritingMailViewController.xib */; };
-		F785A83019EA2A240001FB65 /* WrittingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A82E19EA2A240001FB65 /* WrittingViewController.m */; };
-		F785A83119EA2A240001FB65 /* WrittingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F785A82F19EA2A240001FB65 /* WrittingViewController.xib */; };
+		F785A83019EA2A240001FB65 /* WritingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A82E19EA2A240001FB65 /* WritingViewController.m */; };
+		F785A83119EA2A240001FB65 /* WritingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F785A82F19EA2A240001FB65 /* WritingViewController.xib */; };
 		F785A83419EA2C190001FB65 /* BDWMTopicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A83319EA2C190001FB65 /* BDWMTopicModel.m */; };
 		F785A83919EA2C650001FB65 /* BDWMPosting.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A83619EA2C650001FB65 /* BDWMPosting.m */; };
 		F785A83A19EA2C650001FB65 /* BDWMTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A83819EA2C650001FB65 /* BDWMTopic.m */; };
@@ -197,9 +197,9 @@
 		F785A81E19EA16C90001FB65 /* WritingMailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WritingMailViewController.h; sourceTree = "<group>"; };
 		F785A81F19EA16C90001FB65 /* WritingMailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WritingMailViewController.m; sourceTree = "<group>"; };
 		F785A82019EA16C90001FB65 /* WritingMailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WritingMailViewController.xib; sourceTree = "<group>"; };
-		F785A82D19EA2A240001FB65 /* WrittingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WrittingViewController.h; sourceTree = "<group>"; };
-		F785A82E19EA2A240001FB65 /* WrittingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrittingViewController.m; sourceTree = "<group>"; };
-		F785A82F19EA2A240001FB65 /* WrittingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WrittingViewController.xib; sourceTree = "<group>"; };
+		F785A82D19EA2A240001FB65 /* WritingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WritingViewController.h; sourceTree = "<group>"; };
+		F785A82E19EA2A240001FB65 /* WritingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WritingViewController.m; sourceTree = "<group>"; };
+		F785A82F19EA2A240001FB65 /* WritingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WritingViewController.xib; sourceTree = "<group>"; };
 		F785A83219EA2C190001FB65 /* BDWMTopicModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDWMTopicModel.h; sourceTree = "<group>"; };
 		F785A83319EA2C190001FB65 /* BDWMTopicModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDWMTopicModel.m; sourceTree = "<group>"; };
 		F785A83519EA2C650001FB65 /* BDWMPosting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDWMPosting.h; sourceTree = "<group>"; };
@@ -247,9 +247,9 @@
 				E88A6E7E1507882100EED88D /* PostViewController.m */,
 				E843C455150A790800A83C22 /* TopicViewController.h */,
 				E843C456150A790800A83C22 /* TopicViewController.m */,
-				F785A82D19EA2A240001FB65 /* WrittingViewController.h */,
-				F785A82E19EA2A240001FB65 /* WrittingViewController.m */,
-				F785A82F19EA2A240001FB65 /* WrittingViewController.xib */,
+				F785A82D19EA2A240001FB65 /* WritingViewController.h */,
+				F785A82E19EA2A240001FB65 /* WritingViewController.m */,
+				F785A82F19EA2A240001FB65 /* WritingViewController.xib */,
 			);
 			name = TopicsControllers;
 			sourceTree = "<group>";
@@ -572,7 +572,7 @@
 				6C46687E19EC13A3006E2A5C /* boards@2x.png in Resources */,
 				E8E5BD6215734EA2004BE6F9 /* blackArrow.png in Resources */,
 				E8E5BD6315734EA2004BE6F9 /* blackArrow@2x.png in Resources */,
-				F785A83119EA2A240001FB65 /* WrittingViewController.xib in Resources */,
+				F785A83119EA2A240001FB65 /* WritingViewController.xib in Resources */,
 				6C2A0DCA17EC738D007C3997 /* Default-568h@2x.png in Resources */,
 				6CEAAC8719E942C600C29CA4 /* LoginViewController.xib in Resources */,
 				6C46687F19EC13A3006E2A5C /* popular@2x.png in Resources */,
@@ -655,7 +655,7 @@
 				E8F19F62150B5DB3001008B4 /* BBSPostReader.m in Sources */,
 				F785A83919EA2C650001FB65 /* BDWMPosting.m in Sources */,
 				E8F19F7F150BC81F001008B4 /* BBSBoardReader.m in Sources */,
-				F785A83019EA2A240001FB65 /* WrittingViewController.m in Sources */,
+				F785A83019EA2A240001FB65 /* WritingViewController.m in Sources */,
 				F72939AC19EAA21800EA68ED /* MailListViewController.m in Sources */,
 				6CEAAC8A19EA82C600C29CA4 /* ProfileViewController.m in Sources */,
 				E86D93BC15273C720037F06D /* BBSFavouritesManager.m in Sources */,

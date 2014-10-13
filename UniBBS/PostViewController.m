@@ -11,7 +11,7 @@
 #import "TopicViewController.h"
 #import "BBSFavouritesManager.h"
 #import "AttachmentsViewController.h"
-#import "WrittingViewController.h"
+#import "WritingViewController.h"
 #import "WritingMailViewController.h"
 #import "BDWMUserModel.h"
 #import "BDWMAlertMessage.h"
@@ -69,7 +69,7 @@
             //check if logined
             if ([BDWMUserModel isLogined]) {
                 // reply
-                WrittingViewController *reply = [[[WrittingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
+                WritingViewController *reply = [[[WritingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
                 //Todo: the attribute replyAddress doesn't exist; maybe need a better model
                 reply.href = [self.postAttributes objectForKey:@"replyAddress"];
                 reply.fromWhere = @"reply";

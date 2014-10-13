@@ -2,12 +2,13 @@
 //  WritingViewController.h
 //  UniBBS
 //
-//  Created by Shengbin Meng on 14/10/11.
-//  Copyright (c) 2014年 Peking University. All rights reserved.
+//  Created by fanyingming on 10/12/14.
+//  Copyright (c) 2014 Peking University. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
 @interface WritingViewController : UIViewController
-
+@property (strong, nonatomic) NSString *href;
+@property (strong, nonatomic) NSString *fromWhere;
 @end
