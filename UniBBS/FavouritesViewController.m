@@ -155,7 +155,7 @@
         CGRect rect = CGRectMake(0, 0, contentWidth, MAX(size.height, 44.0f) + 40);
         cell.textLabel.frame = rect;
         cell.textLabel.numberOfLines = 0;
-        cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
+        cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
         cell.textLabel.font = font;
         cell.textLabel.text = content;
         if ([indexPath row] % 2 == 1) {
@@ -225,7 +225,7 @@
     if (buttonIndex == actionSheet.cancelButtonIndex) {
         return;
     }
-    int index = buttonIndex - actionSheet.firstOtherButtonIndex;
+    NSInteger index = buttonIndex - actionSheet.firstOtherButtonIndex;
     switch (index) {
         case 0:{
             AttachmentsViewController *attachViewController = [[[AttachmentsViewController alloc] init] autorelease];

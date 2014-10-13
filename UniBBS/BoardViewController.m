@@ -116,7 +116,7 @@
     if (buttonIndex == actionSheet.cancelButtonIndex) {
         return;
     }
-    int index = buttonIndex - actionSheet.firstOtherButtonIndex;
+    NSUInteger index = buttonIndex - actionSheet.firstOtherButtonIndex;
     switch (index) {
         case 0:{
             if ([BDWMUserModel isLogined]) {

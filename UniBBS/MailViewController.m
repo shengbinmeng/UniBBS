@@ -43,7 +43,7 @@
     if (buttonIndex == actionSheet.cancelButtonIndex) {
         return;
     }
-    int index = buttonIndex - actionSheet.firstOtherButtonIndex;
+    NSUInteger index = buttonIndex - actionSheet.firstOtherButtonIndex;
     if (actionSheet.tag == ACTION_FROM_BAR_BUTTON) {
         // action sheet form bar buttom
         switch (index) {

@@ -57,7 +57,7 @@
         return;
     }
     
-    int index = buttonIndex - actionSheet.firstOtherButtonIndex;
+    NSInteger index = buttonIndex - actionSheet.firstOtherButtonIndex;
     if (index == popType) {
         return;
     }
@@ -120,6 +120,7 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(buttonPressed)];
     self.navigationItem.rightBarButtonItem = button;
@@ -207,7 +208,7 @@
         [alert show];
         [alert release];
     }
-    int num = MIN([popularTopics count], numLimit);
+    NSInteger num = MIN([popularTopics count], numLimit);
     return num;
 }
 

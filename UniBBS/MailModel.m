@@ -31,7 +31,7 @@
     //The code below collect all message, includeing reply, quote, signature and otherthings else.
     //We must make sure every object added is not nil.
     NSArray *child = e.children;
-    NSLog(@"child:%i",child.count);
+    NSLog(@"child:%lu",(unsigned long)child.count);
     for (int i=0; i<child.count; i++) {
         TFHppleElement *ee = [child objectAtIndex:i];
         if ([ee content]==nil) {//surround by <span>, like quote.

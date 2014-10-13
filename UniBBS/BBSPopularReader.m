@@ -53,8 +53,8 @@
 
         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:NULL];
         NSArray *matches = [regex matchesInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
-        int c = [matches count];
-        int num = MIN(c, 100);
+        NSUInteger c = [matches count];
+        NSUInteger num = MIN(c, 100);
         NSString *boardName, *boardDesc, *author, *time, *threadID, *title, *address;
         for (int i = 0; i < num; ++i) {
             NSMutableDictionary *topic = [[NSMutableDictionary alloc] init];

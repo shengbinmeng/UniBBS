@@ -50,7 +50,7 @@
 #endif
         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"bbs(xboa|top).php.(group|board)=([^\"]*)\">([^<]*)</a>" options:0 error:NULL];
         NSArray *matches = [regex matchesInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
-        int c = [matches count];
+        NSUInteger c = [matches count];
         
         NSString *name, *description, *groupID;
         for (int i = 0; i < c - 1; ++i) {

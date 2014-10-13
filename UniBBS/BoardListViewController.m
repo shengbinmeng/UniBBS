@@ -34,7 +34,6 @@
 
 - (void) dealloc
 {
-    [self viewDidUnload];
     self.boardExplorer = nil;
     self.boardList = nil;
     self.listAddress = nil;
@@ -64,7 +63,7 @@
     if (buttonIndex == actionSheet.cancelButtonIndex) {
         return;
     }
-    int index = buttonIndex - actionSheet.firstOtherButtonIndex;
+    NSInteger index = buttonIndex - actionSheet.firstOtherButtonIndex;
    
     switch (index) {
         case 0:

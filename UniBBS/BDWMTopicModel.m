@@ -85,7 +85,7 @@
     doc = [[TFHpple alloc] initWithHTMLData:htmlDataUTF8];
     
     NSArray *news = [doc searchWithXPathQuery:@"//table[@class='doc']"];
-    NSLog(@"news COUNT: %d", news.count);
+    NSLog(@"news COUNT: %lu", (unsigned long)news.count);
     
     //get every cell's content by cell index.
     //we should find all message, includeing messages below quotes.
@@ -102,7 +102,7 @@
         //The code below collect all message, includeing reply, quote, signature and otherthings else.
         //We must make sure every object added is not nil.
         NSArray *child = e.children;
-        NSLog(@"child:%i",child.count);
+        NSLog(@"child:%lu",(unsigned long)child.count);
         for (int i=0; i<child.count; i++) {
             TFHppleElement *ee = [child objectAtIndex:i];
             if ([ee content]==nil) {//surround by <span>, like quote.
