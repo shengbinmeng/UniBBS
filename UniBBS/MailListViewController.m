@@ -32,7 +32,6 @@
 }
 
 - (void)reload:(__unused id)sender {
-    self.navigationItem.rightBarButtonItem.enabled = NO;
     
     self.userName = [BDWMUserModel getLoginUser];
     if (self.userName == nil) {

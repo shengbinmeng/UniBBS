@@ -10,7 +10,8 @@
 #import "TopicViewController.h"
 #import "BBSPopularReader.h"
 #import "EGORefreshTableHeaderView.h"
-
+#import "BDWMUserModel.h"
+#import "BDWMAlertMessage.h"
 @implementation PopularTopicsViewController {
     EGORefreshTableHeaderView *_refreshHeaderView;
     BOOL _reloading; 
@@ -170,6 +171,13 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    if (NO==[BDWMUserModel isLogined]) {
+        NSDictionary *dic = [BDWMUserModel loadSavedUserNameAndPassword];
+        if (dic!=nil) {
+            //todo: more friendly.
+            [BDWMAlertMessage alertMessage:@"登录成功！"];
+        }
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated

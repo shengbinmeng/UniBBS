@@ -60,9 +60,13 @@
 }
 
 - (void)loadSavedUserData {
-    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-    NSString *username = [userDefaultes stringForKey:@"saved_username"];
-    NSString *password = [userDefaultes stringForKey:@"saved_password"];
+    NSDictionary *dic = [BDWMUserModel loadSavedUserNameAndPassword];
+    if (dic==nil) {
+        return;
+    }
+    
+    NSString *username = [dic objectForKey:@"saved_username"];
+    NSString *password = [dic objectForKey:@"saved_password"];
     
     if (username) {
         self.userNameTextField.text = username;

@@ -22,6 +22,25 @@ static NSString *loginUser = nil;
     return loginUser;
 }
 
++ (NSDictionary *)loadSavedUserNameAndPassword{
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+    NSString *userName = [userDefaultes stringForKey:@"saved_username"];
+    NSString *password = [userDefaultes stringForKey:@"saved_password"];
+    
+    if (userName==nil || password==nil) {
+        return nil;
+    }
+    
+    [dic setObject:userName forKey:@"saved_username"];
+    [dic setObject:password forKey:@"saved_password"];
+    
+    logined = YES;
+    loginUser = userName;
+    
+    return dic;
+}
+
 /**
  *  Logout - Just clean the cookies
  */
@@ -31,8 +50,7 @@ static NSString *loginUser = nil;
         [storage deleteCookie:cookie];
     }
     [self deleteUsernameAndPassword];
-    logined = NO;
-    loginUser = nil;
+    
 }
 
 + (void)deleteUsernameAndPassword {
@@ -40,6 +58,9 @@ static NSString *loginUser = nil;
     [userDefaultes removeObjectForKey:@"saved_username"];
     [userDefaultes removeObjectForKey:@"saved_password"];
     [userDefaultes synchronize];
+    
+    logined = NO;
+    loginUser = nil;
 }
 
 + (void)saveUsernameAndPassword:(NSString *)userName userPassword:(NSString *)userPassword {
@@ -47,6 +68,9 @@ static NSString *loginUser = nil;
     [userDefaultes setObject:userName forKey:@"saved_username"];
     [userDefaultes setObject:userPassword forKey:@"saved_password"];
     [userDefaultes synchronize];
+    
+    logined = YES;
+    loginUser = userName;
 }
 
 + (NSURLSessionDataTask *) checkLogin:(NSString *)UserName userPass:(NSString *)UserPass blockFunction:(void (^)(NSString *name, NSError *error))block
@@ -63,8 +87,7 @@ static NSString *loginUser = nil;
             
             NSLog(@"Login success!");
             [BDWMUserModel saveUsernameAndPassword:UserName userPassword:UserPass];
-            logined = YES;
-            loginUser = [UserName retain];
+            
 
             if (block) {
                 block(UserName, nil);

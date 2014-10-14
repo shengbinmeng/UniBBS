@@ -27,6 +27,10 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void) backButtonPressed{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nil bundle:nil];
     
@@ -42,9 +46,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"注销" style:UIBarButtonItemStyleBordered target:self action:@selector(logoutButtonPressed)];
+    self.navigationItem.rightBarButtonItem = button;
+    [button release];
+    //always back to profile view.
+    button = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed)];
     self.navigationItem.leftBarButtonItem = button;
     [button release];
     
+    self.userName = [BDWMUserModel getLoginUser];
     NSMutableDictionary *userInfoDict = [BDWMUserModel LoadUserInfo:self.userName];
     self.userNameLabel.text = [userInfoDict objectForKey:@"userName"];
     self.loginTimesLabel.text = [userInfoDict objectForKey:@"loginTimes"];

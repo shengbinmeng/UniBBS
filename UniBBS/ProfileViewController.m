@@ -10,6 +10,9 @@
 #import "LoginViewController.h"
 #import "FavouritesViewController.h"
 #import "MailListViewController.h"
+#import "BDWMUserModel.h"
+#import "BDWMAlertMessage.h"
+#import "UserInfoViewController.h"
 
 @interface ProfileViewController ()
 
@@ -67,7 +70,16 @@
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"] autorelease];
         }
         if ([indexPath row] == 0) {
-            [cell.textLabel setText:@"账号登录"];
+            NSString *cellContent = [[NSString alloc] init];
+            if ([BDWMUserModel isLogined]) {
+                cellContent = [BDWMUserModel getLoginUser];
+                if (cellContent==nil || cellContent.length==0) {
+                    [BDWMAlertMessage alertMessage:@"你是谁啊."];
+                }
+            }else{
+                cellContent = @"账号登录";
+            }
+            [cell.textLabel setText:cellContent];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         return cell;
@@ -116,8 +128,15 @@
     
     if ([indexPath section] == 0) {
         if ([indexPath row] == 0) {
-            LoginViewController *login = [[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] autorelease];
-            [self.navigationController pushViewController:login animated:YES];
+            //segue to appropriate view.
+            if ([BDWMUserModel isLogined]) {
+                UserInfoViewController *userInfo = [[[UserInfoViewController alloc] initWithNibName:@"UserInfoViewController" bundle:nil] autorelease];
+                [self.navigationController pushViewController:userInfo animated:YES];
+            }else{
+                LoginViewController *login = [[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] autorelease];
+                [self.navigationController pushViewController:login animated:YES];
+            }
+            
             return;
         }
     }
@@ -129,8 +148,12 @@
             return;
         }
         if ([indexPath row] == 1) {
-            MailListViewController *mailListViewController = [[[MailListViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
-            [self.navigationController pushViewController:mailListViewController animated:YES];
+            if ([BDWMUserModel isLogined]){
+                MailListViewController *mailListViewController = [[[MailListViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+                [self.navigationController pushViewController:mailListViewController animated:YES];
+            }else{
+                [BDWMAlertMessage alertMessage:@"登录以后才能查看站内信。"];
+            }
             return;
         }
     }
