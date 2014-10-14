@@ -13,6 +13,49 @@
 #import "TFHpple.h"
 @implementation MailModel
 
++ (NSMutableDictionary *)loadReplyMailNeed:(NSString *)href{
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    NSString *url = [BDWMString linkString:BDWM_PREFIX string:href];
+    
+    TFHpple * doc;
+    NSData *htmlData = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+    
+    NSData *htmlDataUTF8 = [BDWMString DataConverse_GB2312_to_UTF8:htmlData];
+    
+    doc = [[TFHpple alloc] initWithHTMLData:htmlDataUTF8];
+    NSArray *arr = [doc searchWithXPathQuery:@"//form[@name='frmpost']//table[@class='post']//tr"];
+
+    if (arr.count<MAIL_REPLY_TABLE_TR_NUMBER) {
+        return nil;
+    }
+    
+    //parse username and signature.
+    TFHppleElement *e = [arr objectAtIndex:0];
+    NSArray *arr_tr = [e searchWithXPathQuery:@"//input[@name='to']"];
+    TFHppleElement *ee = [arr_tr objectAtIndex:0];
+    NSString *recever = [ee objectForKey:@"value"];
+    [dict setObject:recever forKey:@"to"];
+    //Todo: handle signature in later version.
+    
+    //parse title and quote type
+    e = [arr objectAtIndex:1];
+    arr_tr = [e searchWithXPathQuery:@"//input[@name='title']"];
+    ee = [arr_tr objectAtIndex:0];
+    NSString *title = [ee objectForKey:@"value"];
+    [dict setObject:title forKey:@"title"];
+    //Todo: handle quote type in later version.
+
+    //parse content.
+    e = [arr objectAtIndex:2];
+    arr_tr = [e searchWithXPathQuery:@"//textarea[@name='text']"];
+    ee = [arr_tr objectAtIndex:0];
+    NSString *content = [ee objectForKey:@"value"];
+    [dict setObject:content forKey:@"content"];
+    
+    return dict;
+}
+
+//Press view button when view mails.
 + (NSDictionary *)loadMailByhref:(NSString *)href{
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     NSString *url = [BDWMString linkString:BDWM_PREFIX string:href];
@@ -60,7 +103,11 @@
     NSLog(@"content:%@",content);
     
     //parse reply mail link
-    arr = [doc searchWithXPathQuery:@"//table[@class='foot']//tr"];
+    arr = [doc searchWithXPathQuery:@"//table[@class='foot']/tbody/tr"];
+    if (arr.count<MAIL_DETAIL_FOOTER_ELEMENT_NUMBER) {
+        return nil;
+    }
+    
     e = [arr objectAtIndex:3];
     NSArray *reply = [e searchWithXPathQuery:@"//th[@class='foot']//a"];
     if (reply.count<=0) {//no reply link, means didn't login or something.

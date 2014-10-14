@@ -16,12 +16,13 @@
 #define BDWM_COMPOSE_SUFFIX             @"bbssnd.php"
 #define BDWM_SEND_MAIL_SUFFIX           @"bbspsm.php"
 #define BDWM_MAIL_LIST_SUFFIX           @"bbsmil.php"
-
+#define BDWM_REPLY_MAIL_SUFFIX          @"bbssdm.php"
 //some magic number
 #define PLATE_ELEMENT_NUMBER            8
 #define TOPIC_ELEMENT_NUMBER            6
 #define MAIL_LIST_ELEMENT_NUMBER        6
-
+#define MAIL_REPLY_TABLE_TR_NUMBER      4
+#define MAIL_DETAIL_FOOTER_ELEMENT_NUMBER   7
 //others
 //#define DEFAULT_USET_AGENT @"5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16"
 #define DEFAULT_USET_AGENT @"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36"
