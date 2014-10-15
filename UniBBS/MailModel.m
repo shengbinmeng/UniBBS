@@ -49,7 +49,7 @@
     e = [arr objectAtIndex:2];
     arr_tr = [e searchWithXPathQuery:@"//textarea[@name='text']"];
     ee = [arr_tr objectAtIndex:0];
-    NSString *content = [ee objectForKey:@"value"];
+    NSString *content = [ee text];
     [dict setObject:content forKey:@"content"];
     
     return dict;
@@ -103,12 +103,20 @@
     NSLog(@"content:%@",content);
     
     //parse reply mail link
-    arr = [doc searchWithXPathQuery:@"//center/table[@class='foot']/*/tr"];
-    if (arr.count<MAIL_DETAIL_FOOTER_ELEMENT_NUMBER) {
+    arr = [doc searchWithXPathQuery:@"//center/table[@class='foot']//table[@class='foot']"];
+    
+    if (arr.count==MAIL_DETAIL_FOOTER_ELEMENT_NUMBER) {
+        e = [arr objectAtIndex:3];
+    }else if(arr.count==MAIL_DETAIL_FOOTER_ELEMENT_NUMBER-1){
+        e = [arr objectAtIndex:2];//no previous page or next page
+    }else if(arr.count==MAIL_DETAIL_FOOTER_ELEMENT_NUMBER-2){
+        //only one mail.
+        e = [arr objectAtIndex:1];
+    }else{
         return nil;
     }
     
-    e = [arr objectAtIndex:3];
+    
     NSArray *reply = [e searchWithXPathQuery:@"//th[@class='foot']//a"];
     if (reply.count<=0) {//no reply link, means didn't login or something.
         [dict setValue:@"" forKey:@"reply_href"];

@@ -112,7 +112,9 @@
 {
     NSDictionary *mail = [self.mails objectAtIndex:[indexPath row]];
     MailViewController * mailViewController = [[MailViewController alloc] initWithNibName:@"MailViewController" bundle:nil];
+    
     mailViewController.href = [mail objectForKey:@"href"];
+    NSLog(@"mail reply href:%@",mailViewController.href);
     [self.navigationController pushViewController:mailViewController animated:YES];
     [mailViewController release];
 }
