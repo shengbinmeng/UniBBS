@@ -28,6 +28,10 @@
     
     dic = self.replyDict;
     
+    [dic setObject:self.toTextField.text forKey:@"to"];
+    [dic setObject:self.titleTextField.text forKey:@"title"];
+    [dic setObject:self.contentTextView.text forKey:@"text"];
+    
     NSString *url = [BDWMString linkString:BDWM_PREFIX string:BDWM_REPLY_MAIL_SUFFIX];
     [[AFAppDotNetAPIClient sharedClient] POST:url parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         
@@ -49,7 +53,7 @@
         self.replyDict = [MailModel loadReplyMailNeed:self.href];
         self.toTextField.text = [self.replyDict objectForKey:@"to"];
         self.titleTextField.text = [self.replyDict objectForKey:@"title"];
-        self.contentTextView.text = [self.replyDict objectForKey:@"content"];
+        self.contentTextView.text = [self.replyDict objectForKey:@"text"];
     }
     
 }

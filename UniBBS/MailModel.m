@@ -54,7 +54,7 @@
     arr_tr = [e searchWithXPathQuery:@"//textarea[@name='text']"];
     ee = [arr_tr objectAtIndex:0];
     NSString *content = [ee text];
-    [dict setObject:content forKey:@"content"];
+    [dict setObject:content forKey:@"text"];
     
     //parse some hidden input.
     arr = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='id']"];
