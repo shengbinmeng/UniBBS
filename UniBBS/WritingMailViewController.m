@@ -23,7 +23,8 @@
 
 @implementation WritingMailViewController
 
-- (IBAction)sendMailButtonPressed:(id)sender {
+- (void)doReply
+{
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
     
     dic = self.replyDict;
@@ -45,12 +46,43 @@
     }];
 }
 
+- (void)doCompose
+{
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    
+    dic = [MailModel loadComposeMailNeededData];
+    
+    [dic setObject:self.toTextField.text forKey:@"to"];
+    [dic setObject:self.titleTextField.text forKey:@"title"];
+    [dic setObject:self.contentTextView.text forKey:@"text"];
+    
+    NSString *url = [BDWMString linkString:BDWM_PREFIX string:BDWM_REPLY_MAIL_SUFFIX];
+    [[AFAppDotNetAPIClient sharedClient] POST:url parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSLog(@"compose mail success!");
+        //Todo: segue to mail list view.
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"compose mail failed!");
+        [BDWMAlertMessage alertMessage:@"发送失败"];
+    }];
+}
+
+- (IBAction)sendMailButtonPressed:(id)sender {
+    if (self.href != nil) {//reply mode
+        [self doReply];
+    }else{
+        [self doCompose];
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
     if (self.href != nil) {//reply mode
-        self.replyDict = [MailModel loadReplyMailNeed:self.href];
+        self.replyDict = [MailModel loadReplyMailNeededData:self.href];
         self.toTextField.text = [self.replyDict objectForKey:@"to"];
         self.titleTextField.text = [self.replyDict objectForKey:@"title"];
         self.contentTextView.text = [self.replyDict objectForKey:@"text"];

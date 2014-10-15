@@ -13,7 +13,39 @@
 #import "TFHpple.h"
 @implementation MailModel
 
-+ (NSMutableDictionary *)loadReplyMailNeed:(NSString *)href{
++ (NSMutableDictionary *)loadComposeMailNeededData
+{
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    
+     NSString *url = [BDWMString linkString:BDWM_PREFIX string:BDWM_COMPOSE_MAIL_SUFFIX];
+    TFHpple * doc;
+    NSData *htmlData = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+    
+    NSData *htmlDataUTF8 = [BDWMString DataConverse_GB2312_to_UTF8:htmlData];
+    doc = [[TFHpple alloc] initWithHTMLData:htmlDataUTF8];
+    
+    NSArray *arr = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='id']"];
+    TFHppleElement *e = [arr objectAtIndex:0];
+    NSString *id = [e objectForKey:@"value"];
+    [dict setObject:id forKey:@"id"];
+    
+    arr = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='code']"];
+    e = [arr objectAtIndex:0];
+    NSString *code = [e objectForKey:@"value"];
+    [dict setObject:code forKey:@"code"];
+    
+    arr = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='boardmail']"];
+    e = [arr objectAtIndex:0];
+    NSString *boardmail = [e objectForKey:@"value"];
+    [dict setObject:boardmail forKey:@"boardmail"];
+    
+    [dict setObject:@"0" forKey:@"signature"];
+    [dict setObject:@"1" forKey:@"backup"];
+    
+    return dict;
+}
+
++ (NSMutableDictionary *)loadReplyMailNeededData:(NSString *)href{
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     NSString *url = [BDWMString linkString:BDWM_PREFIX string:href];
     
