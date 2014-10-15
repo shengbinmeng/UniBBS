@@ -16,7 +16,6 @@
 + (BOOL)checkUserName:(TFHpple *)doc UserName:(NSString *)user_name;
 + (NSURLSessionDataTask *) checkLogin:(NSString *)UserName userPass:(NSString *)UserPass blockFunction:(void (^)(NSString *name, NSError *error))block;
 + (NSMutableDictionary *)LoadUserInfo:(NSString *)userName;
-+ (NSDictionary *)loadSavedUserNameAndPassword;
 
 + (BOOL) isLogined;
 + (NSString*) getLoginUser;

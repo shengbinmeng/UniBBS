@@ -22,24 +22,6 @@ static NSString *loginUser = nil;
     return loginUser;
 }
 
-+ (NSDictionary *)loadSavedUserNameAndPassword{
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-    NSString *userName = [userDefaultes stringForKey:@"saved_username"];
-    NSString *password = [userDefaultes stringForKey:@"saved_password"];
-    
-    if (userName==nil || password==nil) {
-        return nil;
-    }
-    
-    [dic setObject:userName forKey:@"saved_username"];
-    [dic setObject:password forKey:@"saved_password"];
-    
-    logined = YES;
-    loginUser = userName;
-    
-    return dic;
-}
 
 /**
  *  Logout - Just clean the cookies

@@ -171,12 +171,21 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
     if (NO==[BDWMUserModel isLogined]) {
-        NSDictionary *dic = [BDWMUserModel loadSavedUserNameAndPassword];
-        if (dic!=nil) {
-            //todo: more friendly.
-            [BDWMAlertMessage alertMessage:@"登录成功！"];
-        }
+        NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+        NSString *userName = [userDefaultes stringForKey:@"saved_username"];
+        NSString *password = [userDefaultes stringForKey:@"saved_password"];
+        
+        [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
+            if ( !error && name!=nil ) {
+                [BDWMAlertMessage alertMessage:@"登录成功！"];
+                
+            }else{
+
+            }
+        }];
+
     }
 }
 

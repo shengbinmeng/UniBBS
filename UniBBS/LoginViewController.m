@@ -59,27 +59,9 @@
     }];
 }
 
-- (void)loadSavedUserData {
-    NSDictionary *dic = [BDWMUserModel loadSavedUserNameAndPassword];
-    if (dic==nil) {
-        return;
-    }
-    
-    NSString *username = [dic objectForKey:@"saved_username"];
-    NSString *password = [dic objectForKey:@"saved_password"];
-    
-    if (username) {
-        self.userNameTextField.text = username;
-        if (password) {
-            self.userPasswordTextField.text = password;
-        }
-    }
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [self loadSavedUserData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

@@ -55,7 +55,7 @@
     return dict;
 }
 
-//Press view button when view mails.
+//Press view button when view mail list.
 + (NSDictionary *)loadMailByhref:(NSString *)href{
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     NSString *url = [BDWMString linkString:BDWM_PREFIX string:href];
@@ -103,7 +103,7 @@
     NSLog(@"content:%@",content);
     
     //parse reply mail link
-    arr = [doc searchWithXPathQuery:@"//table[@class='foot']/tbody/tr"];
+    arr = [doc searchWithXPathQuery:@"//center/table[@class='foot']/*/tr"];
     if (arr.count<MAIL_DETAIL_FOOTER_ELEMENT_NUMBER) {
         return nil;
     }
