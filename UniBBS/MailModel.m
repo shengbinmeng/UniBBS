@@ -100,9 +100,11 @@
     [dict setObject:code forKey:@"code"];
     
     arr = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='num']"];
-    e = [arr objectAtIndex:0];
-    NSString *num = [e objectForKey:@"value"];
-    [dict setObject:num forKey:@"num"];
+    if (arr.count != 0) {
+        e = [arr objectAtIndex:0];
+        NSString *num = [e objectForKey:@"value"];
+        [dict setObject:num forKey:@"num"];
+    }
     
     arr = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='boardmail']"];
     e = [arr objectAtIndex:0];

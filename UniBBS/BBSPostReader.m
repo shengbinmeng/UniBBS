@@ -109,6 +109,22 @@
             [postAttributes setValue:[NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", sameTopic] forKey:@"sameTopicAddress"];
         }
         
+        regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"bbspst.php.board=([^\"]*)\">回复</a>" options:0 error:NULL];
+        r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
+        range = [r rangeAtIndex:1];
+        if (r && range.length) {
+            NSString *str = [pageSource substringWithRange:range];
+            [postAttributes setValue:[NSString stringWithFormat:@"bbspst.php?board=%@", str] forKey:@"replyAddress"];
+        }
+
+        regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"bbspsm.php.board=([^\"]*)\">写信给作者</a>" options:0 error:NULL];
+        r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
+        range = [r rangeAtIndex:1];
+        if (r && range.length) {
+            NSString *str = [pageSource substringWithRange:range];
+            [postAttributes setValue:[NSString stringWithFormat:@"bbspsm.php?board=%@", str] forKey:@"replyMailAddress"];
+        }
+        
     }
         
     [pool drain];

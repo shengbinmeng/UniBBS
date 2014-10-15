@@ -78,12 +78,18 @@
             } else {
                 attachRange = NSMakeRange(range.location, next.location - range.location);
             }
-             
+            
             regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"bbspst.php.board=([^\"]*)\">回文章</a>" options:0 error:NULL];
             NSTextCheckingResult *m = [regex firstMatchInString:pageSource options:0 range:attachRange];
             NSString *str = [pageSource substringWithRange:[m rangeAtIndex:1]];
             NSString *address = [NSString stringWithFormat:@"bbspst.php?board=%@", str];
             [post setValue:address forKey:@"replyAddress"];
+            
+            regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"bbspsm.php.board=([^\"]*)\">回信给作者</a>" options:0 error:NULL];
+            m = [regex firstMatchInString:pageSource options:0 range:attachRange];
+            str = [pageSource substringWithRange:[m rangeAtIndex:1]];
+            address = [NSString stringWithFormat:@"bbspsm.php?board=%@", str];
+            [post setValue:address forKey:@"replyMailAddress"];
             
             regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"(http://attach..bdwm.net/[^\"]*)\"[^>]*>([^<]*)</a>" options:0 error:NULL];
             NSArray *result = [regex matchesInString:pageSource options:0 range:attachRange];

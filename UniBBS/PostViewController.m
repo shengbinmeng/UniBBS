@@ -70,7 +70,7 @@
             if ([BDWMUserModel isLogined]) {
                 // reply
                 WritingViewController *reply = [[[WritingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
-                //Todo: the attribute replyAddress doesn't exist; maybe need a better model
+
                 reply.href = [self.postAttributes objectForKey:@"replyAddress"];
                 reply.fromWhere = @"reply";
                 [self.navigationController pushViewController:reply animated:YES];
@@ -84,7 +84,8 @@
         case 1:{
             if ([BDWMUserModel isLogined]) {
                 // reply mail
-                WritingMailViewController *mail = [[[WritingMailViewController alloc] initWithNibName:@"MailViewController" bundle:nil] autorelease];
+                WritingMailViewController *mail = [[[WritingMailViewController alloc] initWithNibName:@"WritingMailViewController" bundle:nil] autorelease];
+                mail.href = [self.postAttributes objectForKey:@"replyMailAddress"];
                 [self.navigationController pushViewController:mail animated:YES];
             }else{
                 //did not logined
@@ -95,11 +96,13 @@
         }
         case 2:{
             // add to favourites
-            NSDictionary *postInfo = [[NSDictionary alloc] init];
+            //Todo: support this.
+    /*        NSDictionary *postInfo = [[NSDictionary alloc] init];
             [postInfo setValue:[postAttributes valueForKey:@"content"] forKey:@"content"];
             [postInfo setValue:[postAttributes valueForKey:@"attachments"] forKey:@"attachments"];
             [[BBSFavouritesManager favouritePosts] addObject:postInfo];
             [postInfo release];
+     */
             break;
         }
         case 3:{

@@ -170,6 +170,8 @@
                  if ([BDWMUserModel isLogined]) {
                      // reply mail
                      WritingMailViewController *mail = [[[WritingMailViewController alloc] initWithNibName:@"WritingMailViewController" bundle:nil] autorelease];
+                     NSDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+                     mail.href = [post objectForKey:@"replyMailAddress"];
                      [self.navigationController pushViewController:mail animated:YES];
                  }else{
                      //did not logined
