@@ -8,6 +8,12 @@
 
 #import "WritingMailViewController.h"
 #import "MailModel.h"
+#import "BDWMGlobalData.h"
+#import "BDWMString.h"
+#import "AFAppDotNetAPIClient.h"
+#import "BDWMAlertMessage.h"
+#import "MailListViewController.h"
+
 @interface WritingMailViewController ()
 @property (retain, nonatomic) IBOutlet UITextField *toTextField;
 @property (retain, nonatomic) IBOutlet UITextField *titleTextField;
@@ -16,6 +22,24 @@
 @end
 
 @implementation WritingMailViewController
+
+- (IBAction)sendMailButtonPressed:(id)sender {
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    
+    dic = self.replyDict;
+    
+    NSString *url = [BDWMString linkString:BDWM_PREFIX string:BDWM_REPLY_MAIL_SUFFIX];
+    [[AFAppDotNetAPIClient sharedClient] POST:url parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSLog(@"Reply mail success!");
+        //Todo: segue to mail list view.
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"Reply mail failed!");
+        [BDWMAlertMessage alertMessage:@"回复失败"];
+    }];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

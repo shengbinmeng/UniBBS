@@ -37,6 +37,10 @@
     [dict setObject:recever forKey:@"to"];
     //Todo: handle signature in later version.
     
+    [dict setObject:@"0" forKey:@"signature"];
+    [dict setObject:@"1" forKey:@"modeselect"];
+    [dict setObject:@"1" forKey:@"backup"];
+    
     //parse title and quote type
     e = [arr objectAtIndex:1];
     arr_tr = [e searchWithXPathQuery:@"//input[@name='title']"];
@@ -51,6 +55,27 @@
     ee = [arr_tr objectAtIndex:0];
     NSString *content = [ee text];
     [dict setObject:content forKey:@"content"];
+    
+    //parse some hidden input.
+    arr = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='id']"];
+    e = [arr objectAtIndex:0];
+    NSString *id = [e objectForKey:@"value"];
+    [dict setObject:id forKey:@"id"];
+    
+    arr = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='code']"];
+    e = [arr objectAtIndex:0];
+    NSString *code = [e objectForKey:@"value"];
+    [dict setObject:code forKey:@"code"];
+    
+    arr = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='num']"];
+    e = [arr objectAtIndex:0];
+    NSString *num = [e objectForKey:@"value"];
+    [dict setObject:num forKey:@"num"];
+    
+    arr = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='boardmail']"];
+    e = [arr objectAtIndex:0];
+    NSString *boardmail = [e objectForKey:@"value"];
+    [dict setObject:boardmail forKey:@"boardmail"];
     
     return dict;
 }
