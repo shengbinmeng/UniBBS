@@ -41,6 +41,29 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+- (void) displayMore
+{
+    if (topicMode) {
+        NSMutableArray *topics = self.boardTopics;
+        [topics addObjectsFromArray:[self.boardReader readPreviousPage]];
+        if(topics != nil && topics.count > 0) {
+            self.boardTopics = topics;
+            [self.tableView reloadData];
+        } else {
+            [BDWMAlertMessage alertMessage:@"没有啦～"];
+        }
+    } else {
+        NSMutableArray *posts = self.boardPosts;
+        [posts addObjectsFromArray:[self.boardReader readPreviousPage]];
+        if(posts != nil && posts.count > 0) {
+            self.boardPosts = posts;
+            [self.tableView reloadData];
+        } else {
+           [BDWMAlertMessage alertMessage:@"没有啦～"];
+        }
+    }
+}
+
 - (void) displayNextPage
 {
     if (topicMode) {
@@ -204,13 +227,22 @@
     [self.tableView setTableHeaderView:button2];
      */
     
-    UIToolbar *toolBar = [[[UIToolbar alloc] initWithFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)] autorelease];
-    UIBarButtonItem *prev = [[[UIBarButtonItem alloc] initWithTitle:@"上一页" style:UIBarButtonItemStyleBordered target:self action:@selector(displayPreviousPage)] autorelease];
-    UIBarButtonItem *next = [[[UIBarButtonItem alloc] initWithTitle:@"下一页" style:UIBarButtonItemStyleBordered target:self action:@selector(displayNextPage)] autorelease];
-    UIBarButtonItem *space = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
-    NSArray *toolbarItems = [NSArray arrayWithObjects: prev, space, next, nil];
-    [toolBar setItems:toolbarItems];
-    [self.tableView setTableFooterView:toolBar];
+//    UIToolbar *toolBar = [[[UIToolbar alloc] initWithFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)] autorelease];
+//    UIBarButtonItem *prev = [[[UIBarButtonItem alloc] initWithTitle:@"上一页" style:UIBarButtonItemStyleBordered target:self action:@selector(displayPreviousPage)] autorelease];
+//    UIBarButtonItem *next = [[[UIBarButtonItem alloc] initWithTitle:@"下一页" style:UIBarButtonItemStyleBordered target:self action:@selector(displayNextPage)] autorelease];
+//    UIBarButtonItem *more = [[[UIBarButtonItem alloc] initWithTitle:@"更多" style:UIBarButtonItemStyleBordered target:self action:@selector(displayMore)] autorelease];
+////    UIBarButtonItem *space = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
+//    NSArray *toolbarItems = [NSArray arrayWithObjects: prev, more, next, nil];
+//    [toolBar setItems:toolbarItems];
+//    [self.tableView setTableFooterView:toolBar];
+    
+    
+    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button1 setTitle:@"更多" forState:UIControlStateNormal];
+    [button1 setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
+    [button1 addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventTouchUpInside];
+    [self.tableView setTableFooterView:button1];
+
     
     if (self.boardReader == nil) {
         BBSBoardReader *reader = [[BBSBoardReader alloc] initWithBoardName:self.boardName];
