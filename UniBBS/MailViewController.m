@@ -27,6 +27,10 @@
     self.navigationItem.rightBarButtonItem = barButton;
     
     self.mail = [MailModel loadMailByhref:self.href];
+    if(self.mail==nil){
+        NSLog(@"error: can't get mail.");
+        [self.navigationController popViewControllerAnimated:YES];
+    }
     self.mailContentTextView.text = [self.mail objectForKey:@"content"];
 }
 
@@ -54,7 +58,9 @@
                 break;
             }
             case 1:{//delete
-                
+                NSString *delHref = [self.mail objectForKey:@"delete_href"];
+                [MailModel deleteMailByHref:delHref];
+                [self.navigationController popViewControllerAnimated:YES];
                 break;
             }
             default:

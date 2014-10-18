@@ -80,6 +80,7 @@
             }
             
             regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"bbspst.php.board=([^\"]*)\">回文章</a>" options:0 error:NULL];
+            
             NSTextCheckingResult *m = [regex firstMatchInString:pageSource options:0 range:attachRange];
             NSString *str = [pageSource substringWithRange:[m rangeAtIndex:1]];
             NSString *address = [NSString stringWithFormat:@"bbspst.php?board=%@", str];

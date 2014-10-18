@@ -127,6 +127,10 @@
     
     doc = [[TFHpple alloc] initWithHTMLData:htmlDataUTF8];
     NSArray *arr = [doc searchWithXPathQuery:@"//table[@class='doc']//td[@class='doc']//pre"];
+    if (arr.count == 0) {
+        return nil;
+    }
+    
     TFHppleElement *e = [arr objectAtIndex:0];
     
     //The code below may be some what complicated, but very useful.
@@ -162,20 +166,22 @@
     NSLog(@"content:%@",content);
     
     //parse reply mail link
+    int index=-1;
     arr = [doc searchWithXPathQuery:@"//center/table[@class='foot']//table[@class='foot']"];
     
     if (arr.count==MAIL_DETAIL_FOOTER_ELEMENT_NUMBER) {
-        e = [arr objectAtIndex:3];
+        index = 3;
     }else if(arr.count==MAIL_DETAIL_FOOTER_ELEMENT_NUMBER-1){
-        e = [arr objectAtIndex:2];//no previous page or next page
+        //no previous page or next page
+        index = 2;
     }else if(arr.count==MAIL_DETAIL_FOOTER_ELEMENT_NUMBER-2){
         //only one mail.
-        e = [arr objectAtIndex:1];
+        index = 1;
     }else{
         return nil;
     }
     
-    
+    e = [arr objectAtIndex:index];
     NSArray *reply = [e searchWithXPathQuery:@"//th[@class='foot']//a"];
     if (reply.count<=0) {//no reply link, means didn't login or something.
         [dict setValue:@"" forKey:@"reply_href"];
@@ -184,6 +190,24 @@
         NSString *reply_href = [reply_link objectForKey:@"href"];
         [dict setValue:reply_href forKey:@"href"];
     }
+    
+    //parse delete href.
+    e = [arr objectAtIndex:index+1];
+    NSArray *del = [e searchWithXPathQuery:@"//th[@class='foot']//a"];
+    if (del.count<=0) {
+        [dict setValue:@"" forKey:@"delete_href"];
+    }else{
+        TFHppleElement *del_link = [del objectAtIndex:0];
+        NSString *del_href = [del_link objectForKey:@"onclick"];
+        //To do: not a good regular expression.
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"bbsmdel.php.file.*\'" options:0 error:NULL];
+        NSTextCheckingResult *m = [regex firstMatchInString:del_href options:0 range:NSMakeRange(0, [del_href length])];
+        NSString *str = [del_href substringWithRange:[m rangeAtIndex:0]];
+        str = [str substringWithRange:NSMakeRange(0, [str length]-1)];
+        [dict setValue:str forKey:@"delete_href"];
+    }
+
+    
     
     [dict setValue:content forKey:@"content"];
     return dict;
@@ -252,6 +276,12 @@
     }
     
     return results;
+}
+
++ (NSURLSessionDataTask *)deleteMailByHref:(NSString *)href{
+    NSString *url = [BDWMString linkString:BDWM_PREFIX string:href];
+    
+    return [[AFAppDotNetAPIClient sharedClient] GET:url parameters:nil success:nil failure:nil];
 }
 
 @end

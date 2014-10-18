@@ -14,4 +14,5 @@
 + (NSDictionary *)loadMailByhref:(NSString *)href;
 + (NSMutableDictionary *)loadReplyMailNeededData:(NSString *)href;
 + (NSMutableDictionary *)loadComposeMailNeededData;
++ (NSURLSessionDataTask *)deleteMailByHref:(NSString *)href;
 @end
