@@ -159,6 +159,7 @@
         case 1:
             topicMode = !topicMode;
             self.boardReader.dataAddress = nil;
+            self.boardReader.showSticky = YES;
             if (topicMode) {
                 self.boardTopics = [self.boardReader readBoardTopics];
             } else {
@@ -166,14 +167,6 @@
             }
             break;
         case 2:
-            self.boardReader.showSticky = !(self.boardReader.showSticky);
-            if (topicMode) {
-                self.boardTopics = [self.boardReader readBoardTopics];
-            } else {
-                self.boardPosts = [self.boardReader readBoardPosts];
-            }
-            break;
-        case 3:
             [[BBSFavouritesManager favouriteBoards]addObject:self.boardInfo];
             break;
         default:
@@ -189,12 +182,8 @@
     if (topicMode) {
         option1 = @"回帖模式";
     }
-    NSString *option2 = @"显示置顶";
-    if (self.boardReader.showSticky) {
-        option2 = @"不显示置顶";
-    }
     
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发表新帖", option1, option2, @"收藏本版", nil];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发表新帖", option1, @"收藏本版", nil];
     [sheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
     [sheet release];
 }
@@ -248,7 +237,7 @@
         BBSBoardReader *reader = [[BBSBoardReader alloc] initWithBoardName:self.boardName];
         self.boardReader = reader;
         [reader release];
-        self.boardReader.showSticky = NO;
+        self.boardReader.showSticky = YES;
         self.boardTopics = [self.boardReader readBoardTopics];
     }
 }

@@ -63,10 +63,10 @@
         NSLog(@"%@",pageSource);
                  
         NSRegularExpression *regex;
-        if (self.showSticky)
-            regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"?(bbst?con.php[^\"]*)\">([^<]*)(</span>)?</a>" options:0 error:NULL];
-        else
+        if (self.showSticky)//show stick and normal topics.
             regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"(bbst?con.php[^\"]*)\">([^<]*)</a>" options:0 error:NULL];
+        else//show normal only.
+            regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"(bbstcon.php[^\"]*)\">([^<]*)</a>" options:0 error:NULL];
         NSArray *result = [regex matchesInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         
         for (int i = 0; i < [result count]; ++i) {
@@ -78,6 +78,8 @@
             [topic setValue:[NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", address] forKey:@"address"];
 
             NSString *infoScope = [pageSource substringWithRange:NSMakeRange(range.location - 180, 180)];
+            
+            
             range = [[[NSRegularExpression regularExpressionWithPattern:@"class=col..>([^<]*)<" options:0 error:NULL] firstMatchInString:infoScope options:0 range:NSMakeRange(0, infoScope.length)] rangeAtIndex:1];
             NSString *time = [infoScope substringWithRange:range];
             [topic setValue:time forKey:@"time"];
@@ -96,9 +98,18 @@
             NSString *title = [pageSource substringWithRange:range];
             [topic setValue:title forKey:@"title"];
             
-            if ([r numberOfRanges] == 4 && [r rangeAtIndex:3].length != 0){
-                [topic setValue:@"YES" forKey:@"sticky"];
-            } else {
+            if (self.showSticky){
+                NSTextCheckingResult *res = [[NSRegularExpression regularExpressionWithPattern:@"dig" options:0 error:NULL] firstMatchInString:address options:0 range:NSMakeRange(0, address.length)] ;
+                range = [res rangeAtIndex:0];
+                 NSString *dig = [address substringWithRange:range];
+                if ( dig!=nil && [dig isEqual:@"dig"] ) {
+                    [topic setValue:@"YES" forKey:@"sticky"];
+                }else{
+                    [topic setValue:@"NO" forKey:@"sticky"];
+                }
+
+                
+            }else{
                 [topic setValue:@"NO" forKey:@"sticky"];
             }
             
@@ -143,7 +154,23 @@
         
         [pageSource release];
     }
-    
+
+    if (self.showSticky) {
+        NSMutableArray *stickyArray = [NSMutableArray array];
+        for ( NSDictionary *dic in boardTopics) {
+            if ([[dic objectForKey:@"sticky"] isEqualToString:@"YES"]) {
+                [stickyArray addObject:dic];
+            }else{
+                break;
+            }
+        }
+        NSArray *arr = [boardTopics subarrayWithRange:NSMakeRange(stickyArray.count, boardTopics.count-stickyArray.count)];
+        [boardTopics removeAllObjects];
+        [boardTopics addObjectsFromArray:stickyArray];
+        [boardTopics addObjectsFromArray:[[arr reverseObjectEnumerator] allObjects]];
+    }else{
+        boardTopics = [[[boardTopics reverseObjectEnumerator] allObjects] mutableCopy];
+    }
     [pool drain];
     return boardTopics;
 }
@@ -254,7 +281,23 @@
         
         [pageSource release];
     }
-
+    //sort array. sticky topic should be front, normal topic should be sort by post time(reverse normal topics here).
+    if (self.showSticky) {
+        NSMutableArray *stickyArray = [NSMutableArray array];
+        for ( NSDictionary *dic in boardPosts) {
+            if ([[dic objectForKey:@"sticky"] isEqualToString:@"YES"]) {
+                [stickyArray addObject:dic];
+            }else{
+                break;
+            }
+        }
+        NSArray *arr = [boardPosts subarrayWithRange:NSMakeRange(stickyArray.count, boardPosts.count-stickyArray.count)];
+        [boardPosts removeAllObjects];
+        [boardPosts addObjectsFromArray:stickyArray];
+        [boardPosts addObjectsFromArray:[[arr reverseObjectEnumerator] allObjects]];
+    }else{
+        boardPosts = [[[boardPosts reverseObjectEnumerator] allObjects] mutableCopy];
+    }
     
     [pool drain];
     return boardPosts;
@@ -268,7 +311,7 @@
     //TODO: if has cached, return cache
     
     self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", previousPage];
-
+    self.showSticky = NO;//shen show more, do not include sticky.
     NSMutableArray *data;
     if (readingTopics) {
         data = [self readBoardTopics];
