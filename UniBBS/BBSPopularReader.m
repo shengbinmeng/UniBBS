@@ -8,10 +8,9 @@
 
 #import "BBSPopularReader.h"
 #import "Utility.h"
+#import "AFAppDotNetAPIClient.h"
 
-@implementation BBSPopularReader {
-    NSMutableArray *popularTopics;
-}
+@implementation BBSPopularReader
 
 @synthesize dataAddress;
 
@@ -24,30 +23,26 @@
     return self;
 }
 
-- (NSMutableArray*) readPopularTopics 
++ (NSURLSessionDataTask *)getPopularTopicsWithBlock:(NSString *)href blockFunction:(void (^)(NSMutableArray *topics, NSError *error))block {
+    return [[AFAppDotNetAPIClient sharedClient] GET:href parameters:nil success:^(NSURLSessionDataTask * __unused task, id responseObject) {
+        NSMutableArray *results = [self readPopularTopics:responseObject];
+        if (block) {
+            block( results, nil);
+        }
+    } failure:^(NSURLSessionDataTask *__unused task, NSError *error) {
+        if (block) {
+            block([NSMutableArray array], error);
+        }
+    }];
+
+}
+
++ (NSMutableArray*)readPopularTopics:(NSData *)returnedData
 {
-    if (popularTopics) {
-        [popularTopics release];
-    }
+    NSMutableArray *popularTopics = [[NSMutableArray alloc] init];
     
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    popularTopics = [[NSMutableArray alloc] init];
-    
-    NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease]; 
-    [request setURL:[NSURL URLWithString:self.dataAddress]];  
-    [request setHTTPMethod:@"GET"]; 
-    [request setTimeoutInterval:15];
-    
-    NSData *returnedData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     if (returnedData) {
         NSString *pageSource = [Utility convertDataToString:returnedData];
-        
-        if (pageSource == nil) {
-            [pool drain];
-            return popularTopics;
-        }
-        
-        NSLog(@"%@",pageSource);        
 
         NSString *pattern = @"<td><a href='bbstop.php.board=([^']*)'>([^<]*)</a></td>[^<]*<td>(Anonymous|<a href='bbsqry.php.name=[^']*'>[^<]*</a>)</td>[^<]*<td>([^<]*)</td>[^<]*<td><a href='bbstcon.php.board=[^']*.threadid=([0-9]*)'>([^<]*)</a></td>";
 
@@ -84,13 +79,12 @@
         }
     }
     
-    [pool drain];
     return popularTopics;
 }
 
 - (void) dealloc 
 {
-    [popularTopics release];
+
     [super dealloc];
 }
 @end

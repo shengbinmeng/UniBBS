@@ -13,7 +13,6 @@
 @property (nonatomic, retain) NSString *dataAddress;
 
 - (id)initWithAddress:(NSString *)address;
-
-- (NSMutableArray*) readPopularTopics;
-
++ (NSMutableArray*)readPopularTopics:(NSData *)returnedData;
++ (NSURLSessionDataTask *)getPopularTopicsWithBlock:(NSString *)href blockFunction:(void (^)(NSMutableArray *topics, NSError *error))block;
 @end

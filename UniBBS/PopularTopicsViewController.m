@@ -12,11 +12,18 @@
 #import "EGORefreshTableHeaderView.h"
 #import "BDWMUserModel.h"
 #import "BDWMAlertMessage.h"
+
+@interface PopularTopicsViewController ()
+@property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl;
+@end
+
 @implementation PopularTopicsViewController {
-    EGORefreshTableHeaderView *_refreshHeaderView;
-    BOOL _reloading; 
+ //   EGORefreshTableHeaderView *_refreshHeaderView;
+ //   BOOL _reloading;
     int numLimit;
     int popType; // 0 for instance, 1 for day, 2 for week
+    
+    NSString *href;
 }
 
 @synthesize popularReader, popularTopics;
@@ -25,7 +32,7 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        self.title = @"热点话题";
+        self.title = @"当天最热";
         self.tabBarItem.image = [UIImage imageNamed:@"popular"];
         numLimit = 20;
         popType = 1;
@@ -64,25 +71,29 @@
     }
     switch (index) {
         case 0:
-            self.popularReader.dataAddress = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=7";
+            href = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=7";
             popType = 0;
+            self.title = @"实时热点";
             break;
         case 1:
-            self.popularReader.dataAddress = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=180";
+            href = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=180";
             popType = 1;
+            self.title = @"当天最热";
             break;
         case 2:
-            self.popularReader.dataAddress = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=2520";
+            href = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=2520";
             popType = 2;
+            self.title = @"一周热点";
             break;
         default:
             break;
     }
-    self.popularTopics = [self.popularReader readPopularTopics];
+ //   self.popularTopics = [self.popularReader readPopularTopics];
     numLimit = 20;
     [((UIButton*)self.tableView.tableFooterView) setTitle:@"更多" forState:UIControlStateNormal];
     [((UIButton*)self.tableView.tableFooterView) setEnabled:YES];
-    [self.tableView reloadData];
+    [self reload:nil];
+ //   [self.tableView reloadData];
     if (self.popularTopics.count != 0) {
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
@@ -98,14 +109,29 @@
         [((UIButton*)self.tableView.tableFooterView) setEnabled:NO];
     }
 }
-
+/*
 - (void) loadData:(UIActivityIndicatorView*) indicator {
     self.popularTopics = [self.popularReader readPopularTopics];
     [self.tableView reloadData];
     [indicator stopAnimating];
     [indicator removeFromSuperview];
 }
+*/
+- (void)reload:(__unused id)sender {
+    
+    NSURLSessionTask *task = [BBSPopularReader getPopularTopicsWithBlock:href blockFunction:^(NSMutableArray *topics, NSError *error) {
+        if (!error) {
+            self.popularTopics = topics;
+            [self.tableView reloadData];
+        }else{
+            [BDWMAlertMessage alertMessage:@"哎呀～获取不到数据～"];
+        }
+    }];
 
+//    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:task delegate:nil];
+    [self.refreshControl setRefreshingWithStateOfTask:task];
+}
+/*
 - (void) doRefresh {
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     
@@ -116,7 +142,7 @@
     
     [self performSelectorInBackground:@selector(loadData:) withObject:indicator];
 }
-
+*/
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -127,9 +153,9 @@
     self.navigationItem.rightBarButtonItem = button;
     [button release];
     
-    button = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStyleBordered target:self action:@selector(doRefresh)];
-    self.navigationItem.leftBarButtonItem = button;
-    [button release];
+//    button = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStyleBordered target:self action:@selector(doRefresh)];
+//    self.navigationItem.leftBarButtonItem = button;
+//    [button release];
     
     UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button1 setTitle:@"更多" forState:UIControlStateNormal];
@@ -148,12 +174,17 @@
     }
      */
 
+    self.refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
+    [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
+    [self.tableView.tableHeaderView addSubview:self.refreshControl];
+    
+    
     if (self.popularTopics == nil) {
-        BBSPopularReader *reader = [[BBSPopularReader alloc] initWithAddress:@"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=180"]; //7, 180, 2520
-        self.popularReader = reader;
-        [reader release];
-        self.popularTopics = [self.popularReader readPopularTopics];
+        href = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=180";
     }
+    
+    [self reload:nil];
+    
 }
 
 - (void)viewDidUnload
@@ -264,12 +295,13 @@
 
 
 #pragma mark - Helper: Data Source Loading / Reloading Methods
+/*
 - (void)doneLoadingTableViewData 
 {
     _reloading = NO; 
     //[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
-}
-
+}*/
+/*
 - (void)reloadTableViewDataSource 
 {   
     _reloading = YES;  
@@ -278,7 +310,7 @@
     sleep(1);
     [self doneLoadingTableViewData];
 }
-
+*/
 #pragma mark - UIScrollViewDelegate Methods 
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -292,7 +324,7 @@
 } 
 
 #pragma mark - EGORefreshTableHeaderDelegate Methods 
-
+/*
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view
 {
     [self performSelector:@selector(reloadTableViewDataSource) withObject:nil afterDelay:0.5];
@@ -307,5 +339,5 @@
 {
     return [NSDate date];     
 } 
-
+*/
 @end

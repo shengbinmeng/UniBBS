@@ -44,10 +44,12 @@
         if (!error) {
             self.mails = mails;
             [self.tableView reloadData];
+        }else{
+            [BDWMAlertMessage alertMessage:@"哎呀～获取不到数据～"];
         }
     }];
     
-    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:task delegate:nil];
+//    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:task delegate:nil];
     [self.refreshControl setRefreshingWithStateOfTask:task];
 }
 
