@@ -10,7 +10,7 @@
 
 #import "PopularTopicsViewController.h"
 #import "BoardListViewController.h"
-#import "SettingsViewController.h"
+#import "SettingTableViewController.h"
 #import "ProfileViewController.h"
 
 @implementation UniBBSAppDelegate
@@ -28,7 +28,7 @@
     viewController2.listAddress = @"http://www.bdwm.net/bbs/bbsxboa.php?group=0";
 
     ProfileViewController *viewController3 = [[[ProfileViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
-    SettingsViewController *viewController4 = [[[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
+    SettingTableViewController *viewController4 = [[[SettingTableViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
     
     UINavigationController *popularViewController, *boardListViewController, *profileViewController, *settingsViewController;
     popularViewController = [[[UINavigationController alloc] initWithRootViewController:viewController1] autorelease];

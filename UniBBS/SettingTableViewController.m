@@ -1,16 +1,19 @@
 //
-//  SettingsViewController.m
+//  SettingTableViewController.m
 //  UniBBS
 //
-//  Created by Meng Shengbin on 3/8/12.
-//  Copyright (c) 2012 Peking University. All rights reserved.
+//  Created by fanyingming on 10/19/14.
+//  Copyright (c) 2014 Peking University. All rights reserved.
 //
 
-#import "SettingsViewController.h"
+#import "SettingTableViewController.h"
 #import "WebViewController.h"
-#import "LoginViewController.h"
 
-@implementation SettingsViewController
+@interface SettingTableViewController ()
+
+@end
+
+@implementation SettingTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -36,10 +39,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
- 
+    
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
@@ -116,7 +119,7 @@
     }
     
     if ([indexPath section] == 1) {
-
+        
         UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"Value1StyleCell"];
         if(cell == nil) {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Value1StyleCell"] autorelease];
@@ -147,21 +150,21 @@
     if (section == 1) {
         header = @"网页访问";
     }
-	return header;
+    return header;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-	NSString *footerText = @"";
+    NSString *footerText = @"";
     if (section == 0) {
         
-    }    
+    }
     return footerText;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
+    
     if ([indexPath section] == 0) {
         if ([indexPath row] == 0) {
             UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"关于" message:@"北大未名 - 访问北京大学未名BBS的iOS客户端。如果有任何问题和建议，可以发信至：hello@shengbin.me。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
@@ -185,5 +188,4 @@
         }
     }
 }
-
 @end

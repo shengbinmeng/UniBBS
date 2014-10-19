@@ -25,7 +25,6 @@
 		E83179461537BF9900A219E4 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E83179451537BF9900A219E4 /* WebViewController.m */; };
 		E831794A1537EFF000A219E4 /* AttachmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E83179491537EFF000A219E4 /* AttachmentsViewController.m */; };
 		E843C4261508E3F800A83C22 /* BBSBoardListExplorer.m in Sources */ = {isa = PBXBuildFile; fileRef = E843C4251508E3F800A83C22 /* BBSBoardListExplorer.m */; };
-		E843C42E150904AD00A83C22 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E843C42C150904AD00A83C22 /* SettingsViewController.m */; };
 		E843C454150A777900A83C22 /* BBSPopularReader.m in Sources */ = {isa = PBXBuildFile; fileRef = E843C453150A777800A83C22 /* BBSPopularReader.m */; };
 		E843C457150A790900A83C22 /* TopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E843C456150A790800A83C22 /* TopicViewController.m */; };
 		E86D644D15162FFB0001DA10 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E86D644C15162FFB0001DA10 /* QuartzCore.framework */; };
@@ -80,6 +79,7 @@
 		F785A83419EA2C190001FB65 /* BDWMTopicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A83319EA2C190001FB65 /* BDWMTopicModel.m */; };
 		F785A83919EA2C650001FB65 /* BDWMPosting.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A83619EA2C650001FB65 /* BDWMPosting.m */; };
 		F785A83A19EA2C650001FB65 /* BDWMTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A83819EA2C650001FB65 /* BDWMTopic.m */; };
+		F7E6D7AE19F3B02600EB5AC2 /* SettingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E6D7AD19F3B02600EB5AC2 /* SettingTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,8 +109,6 @@
 		E83179491537EFF000A219E4 /* AttachmentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentsViewController.m; sourceTree = "<group>"; };
 		E843C4241508E3F700A83C22 /* BBSBoardListExplorer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSBoardListExplorer.h; sourceTree = "<group>"; };
 		E843C4251508E3F800A83C22 /* BBSBoardListExplorer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSBoardListExplorer.m; sourceTree = "<group>"; };
-		E843C42B150904AD00A83C22 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
-		E843C42C150904AD00A83C22 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		E843C452150A777800A83C22 /* BBSPopularReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSPopularReader.h; sourceTree = "<group>"; };
 		E843C453150A777800A83C22 /* BBSPopularReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSPopularReader.m; sourceTree = "<group>"; };
 		E843C455150A790800A83C22 /* TopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicViewController.h; sourceTree = "<group>"; };
@@ -198,6 +196,8 @@
 		F785A83619EA2C650001FB65 /* BDWMPosting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDWMPosting.m; sourceTree = "<group>"; };
 		F785A83719EA2C650001FB65 /* BDWMTopic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDWMTopic.h; sourceTree = "<group>"; };
 		F785A83819EA2C650001FB65 /* BDWMTopic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDWMTopic.m; sourceTree = "<group>"; };
+		F7E6D7AC19F3B02600EB5AC2 /* SettingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingTableViewController.h; sourceTree = "<group>"; };
+		F7E6D7AD19F3B02600EB5AC2 /* SettingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -455,10 +455,10 @@
 		F72939B019EAA2E000EA68ED /* SettingController */ = {
 			isa = PBXGroup;
 			children = (
-				E843C42B150904AD00A83C22 /* SettingsViewController.h */,
-				E843C42C150904AD00A83C22 /* SettingsViewController.m */,
 				E83179441537BF9900A219E4 /* WebViewController.h */,
 				E83179451537BF9900A219E4 /* WebViewController.m */,
+				F7E6D7AC19F3B02600EB5AC2 /* SettingTableViewController.h */,
+				F7E6D7AD19F3B02600EB5AC2 /* SettingTableViewController.m */,
 			);
 			name = SettingController;
 			sourceTree = "<group>";
@@ -625,7 +625,6 @@
 				E843C4261508E3F800A83C22 /* BBSBoardListExplorer.m in Sources */,
 				F785A82119EA16C90001FB65 /* WritingMailViewController.m in Sources */,
 				F785A83A19EA2C650001FB65 /* BDWMTopic.m in Sources */,
-				E843C42E150904AD00A83C22 /* SettingsViewController.m in Sources */,
 				F7062E7119E6D19800F61328 /* TFHppleElement.m in Sources */,
 				F72939B319EAB57A00EA68ED /* MailModel.m in Sources */,
 				F7062E6619E6CE2C00F61328 /* BDWMAlertMessage.m in Sources */,
@@ -645,6 +644,7 @@
 				E86D93BC15273C720037F06D /* BBSFavouritesManager.m in Sources */,
 				E83179461537BF9900A219E4 /* WebViewController.m in Sources */,
 				E831794A1537EFF000A219E4 /* AttachmentsViewController.m in Sources */,
+				F7E6D7AE19F3B02600EB5AC2 /* SettingTableViewController.m in Sources */,
 				E89AA62E15411E6100506BA4 /* Utility.m in Sources */,
 				F785A81919E983140001FB65 /* UserInfoViewController.m in Sources */,
 				E8E5BD6115734EA2004BE6F9 /* EGORefreshTableHeaderView.m in Sources */,
