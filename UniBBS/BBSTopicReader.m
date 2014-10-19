@@ -8,9 +8,10 @@
 
 #import "BBSTopicReader.h"
 #import "Utility.h"
+#import "AFAppDotNetAPIClient.h"
 
 @implementation BBSTopicReader {
-    NSMutableArray *topicPosts;
+
     NSString *previousPage;
     NSString *nextPage;
     NSString *firstPage;
@@ -18,6 +19,12 @@
 }
 
 @synthesize dataAddress;
+
+-(NSString *)getNextPageHref
+{
+    self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", nextPage];
+    return self.dataAddress;
+}
 
 - (id)initWithAddress:(NSString *)address 
 {
@@ -28,23 +35,27 @@
     return self;
 }
 
-- (NSMutableArray*) readTopicPosts 
-{    
-    if (topicPosts) {
-        [topicPosts release];
-    }
+- (NSURLSessionDataTask *)getTopicPostsWithBlock:(NSString *)href blockFunction:(void (^)(NSMutableArray *topicPosts, NSError *error))block {
+    return [[AFAppDotNetAPIClient sharedClient] GET:href parameters:nil success:^(NSURLSessionDataTask * __unused task, id responseObject) {
+        NSMutableArray *results = [self readTopicPosts:responseObject];
+        if (block) {
+            block( results, nil);
+        }
+    } failure:^(NSURLSessionDataTask *__unused task, NSError *error) {
+        if (block) {
+            block([NSMutableArray array], error);
+        }
+    }];
     
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    topicPosts = [[NSMutableArray alloc] init];    
-    NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease]; 
-    [request setURL:[NSURL URLWithString:self.dataAddress]];  
-    [request setHTTPMethod:@"GET"]; 
-    [request setTimeoutInterval:15];
-    NSData *returnedData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+}
+
+- (NSMutableArray*) readTopicPosts:(NSData *)returnedData
+{    
+    NSMutableArray *topicPosts = [NSMutableArray array];
+    
     if (returnedData) {
         NSString *pageSource = [Utility convertDataToString:returnedData];        
         if (pageSource == nil) {
-            [pool drain];
             return topicPosts;
         }
 #ifdef DEBUG    
@@ -158,7 +169,6 @@
         }
     }
     
-    [pool drain];
     return topicPosts;
 }
 
@@ -179,6 +189,7 @@
         return nil;
     }
     self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", nextPage];
+    
     return [self readTopicPosts];
 }
 

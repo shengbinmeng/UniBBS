@@ -19,6 +19,11 @@
 #define ACTION_FROM_BAR_BUTTON 8888
 #define ACTION_FROM_VIEW_ATTACH 9999
 
+@interface TopicViewController ()
+@property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl;
+@property (readwrite, nonatomic, strong) UIRefreshControl *refreshControlBottom;
+@end
+
 @implementation TopicViewController 
 
 @synthesize topicAddress, topicPosts, topicReader, topicInfo;
@@ -47,6 +52,35 @@
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc that aren't in use.
+}
+
+- (void)reload:(__unused id)sender {
+    
+    NSURLSessionTask *task = [self.topicReader getTopicPostsWithBlock:self.topicAddress blockFunction:^(NSMutableArray *topicPosts, NSError *error) {
+        if (!error) {
+            self.topicPosts = topicPosts;
+            [self.tableView reloadData];
+        }else{
+            [BDWMAlertMessage alertMessage:@"哎呀～获取不到数据～"];
+        }
+    }];
+    
+    //    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:task delegate:nil];
+    [self.refreshControl setRefreshingWithStateOfTask:task];
+}
+
+- (void) displayMore
+{
+    NSURLSessionTask *task = [self.topicReader getTopicPostsWithBlock:[self.topicReader getNextPageHref] blockFunction:^(NSMutableArray *topicPosts, NSError *error) {
+        if (!error) {
+            [self.topicPosts addObjectsFromArray:topicPosts];
+            [self.tableView reloadData];
+        }else{
+            [BDWMAlertMessage alertMessage:@"没有啦～"];
+        }
+    }];
+    
+ //   [self.refreshControlBottom setRefreshingWithStateOfTask:task];
 }
 
 - (void) displayNextPage
@@ -223,39 +257,29 @@
     [super viewDidLoad];
     UIBarButtonItem *barButton = [[[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(barButtonPressed)] autorelease];
     self.navigationItem.rightBarButtonItem = barButton;
+
     
-    UIToolbar *toolBar = [[[UIToolbar alloc] initWithFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)] autorelease];
-    UIBarButtonItem *prev = [[[UIBarButtonItem alloc] initWithTitle:@"上一页" style:UIBarButtonItemStyleBordered target:self action:@selector(displayPreviousPage)] autorelease];
-    UIBarButtonItem *next = [[[UIBarButtonItem alloc] initWithTitle:@"下一页" style:UIBarButtonItemStyleBordered target:self action:@selector(displayNextPage)] autorelease];
-    //UIBarButtonItem *first = [[[UIBarButtonItem alloc] initWithTitle:@"最旧贴" style:UIBarButtonItemStyleBordered target:self action:@selector(displayFirstPage)] autorelease];
-    //UIBarButtonItem *last = [[[UIBarButtonItem alloc] initWithTitle:@"最新贴" style:UIBarButtonItemStyleBordered target:self action:@selector(displayLastPage)] autorelease];
-    UIBarButtonItem *space = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
-    NSArray *toolbarItems = [NSArray arrayWithObjects: prev, space, next, nil];
-    [toolBar setItems:toolbarItems];
-    [self.tableView setTableFooterView:toolBar];
+    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button1 setTitle:@"更多" forState:UIControlStateNormal];
+    [button1 setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
+    [button1 addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventTouchUpInside];
+    [self.tableView setTableFooterView:button1];
+
+    self.refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
+    [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
+    [self.tableView.tableHeaderView addSubview:self.refreshControl];
+    
+//    self.refreshControlBottom = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 50.0f)];
+//    [self.refreshControlBottom addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventValueChanged];
+//    [self.tableView.tableFooterView addSubview:self.refreshControlBottom];
 
     if (self.topicReader == nil) {
         // first time load, alloc the model
         BBSTopicReader *reader = [[BBSTopicReader alloc] initWithAddress:self.topicAddress];
         self.topicReader = reader;
         [reader release];
-        
-        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [self.view insertSubview:indicator aboveSubview:self.tableView];
-        indicator.center = self.navigationController.view.window.center;
-        [indicator startAnimating];
-        
-        [self.tableView.tableFooterView setHidden:YES];
-        [self loadData:indicator];
+        [self reload:nil];
     }
-}
-
-- (void) loadData:(UIActivityIndicatorView*) indicator {
-    self.topicPosts = [self.topicReader readTopicPosts];
-    [self.tableView reloadData];
-    [indicator stopAnimating];
-    [indicator removeFromSuperview];
-    [self.tableView.tableFooterView setHidden:NO];
 }
 
 - (void)viewDidUnload
