@@ -80,6 +80,7 @@
 		F785A83919EA2C650001FB65 /* BDWMPosting.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A83619EA2C650001FB65 /* BDWMPosting.m */; };
 		F785A83A19EA2C650001FB65 /* BDWMTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A83819EA2C650001FB65 /* BDWMTopic.m */; };
 		F7E6D7AE19F3B02600EB5AC2 /* SettingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E6D7AD19F3B02600EB5AC2 /* SettingTableViewController.m */; };
+		F7E6D7B119F3B7B300EB5AC2 /* SettingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E6D7B019F3B7B300EB5AC2 /* SettingModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -198,6 +199,8 @@
 		F785A83819EA2C650001FB65 /* BDWMTopic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDWMTopic.m; sourceTree = "<group>"; };
 		F7E6D7AC19F3B02600EB5AC2 /* SettingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingTableViewController.h; sourceTree = "<group>"; };
 		F7E6D7AD19F3B02600EB5AC2 /* SettingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingTableViewController.m; sourceTree = "<group>"; };
+		F7E6D7AF19F3B7B300EB5AC2 /* SettingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingModel.h; sourceTree = "<group>"; };
+		F7E6D7B019F3B7B300EB5AC2 /* SettingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -478,6 +481,8 @@
 				F785A81319E97F580001FB65 /* BDWMUserModel.m */,
 				F72939B119EAB57A00EA68ED /* MailModel.h */,
 				F72939B219EAB57A00EA68ED /* MailModel.m */,
+				F7E6D7AF19F3B7B300EB5AC2 /* SettingModel.h */,
+				F7E6D7B019F3B7B300EB5AC2 /* SettingModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -645,6 +650,7 @@
 				E83179461537BF9900A219E4 /* WebViewController.m in Sources */,
 				E831794A1537EFF000A219E4 /* AttachmentsViewController.m in Sources */,
 				F7E6D7AE19F3B02600EB5AC2 /* SettingTableViewController.m in Sources */,
+				F7E6D7B119F3B7B300EB5AC2 /* SettingModel.m in Sources */,
 				E89AA62E15411E6100506BA4 /* Utility.m in Sources */,
 				F785A81919E983140001FB65 /* UserInfoViewController.m in Sources */,
 				E8E5BD6115734EA2004BE6F9 /* EGORefreshTableHeaderView.m in Sources */,

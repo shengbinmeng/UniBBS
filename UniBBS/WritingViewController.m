@@ -11,6 +11,8 @@
 #import "AFAppDotNetAPIClient.h"
 #import "BDWMAlertMessage.h"
 #import "BDWMString.h"
+#import "SettingModel.h"
+
 @interface WritingViewController ()
 @property (retain, nonatomic) IBOutlet UITextField *titleTextField;
 @property (retain, nonatomic) IBOutlet UITextView *contentTextView;
@@ -66,7 +68,12 @@
     [dic setObject:@"N" forKey:@"noreply"];
     [dic setObject:@"0" forKey:@"signature"];
     NSMutableString *content = [[NSMutableString alloc] init];
-    content = [BDWMString linkString:self.contentTextView.text string:POST_SUFFIX_STRING];
+    if( [SettingModel boolUsePostSuffixString] ){
+        content = [BDWMString linkString:self.contentTextView.text string:POST_SUFFIX_STRING];
+    }else{
+        content = [self.contentTextView.text mutableCopy];
+    }
+    
     [dic setObject:content forKey:@"text"];
     [dic setObject:quser forKey:@"quser"];
     [dic setObject:@"on" forKey:@"unfoldpic"];
@@ -113,7 +120,13 @@
     [dic setObject:@"N" forKey:@"noreply"];
     [dic setObject:@"0" forKey:@"signature"];
     NSMutableString *content_t = [[NSMutableString alloc] init];
-    content_t = [BDWMString linkString:content string:POST_SUFFIX_STRING];
+    
+    if( [SettingModel boolUsePostSuffixString] ){
+        content_t = [BDWMString linkString:content string:POST_SUFFIX_STRING];
+    }else{
+        content_t = [content mutableCopy];
+    }
+    
     [dic setObject:content_t forKey:@"text"];
     [dic setObject:@"on" forKey:@"unfoldpic"];
     
