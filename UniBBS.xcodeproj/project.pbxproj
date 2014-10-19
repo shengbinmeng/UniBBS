@@ -81,6 +81,8 @@
 		F785A83A19EA2C650001FB65 /* BDWMTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = F785A83819EA2C650001FB65 /* BDWMTopic.m */; };
 		F7E6D7AE19F3B02600EB5AC2 /* SettingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E6D7AD19F3B02600EB5AC2 /* SettingTableViewController.m */; };
 		F7E6D7B119F3B7B300EB5AC2 /* SettingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E6D7B019F3B7B300EB5AC2 /* SettingModel.m */; };
+		F7E6D7B519F40F6400EB5AC2 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E6D7B319F40F6400EB5AC2 /* AboutViewController.m */; };
+		F7E6D7B619F40F6400EB5AC2 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F7E6D7B419F40F6400EB5AC2 /* AboutViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -201,6 +203,9 @@
 		F7E6D7AD19F3B02600EB5AC2 /* SettingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingTableViewController.m; sourceTree = "<group>"; };
 		F7E6D7AF19F3B7B300EB5AC2 /* SettingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingModel.h; sourceTree = "<group>"; };
 		F7E6D7B019F3B7B300EB5AC2 /* SettingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingModel.m; sourceTree = "<group>"; };
+		F7E6D7B219F40F6400EB5AC2 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		F7E6D7B319F40F6400EB5AC2 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		F7E6D7B419F40F6400EB5AC2 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -462,6 +467,9 @@
 				E83179451537BF9900A219E4 /* WebViewController.m */,
 				F7E6D7AC19F3B02600EB5AC2 /* SettingTableViewController.h */,
 				F7E6D7AD19F3B02600EB5AC2 /* SettingTableViewController.m */,
+				F7E6D7B219F40F6400EB5AC2 /* AboutViewController.h */,
+				F7E6D7B319F40F6400EB5AC2 /* AboutViewController.m */,
+				F7E6D7B419F40F6400EB5AC2 /* AboutViewController.xib */,
 			);
 			name = SettingController;
 			sourceTree = "<group>";
@@ -546,6 +554,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E88A6E561507760600EED88D /* InfoPlist.strings in Resources */,
+				F7E6D7B619F40F6400EB5AC2 /* AboutViewController.xib in Resources */,
 				F785A82219EA16C90001FB65 /* WritingMailViewController.xib in Resources */,
 				6C46688119EC13A3006E2A5C /* settings.png in Resources */,
 				6C9117C017F3284000D1A1E4 /* unibbs_76x76.png in Resources */,
@@ -642,6 +651,7 @@
 				E8F19F5F150B544F001008B4 /* BBSTopicReader.m in Sources */,
 				E8F19F62150B5DB3001008B4 /* BBSPostReader.m in Sources */,
 				F785A83919EA2C650001FB65 /* BDWMPosting.m in Sources */,
+				F7E6D7B519F40F6400EB5AC2 /* AboutViewController.m in Sources */,
 				E8F19F7F150BC81F001008B4 /* BBSBoardReader.m in Sources */,
 				F785A83019EA2A240001FB65 /* WritingViewController.m in Sources */,
 				F72939AC19EAA21800EA68ED /* MailListViewController.m in Sources */,

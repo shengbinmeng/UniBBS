@@ -10,6 +10,7 @@
 #import "WebViewController.h"
 #import "BDWMGlobalData.h"
 #import "SettingModel.h"
+#import "AboutViewController.h"
 
 @interface SettingTableViewController ()
 
@@ -217,10 +218,15 @@
             return;
         }
         if ([indexPath row] == 3) {
-            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"关于" message:@"北大未名 - 访问北京大学未名BBS的iOS客户端。如果有任何问题和建议，可以发信至：hello@shengbin.me。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
-            [alert show];
-            [alert release];
+            AboutViewController * aboutViewController = [[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
+            
+            [self.navigationController pushViewController:aboutViewController animated:YES];
+            [aboutViewController release];
+            
+//            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"关于" message:@"北大未名 - 访问北京大学未名BBS的iOS客户端。如果有任何问题和建议，可以发信至：hello@shengbin.me。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+//            [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
+//            [alert show];
+//            [alert release];
             return;
         }
     }
