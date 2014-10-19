@@ -17,6 +17,7 @@
 @property (retain, nonatomic) IBOutlet UILabel *energyNumLabel;
 @property (retain, nonatomic) IBOutlet UILabel *totalScoreLabel;
 @property (retain, nonatomic) IBOutlet UILabel *originalScoreLabel;
+@property (retain, nonatomic) IBOutlet UILabel *dutiesLabel;
 
 @end
 
@@ -61,6 +62,7 @@
     self.energyNumLabel.text = [userInfoDict objectForKey:@"energyNum"];
     self.totalScoreLabel.text = [userInfoDict objectForKey:@"totalScore"];
     self.originalScoreLabel.text = [userInfoDict objectForKey:@"originalScore"];
+    self.dutiesLabel.text = [userInfoDict objectForKey:@"duties"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -76,6 +78,7 @@
     [_energyNumLabel release];
     [_totalScoreLabel release];
     [_originalScoreLabel release];
+    [_dutiesLabel release];
     [super dealloc];
 }
 @end

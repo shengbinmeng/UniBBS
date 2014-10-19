@@ -8,6 +8,8 @@
 
 #import "BDWMUserModel.h"
 #import "AFAppDotNetAPIClient.h"
+#import "BDWMString.h"
+
 @implementation BDWMUserModel
 
 
@@ -109,6 +111,7 @@ static NSString *loginUser = nil;
     
     NSURL *baseURL = [NSURL URLWithString:string];
     NSData * data = [NSData dataWithContentsOfURL:baseURL];
+    data = [BDWMString DataConverse_GB2312_to_UTF8:data];
     
     doc = [[TFHpple alloc] initWithHTMLData:data];
     NSLog(@"url=%@",string);
@@ -117,17 +120,36 @@ static NSString *loginUser = nil;
     TFHppleElement *e = [arr objectAtIndex:0];
     
     NSMutableDictionary *userInfoDict = [[NSMutableDictionary alloc] init];
-    [userInfoDict setObject:[e text] forKey:@"userName"];
+    NSString *name = [e text];
+    e = [arr objectAtIndex:1];
+    NSString *byName = [e text];
+    NSString *displayName = [NSString stringWithFormat:@"%@(%@)", name, byName ];
+    [userInfoDict setObject:displayName forKey:@"userName"];
+    
     e = [arr objectAtIndex:2];
     [userInfoDict setObject:[e text] forKey:@"loginTimes"];
     e = [arr objectAtIndex:3];
     [userInfoDict setObject:[e text] forKey:@"postingNum"];
     e = [arr objectAtIndex:4];
     [userInfoDict setObject:[e text] forKey:@"energyNum"];
+    
     e = [arr objectAtIndex:6];
-    [userInfoDict setObject:[e text] forKey:@"totalScore"];
+    NSString *totalScore = [e text];
+    e = [arr objectAtIndex:7];
+    NSString *rank = [e text];
+    displayName = [NSString stringWithFormat:@"%@(%@)", totalScore, rank];
+    
+    [userInfoDict setObject:displayName forKey:@"totalScore"];
     e = [arr objectAtIndex:8];
     [userInfoDict setObject:[e text] forKey:@"originalScore"];
+    
+    e = [arr objectAtIndex:13];
+    NSString *duties = [e text];
+    if (duties==nil) {
+        duties = @"打酱油";
+    }
+    [userInfoDict setObject:duties forKeyedSubscript:@"duties"];
+    
     return userInfoDict;
 }
 
