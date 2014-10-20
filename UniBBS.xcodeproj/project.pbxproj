@@ -83,6 +83,7 @@
 		F7E6D7B119F3B7B300EB5AC2 /* SettingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E6D7B019F3B7B300EB5AC2 /* SettingModel.m */; };
 		F7E6D7B519F40F6400EB5AC2 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E6D7B319F40F6400EB5AC2 /* AboutViewController.m */; };
 		F7E6D7B619F40F6400EB5AC2 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F7E6D7B419F40F6400EB5AC2 /* AboutViewController.xib */; };
+		F7E6D7B819F558E600EB5AC2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7E6D7B719F558E600EB5AC2 /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -206,6 +207,7 @@
 		F7E6D7B219F40F6400EB5AC2 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		F7E6D7B319F40F6400EB5AC2 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		F7E6D7B419F40F6400EB5AC2 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
+		F7E6D7B719F558E600EB5AC2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -302,6 +304,7 @@
 				E88A6E521507760600EED88D /* Supporting Files */,
 				E88A6E5A1507760600EED88D /* UniBBSAppDelegate.h */,
 				E88A6E5B1507760600EED88D /* UniBBSAppDelegate.m */,
+				F7E6D7B719F558E600EB5AC2 /* Images.xcassets */,
 			);
 			path = UniBBS;
 			sourceTree = "<group>";
@@ -554,6 +557,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E88A6E561507760600EED88D /* InfoPlist.strings in Resources */,
+				F7E6D7B819F558E600EB5AC2 /* Images.xcassets in Resources */,
 				F7E6D7B619F40F6400EB5AC2 /* AboutViewController.xib in Resources */,
 				F785A82219EA16C90001FB65 /* WritingMailViewController.xib in Resources */,
 				6C46688119EC13A3006E2A5C /* settings.png in Resources */,
@@ -759,6 +763,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 719A31F362C4F2C25201F727 /* Pods.debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UniBBS/UniBBS-Prefix.pch";
@@ -779,6 +785,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B79CD6A25DDCA0A1365EC6E0 /* Pods.release.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UniBBS/UniBBS-Prefix.pch";
