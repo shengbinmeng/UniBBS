@@ -69,7 +69,19 @@
     }];
 }
 
-- (IBAction)sendMailButtonPressed:(id)sender {
+- (void) sendButtonPressed {
+    if (self.toTextField.text.length==0) {
+        [BDWMAlertMessage alertMessage:@"哥! 给谁发呢?"];
+        return;
+    }
+    if (self.titleTextField.text.length==0) {
+        [BDWMAlertMessage alertMessage:@"哥! 写个主题再发么!"];
+        return;
+    }
+    if (self.contentTextView.text.length==0) {
+        [BDWMAlertMessage alertMessage:@"哥! 写点内容吧!"];
+        return;
+    }
     if (self.href != nil) {//reply mode
         [self doReply];
     }else{
@@ -80,6 +92,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    // Do any additional setup after loading the view from its nib.
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStyleBordered target:self action:@selector(sendButtonPressed)];
+    self.navigationItem.rightBarButtonItem = button;
+    [button release];
     
     if (self.href != nil) {//reply mode
         self.replyDict = [MailModel loadReplyMailNeededData:self.href];
