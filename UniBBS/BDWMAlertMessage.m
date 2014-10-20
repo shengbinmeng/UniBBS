@@ -15,7 +15,7 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"知道了" otherButtonTitles:nil];
     [alert show];
     
-    [self performSelector:@selector(dimissAlert:) withObject:alert afterDelay:2.0];
+    [self performSelector:@selector(dimissAlert:) withObject:alert afterDelay:0.8];
 }
 
 + (void) dimissAlert:(UIAlertView *)alert
