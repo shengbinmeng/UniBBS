@@ -14,7 +14,7 @@
 
 - (id)initWithAddress:(NSString *)address;
 - (NSMutableArray*) readTopicPosts;
-- (void*) readNextPage;
+- (NSMutableArray*) readNextPage;
 - (NSMutableArray*) readPreviousPage;
 - (NSMutableArray*) readFirstPage;
 - (NSMutableArray*) readLastPage;

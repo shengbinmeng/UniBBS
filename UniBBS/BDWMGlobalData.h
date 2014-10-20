@@ -15,7 +15,7 @@
 #define BDWM_ALL_PLATE_SUFFIX           @"bbsall.php"
 #define BDWM_COMPOSE_SUFFIX             @"bbssnd.php"
 #define BDWM_COMPOSE_MAIL_SUFFIX        @"bbspsm.php"
-#define BDWM_MAIL_LIST_SUFFIX           @"bbsmil.php"
+#define BDWM_MAIL_LIST_SUFFIX           @"bbsmil.php?go=A"
 #define BDWM_REPLY_MAIL_SUFFIX          @"bbssdm.php"
 //some magic number
 #define PLATE_ELEMENT_NUMBER            8

@@ -275,6 +275,8 @@
         [results addObject:mail];
     }
     
+    results = [[[results reverseObjectEnumerator] allObjects] mutableCopy];
+    
     return results;
 }
 
