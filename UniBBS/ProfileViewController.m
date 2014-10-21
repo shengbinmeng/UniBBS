@@ -80,7 +80,7 @@
             if ([BDWMUserModel isLogined]) {
                 cellContent = [BDWMUserModel getLoginUser];
                 if (cellContent==nil || cellContent.length==0) {
-                    [BDWMAlertMessage alertMessage:@"你是谁啊."];
+                    [BDWMAlertMessage alertAndAutoDismissMessage:@"你是谁啊."];
                 }
             }else{
                 cellContent = @"账号登录";
@@ -158,7 +158,7 @@
                 MailListViewController *mailListViewController = [[[MailListViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
                 [self.navigationController pushViewController:mailListViewController animated:YES];
             }else{
-                [BDWMAlertMessage alertMessage:@"登录以后才能查看站内信。"];
+                [BDWMAlertMessage alertAndAutoDismissMessage:@"登录以后才能查看站内信。"];
             }
             return;
         }

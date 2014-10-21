@@ -37,7 +37,7 @@
     if (self.userName == nil) {
         //did not logined
         //Todo: segue to login view, and if login success, segue to reply view.
-        [BDWMAlertMessage alertMessage:@"登录以后才能查看站内信。"];
+        [BDWMAlertMessage alertAndAutoDismissMessage:@"登录以后才能查看站内信。"];
     }
     NSString *userName = self.userName;
     NSURLSessionTask *task = [MailModel getAllMailWithBlock:userName blockFunction:^(NSArray *mails, NSError *error) {
@@ -45,7 +45,7 @@
             self.mails = mails;
             [self.tableView reloadData];
         }else{
-            [BDWMAlertMessage alertMessage:@"哎呀～获取不到数据～"];
+            [BDWMAlertMessage alertAndAutoDismissMessage:@"哎呀～获取不到数据～"];
         }
     }];
     

@@ -42,7 +42,7 @@
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"Reply mail failed!");
-        [BDWMAlertMessage alertMessage:@"回复失败"];
+        [BDWMAlertMessage alertAndAutoDismissMessage:@"回复失败"];
     }];
 }
 
@@ -65,21 +65,21 @@
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"compose mail failed!");
-        [BDWMAlertMessage alertMessage:@"发送失败"];
+        [BDWMAlertMessage alertAndAutoDismissMessage:@"发送失败"];
     }];
 }
 
 - (void) sendButtonPressed {
     if (self.toTextField.text.length==0) {
-        [BDWMAlertMessage alertMessage:@"哥! 给谁发呢?"];
+        [BDWMAlertMessage alertAndAutoDismissMessage:@"哥! 给谁发呢?"];
         return;
     }
     if (self.titleTextField.text.length==0) {
-        [BDWMAlertMessage alertMessage:@"哥! 写个主题再发么!"];
+        [BDWMAlertMessage alertAndAutoDismissMessage:@"哥! 写个主题再发么!"];
         return;
     }
     if (self.contentTextView.text.length==0) {
-        [BDWMAlertMessage alertMessage:@"哥! 写点内容吧!"];
+        [BDWMAlertMessage alertAndAutoDismissMessage:@"哥! 写点内容吧!"];
         return;
     }
     if (self.href != nil) {//reply mode

@@ -56,12 +56,12 @@
 
 - (void)reload:(__unused id)sender {
     
-    NSURLSessionTask *task = [self.topicReader getTopicPostsWithBlock:self.topicAddress blockFunction:^(NSMutableArray *topicPosts, NSError *error) {
+    NSURLSessionTask *task = [self.topicReader getTopicPostsWithBlock:self.topicAddress blockFunction:^(NSMutableArray *topicPosts_t, NSError *error) {
         if (!error) {
-            self.topicPosts = topicPosts;
+            self.topicPosts = topicPosts_t;
             [self.tableView reloadData];
         }else{
-            [BDWMAlertMessage alertMessage:@"哎呀～获取不到数据～"];
+            [BDWMAlertMessage alertAndAutoDismissMessage:@"哎呀～获取不到数据～"];
         }
     }];
     
@@ -71,89 +71,90 @@
 
 - (void) displayMore
 {
-    NSURLSessionTask *task = [self.topicReader getTopicPostsWithBlock:[self.topicReader getNextPageHref] blockFunction:^(NSMutableArray *topicPosts, NSError *error) {
+  //  NSURLSessionTask *task =
+    [self.topicReader getTopicPostsWithBlock:[self.topicReader getNextPageHref] blockFunction:^(NSMutableArray *topicPosts_t, NSError *error) {
         if (!error) {
-            [self.topicPosts addObjectsFromArray:topicPosts];
+            [self.topicPosts addObjectsFromArray:topicPosts_t];
             [self.tableView reloadData];
         }else{
-            [BDWMAlertMessage alertMessage:@"没有啦～"];
+            [BDWMAlertMessage alertAndAutoDismissMessage:@"没有啦～"];
         }
     }];
     
  //   [self.refreshControlBottom setRefreshingWithStateOfTask:task];
 }
 
-- (void) displayNextPage
-{
-    NSMutableArray *posts = [self.topicReader readNextPage];
-    if(posts != nil) {
-        self.topicPosts = posts;
-        [self.tableView reloadData];
-        if (posts.count == 0) {
-            // should not continu to scrollToRow
-            return;
-        }
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-    } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"已没有下一页" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alert show];
-        [alert release];
-    }
-}
+//- (void) displayNextPage
+//{
+//    NSMutableArray *posts = [self.topicReader readNextPage];
+//    if(posts != nil) {
+//        self.topicPosts = posts;
+//        [self.tableView reloadData];
+//        if (posts.count == 0) {
+//            // should not continu to scrollToRow
+//            return;
+//        }
+//        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+//    } else {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"已没有下一页" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+//        [alert show];
+//        [alert release];
+//    }
+//}
 
-- (void) displayPreviousPage
-{
-    NSMutableArray *posts = [self.topicReader readPreviousPage];
-    if(posts != nil) {
-        self.topicPosts = posts;
-        [self.tableView reloadData];
-        if (posts.count == 0) {
-            // should not continu to scrollToRow
-            return;
-        }
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"已没有上一页" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alert show];
-        [alert release];
-    }
-}
+//- (void) displayPreviousPage
+//{
+//    NSMutableArray *posts = [self.topicReader readPreviousPage];
+//    if(posts != nil) {
+//        self.topicPosts = posts;
+//        [self.tableView reloadData];
+//        if (posts.count == 0) {
+//            // should not continu to scrollToRow
+//            return;
+//        }
+//        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//    } else {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"已没有上一页" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+//        [alert show];
+//        [alert release];
+//    }
+//}
 
-- (void) displayLastPage
-{
-    NSMutableArray *posts = [self.topicReader readLastPage];
-    if(posts != nil) {
-        self.topicPosts = posts;
-        [self.tableView reloadData];
-        if (posts.count == 0) {
-            // should not continu to scrollToRow
-            return;
-        }
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:topicPosts.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    } else {
-        if (self.topicPosts.count != 0) {
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:topicPosts.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-        }
-    }
-}
- 
-- (void) displayFirstPage
-{
-    NSMutableArray *posts = [self.topicReader readFirstPage];
-    if(posts != nil) {
-        self.topicPosts = posts;
-        [self.tableView reloadData];
-        if (posts.count == 0) {
-            // should not continu to scrollToRow
-            return;
-        }
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    } else {
-        if (self.topicPosts.count != 0) {
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-        }
-    }
-}
+//- (void) displayLastPage
+//{
+//    NSMutableArray *posts = [self.topicReader readLastPage];
+//    if(posts != nil) {
+//        self.topicPosts = posts;
+//        [self.tableView reloadData];
+//        if (posts.count == 0) {
+//            // should not continu to scrollToRow
+//            return;
+//        }
+//        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:topicPosts.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//    } else {
+//        if (self.topicPosts.count != 0) {
+//            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:topicPosts.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//        }
+//    }
+//}
+
+//- (void) displayFirstPage
+//{
+//    NSMutableArray *posts = [self.topicReader readFirstPage];
+//    if(posts != nil) {
+//        self.topicPosts = posts;
+//        [self.tableView reloadData];
+//        if (posts.count == 0) {
+//            // should not continu to scrollToRow
+//            return;
+//        }
+//        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//    } else {
+//        if (self.topicPosts.count != 0) {
+//            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//        }
+//    }
+//}
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -195,7 +196,7 @@
                 }else{
                     //did not logined
                     //Todo: segue to login view, and if login success, segue to reply view.
-                    [BDWMAlertMessage alertMessage:@"登录以后才能回复呢."];
+                    [BDWMAlertMessage alertAndAutoDismissMessage:@"登录以后才能回复呢."];
                 }
                 
                 break;
@@ -210,7 +211,7 @@
                  }else{
                      //did not logined
                      //Todo: segue to login view, and if login success, segue to reply mail view.
-                     [BDWMAlertMessage alertMessage:@"登录以后才能写信呢."];
+                     [BDWMAlertMessage alertAndAutoDismissMessage:@"登录以后才能写信呢."];
                  }
                 
                 break;

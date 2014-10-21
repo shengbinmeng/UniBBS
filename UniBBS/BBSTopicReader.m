@@ -172,44 +172,44 @@
     return topicPosts;
 }
 
-- (NSMutableArray*) readPreviousPage
-{
-    if (previousPage == nil) {
-        return nil;
-    }
-    //TODO: if has cached, return cache
-    
-    self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", previousPage];
-    return [self readTopicPosts];
-}
+//- (NSMutableArray*) readPreviousPage
+//{
+//    if (previousPage == nil) {
+//        return nil;
+//    }
+//    //TODO: if has cached, return cache
+//    
+//    self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", previousPage];
+//    return [self readTopicPosts];
+//}
 
-- (NSMutableArray*) readNextPage
-{
-    if (nextPage == nil) {
-        return nil;
-    }
-    self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", nextPage];
-    
-    return [self readTopicPosts];
-}
+//- (NSMutableArray*) readNextPage
+//{
+//    if (nextPage == nil) {
+//        return nil;
+//    }
+//    self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", nextPage];
+//    
+//    return [self readTopicPosts];
+//}
 
-- (NSMutableArray*) readFirstPage
-{
-    if (firstPage == nil) {
-        return nil;
-    }
-    self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", firstPage];
-    return [self readTopicPosts];
-}
+//- (NSMutableArray*) readFirstPage
+//{
+//    if (firstPage == nil) {
+//        return nil;
+//    }
+//    self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", firstPage];
+//    return [self readTopicPosts];
+//}
 
-- (NSMutableArray*) readLastPage
-{
-    if (lastPage == nil) {
-        return nil;
-    }
-    self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", lastPage];
-    return [self readTopicPosts];
-}
+//- (NSMutableArray*) readLastPage
+//{
+//    if (lastPage == nil) {
+//        return nil;
+//    }
+//    self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", lastPage];
+//    return [self readTopicPosts];
+//}
 
 
 @end

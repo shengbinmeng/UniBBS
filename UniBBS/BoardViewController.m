@@ -50,7 +50,7 @@
             self.boardTopics = topics;
             [self.tableView reloadData];
         } else {
-            [BDWMAlertMessage alertMessage:@"没有啦～"];
+            [BDWMAlertMessage alertAndAutoDismissMessage:@"没有啦～"];
         }
     } else {
         NSMutableArray *posts = self.boardPosts;
@@ -59,7 +59,7 @@
             self.boardPosts = posts;
             [self.tableView reloadData];
         } else {
-           [BDWMAlertMessage alertMessage:@"没有啦～"];
+           [BDWMAlertMessage alertAndAutoDismissMessage:@"没有啦～"];
         }
     }
 }
@@ -151,7 +151,7 @@
                 [self.navigationController pushViewController:newPost animated:YES];
             }else{
                 //Todo: segue to login view, and if login success, segue to compose topic view.
-                [BDWMAlertMessage alertMessage:@"登录以后才能发帖呢."];
+                [BDWMAlertMessage alertAndAutoDismissMessage:@"登录以后才能发帖呢."];
             }
             
             break;

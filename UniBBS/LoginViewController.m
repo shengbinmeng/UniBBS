@@ -35,12 +35,12 @@
     NSString *userPass = self.userPasswordTextField.text;
     
     if (userName.length==0 ) {
-        [BDWMAlertMessage alertMessage:@"请输入用户名"];
+        [BDWMAlertMessage alertAndAutoDismissMessage:@"请输入用户名"];
         return;
     }
     
     if (userPass.length==0) {
-        [BDWMAlertMessage alertMessage:@"请输入密码"];
+        [BDWMAlertMessage alertAndAutoDismissMessage:@"请输入密码"];
         return;
     }
     
@@ -54,7 +54,7 @@
             self.userPasswordTextField.text = @"";
         }else{
             self.userPasswordTextField.text = @"";
-            [BDWMAlertMessage alertMessage:@"用户名或密码错误"];
+            [BDWMAlertMessage alertAndAutoDismissMessage:@"用户名或密码错误"];
         }
     }];
 }
