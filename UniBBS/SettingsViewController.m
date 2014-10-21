@@ -1,22 +1,20 @@
 //
-//  SettingTableViewController.m
+//  SettingsViewController.m
 //  UniBBS
 //
-//  Created by fanyingming on 10/19/14.
+//  Created by Shengbin Meng on 10/21/14.
 //  Copyright (c) 2014 Peking University. All rights reserved.
 //
 
-#import "SettingTableViewController.h"
+#import "SettingsViewController.h"
 #import "WebViewController.h"
-#import "BDWMGlobalData.h"
 #import "SettingModel.h"
-#import "AboutViewController.h"
 
-@interface SettingTableViewController ()
+@interface SettingsViewController ()
 
 @end
 
-@implementation SettingTableViewController
+@implementation SettingsViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -101,7 +99,7 @@
     if (section == 0) {
         return 1;
     } else if (section == 1) {
-        return 4;
+        return 3;
     }
     return 1;
 }
@@ -110,7 +108,7 @@
     UISwitch* switchControl = sender;
     NSLog( @"The switch is %@", switchControl.on ? @"ON" : @"OFF" );
     [SettingModel setBoolUsePostSuffixString:switchControl.on];
-
+    
 }
 
 // Customize the appearance of table view cells.
@@ -141,25 +139,16 @@
         }
         
         if ([indexPath row] == 0) {
-            [cell.textLabel setText:@"未名站点"];
-            [cell.textLabel setFont:[UIFont systemFontOfSize:17.0]];
-            [cell.detailTextLabel setText:@"http://www.bdwm.net"];
+            [cell.textLabel setText:@"关于此应用"];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         if ([indexPath row] == 1) {
-            [cell.textLabel setText:@"支持开发者"];
-            [cell.textLabel setFont:[UIFont systemFontOfSize:17.0]];
-            [cell.detailTextLabel setText:@"shengbin.me"];
+            [cell.textLabel setText:@"关于开发者"];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         if ([indexPath row] == 2) {
-            [cell.textLabel setText:@"支持开发者"];
-            [cell.textLabel setFont:[UIFont systemFontOfSize:17.0]];
-            [cell.detailTextLabel setText:@"yingmingfan.me"];
-        }
-        if ([indexPath row] == 3) {
-            [cell release];
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"] autorelease];
-            [cell.textLabel setText:@"关于此程序"];
-            [cell.textLabel setTextAlignment:NSTextAlignmentCenter];
+            [cell.textLabel setText:@"未名站点"];
+            [cell.detailTextLabel setText:@"将打开浏览器访问"];
         }
         return cell;
     }
@@ -170,7 +159,7 @@
 - (NSString *)tableView:(UITableView*)tableView titleForHeaderInSection:(NSInteger)section {
     NSString *header = @"";
     if (section == 0) {
-        header = @"自定义";
+        header = @"设置";
     }
     if (section == 1) {
         header = @"关于";
@@ -182,7 +171,7 @@
 {
     NSString *footerText = @"";
     if (section == 0) {
-        
+        footerText = [NSString stringWithFormat:@"打开小尾巴就是在您发布的消息结尾加上“发自我的北大未名iOS客户端”字样"];
     }
     return footerText;
 }
@@ -190,45 +179,24 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if ([indexPath section] == 0) {
-        if ([indexPath row] == 0) {
-            NSString *msg = [NSString stringWithFormat:@"小尾巴就是在您发布的消息结尾加入我们App的标识符: %@", POST_SUFFIX_STRING];
-            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"什么是小尾巴" message:msg delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
-            [alert show];
-            [alert release];
-
-            return;
-        }
-    }
-    
     if ([indexPath section] == 1) {
         if ([indexPath row] == 0) {
             WebViewController *aboutViewController =[[[WebViewController alloc] init] autorelease];
-            aboutViewController.webAddress = @"http://www.bdwm.net/bbs";
+            aboutViewController.webAddress = @"http://unibbs.sinaapp.com/bdwm";
             [self.navigationController pushViewController:aboutViewController animated:YES];
             return;
         }
         if ([indexPath row] == 1) {
-            [[UIApplication sharedApplication] openURL:[[[NSURL alloc] initWithString:@"http://www.shengbin.me/apps/unibbs"] autorelease]];
+            WebViewController *aboutViewController =[[[WebViewController alloc] init] autorelease];
+            aboutViewController.webAddress = @"http://unibbs.sinaapp.com/authors";
+            [self.navigationController pushViewController:aboutViewController animated:YES];
             return;
         }
         if ([indexPath row] == 2) {
-            [[UIApplication sharedApplication] openURL:[[[NSURL alloc] initWithString:@"http://www.yingmingfan.me"] autorelease]];
-            return;
-        }
-        if ([indexPath row] == 3) {
-            AboutViewController * aboutViewController = [[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
-            
-            [self.navigationController pushViewController:aboutViewController animated:YES];
-            [aboutViewController release];
-            
-//            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"关于" message:@"北大未名 - 访问北京大学未名BBS的iOS客户端。如果有任何问题和建议，可以发信至：hello@shengbin.me。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-//            [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
-//            [alert show];
-//            [alert release];
+            [[UIApplication sharedApplication] openURL:[[[NSURL alloc] initWithString:@"http://www.bdwm.net/bbs"] autorelease]];
             return;
         }
     }
 }
+
 @end
