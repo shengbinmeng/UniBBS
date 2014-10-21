@@ -9,7 +9,6 @@
 #import "PopularTopicsViewController.h"
 #import "TopicViewController.h"
 #import "BBSPopularReader.h"
-#import "EGORefreshTableHeaderView.h"
 #import "BDWMUserModel.h"
 #import "BDWMAlertMessage.h"
 
@@ -18,8 +17,6 @@
 @end
 
 @implementation PopularTopicsViewController {
- //   EGORefreshTableHeaderView *_refreshHeaderView;
- //   BOOL _reloading;
     int numLimit;
     int popType; // 0 for instance, 1 for day, 2 for week
     
@@ -88,12 +85,11 @@
         default:
             break;
     }
- //   self.popularTopics = [self.popularReader readPopularTopics];
+
     numLimit = 20;
     [((UIButton*)self.tableView.tableFooterView) setTitle:@"更多" forState:UIControlStateNormal];
     [((UIButton*)self.tableView.tableFooterView) setEnabled:YES];
     [self reload:nil];
- //   [self.tableView reloadData];
     if (self.popularTopics.count != 0) {
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
@@ -109,14 +105,7 @@
         [((UIButton*)self.tableView.tableFooterView) setEnabled:NO];
     }
 }
-/*
-- (void) loadData:(UIActivityIndicatorView*) indicator {
-    self.popularTopics = [self.popularReader readPopularTopics];
-    [self.tableView reloadData];
-    [indicator stopAnimating];
-    [indicator removeFromSuperview];
-}
-*/
+
 - (void)reload:(__unused id)sender {
     
     NSURLSessionTask *task = [BBSPopularReader getPopularTopicsWithBlock:href blockFunction:^(NSMutableArray *topics, NSError *error) {
@@ -128,21 +117,9 @@
         }
     }];
 
-//    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:task delegate:nil];
     [self.refreshControl setRefreshingWithStateOfTask:task];
 }
-/*
-- (void) doRefresh {
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    
-    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [self.view insertSubview:indicator aboveSubview:self.tableView];
-    indicator.center = self.view.center;
-    [indicator startAnimating];
-    
-    [self performSelectorInBackground:@selector(loadData:) withObject:indicator];
-}
-*/
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -153,26 +130,11 @@
     self.navigationItem.rightBarButtonItem = button;
     [button release];
     
-//    button = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStyleBordered target:self action:@selector(doRefresh)];
-//    self.navigationItem.leftBarButtonItem = button;
-//    [button release];
-    
     UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button1 setTitle:@"更多" forState:UIControlStateNormal];
     [button1 setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
     [button1 addTarget:self action:@selector(showMore) forControlEvents:UIControlEventTouchUpInside];
     [self.tableView setTableFooterView:button1];
-
-
-    /*
-    if (_refreshHeaderView == nil) { 
-        EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, - 100.0f, self.tableView.frame.size.width, 100)]; 
-        view.delegate = self; 
-        [self.tableView addSubview:view]; //retained
-        _refreshHeaderView = view; 
-        [view release]; 
-    }
-     */
 
     self.refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
@@ -291,53 +253,6 @@
     topicViewController.topicInfo = topic;
     [self.navigationController pushViewController:topicViewController animated:YES];
     [topicViewController release];
-}
-
-
-#pragma mark - Helper: Data Source Loading / Reloading Methods
-/*
-- (void)doneLoadingTableViewData 
-{
-    _reloading = NO; 
-    //[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
-}*/
-/*
-- (void)reloadTableViewDataSource 
-{   
-    _reloading = YES;  
-    self.popularTopics = [self.popularReader readPopularTopics];
-    [self.tableView reloadData];
-    sleep(1);
-    [self doneLoadingTableViewData];
-}
-*/
-#pragma mark - UIScrollViewDelegate Methods 
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{    
-    //[_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{ 
-    //[_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
 } 
 
-#pragma mark - EGORefreshTableHeaderDelegate Methods 
-/*
-- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view
-{
-    [self performSelector:@selector(reloadTableViewDataSource) withObject:nil afterDelay:0.5];
-}
-
-- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view
-{
-    return _reloading; 
-} 
-
-- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view
-{
-    return [NSDate date];     
-} 
-*/
 @end
