@@ -15,9 +15,9 @@
     
     NSString *htmlStr = [[NSString alloc] initWithData:htmlData encoding:gbEncoding];
     
-    NSString *utf8HtmlStr = [htmlStr stringByReplacingOccurrencesOfString:@"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=gb2312\" />"
-                                                               withString:@"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />"];
-    NSData *htmlDataUTF8 = [utf8HtmlStr dataUsingEncoding:NSUTF8StringEncoding];
+//    NSString *utf8HtmlStr = [htmlStr stringByReplacingOccurrencesOfString:@"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=gb2312\" />"
+//                                                               withString:@"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />"];
+    NSData *htmlDataUTF8 = [htmlStr dataUsingEncoding:NSUTF8StringEncoding];
     
     return htmlDataUTF8;
 }
