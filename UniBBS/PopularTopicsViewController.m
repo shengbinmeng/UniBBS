@@ -113,7 +113,7 @@
             self.popularTopics = topics;
             [self.tableView reloadData];
         }else{
-            [BDWMAlertMessage alertMessage:@"哎呀～获取不到数据～"];
+            [BDWMAlertMessage alertAndAutoDismissMessage:@"哎呀～获取不到数据～"];
         }
     }];
 
@@ -172,7 +172,7 @@
         
         [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
             if ( !error && name!=nil ) {
-                [BDWMAlertMessage alertMessage:@"登录成功！"];
+                [BDWMAlertMessage alertAndAutoDismissMessage:@"登录成功！"];
                 
             }else{
 

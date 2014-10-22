@@ -10,7 +10,7 @@
 
 @implementation BDWMAlertMessage
 
-+(void)alertMessage:(NSString *)message
++ (void)alertAndAutoDismissMessage:(NSString *)message
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"知道了" otherButtonTitles:nil];
     [alert show];
@@ -25,5 +25,10 @@
         [alert dismissWithClickedButtonIndex:[alert cancelButtonIndex] animated:YES];
         [alert release];
     }
+}
+
++ (void)alertMessage:(NSString *)message{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+    [alert show];
 }
 @end

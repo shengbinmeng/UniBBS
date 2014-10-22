@@ -84,7 +84,7 @@
         [self.navigationController popViewControllerAnimated:YES];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"Reply failed!");
-        [BDWMAlertMessage alertMessage:@"发布失败"];
+        [BDWMAlertMessage alertAndAutoDismissMessage:@"发布失败"];
     }];
 }
 
@@ -94,10 +94,10 @@
     NSString *content = self.contentTextView.text;
     
     if (title.length==0) {
-        [BDWMAlertMessage alertMessage:@"亲，忘记写标题了。"];
+        [BDWMAlertMessage alertAndAutoDismissMessage:@"亲，忘记写标题了。"];
     }
     if(content.length==0){
-        [BDWMAlertMessage alertMessage:@"怎么也得写点东西再发啊～"];
+        [BDWMAlertMessage alertAndAutoDismissMessage:@"怎么也得写点东西再发啊～"];
     }
     
     NSMutableDictionary* dic = [NSMutableDictionary dictionary];
@@ -136,7 +136,7 @@
         [self.navigationController popViewControllerAnimated:YES];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"Reply failed!");
-        [BDWMAlertMessage alertMessage:@"发布失败"];
+        [BDWMAlertMessage alertAndAutoDismissMessage:@"发布失败"];
     }];
 
 }
@@ -147,7 +147,7 @@
     }else if( [self.fromWhere isEqualToString:@"compose"]){
         [self doCompose];
     }else{
-        [BDWMAlertMessage alertMessage:@"我去！从哪里点过来的！"];
+        [BDWMAlertMessage alertAndAutoDismissMessage:@"我去！从哪里点过来的！"];
     }
 
 }
@@ -166,23 +166,6 @@
     }else{
         self.title = @"我去！从哪里点过来的！";
     }
-
-    if ( [self.fromWhere isEqualToString:@"reply"] ) {
-        self.postDict = [BDWMTopicModel getNeededReplyData:[self href]];
-        self.titleTextField.text = [self.postDict objectForKey:@"title_exp"];
-        self.contentTextView.text = [self.postDict objectForKey:@"quote"];
-        
-        if (self.href != nil) {
-            //TODO: 1. what if href is nil? 2. getNeededReplayData has bugs, needs more error handling
-            self.postDict = [BDWMTopicModel getNeededReplyData:[self href]];
-            self.titleTextField.text = [self.postDict objectForKey:@"title_exp"];
-            self.contentTextView.text = [self.postDict objectForKey:@"quote"];
-        }
-    }else if( [self.fromWhere isEqualToString:@"compose"] ){
-        self.postDict = [BDWMTopicModel getNeededComposeData:self.href];
-    }else{
-        [BDWMAlertMessage alertMessage:@"我去！从哪里点过来的！"];
-    }
     
     int screenWidth = [[UIScreen mainScreen] bounds].size.width;
     UIToolbar * topView = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, screenWidth, 36)];
@@ -199,6 +182,35 @@
     
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    if ( [self.fromWhere isEqualToString:@"reply"] ) {
+        self.postDict = [BDWMTopicModel getNeededReplyData:[self href]];
+        if (self.postDict==nil) {
+            [BDWMAlertMessage alertMessage:@"哎呦！不能回复！"];
+            [self.navigationController popViewControllerAnimated:NO];
+        }
+        self.titleTextField.text = [self.postDict objectForKey:@"title_exp"];
+        self.contentTextView.text = [self.postDict objectForKey:@"quote"];
+        
+        if (self.href != nil) {
+            //TODO: 1. what if href is nil? 2. getNeededReplayData has bugs, needs more error handling
+            self.postDict = [BDWMTopicModel getNeededReplyData:[self href]];
+            self.titleTextField.text = [self.postDict objectForKey:@"title_exp"];
+            self.contentTextView.text = [self.postDict objectForKey:@"quote"];
+        }else{
+            [BDWMAlertMessage alertMessage:@"哎呦！没有找到回复链接！"];
+            [self.navigationController popViewControllerAnimated:NO];
+        }
+    }else if( [self.fromWhere isEqualToString:@"compose"] ){
+        self.postDict = [BDWMTopicModel getNeededComposeData:self.href];
+        if (self.postDict==nil) {
+             [BDWMAlertMessage alertMessage:@"哎呦！是不是没有发帖权限！"];
+            [self.navigationController popViewControllerAnimated:NO];
+        }
+    }else{
+        [BDWMAlertMessage alertAndAutoDismissMessage:@"我去！从哪里点过来的！"];
+    }
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

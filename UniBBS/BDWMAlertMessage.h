@@ -10,6 +10,6 @@
 
 @interface BDWMAlertMessage : NSObject
 
-+(void)alertMessage:(NSString *)message;
-
++ (void)alertAndAutoDismissMessage:(NSString *)message;
++ (void)alertMessage:(NSString *)message;
 @end

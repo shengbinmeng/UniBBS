@@ -161,27 +161,43 @@
     
     
     NSData *htmlData = [NSData dataWithContentsOfURL:[NSURL URLWithString:string]];
-    htmlData = [BDWMString DataConverse_GB2312_to_UTF8:htmlData];
-    doc = [[TFHpple alloc] initWithHTMLData:htmlData];
+    NSData *utf8Data = [BDWMString DataConverse_GB2312_to_UTF8:htmlData];
+    doc = [[TFHpple alloc] initWithHTMLData:utf8Data];
+    
+    if ( doc.data == nil ) {
+        return nil;
+    }
     
     TFHppleElement *e;
     
     NSArray *titles = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='title_exp']"];
+    if (titles==nil || titles.count==0) {
+        return nil;
+    }
     e = [titles objectAtIndex:0];
     NSString *reply_title = [e objectForKey:@"value"];
     [dic setValue:reply_title forKey:@"title_exp"];
    
     NSArray *boards = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='board']"];
+    if (boards==nil || boards.count==0) {
+        return nil;
+    }
     e = [boards objectAtIndex:0];
     NSString *board = [e objectForKey:@"value"];
     [dic setValue:board forKey:@"board"];
     
     NSArray *threadids = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='threadid']"];
+    if (threadids==nil || threadids.count==0) {
+        return nil;
+    }
     e = [threadids objectAtIndex:0];
     NSString *threadid = [e objectForKey:@"value"];
     [dic setValue:threadid forKey:@"threadid"];
     
     NSArray *postids = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='postid']"];
+    if (postids==nil || postids.count==0) {
+        return nil;
+    }
     e = [postids objectAtIndex:0];
     NSString *postid = [e objectForKey:@"value"];
     [dic setValue:postid forKey:@"postid"];
@@ -221,10 +237,14 @@
     
     NSString *string = [NSString stringWithFormat:@"%@%@", BDWM_PREFIX, href];
     
-    
+    //Todo: When reply post on pkulib board, can't converse gb2312 to utf8.
     NSData *htmlData = [NSData dataWithContentsOfURL:[NSURL URLWithString:string]];
-    htmlData = [BDWMString DataConverse_GB2312_to_UTF8:htmlData];
-    doc = [[TFHpple alloc] initWithHTMLData:htmlData];
+    NSData *utf8Data = [BDWMString DataConverse_GB2312_to_UTF8:htmlData];
+    doc = [[TFHpple alloc] initWithHTMLData:utf8Data];
+    
+    if ( doc.data == nil ) {
+        return nil;
+    }
     
     TFHppleElement *e;
     
@@ -234,6 +254,9 @@
     [dic setValue:@"" forKey:@"title_exp"];
     
     NSArray *boards = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='board']"];
+    if (boards==nil || boards.count==0) {
+        return nil;
+    }
     e = [boards objectAtIndex:0];
     NSString *board = [e objectForKey:@"value"];
     [dic setValue:board forKey:@"board"];
