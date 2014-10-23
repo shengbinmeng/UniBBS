@@ -15,6 +15,11 @@
 
 static BOOL logined = NO;
 static NSString *loginUser = nil;
+static BOOL shouldReloin = NO;
+
++(BOOL) getBoolShouldRelogin{
+    return shouldReloin;
+}
 
 + (BOOL) isLogined {
     return logined;

@@ -32,20 +32,41 @@
 }
 
 - (void)reload:(__unused id)sender {
-    
+    if ([BDWMUserModel isLogined] == NO) {
+        [BDWMAlertMessage alertMessage:@"啊！出错了！没有登陆居然也能到这里！"];
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    //already logined.
     self.userName = [BDWMUserModel getLoginUser];
     if (self.userName == nil) {
-        //did not logined
-        //Todo: segue to login view, and if login success, segue to reply view.
-        [BDWMAlertMessage alertAndAutoDismissMessage:@"登录以后才能查看站内信。"];
+        [BDWMAlertMessage alertMessage:@"啊！出错了！用户名怎么丢了！"];
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
     }
     NSString *userName = self.userName;
     NSURLSessionTask *task = [MailModel getAllMailWithBlock:userName blockFunction:^(NSArray *mails, NSError *error) {
         if (!error) {
             self.mails = mails;
+            if ( self.mails==nil || self.mails.count == 0 ) {
+                //login session failed. then relogin.
+                NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+                NSString *userName = [userDefaultes stringForKey:@"saved_username"];
+                NSString *password = [userDefaultes stringForKey:@"saved_password"];
+                
+                [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
+                    if ( !error && name!=nil ) {
+                        [BDWMAlertMessage alertAndAutoDismissMessage:@"重新登录成功！"];
+                        [self reload:nil];
+                    }else{
+                        [BDWMAlertMessage alertAndAutoDismissMessage:@"重新登录失败！"];
+                    }
+                }];
+            }
             [self.tableView reloadData];
         }else{
             [BDWMAlertMessage alertAndAutoDismissMessage:@"哎呀～获取不到数据～"];
+            [self.navigationController popViewControllerAnimated:YES];
         }
     }];
     
@@ -88,6 +109,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
+    
     return self.mails.count;
 }
 

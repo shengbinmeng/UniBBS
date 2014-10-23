@@ -19,5 +19,5 @@
 
 + (BOOL) isLogined;
 + (NSString*) getLoginUser;
-
++(BOOL) getBoolShouldRelogin;
 @end
