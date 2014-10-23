@@ -141,7 +141,7 @@
 
 }
 
-- (IBAction)clickReplyButton:(id)sender {
+- (void) sendButtonPressed {
     if ([self.fromWhere isEqualToString:@"reply"]) {
         [self doReply];
     }else if( [self.fromWhere isEqualToString:@"compose"]){
@@ -149,12 +149,8 @@
     }else{
         [BDWMAlertMessage alertAndAutoDismissMessage:@"我去！从哪里点过来的！"];
     }
-
 }
 
-- (void) hideKeyboard {
-    [self.contentTextView resignFirstResponder];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -171,14 +167,9 @@
     UIToolbar * topView = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, screenWidth, 36)];
     [topView setBarStyle:UIBarStyleDefault];
     
-    // Used as place holder
-    UIBarButtonItem * button1 =[[UIBarButtonItem  alloc] initWithBarButtonSystemItem:                                        UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    
-    UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStyleDone  target:self action:@selector(hideKeyboard)];
-    NSArray * buttonsArray = [NSArray arrayWithObjects:button1, button1, button1, doneButton,nil];
-    [topView setItems:buttonsArray];
-    
-    [self.contentTextView setInputAccessoryView:topView];
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStyleBordered target:self action:@selector(sendButtonPressed)];
+    self.navigationItem.rightBarButtonItem = button;
+    [button release];
     
 }
 

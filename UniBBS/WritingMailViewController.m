@@ -89,10 +89,6 @@
     }
 }
 
-- (void) hideKeyboard {
-    [self.contentTextView resignFirstResponder];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -110,16 +106,6 @@
     int screenWidth = [[UIScreen mainScreen] bounds].size.width;
     UIToolbar * topView = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, screenWidth, 36)];
     [topView setBarStyle:UIBarStyleDefault];
-    
-    // Used as place holder
-    UIBarButtonItem * button1 =[[UIBarButtonItem  alloc] initWithBarButtonSystemItem:                                        UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    
-    UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStyleDone  target:self action:@selector(hideKeyboard)];
-    NSArray * buttonsArray = [NSArray arrayWithObjects:button1, button1, button1, doneButton,nil];
-    [topView setItems:buttonsArray];
-    
-    [self.contentTextView setInputAccessoryView:topView];
-    
 }
 
 
