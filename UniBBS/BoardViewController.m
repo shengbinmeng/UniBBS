@@ -201,31 +201,6 @@
     self.navigationItem.rightBarButtonItem = barButton;
     [barButton release];
     
-    /*
-    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button1 setTitle:@"下一页" forState:UIControlStateNormal];
-    [button1 setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
-    [button1 addTarget:self action:@selector(displayNextPage) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIButton *button2 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button2 setTitle:@"上一页" forState:UIControlStateNormal];
-    [button2 setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
-    [button2 addTarget:self action:@selector(displayPreviousPage) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.tableView setTableFooterView:button1];
-    [self.tableView setTableHeaderView:button2];
-     */
-    
-//    UIToolbar *toolBar = [[[UIToolbar alloc] initWithFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)] autorelease];
-//    UIBarButtonItem *prev = [[[UIBarButtonItem alloc] initWithTitle:@"上一页" style:UIBarButtonItemStyleBordered target:self action:@selector(displayPreviousPage)] autorelease];
-//    UIBarButtonItem *next = [[[UIBarButtonItem alloc] initWithTitle:@"下一页" style:UIBarButtonItemStyleBordered target:self action:@selector(displayNextPage)] autorelease];
-//    UIBarButtonItem *more = [[[UIBarButtonItem alloc] initWithTitle:@"更多" style:UIBarButtonItemStyleBordered target:self action:@selector(displayMore)] autorelease];
-////    UIBarButtonItem *space = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
-//    NSArray *toolbarItems = [NSArray arrayWithObjects: prev, more, next, nil];
-//    [toolBar setItems:toolbarItems];
-//    [self.tableView setTableFooterView:toolBar];
-    
-    
     UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button1 setTitle:@"更多" forState:UIControlStateNormal];
     [button1 setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
