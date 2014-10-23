@@ -56,7 +56,10 @@
     
     doc = [[TFHpple alloc] initWithHTMLData:htmlDataUTF8];
     NSArray *arr = [doc searchWithXPathQuery:@"//form[@name='frmpost']//table[@class='post']//tr"];
-
+    
+    if ( doc==nil ) {
+        return nil;
+    }
     if (arr.count<MAIL_REPLY_TABLE_TR_NUMBER) {
         return nil;
     }
@@ -64,6 +67,9 @@
     //parse username and signature.
     TFHppleElement *e = [arr objectAtIndex:0];
     NSArray *arr_tr = [e searchWithXPathQuery:@"//input[@name='to']"];
+    if (arr_tr==nil || arr_tr.count==0) {
+        return nil;
+    }
     TFHppleElement *ee = [arr_tr objectAtIndex:0];
     NSString *recever = [ee objectForKey:@"value"];
     [dict setObject:recever forKey:@"to"];
@@ -76,6 +82,9 @@
     //parse title and quote type
     e = [arr objectAtIndex:1];
     arr_tr = [e searchWithXPathQuery:@"//input[@name='title']"];
+    if (arr_tr==nil || arr_tr.count==0) {
+        return nil;
+    }
     ee = [arr_tr objectAtIndex:0];
     NSString *title = [ee objectForKey:@"value"];
     [dict setObject:title forKey:@"title"];
@@ -84,12 +93,18 @@
     //parse content.
     e = [arr objectAtIndex:2];
     arr_tr = [e searchWithXPathQuery:@"//textarea[@name='text']"];
+    if (arr_tr==nil || arr_tr.count==0) {
+        return nil;
+    }
     ee = [arr_tr objectAtIndex:0];
     NSString *content = [ee text];
     [dict setObject:content forKey:@"text"];
     
     //parse some hidden input.
     arr = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='id']"];
+    if (arr==nil || arr.count==0) {
+        return nil;
+    }
     e = [arr objectAtIndex:0];
     NSString *id = [e objectForKey:@"value"];
     [dict setObject:id forKey:@"id"];

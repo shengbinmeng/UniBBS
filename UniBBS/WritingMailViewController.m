@@ -89,19 +89,27 @@
     }
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    if (self.href != nil) {//reply mode
+        self.replyDict = [MailModel loadReplyMailNeededData:self.href];
+        if (self.replyDict == nil) {
+            [BDWMAlertMessage alertMessage:@"不能回复!是不是登录过期了？"];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        self.toTextField.text = [self.replyDict objectForKey:@"to"];
+        self.titleTextField.text = [self.replyDict objectForKey:@"title"];
+        self.contentTextView.text = [self.replyDict objectForKey:@"text"];
+    }else{
+        //compose mode do nothing here.
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStyleBordered target:self action:@selector(sendButtonPressed)];
     self.navigationItem.rightBarButtonItem = button;
     [button release];
-    
-    if (self.href != nil) {//reply mode
-        self.replyDict = [MailModel loadReplyMailNeededData:self.href];
-        self.toTextField.text = [self.replyDict objectForKey:@"to"];
-        self.titleTextField.text = [self.replyDict objectForKey:@"title"];
-        self.contentTextView.text = [self.replyDict objectForKey:@"text"];
-    }
     
     int screenWidth = [[UIScreen mainScreen] bounds].size.width;
     UIToolbar * topView = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, screenWidth, 36)];

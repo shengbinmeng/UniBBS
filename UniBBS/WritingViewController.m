@@ -177,7 +177,7 @@
     if ( [self.fromWhere isEqualToString:@"reply"] ) {
         self.postDict = [BDWMTopicModel getNeededReplyData:[self href]];
         if (self.postDict==nil) {
-            [BDWMAlertMessage alertMessage:@"哎呦！不能回复！"];
+            [BDWMAlertMessage alertMessage:@"哎呦！不能回复！是登录过期了吗？"];
             [self.navigationController popViewControllerAnimated:NO];
         }
         self.titleTextField.text = [self.postDict objectForKey:@"title_exp"];
@@ -195,7 +195,7 @@
     }else if( [self.fromWhere isEqualToString:@"compose"] ){
         self.postDict = [BDWMTopicModel getNeededComposeData:self.href];
         if (self.postDict==nil) {
-             [BDWMAlertMessage alertMessage:@"哎呦！是不是没有发帖权限！"];
+             [BDWMAlertMessage alertMessage:@"哎呦！是不是没有发帖权限！还是登录过期了呢？"];
             [self.navigationController popViewControllerAnimated:NO];
         }
     }else{
