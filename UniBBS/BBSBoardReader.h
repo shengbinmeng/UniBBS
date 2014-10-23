@@ -16,12 +16,10 @@
 
 - (id)initWithBoardName:(NSString *)name;
 
-- (NSMutableArray*) readBoardTopics;
-- (NSMutableArray*) readBoardPosts;
-- (NSMutableArray*) readNextPage;
-- (NSMutableArray*) readPreviousPage;
-- (NSMutableArray*) readFirstPage;
-- (NSMutableArray*) readLastPage;
-- (NSMutableArray*) readLatestPage;
 
+- (NSURLSessionDataTask *)getBoardTopicsWithBlock:(void (^)(NSMutableArray *topics, NSError *error))block;
+
+- (NSURLSessionDataTask *)getBoardPostsWithBlock:(void (^)(NSMutableArray *posts, NSError *error))block;
+- (NSURLSessionDataTask *)getBoardNextTopicsWithBlock:(void (^)(NSMutableArray *topics, NSError *error))block;
+- (NSURLSessionDataTask *)getBoardNextPostsWithBlock:(void (^)(NSMutableArray *posts, NSError *error))block;
 @end

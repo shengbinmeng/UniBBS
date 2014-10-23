@@ -8,6 +8,7 @@
 
 #import "BBSBoardReader.h"
 #import "Utility.h"
+#import "AFAppDotNetAPIClient.h"
 
 @implementation BBSBoardReader {
     NSMutableArray *boardTopics;
@@ -32,31 +33,89 @@
     return self;
 }
 
-- (NSMutableArray*) readBoardTopics 
+- (NSURLSessionDataTask *)getBoardPostsWithBlock:(void (^)(NSMutableArray *posts, NSError *error))block {
+    if (self.dataAddress == nil) {
+        self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/bbsdoc.php?board=%@", self.boardName];
+    }
+    
+    return [[AFAppDotNetAPIClient sharedClient] GET:self.dataAddress parameters:nil success:^(NSURLSessionDataTask * __unused task, id responseObject) {
+        NSMutableArray *results = [self readBoardPosts:responseObject];
+        if (block) {
+            block( results, nil);
+        }
+    } failure:^(NSURLSessionDataTask *__unused task, NSError *error) {
+        if (block) {
+            block([NSMutableArray array], error);
+        }
+    }];
+    
+}
+
+- (NSURLSessionDataTask *)getBoardNextPostsWithBlock:(void (^)(NSMutableArray *posts, NSError *error))block {
+    self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", previousPage];
+    self.showSticky = NO;//shen show more, do not include sticky.
+    
+    return [[AFAppDotNetAPIClient sharedClient] GET:self.dataAddress parameters:nil success:^(NSURLSessionDataTask * __unused task, id responseObject) {
+        NSMutableArray *results = [self readBoardPosts:responseObject];
+        if (block) {
+            block( results, nil);
+        }
+    } failure:^(NSURLSessionDataTask *__unused task, NSError *error) {
+        if (block) {
+            block([NSMutableArray array], error);
+        }
+    }];
+    
+}
+
+- (NSURLSessionDataTask *)getBoardNextTopicsWithBlock:(void (^)(NSMutableArray *topics, NSError *error))block {
+    self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", previousPage];
+    self.showSticky = NO;//shen show more, do not include sticky.
+    
+    return [[AFAppDotNetAPIClient sharedClient] GET:self.dataAddress parameters:nil success:^(NSURLSessionDataTask * __unused task, id responseObject) {
+        NSMutableArray *results = [self readBoardTopics:responseObject];
+        if (block) {
+            block( results, nil);
+        }
+    } failure:^(NSURLSessionDataTask *__unused task, NSError *error) {
+        if (block) {
+            block([NSMutableArray array], error);
+        }
+    }];
+    
+}
+
+- (NSURLSessionDataTask *)getBoardTopicsWithBlock:(void (^)(NSMutableArray *topics, NSError *error))block {
+    if (self.dataAddress == nil) {
+        self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/bbstop.php?board=%@", self.boardName];
+    }
+    
+    return [[AFAppDotNetAPIClient sharedClient] GET:self.dataAddress parameters:nil success:^(NSURLSessionDataTask * __unused task, id responseObject) {
+        NSMutableArray *results = [self readBoardTopics:responseObject];
+        if (block) {
+            block( results, nil);
+        }
+    } failure:^(NSURLSessionDataTask *__unused task, NSError *error) {
+        if (block) {
+            block([NSMutableArray array], error);
+        }
+    }];
+    
+}
+
+- (NSMutableArray*) readBoardTopics:(NSData *)returnedData
 {
     readingTopics = YES;
     if (boardTopics) {
         [boardTopics release];
     }
     
-    if (self.dataAddress == nil) {
-        self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/bbstop.php?board=%@", self.boardName];
-    }
-    
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     boardTopics = [[NSMutableArray alloc] init];
-    NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease]; 
-    [request setURL:[NSURL URLWithString:self.dataAddress]];  
-    [request setHTTPMethod:@"GET"]; 
-    [request setTimeoutInterval:15];
-    
-    NSData *returnedData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
 
     if (returnedData) {
         NSString *pageSource = [Utility convertDataToString:returnedData];
         
         if (pageSource == nil) {
-            [pool drain];
             return boardTopics;
         }
         
@@ -171,34 +230,22 @@
     }else{
         boardTopics = [[[boardTopics reverseObjectEnumerator] allObjects] mutableCopy];
     }
-    [pool drain];
+
     return boardTopics;
 }
 
-- (NSMutableArray*) readBoardPosts 
+- (NSMutableArray*) readBoardPosts:(NSData *)returnedData
 {
     readingTopics = NO;
     if (boardPosts) {
         [boardPosts release];
     }
     
-    if (self.dataAddress == nil) {
-        self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/bbsdoc.php?board=%@", self.boardName];
-    }
-    
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     boardPosts = [[NSMutableArray alloc] init];
     
-    NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease]; 
-    [request setURL:[NSURL URLWithString:self.dataAddress]];  
-    [request setHTTPMethod:@"GET"]; 
-    [request setTimeoutInterval:15];
-    
-    NSData *returnedData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     if (returnedData) {
         NSString *pageSource = [Utility convertDataToString:returnedData];
         if (pageSource == nil) {
-            [pool drain];
             return boardPosts;
         }
 #ifdef DEBUG
@@ -299,88 +346,8 @@
         boardPosts = [[[boardPosts reverseObjectEnumerator] allObjects] mutableCopy];
     }
     
-    [pool drain];
     return boardPosts;
 }
-
-- (NSMutableArray*) readPreviousPage 
-{
-    if (previousPage == nil) {
-        return nil;
-    }
-    //TODO: if has cached, return cache
-    
-    self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", previousPage];
-    self.showSticky = NO;//shen show more, do not include sticky.
-    NSMutableArray *data;
-    if (readingTopics) {
-        data = [self readBoardTopics];
-    } else {
-        data = [self readBoardPosts];
-    }
-    return data;
-}
-
-- (NSMutableArray*) readNextPage 
-{
-    if (nextPage == nil) {
-        return nil;
-    }
-    self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", nextPage];
-    NSMutableArray *data;
-    if (readingTopics) {
-        data = [self readBoardTopics];
-    } else {
-        data = [self readBoardPosts];
-    }
-    return data;
-}
-
-- (NSMutableArray*) readFirstPage 
-{
-    if (firstPage == nil) {
-        return nil;
-    }
-    self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", firstPage];
-    NSMutableArray *data;
-    if (readingTopics) {
-        data = [self readBoardTopics];
-    } else {
-        data = [self readBoardPosts];
-    }
-    return data;
-}
-
-- (NSMutableArray*) readLastPage
-{
-    if (lastPage == nil) {
-        return nil;
-    }
-    self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", lastPage];
-    NSMutableArray *data;
-    if (readingTopics) {
-        data = [self readBoardTopics];
-    } else {
-        data = [self readBoardPosts];
-    }
-    return data;
-}
-
-- (NSMutableArray*) readLatestPage
-{
-    if (latestPage == nil) {
-        return nil;
-    }
-    self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", latestPage];
-    NSMutableArray *data;
-    if (readingTopics) {
-        data = [self readBoardTopics];
-    } else {
-        data = [self readBoardPosts];
-    }
-    return data;
-}
-
 
 - (void) dealloc 
 {

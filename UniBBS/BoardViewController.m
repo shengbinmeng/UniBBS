@@ -17,6 +17,11 @@
 #import "BDWMAlertMessage.h"
 #import "BDWMUserModel.h"
 
+@interface BoardViewController ()
+@property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl;
+//@property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl_footer;
+@end
+
 @implementation BoardViewController {
     BOOL topicMode;
 }
@@ -44,93 +49,38 @@
 - (void) displayMore
 {
     if (topicMode) {
-        NSMutableArray *topics = self.boardTopics;
-        [topics addObjectsFromArray:[self.boardReader readPreviousPage]];
-        if(topics != nil && topics.count > 0) {
-            self.boardTopics = topics;
-            [self.tableView reloadData];
-        } else {
-            [BDWMAlertMessage alertAndAutoDismissMessage:@"没有啦～"];
-        }
+        [self.boardReader getBoardNextTopicsWithBlock:^(NSMutableArray *topics_t, NSError *error) {
+            if (!error) {
+                NSMutableArray *topics = self.boardTopics;
+                [topics addObjectsFromArray:topics_t];
+                if(topics != nil && topics.count > 0) {
+                    self.boardTopics = topics;
+                    [self.tableView reloadData];
+                } else {
+                    [BDWMAlertMessage alertAndAutoDismissMessage:@"没有啦～"];
+                }
+            }else{
+                [BDWMAlertMessage alertAndAutoDismissMessage:@"哎呀～获取不到数据～"];
+            }
+        }];
+        
+        
     } else {
-        NSMutableArray *posts = self.boardPosts;
-        [posts addObjectsFromArray:[self.boardReader readPreviousPage]];
-        if(posts != nil && posts.count > 0) {
-            self.boardPosts = posts;
-            [self.tableView reloadData];
-        } else {
-           [BDWMAlertMessage alertAndAutoDismissMessage:@"没有啦～"];
-        }
-    }
-}
-
-- (void) displayNextPage
-{
-    if (topicMode) {
-        NSMutableArray *topics = [self.boardReader readNextPage];
-        if(topics != nil) {
-            self.boardTopics = topics;
-            [self.tableView reloadData];
-            if (topics.count == 0) {
-                // should not continu to scrollToRow
-                return;
+        [self.boardReader getBoardNextPostsWithBlock:^(NSMutableArray *posts_t, NSError *error) {
+            if (!error) {
+                NSMutableArray *posts = self.boardPosts;
+                [posts addObjectsFromArray:posts_t];
+                if(posts != nil && posts.count > 0) {
+                    self.boardPosts = posts;
+                    [self.tableView reloadData];
+                } else {
+                    [BDWMAlertMessage alertAndAutoDismissMessage:@"没有啦～"];
+                }
+            }else{
+                [BDWMAlertMessage alertAndAutoDismissMessage:@"哎呀～获取不到数据～"];
             }
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-        } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"已是最后一页" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            [alert show];
-            [alert release];
-        }
-    } else {
-        NSMutableArray *posts = [self.boardReader readNextPage];
-        if(posts != nil) {
-            self.boardPosts = posts;
-            [self.tableView reloadData];
-            if (posts.count == 0) {
-                // should not continu to scrollToRow
-                return;
-            }
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-        } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"已是最后一页" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            [alert show];
-            [alert release];
-        }
-    }
-}
-
-- (void) displayPreviousPage
-{
-    if (topicMode) {
-        NSMutableArray *topics = [self.boardReader readPreviousPage];
-        if(topics != nil && topics.count > 0) {
-            self.boardTopics = topics;
-            [self.tableView reloadData];
-            if (topics.count == 0) {
-                // should not continu to scrollToRow
-                return;
-            }
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-        } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"已是第一页" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            [alert show];
-            [alert release];
-        }
-    } else {
-        NSMutableArray *posts = [self.boardReader readPreviousPage];
-        if(posts != nil && posts.count > 0) {
-            self.boardPosts = posts;
-            [self.tableView reloadData];
-            if (posts.count == 0) {
-                // should not continu to scrollToRow
-                return;
-            }
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-        } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"已是第一页" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            [alert show];
-            [alert release];
-        }
+        }];
+        
     }
 }
 
@@ -160,11 +110,7 @@
             topicMode = !topicMode;
             self.boardReader.dataAddress = nil;
             self.boardReader.showSticky = YES;
-            if (topicMode) {
-                self.boardTopics = [self.boardReader readBoardTopics];
-            } else {
-                self.boardPosts = [self.boardReader readBoardPosts];
-            }
+            [self reload:nil];
             break;
         case 2:
             [[BBSFavouritesManager favouriteBoards]addObject:self.boardInfo];
@@ -172,8 +118,7 @@
         default:
             break;
     }
-    
-    [self.tableView reloadData];
+
 }
 
 - (void) barButtonPressed 
@@ -188,6 +133,32 @@
     [sheet release];
 }
 
+- (void)reload:(__unused id)sender {
+    NSURLSessionTask *task;
+    self.boardReader.dataAddress = nil;
+    if (topicMode){
+        task= [self.boardReader getBoardTopicsWithBlock:^(NSMutableArray *topics, NSError *error) {
+        if (!error) {
+            self.boardTopics = topics;
+            [self.tableView reloadData];
+        }else{
+            [BDWMAlertMessage alertAndAutoDismissMessage:@"哎呀～获取不到数据～"];
+        }
+    }];
+    }else{
+        task= [self.boardReader getBoardPostsWithBlock:^(NSMutableArray *posts, NSError *error) {
+            if (!error) {
+                self.boardPosts = posts;
+                [self.tableView reloadData];
+            }else{
+                [BDWMAlertMessage alertAndAutoDismissMessage:@"哎呀～获取不到数据～"];
+            }
+        }];
+    }
+    
+    [self.refreshControl setRefreshingWithStateOfTask:task];
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -200,21 +171,29 @@
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(barButtonPressed)];
     self.navigationItem.rightBarButtonItem = barButton;
     [barButton release];
-    
+ 
     UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button1 setTitle:@"更多" forState:UIControlStateNormal];
     [button1 setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
     [button1 addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventTouchUpInside];
     [self.tableView setTableFooterView:button1];
 
+    self.refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
+    [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
+    [self.tableView.tableHeaderView addSubview:self.refreshControl];
+    //todo: support up refresh.
+//    self.refreshControl_footer = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
+//    [self.refreshControl_footer addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventValueChanged];
+//    [self.tableView.tableFooterView addSubview:self.refreshControl_footer];
     
     if (self.boardReader == nil) {
         BBSBoardReader *reader = [[BBSBoardReader alloc] initWithBoardName:self.boardName];
         self.boardReader = reader;
-        [reader release];
         self.boardReader.showSticky = YES;
-        self.boardTopics = [self.boardReader readBoardTopics];
+        [reader release];
     }
+    
+    [self reload:nil];
 }
 
 - (void)viewDidUnload
