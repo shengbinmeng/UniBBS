@@ -201,6 +201,8 @@
 //    self.refreshControlBottom = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 50.0f)];
 //    [self.refreshControlBottom addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventValueChanged];
 //    [self.tableView.tableFooterView addSubview:self.refreshControlBottom];
+    
+    self.tableView.separatorColor = [UIColor colorWithRed:246.0/255 green:18.0/255 blue:81.0/255 alpha:1.0];
 
     if (self.topicReader == nil) {
         // first time load, alloc the model
@@ -281,10 +283,9 @@
     cell.textLabel.font = font;
     cell.textLabel.text = content;
     
-    if ([indexPath row] % 2 == 0) {
+    if ([indexPath row] % 2 > -1) {
         cell.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
         cell.textLabel.backgroundColor = [UIColor groupTableViewBackgroundColor];
-
     } else {
         cell.contentView.backgroundColor = [UIColor lightGrayColor];
         cell.textLabel.backgroundColor = [UIColor lightGrayColor];
