@@ -99,7 +99,7 @@
 		E86D644C15162FFB0001DA10 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E86D93BA15273C720037F06D /* BBSFavouritesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSFavouritesManager.h; sourceTree = "<group>"; };
 		E86D93BB15273C720037F06D /* BBSFavouritesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSFavouritesManager.m; sourceTree = "<group>"; };
-		E88A6E471507760600EED88D /* UniBBS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniBBS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E88A6E471507760600EED88D /* UniBBS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = UniBBS.app; path = WMBBS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E88A6E4B1507760600EED88D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E88A6E4D1507760600EED88D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E88A6E4F1507760600EED88D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -196,7 +196,7 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		E86D93B9152722DD0037F06D /* TopicsControllers */ = {
+		E86D93B9152722DD0037F06D /* PostController */ = {
 			isa = PBXGroup;
 			children = (
 				E83179481537EFF000A219E4 /* AttachmentsViewController.h */,
@@ -213,7 +213,7 @@
 				F785A82E19EA2A240001FB65 /* WritingViewController.m */,
 				F785A82F19EA2A240001FB65 /* WritingViewController.xib */,
 			);
-			name = TopicsControllers;
+			name = PostController;
 			sourceTree = "<group>";
 		};
 		E88A6E3C1507760500EED88D = {
@@ -257,7 +257,7 @@
 				F785A80F19E97EC70001FB65 /* Model */,
 				F7062E6819E6CE4100F61328 /* Utils */,
 				E8FE83A915247F5200CC112D /* BBSReaderModel */,
-				E86D93B9152722DD0037F06D /* TopicsControllers */,
+				E86D93B9152722DD0037F06D /* PostController */,
 				E8E5BD7015735062004BE6F9 /* Resources */,
 				E88A6E521507760600EED88D /* Supporting Files */,
 				E88A6E5A1507760600EED88D /* UniBBSAppDelegate.h */,
