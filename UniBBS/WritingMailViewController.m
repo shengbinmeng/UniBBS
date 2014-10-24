@@ -101,7 +101,12 @@
         self.contentTextView.text = [self.replyDict objectForKey:@"text"];
     }else{
         //compose mode do nothing here.
+        [self.toTextField becomeFirstResponder];
     }
+}
+
+- (void) hideKeyboard {
+    [self.contentTextView resignFirstResponder];
 }
 
 - (void)viewDidLoad {
@@ -114,8 +119,30 @@
     int screenWidth = [[UIScreen mainScreen] bounds].size.width;
     UIToolbar * topView = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, screenWidth, 36)];
     [topView setBarStyle:UIBarStyleDefault];
+    
+    // Used as place holder
+    UIBarButtonItem * button1 =[[UIBarButtonItem  alloc] initWithBarButtonSystemItem:                                        UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    
+    UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStyleDone  target:self action:@selector(hideKeyboard)];
+    NSArray * buttonsArray = [NSArray arrayWithObjects:button1, button1, button1, doneButton,nil];
+    [topView setItems:buttonsArray];
+    
+    [self.contentTextView setInputAccessoryView:topView];
+    
+    [topView release];
+    
+    self.titleTextField.delegate = self;
+    self.toTextField.delegate = self;
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+    if( theTextField==self.toTextField ){
+        [self.titleTextField becomeFirstResponder];
+    }else if( theTextField==self.titleTextField){
+        [self.contentTextView becomeFirstResponder];
+    }
+    return YES;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

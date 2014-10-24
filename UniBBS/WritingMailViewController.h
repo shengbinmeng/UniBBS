@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WritingMailViewController : UIViewController
+@interface WritingMailViewController : UIViewController<UITextFieldDelegate>
 @property (nonatomic, retain) NSString *href;
 @end
