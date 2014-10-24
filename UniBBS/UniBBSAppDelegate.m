@@ -21,6 +21,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    self.window.tintColor = [UIColor colorWithRed:246.0/255 green:18.0/255 blue:81.0/255 alpha:1.0];
     
     // Override point for customization after application launch.
     PopularTopicsViewController *viewController1 = [[[PopularTopicsViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
