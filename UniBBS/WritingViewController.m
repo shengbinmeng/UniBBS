@@ -12,6 +12,7 @@
 #import "BDWMAlertMessage.h"
 #import "BDWMString.h"
 #import "SettingModel.h"
+#import "BDWMUserModel.h"
 
 @interface WritingViewController ()
 @property (retain, nonatomic) IBOutlet UITextField *titleTextField;
@@ -186,37 +187,95 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated{
+    
     if ( [self.fromWhere isEqualToString:@"reply"] ) {
-        self.postDict = [BDWMTopicModel getNeededReplyData:[self href]];
-        if (self.postDict==nil) {
-            [BDWMAlertMessage alertMessage:@"哎呦！不能回复！是登录过期了吗？"];
-            [self.navigationController popViewControllerAnimated:NO];
-        }
-        self.titleTextField.text = [self.postDict objectForKey:@"title_exp"];
-        self.contentTextView.text = [self.postDict objectForKey:@"quote"];
         
-        if (self.href != nil) {
-            //TODO: 1. what if href is nil? 2. getNeededReplayData has bugs, needs more error handling
-            self.postDict = [BDWMTopicModel getNeededReplyData:[self href]];
+        if (self.href == nil) {
+            [BDWMAlertMessage alertMessage:@"哎呦！没有找到回复链接！"];
+            [self.navigationController popViewControllerAnimated:YES];
+            return;
+        }
+        
+        self.postDict = [BDWMTopicModel getNeededReplyData:[self href]];
+        
+        if (self.postDict!=nil) {
             self.titleTextField.text = [self.postDict objectForKey:@"title_exp"];
             self.contentTextView.text = [self.postDict objectForKey:@"quote"];
         }else{
-            [BDWMAlertMessage alertMessage:@"哎呦！没有找到回复链接！"];
-            [self.navigationController popViewControllerAnimated:NO];
+            //login session failed. then relogin.
+            NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+            NSString *userName = [userDefaultes stringForKey:@"saved_username"];
+            NSString *password = [userDefaultes stringForKey:@"saved_password"];
+            
+            [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
+                if ( !error && name!=nil ) {
+                    
+                    //refetch data.
+                    self.postDict = [BDWMTopicModel getNeededReplyData:[self href]];
+                    
+                    if (self.postDict==nil) {
+                        [BDWMAlertMessage alertMessage:@"肿么不能回复呢？"];
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }else{
+                        [BDWMAlertMessage alertAndAutoDismissMessage:@"重新登录成功！"];
+                        //refill text.
+                        self.titleTextField.text = [self.postDict objectForKey:@"title_exp"];
+                        self.contentTextView.text = [self.postDict objectForKey:@"quote"];
+                    }
+                   
+                }else{
+                    [BDWMAlertMessage alertMessage:@"奇怪！怎么不能回复呢？"];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            }];
         }
+        
     }else if( [self.fromWhere isEqualToString:@"compose"] ){
+        
+        if (self.href == nil) {
+            [BDWMAlertMessage alertMessage:@"哎呦！没有找到发帖链接！"];
+            [self.navigationController popViewControllerAnimated:YES];
+            return;
+        }
+        
         self.postDict = [BDWMTopicModel getNeededComposeData:self.href];
+        
         if (self.postDict==nil) {
-             [BDWMAlertMessage alertMessage:@"哎呦！是不是没有发帖权限！还是登录过期了呢？"];
-            [self.navigationController popViewControllerAnimated:NO];
+            //login session failed. then relogin.
+            NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+            NSString *userName = [userDefaultes stringForKey:@"saved_username"];
+            NSString *password = [userDefaultes stringForKey:@"saved_password"];
+            
+            [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
+                if ( !error && name!=nil ) {
+                    
+                    //refetch data.
+                    self.postDict = [BDWMTopicModel getNeededComposeData:[self href]];
+                    //login success but still can't get needed data.
+                    if (self.postDict==nil) {
+                        [BDWMAlertMessage alertMessage:@"是不是没有发帖权限？"];
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }else{
+                        [BDWMAlertMessage alertAndAutoDismissMessage:@"重新登录成功！"];
+                    }
+                    
+                }else{//login failed.
+                    [BDWMAlertMessage alertMessage:@"网络错误？"];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            }];
+        }else{
+            //While, if compose mode, do nothing.
         }
     }else{
         [BDWMAlertMessage alertAndAutoDismissMessage:@"我去！从哪里点过来的！"];
     }
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    [BDWMAlertMessage alertAndAutoDismissMessage:@"哈哈破手机！居然会内存不足！"];
 }
 
 - (void)dealloc {
