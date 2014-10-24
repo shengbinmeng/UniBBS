@@ -59,32 +59,32 @@
     }];
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+    if( theTextField==self.userNameTextField ){
+        [self.userPasswordTextField becomeFirstResponder];
+    }else if( theTextField==self.userPasswordTextField){
+        [self clickLoginButton:nil];
+    }
+    return YES;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.userNameTextField.delegate = self;
+    self.userPasswordTextField.delegate = self;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
-    // Note: Calling pushViewController before viewDidAppear is unsafe.
-    // See: http://stackoverflow.com/questions/5525519/iphone-uinavigation-issue-nested-push-animation-can-result-in-corrupted-naviga
-    
-    // Try auto login (maybe not a good idea).
-    if (self.userNameTextField.text.length!=0 && self.userPasswordTextField.text!=0) {
-        [self clickLoginButton:nil];
-    }
-    
+
+    [self.userNameTextField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
-    [theTextField resignFirstResponder];
-    return YES;
 }
 
 - (void)dealloc {
