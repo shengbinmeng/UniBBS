@@ -19,7 +19,6 @@
 
 @interface BoardViewController ()
 @property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl;
-//@property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl_footer;
 @end
 
 @implementation BoardViewController {
@@ -171,20 +170,10 @@
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(barButtonPressed)];
     self.navigationItem.rightBarButtonItem = barButton;
     [barButton release];
- 
-    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button1 setTitle:@"更多" forState:UIControlStateNormal];
-    [button1 setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
-    [button1 addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventTouchUpInside];
-    [self.tableView setTableFooterView:button1];
 
     self.refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
     [self.tableView.tableHeaderView addSubview:self.refreshControl];
-    //todo: support up refresh.
-//    self.refreshControl_footer = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
-//    [self.refreshControl_footer addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventValueChanged];
-//    [self.tableView.tableFooterView addSubview:self.refreshControl_footer];
     
     if (self.boardReader == nil) {
         BBSBoardReader *reader = [[BBSBoardReader alloc] initWithBoardName:self.boardName];
@@ -336,6 +325,21 @@
         postViewController.title = [post valueForKey:@"title"];
         postViewController.postAddress = [post valueForKey:@"address"];
         [self.navigationController pushViewController:postViewController animated:YES];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // check if indexPath.row is last row
+    // Perform operation to load new Cell's.
+    if (topicMode){
+        if ( indexPath.row == self.boardTopics.count-1 ) {
+            [self displayMore];
+        }
+    }else{
+        if ( indexPath.row == self.boardPosts.count-1 ) {
+            [self displayMore];
+        }
     }
 }
 

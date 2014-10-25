@@ -21,7 +21,6 @@
 
 @interface TopicViewController ()
 @property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl;
-@property (readwrite, nonatomic, strong) UIRefreshControl *refreshControlBottom;
 @end
 
 @implementation TopicViewController 
@@ -77,8 +76,7 @@
             [self.topicPosts addObjectsFromArray:topicPosts_t];
             [self.tableView reloadData];
         }else{
-            [BDWMAlertMessage alertAndAutoDismissMessage:@"没有啦～"];
-        }
+    }
     }];
     
  //   [self.refreshControlBottom setRefreshingWithStateOfTask:task];
@@ -187,20 +185,9 @@
     UIBarButtonItem *barButton = [[[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(barButtonPressed)] autorelease];
     self.navigationItem.rightBarButtonItem = barButton;
 
-    
-    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button1 setTitle:@"更多" forState:UIControlStateNormal];
-    [button1 setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
-    [button1 addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventTouchUpInside];
-    [self.tableView setTableFooterView:button1];
-
     self.refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
     [self.tableView.tableHeaderView addSubview:self.refreshControl];
-    
-//    self.refreshControlBottom = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 50.0f)];
-//    [self.refreshControlBottom addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventValueChanged];
-//    [self.tableView.tableFooterView addSubview:self.refreshControlBottom];
     
     self.tableView.separatorColor = [UIColor colorWithRed:246.0/255 green:18.0/255 blue:81.0/255 alpha:1.0];
 
@@ -290,6 +277,9 @@
         cell.contentView.backgroundColor = [UIColor lightGrayColor];
         cell.textLabel.backgroundColor = [UIColor lightGrayColor];
     }
+    if ((indexPath.row == self.topicPosts.count-1)) {
+        [self displayMore];
+    }
     
     return cell;
 }
@@ -319,6 +309,15 @@
     CGSize size = [content sizeWithFont:font constrainedToSize:CGSizeMake(contentWidth, 8000) lineBreakMode:NSLineBreakByWordWrapping];
     
     return MAX(size.height, 44.0f) + 40; 
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // check if indexPath.row is last row
+    // Perform operation to load new Cell's.
+    if ( indexPath.row == self.topicPosts.count-1 ) {
+        [self displayMore];
+    }
 }
 
 @end

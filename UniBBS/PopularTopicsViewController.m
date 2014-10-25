@@ -101,8 +101,8 @@
         numLimit += 20;
         [self.tableView reloadData];
     } else {
-        [((UIButton*)self.tableView.tableFooterView) setTitle:@"没有更多" forState:UIControlStateNormal];
-        [((UIButton*)self.tableView.tableFooterView) setEnabled:NO];
+//        [((UIButton*)self.tableView.tableFooterView) setTitle:@"没有更多" forState:UIControlStateNormal];
+//        [((UIButton*)self.tableView.tableFooterView) setEnabled:NO];
     }
 }
 
@@ -130,11 +130,11 @@
     self.navigationItem.rightBarButtonItem = button;
     [button release];
     
-    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button1 setTitle:@"更多" forState:UIControlStateNormal];
-    [button1 setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
-    [button1 addTarget:self action:@selector(showMore) forControlEvents:UIControlEventTouchUpInside];
-    [self.tableView setTableFooterView:button1];
+//    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//    [button1 setTitle:@"更多" forState:UIControlStateNormal];
+//    [button1 setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
+//    [button1 addTarget:self action:@selector(showMore) forControlEvents:UIControlEventTouchUpInside];
+//    [self.tableView setTableFooterView:button1];
 
     self.refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
@@ -254,5 +254,14 @@
     [self.navigationController pushViewController:topicViewController animated:YES];
     [topicViewController release];
 } 
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // check if indexPath.row is last row
+    // Perform operation to load new Cell's.
+    if ( indexPath.row == numLimit-1 ) {
+        [self showMore];
+    }
+}
 
 @end
