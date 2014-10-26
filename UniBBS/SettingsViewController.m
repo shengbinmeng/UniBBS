@@ -9,6 +9,7 @@
 #import "SettingsViewController.h"
 #import "WebViewController.h"
 #import "SettingModel.h"
+#import "BDWMAlertMessage.h"
 
 @interface SettingsViewController ()
 
@@ -33,6 +34,54 @@
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc that aren't in use.
+}
+
+- (void)sendMail
+{
+    // Email Subject
+    NSString *emailTitle = @"北大未名iOS客户端用户反馈";
+    // Email Content
+    NSString *messageBody = @"";
+    // To address
+    NSMutableArray *addressArray = [NSMutableArray array];
+    [addressArray addObject:@"yingmingfan@gmail.com"];
+    [addressArray addObject:@"shengbinmeng@gmail.com"];
+    NSArray *toRecipents = addressArray;
+    
+    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+    mc.mailComposeDelegate = self;
+    [mc setSubject:emailTitle];
+    [mc setMessageBody:messageBody isHTML:NO];
+    [mc setToRecipients:toRecipents];
+    
+    // Present mail view controller on screen
+    [self presentViewController:mc animated:YES completion:NULL];
+
+}
+
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            NSLog(@"Mail cancelled");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"Mail saved");
+            break;
+        case MFMailComposeResultSent:
+            NSLog(@"Mail sent");
+            [BDWMAlertMessage alertMessage:@"Thank you for your feedback."];
+            break;
+        case MFMailComposeResultFailed:
+            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
+            break;
+        default:
+            break;
+    }
+    
+    // Close the Mail Interface
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 #pragma mark - View lifecycle
@@ -91,7 +140,7 @@
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -100,6 +149,8 @@
         return 1;
     } else if (section == 1) {
         return 3;
+    } else if (section ==2){
+        return 1;
     }
     return 1;
 }
@@ -153,6 +204,18 @@
         return cell;
     }
     
+    if ([indexPath section] ==2) {
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"DefaultStyleCell"];
+        if(cell == nil) {
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"] autorelease];
+        }
+        if ([indexPath row] == 0) {
+            [cell.textLabel setText:@"Mail us"];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+        return cell;
+    }
+    
     return nil;
 }
 
@@ -163,6 +226,9 @@
     }
     if (section == 1) {
         header = @"关于";
+    }
+    if (section == 2) {
+        header = @"反馈";
     }
     return header;
 }
@@ -194,6 +260,13 @@
         }
         if ([indexPath row] == 2) {
             [[UIApplication sharedApplication] openURL:[[[NSURL alloc] initWithString:@"http://www.bdwm.net/bbs"] autorelease]];
+            return;
+        }
+    }
+    
+    if ([indexPath section] == 2) {
+        if ([indexPath row] ==0) {
+            [self sendMail];
             return;
         }
     }
