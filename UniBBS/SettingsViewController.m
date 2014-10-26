@@ -71,7 +71,7 @@
             break;
         case MFMailComposeResultSent:
             NSLog(@"Mail sent");
-            [BDWMAlertMessage alertMessage:@"Thank you for your feedback."];
+            [BDWMAlertMessage alertMessage:@"感谢您的反馈。我们会尽快答复。"];
             break;
         case MFMailComposeResultFailed:
             NSLog(@"Mail sent failure: %@", [error localizedDescription]);
@@ -210,8 +210,7 @@
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"] autorelease];
         }
         if ([indexPath row] == 0) {
-            [cell.textLabel setText:@"Mail us"];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            [cell.textLabel setText:@"给我们发邮件"];
         }
         return cell;
     }
