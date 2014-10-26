@@ -172,8 +172,8 @@
         
         [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
             if ( !error && name!=nil ) {
-                [BDWMAlertMessage alertAndAutoDismissMessage:@"登录成功！"];
-                
+                // I find it annoying when I want to read the content but alert comes up
+                //[BDWMAlertMessage alertAndAutoDismissMessage:@"登录成功！"];
             }else{
 
             }
