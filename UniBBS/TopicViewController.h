@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 @class BBSTopicReader;
-@interface TopicViewController : UITableViewController
-<UIActionSheetDelegate>
+@interface TopicViewController : UITableViewController <UIActionSheetDelegate>
 
 @property (nonatomic, retain) NSString *topicAddress;
 @property (nonatomic, retain) NSMutableArray *topicPosts;

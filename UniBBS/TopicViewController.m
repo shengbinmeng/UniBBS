@@ -64,9 +64,11 @@
             [BDWMAlertMessage alertAndAutoDismissMessage:@"哎呀～获取不到数据～"];
         }
     }];
-    
+
     //    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:task delegate:nil];
     [self.refreshControl setRefreshingWithStateOfTask:task];
+    
+    [((UIButton*)self.tableView.tableFooterView) setTitle:@"上拉载入更多" forState:UIControlStateNormal];
 }
 
 - (void) displayMore
@@ -75,8 +77,8 @@
         if (!error) {
             [self.topicPosts addObjectsFromArray:topicPosts_t];
             [self.tableView reloadData];
-        }else{
-
+        } else {
+            [((UIButton*)self.tableView.tableFooterView) setTitle:@"没有更多" forState:UIControlStateNormal];
         }
         
         [self.tableView.bottomRefreshControl endRefreshing];
@@ -194,6 +196,12 @@
     [bottomRefreshControl addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventValueChanged];
     self.tableView.bottomRefreshControl = bottomRefreshControl;
     [bottomRefreshControl release];
+    
+    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button1 setTitle:@"上拉载入更多" forState:UIControlStateNormal];
+    [button1 setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
+    [self.tableView setTableFooterView:button1];
+    [self.tableView.tableFooterView setHidden:YES];
 
     if (self.topicReader == nil) {
         // first time load, alloc the model
@@ -275,17 +283,8 @@
     cell.textLabel.numberOfLines = 0;
     cell.textLabel.font = font;
     cell.textLabel.text = content;
-    
-    if ([indexPath row] % 2 > -1) {
-        cell.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-        cell.textLabel.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    } else {
-        cell.contentView.backgroundColor = [UIColor lightGrayColor];
-        cell.textLabel.backgroundColor = [UIColor lightGrayColor];
-    }
-    if ((indexPath.row == self.topicPosts.count-1)) {
-        [self displayMore];
-    }
+    cell.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    cell.textLabel.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
     return cell;
 }
@@ -315,6 +314,14 @@
     CGSize size = [content sizeWithFont:font constrainedToSize:CGSizeMake(contentWidth, 8000) lineBreakMode:NSLineBreakByWordWrapping];
     
     return MAX(size.height, 44.0f) + 40; 
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // check if indexPath.row is last row
+    if (indexPath.row == self.topicPosts.count - 1) {
+        [self.tableView.tableFooterView setHidden:NO];
+    }
 }
 
 @end
