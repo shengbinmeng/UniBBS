@@ -254,19 +254,19 @@
 		E88A6E511507760600EED88D /* UniBBS */ = {
 			isa = PBXGroup;
 			children = (
-				F72939B019EAA2E000EA68ED /* SettingController */,
-				F72939AF19EAA2B800EA68ED /* BoardController */,
-				F72939AE19EAA27F00EA68ED /* MailController */,
-				F72939AD19EAA22900EA68ED /* UserController */,
-				F785A80F19E97EC70001FB65 /* Model */,
-				F7062E6819E6CE4100F61328 /* Utils */,
 				E8FE83A915247F5200CC112D /* BBSReaderModel */,
+				F72939AF19EAA2B800EA68ED /* BoardController */,
+				F7E6D7B719F558E600EB5AC2 /* Images.xcassets */,
+				F72939AE19EAA27F00EA68ED /* MailController */,
+				F785A80F19E97EC70001FB65 /* Model */,
 				E86D93B9152722DD0037F06D /* PostController */,
 				E8E5BD7015735062004BE6F9 /* Resources */,
+				F72939B019EAA2E000EA68ED /* SettingController */,
 				E88A6E521507760600EED88D /* Supporting Files */,
 				E88A6E5A1507760600EED88D /* UniBBSAppDelegate.h */,
 				E88A6E5B1507760600EED88D /* UniBBSAppDelegate.m */,
-				F7E6D7B719F558E600EB5AC2 /* Images.xcassets */,
+				F72939AD19EAA22900EA68ED /* UserController */,
+				F7062E6819E6CE4100F61328 /* Utils */,
 			);
 			path = UniBBS;
 			sourceTree = "<group>";
