@@ -13,13 +13,14 @@
 @end
 
 @implementation WebViewController
-@synthesize webAddress;
+@synthesize webAddress,barTitle;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+
     }
     return self;
 }
@@ -28,14 +29,18 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.title = self.barTitle;
+    
     UIWebView* webView = [[UIWebView alloc] initWithFrame:self.view.frame];
     webView.scalesPageToFit = YES;
+    
     self.view = webView;
     [webView release];
     
     NSURL* url = [NSURL URLWithString:self.webAddress];
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
     [webView loadRequest:request];
+    
 }
 
 - (void)viewDidUnload

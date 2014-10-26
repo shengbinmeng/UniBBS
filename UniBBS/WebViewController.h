@@ -11,5 +11,6 @@
 @interface WebViewController : UIViewController
 
 @property (nonatomic, retain) NSString *webAddress;
+@property (nonatomic, retain) NSString *barTitle;
 
 @end
