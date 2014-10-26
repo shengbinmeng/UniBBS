@@ -247,14 +247,14 @@
     if ([indexPath section] == 1) {
         if ([indexPath row] == 0) {
             WebViewController *aboutViewController =[[[WebViewController alloc] init] autorelease];
-            aboutViewController.webAddress = @"http://yingmingfan-page.stor.sinaapp.com/aboutwmbbs.html";
+            aboutViewController.webAddress = @"http://unibbs.sinaapp.com/bdwm";
             aboutViewController.barTitle = @"关于此应用";
             [self.navigationController pushViewController:aboutViewController animated:YES];
             return;
         }
         if ([indexPath row] == 1) {
             WebViewController *aboutViewController =[[[WebViewController alloc] init] autorelease];
-            aboutViewController.webAddress = @"http://yingmingfan-page.stor.sinaapp.com/authors.html";
+            aboutViewController.webAddress = @"http://unibbs.sinaapp.com/authors";
             aboutViewController.barTitle = @"关于开发者";
             [self.navigationController pushViewController:aboutViewController animated:YES];
             return;
