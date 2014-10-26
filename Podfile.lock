@@ -20,11 +20,26 @@ PODS:
   - AFNetworking/UIKit (2.4.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - CCBottomRefreshControl (0.3.0):
+    - ReactiveCocoa
+    - UIView+TKGeometry
+  - ReactiveCocoa (2.3.1):
+    - ReactiveCocoa/UI
+  - ReactiveCocoa/Core (2.3.1):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.3.1)
+  - ReactiveCocoa/UI (2.3.1):
+    - ReactiveCocoa/Core
+  - UIView+TKGeometry (0.2)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.4.1)
+  - CCBottomRefreshControl
 
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
+  CCBottomRefreshControl: 0dd3b0d9d50a36586495d183a0662fb1d0025579
+  ReactiveCocoa: dca75777b9d18990c8714a3a6f2149f29b4d1462
+  UIView+TKGeometry: 60a88dcf2af8420175cb1c789a02d6254ebb89a7
 
 COCOAPODS: 0.34.2

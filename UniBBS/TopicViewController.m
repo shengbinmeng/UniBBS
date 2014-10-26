@@ -15,6 +15,7 @@
 #import "WritingMailViewController.h"
 #import "BDWMUserModel.h"
 #import "BDWMAlertMessage.h"
+#import <CCBottomRefreshControl/UIScrollView+BottomRefreshControl.h>
 
 #define ACTION_FROM_BAR_BUTTON 8888
 #define ACTION_FROM_VIEW_ATTACH 9999
@@ -23,7 +24,7 @@
 @property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl;
 @end
 
-@implementation TopicViewController 
+@implementation TopicViewController
 
 @synthesize topicAddress, topicPosts, topicReader, topicInfo;
 
@@ -70,16 +71,16 @@
 
 - (void) displayMore
 {
-  //  NSURLSessionTask *task =
     [self.topicReader getTopicPostsWithBlock:[self.topicReader getNextPageHref] blockFunction:^(NSMutableArray *topicPosts_t, NSError *error) {
         if (!error) {
             [self.topicPosts addObjectsFromArray:topicPosts_t];
             [self.tableView reloadData];
         }else{
-    }
+
+        }
+        
+        [self.tableView.bottomRefreshControl endRefreshing];
     }];
-    
- //   [self.refreshControlBottom setRefreshingWithStateOfTask:task];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -189,7 +190,10 @@
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
     [self.tableView.tableHeaderView addSubview:self.refreshControl];
     
-    self.tableView.separatorColor = [UIColor colorWithRed:246.0/255 green:18.0/255 blue:81.0/255 alpha:1.0];
+    UIRefreshControl *bottomRefreshControl = [UIRefreshControl new];
+    [bottomRefreshControl addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventValueChanged];
+    self.tableView.bottomRefreshControl = bottomRefreshControl;
+    [bottomRefreshControl release];
 
     if (self.topicReader == nil) {
         // first time load, alloc the model
@@ -198,6 +202,7 @@
         [reader release];
         [self reload:nil];
     }
+
 }
 
 - (void)viewDidUnload
@@ -213,6 +218,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    self.tableView.separatorColor = [UIColor colorWithRed:246.0/255 green:18.0/255 blue:81.0/255 alpha:1.0];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -309,15 +315,6 @@
     CGSize size = [content sizeWithFont:font constrainedToSize:CGSizeMake(contentWidth, 8000) lineBreakMode:NSLineBreakByWordWrapping];
     
     return MAX(size.height, 44.0f) + 40; 
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // check if indexPath.row is last row
-    // Perform operation to load new Cell's.
-    if ( indexPath.row == self.topicPosts.count-1 ) {
-        [self displayMore];
-    }
 }
 
 @end

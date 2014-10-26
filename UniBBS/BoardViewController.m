@@ -16,9 +16,11 @@
 #import "BDWMGlobalData.h"
 #import "BDWMAlertMessage.h"
 #import "BDWMUserModel.h"
+#import <CCBottomRefreshControl/UIScrollView+BottomRefreshControl.h>
 
 @interface BoardViewController ()
 @property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl;
+@property (readwrite, nonatomic, strong) UIRefreshControl *bottomRefreshControl;
 @end
 
 @implementation BoardViewController {
@@ -61,6 +63,7 @@
             }else{
                 [BDWMAlertMessage alertAndAutoDismissMessage:@"哎呀～获取不到数据～"];
             }
+            [self.tableView.bottomRefreshControl endRefreshing];
         }];
         
         
@@ -78,9 +81,12 @@
             }else{
                 [BDWMAlertMessage alertAndAutoDismissMessage:@"哎呀～获取不到数据～"];
             }
+            [self.tableView.bottomRefreshControl endRefreshing];
         }];
         
     }
+    
+    
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -174,6 +180,10 @@
     self.refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
     [self.tableView.tableHeaderView addSubview:self.refreshControl];
+    
+    self.bottomRefreshControl = [UIRefreshControl new];
+    [self.bottomRefreshControl addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventValueChanged];
+    self.tableView.bottomRefreshControl = self.bottomRefreshControl;
     
     if (self.boardReader == nil) {
         BBSBoardReader *reader = [[BBSBoardReader alloc] initWithBoardName:self.boardName];
@@ -325,21 +335,6 @@
         postViewController.title = [post valueForKey:@"title"];
         postViewController.postAddress = [post valueForKey:@"address"];
         [self.navigationController pushViewController:postViewController animated:YES];
-    }
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // check if indexPath.row is last row
-    // Perform operation to load new Cell's.
-    if (topicMode){
-        if ( indexPath.row == self.boardTopics.count-1 ) {
-            [self displayMore];
-        }
-    }else{
-        if ( indexPath.row == self.boardPosts.count-1 ) {
-            [self displayMore];
-        }
     }
 }
 
