@@ -32,6 +32,7 @@
 }
 
 - (void)reload:(__unused id)sender {
+   
     if ([BDWMUserModel isLogined] == NO) {
         [BDWMAlertMessage alertMessage:@"啊！出错了！没有登陆居然也能到这里！"];
         [self.navigationController popViewControllerAnimated:YES];
@@ -51,21 +52,36 @@
             if ( self.mails==nil || self.mails.count == 0 ) {
                 //login session failed. then relogin.
                 NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-                NSString *userName = [userDefaultes stringForKey:@"saved_username"];
+                NSString *userName1 = [userDefaultes stringForKey:@"saved_username"];
                 NSString *password = [userDefaultes stringForKey:@"saved_password"];
                 
-                [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
+                [BDWMUserModel checkLogin:userName1 userPass:password blockFunction:^(NSString *name, NSError *error){
                     if ( !error && name!=nil ) {
-                        [BDWMAlertMessage alertAndAutoDismissMessage:@"重新登录成功！"];
-                        [self reload:nil];
+                        //login success reload mail.
+                        [MailModel getAllMailWithBlock:name blockFunction:^(NSArray *mails, NSError *error){
+                            if (!error){
+                                self.mails = mails;
+                                //login success but no mail.
+                                if (self.mails==nil || self.mails.count==0) {
+                                    //
+                                    [BDWMAlertMessage alertMessage:@"没有信件哦！"];
+                                }else{
+                                    [self.tableView reloadData];
+                                }
+                                
+                            }else{
+                                
+                            }
+                        }];
                     }else{
-                        [BDWMAlertMessage alertAndAutoDismissMessage:@"重新登录失败！"];
+                        [BDWMAlertMessage alertMessage:@"获取不到数据."];
+                        [self.navigationController popViewControllerAnimated:YES];
                     }
                 }];
             }
-            [self.tableView reloadData];
+            
         }else{
-            [BDWMAlertMessage alertAndAutoDismissMessage:@"哎呀～获取不到数据～"];
+            [BDWMAlertMessage alertMessage:@"获取不到数据."];
             [self.navigationController popViewControllerAnimated:YES];
         }
     }];

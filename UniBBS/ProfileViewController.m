@@ -79,6 +79,7 @@
             NSString *cellContent = [[NSString alloc] init];
             if ([BDWMUserModel isLogined]) {
                 cellContent = [BDWMUserModel getLoginUser];
+                
                 if (cellContent==nil || cellContent.length==0) {
                     [BDWMAlertMessage alertAndAutoDismissMessage:@"你是谁啊."];
                 }

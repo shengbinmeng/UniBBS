@@ -10,7 +10,7 @@
 #import "UserInfoViewController.h"
 #import "BDWMUserModel.h"
 #import "BDWMAlertMessage.h"
-
+#import "BDWMAlertMessage.h"
 
 
 @interface LoginViewController ()
@@ -35,24 +35,38 @@
     NSString *userPass = self.userPasswordTextField.text;
     
     if (userName.length==0 ) {
-        [BDWMAlertMessage alertAndAutoDismissMessage:@"请输入用户名"];
+        [BDWMAlertMessage alertMessage:@"请输入用户名"];
         return;
     }
     
     if (userPass.length==0) {
-        [BDWMAlertMessage alertAndAutoDismissMessage:@"请输入密码"];
+        [BDWMAlertMessage alertMessage:@"请输入密码"];
         return;
     }
+    
+    [BDWMAlertMessage startSpinner:@"正在登录"];
     
     [BDWMUserModel checkLogin:userName userPass:userPass blockFunction:^(NSString *name, NSError *error){
         if ( !error && name!=nil ) {
             [BDWMUserModel saveUsernameAndPassword:userName userPassword:userPass];
             UserInfoViewController *userInfoViewController = [[[UserInfoViewController alloc] initWithNibName:@"UserInfoViewController" bundle:nil] autorelease];
             userInfoViewController.userName = userName;
+            
+            NSMutableDictionary *userInfoDict = [BDWMUserModel LoadUserInfo:userName];
+            
+            if (userInfoDict==nil || userInfoDict.count==0) {
+                [BDWMAlertMessage stopSpinner];
+                [BDWMAlertMessage alertMessage:@"获取不到用户数据!"];
+                return;
+            }
+    
+            userInfoViewController.userInfoDict = userInfoDict;
+            [BDWMAlertMessage stopSpinner];
             [self.navigationController pushViewController:userInfoViewController animated:YES];
             self.userNameTextField.text = @"";
             self.userPasswordTextField.text = @"";
         }else{
+            [BDWMAlertMessage stopSpinner];
             self.userPasswordTextField.text = @"";
             [BDWMAlertMessage alertAndAutoDismissMessage:@"用户名或密码错误"];
         }

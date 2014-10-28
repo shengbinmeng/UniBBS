@@ -54,15 +54,20 @@
     self.navigationItem.leftBarButtonItem = button;
     [button release];
     
-    self.userName = [BDWMUserModel getLoginUser];
-    NSMutableDictionary *userInfoDict = [BDWMUserModel LoadUserInfo:self.userName];
-    self.userNameLabel.text = [userInfoDict objectForKey:@"userName"];
-    self.loginTimesLabel.text = [userInfoDict objectForKey:@"loginTimes"];
-    self.postingNumLabel.text = [userInfoDict objectForKey:@"postingNum"];
-    self.energyNumLabel.text = [userInfoDict objectForKey:@"energyNum"];
-    self.totalScoreLabel.text = [userInfoDict objectForKey:@"totalScore"];
-    self.originalScoreLabel.text = [userInfoDict objectForKey:@"originalScore"];
-    self.dutiesLabel.text = [userInfoDict objectForKey:@"duties"];
+    if (self.userInfoDict==nil) {
+        self.userInfoDict = [BDWMUserModel LoadUserInfo:[BDWMUserModel getLoginUser]];
+    }
+    self.userNameLabel.text = [self.userInfoDict objectForKey:@"userName"];
+    self.loginTimesLabel.text = [self.userInfoDict objectForKey:@"loginTimes"];
+    self.postingNumLabel.text = [self.userInfoDict objectForKey:@"postingNum"];
+    self.energyNumLabel.text = [self.userInfoDict objectForKey:@"energyNum"];
+    self.totalScoreLabel.text = [self.userInfoDict objectForKey:@"totalScore"];
+    self.originalScoreLabel.text = [self.userInfoDict objectForKey:@"originalScore"];
+    self.dutiesLabel.text = [self.userInfoDict objectForKey:@"duties"];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    
 }
 
 - (void)didReceiveMemoryWarning {

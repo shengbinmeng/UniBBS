@@ -59,7 +59,11 @@ static BOOL shouldReloin = NO;
     [userDefaultes synchronize];
     
     logined = YES;
-    loginUser = userName;
+    if (loginUser==nil) {
+        loginUser = [[NSString alloc]init];
+    }
+    loginUser = [userName copy];
+    
 }
 
 + (NSURLSessionDataTask *) checkLogin:(NSString *)UserName userPass:(NSString *)UserPass blockFunction:(void (^)(NSString *name, NSError *error))block

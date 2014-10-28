@@ -10,4 +10,5 @@
 
 @interface UserInfoViewController : UIViewController
 @property (strong, nonatomic) NSString *userName;
+@property (strong, nonatomic) NSDictionary *userInfoDict;
 @end
