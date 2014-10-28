@@ -12,4 +12,6 @@
 
 + (void)alertAndAutoDismissMessage:(NSString *)message;
 + (void)alertMessage:(NSString *)message;
++ (void)startSpinner:(NSString *)message;
++ (void)stopSpinner;
 @end

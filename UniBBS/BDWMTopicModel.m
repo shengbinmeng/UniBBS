@@ -8,8 +8,24 @@
 
 #import "BDWMTopicModel.h"
 #import "BDWMString.h"
-
+#import "AFAppDotNetAPIClient.h"
 @implementation BDWMTopicModel
+
++ (NSURLSessionDataTask *)loadReplyNeededDataWithBlock:(NSString *)href blockFunction:(void (^)(NSDictionary* data, NSError *error))block {
+    NSString *string = [NSString stringWithFormat:@"%@%@", BDWM_PREFIX, href];
+    
+    return [[AFAppDotNetAPIClient sharedClient] GET:string parameters:nil success:^(NSURLSessionDataTask * __unused task, id responseObject) {
+        NSDictionary *result = [self getNeededReplyData:responseObject];
+        if (block) {
+            block( result, nil);
+        }
+    } failure:^(NSURLSessionDataTask *__unused task, NSError *error) {
+        if (block) {
+            block([NSDictionary dictionary], error);
+        }
+    }];
+    
+}
 
 + (NSArray *)getPlateTopics:(NSString *)href{
     TFHpple * doc;
@@ -152,15 +168,11 @@
 }
 
 //When post reply request, we need get some post data first, like threadid postid...
-+ (NSDictionary* )getNeededReplyData:(NSString *)href
++ (NSDictionary* )getNeededReplyData:(NSData *)htmlData
 {
     TFHpple * doc;
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    
-    NSString *string = [NSString stringWithFormat:@"%@%@", BDWM_PREFIX, href];
-    
-    
-    NSData *htmlData = [NSData dataWithContentsOfURL:[NSURL URLWithString:string]];
+
     NSData *utf8Data = [BDWMString DataConverse_GB2312_to_UTF8:htmlData];
     doc = [[TFHpple alloc] initWithHTMLData:utf8Data];
     

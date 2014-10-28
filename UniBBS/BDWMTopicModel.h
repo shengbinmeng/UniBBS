@@ -13,8 +13,8 @@
 @interface BDWMTopicModel : NSObject
 
 + (NSDictionary* )getNeededComposeData:(NSString *)href;
-+ (NSDictionary* )getNeededReplyData:(NSString *)href;
++ (NSDictionary* )getNeededReplyData:(NSData *)data;
 + (NSMutableArray *)LoadPosting:(NSString *)href;
 + (NSArray *)getPlateTopics:(NSString *)href;
-
++ (NSURLSessionDataTask *)loadReplyNeededDataWithBlock:(NSString *)href blockFunction:(void (^)(NSDictionary* data, NSError *error))block;
 @end
