@@ -19,16 +19,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="标题:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XBT-sf-BK9">
-                    <rect key="frame" x="8" y="83" width="42" height="21"/>
+                    <rect key="frame" x="8" y="83" width="39" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="g4u-39-qQJ">
-                    <rect key="frame" x="58" y="79" width="254" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="254" id="8Bz-A9-aVQ"/>
-                    </constraints>
+                    <rect key="frame" x="55" y="79" width="257" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                 </textField>
@@ -48,7 +45,6 @@
                 <constraint firstAttribute="bottom" secondItem="Peg-oQ-Mw4" secondAttribute="bottom" constant="50" id="hdu-K1-3Ub"/>
                 <constraint firstAttribute="trailing" secondItem="Peg-oQ-Mw4" secondAttribute="trailing" constant="8" id="jSE-jm-32o"/>
                 <constraint firstItem="XBT-sf-BK9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="m4o-F6-lIb"/>
-                <constraint firstItem="Peg-oQ-Mw4" firstAttribute="top" secondItem="g4u-39-qQJ" secondAttribute="bottom" constant="8" symbolic="YES" id="pht-nz-Ta0"/>
                 <constraint firstItem="g4u-39-qQJ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="79" id="qKB-QM-89v"/>
                 <constraint firstItem="g4u-39-qQJ" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailingMargin" id="qt5-dY-2iG"/>
                 <constraint firstItem="Peg-oQ-Mw4" firstAttribute="top" secondItem="g4u-39-qQJ" secondAttribute="bottom" constant="8" id="xgz-wT-Ugf"/>
