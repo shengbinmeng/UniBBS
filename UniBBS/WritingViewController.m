@@ -84,9 +84,11 @@
     NSString *url = [BDWMString linkString:BDWM_PREFIX string:BDWM_COMPOSE_SUFFIX];
     [[AFAppDotNetAPIClient sharedClient] POST:url parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"Reply success!");
+        [BDWMAlertMessage stopSpinner];
         [self.navigationController popViewControllerAnimated:YES];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"Reply failed!");
+        [BDWMAlertMessage stopSpinner];
         [BDWMAlertMessage alertAndAutoDismissMessage:@"发布失败"];
     }];
 }
@@ -136,20 +138,24 @@
     NSString *url = [BDWMString linkString:BDWM_PREFIX string:BDWM_COMPOSE_SUFFIX];
     [[AFAppDotNetAPIClient sharedClient] POST:url parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"Compose pose success!");
+        [BDWMAlertMessage stopSpinner];
         [self.navigationController popViewControllerAnimated:YES];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"Reply failed!");
+        NSLog(@"Compose failed!");
+        [BDWMAlertMessage stopSpinner];
         [BDWMAlertMessage alertAndAutoDismissMessage:@"发布失败"];
     }];
 
 }
 
 - (void) sendButtonPressed {
+    [BDWMAlertMessage startSpinner:@"正在发送..."];
     if ([self.fromWhere isEqualToString:@"reply"]) {
         [self doReply];
     }else if( [self.fromWhere isEqualToString:@"compose"]){
         [self doCompose];
     }else{
+        [BDWMAlertMessage stopSpinner];
         [BDWMAlertMessage alertAndAutoDismissMessage:@"我去！从哪里点过来的！"];
     }
 }
