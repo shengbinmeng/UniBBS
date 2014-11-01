@@ -23,8 +23,8 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="密码：" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vGv-n6-Fm5">
-                    <rect key="frame" x="30" y="147" width="68" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="密码：" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vGv-n6-Fm5">
+                    <rect key="frame" x="47" y="147.5" width="51" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
@@ -74,6 +74,8 @@
                 <constraint firstItem="0JG-yW-IzH" firstAttribute="top" secondItem="kZk-c0-72C" secondAttribute="bottom" constant="11" id="ag5-X8-dJ7"/>
                 <constraint firstAttribute="centerX" secondItem="rJR-aF-X6b" secondAttribute="centerX" id="d5V-yE-xTg"/>
                 <constraint firstItem="kZk-c0-72C" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="102" id="mAb-t3-WaP"/>
+                <constraint firstItem="0JG-yW-IzH" firstAttribute="leading" secondItem="vGv-n6-Fm5" secondAttribute="trailing" constant="8" id="w8y-zI-tBh"/>
+                <constraint firstItem="vGv-n6-Fm5" firstAttribute="baseline" secondItem="0JG-yW-IzH" secondAttribute="baseline" constant="1" id="wvn-hm-qBC"/>
                 <constraint firstItem="kZk-c0-72C" firstAttribute="trailing" secondItem="rJR-aF-X6b" secondAttribute="trailing" id="xbp-ix-f4Z"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
