@@ -64,13 +64,14 @@
                                 //login success but no mail.
                                 if (self.mails==nil || self.mails.count==0) {
                                     //
-                                    [BDWMAlertMessage alertMessage:@"没有信件哦！"];
+                                    [BDWMAlertMessage alertAndAutoDismissMessage:@"没有信件哦！"];
                                 }else{
                                     [self.tableView reloadData];
                                 }
                                 
                             }else{
-                                
+                                [BDWMAlertMessage alertMessage:@"获取不到数据."];
+                                [self.navigationController popViewControllerAnimated:YES];
                             }
                         }];
                     }else{
@@ -78,6 +79,9 @@
                         [self.navigationController popViewControllerAnimated:YES];
                     }
                 }];
+            }else{
+                //find mails.
+                [self.tableView reloadData];
             }
             
         }else{

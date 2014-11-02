@@ -37,11 +37,13 @@
     [[AFAppDotNetAPIClient sharedClient] POST:url parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSLog(@"Reply mail success!");
+        [BDWMAlertMessage stopSpinner];
         //Todo: segue to mail list view.
         [self.navigationController popViewControllerAnimated:YES];
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"Reply mail failed!");
+        [BDWMAlertMessage stopSpinner];
         [BDWMAlertMessage alertAndAutoDismissMessage:@"回复失败"];
     }];
 }
@@ -60,11 +62,13 @@
     [[AFAppDotNetAPIClient sharedClient] POST:url parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSLog(@"compose mail success!");
+        [BDWMAlertMessage stopSpinner];
         //Todo: segue to mail list view.
         [self.navigationController popViewControllerAnimated:YES];
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"compose mail failed!");
+        [BDWMAlertMessage stopSpinner];
         [BDWMAlertMessage alertAndAutoDismissMessage:@"发送失败"];
     }];
 }
@@ -82,6 +86,7 @@
         [BDWMAlertMessage alertAndAutoDismissMessage:@"哥! 写点内容吧!"];
         return;
     }
+    [BDWMAlertMessage startSpinner:@"发送数据中..."];
     if (self.href != nil) {//reply mode
         [self doReply];
     }else{
@@ -91,14 +96,17 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     if (self.href != nil) {//reply mode
+        [BDWMAlertMessage startSpinner:@"加载数据..."];
         self.replyDict = [MailModel loadReplyMailNeededData:self.href];
         if (self.replyDict == nil) {
+            [BDWMAlertMessage stopSpinner];
             [BDWMAlertMessage alertMessage:@"不能回复!是不是登录过期了？"];
             [self.navigationController popViewControllerAnimated:YES];
         }
         self.toTextField.text = [self.replyDict objectForKey:@"to"];
         self.titleTextField.text = [self.replyDict objectForKey:@"title"];
         self.contentTextView.text = [self.replyDict objectForKey:@"text"];
+        [BDWMAlertMessage stopSpinner];
     }else{
         //compose mode do nothing here.
         [self.toTextField becomeFirstResponder];
