@@ -145,18 +145,88 @@
         task= [self.boardReader getBoardTopicsWithBlock:^(NSMutableArray *topics, NSError *error) {
         if (!error) {
             self.boardTopics = topics;
-            [self.tableView reloadData];
+            if ( self.boardTopics==nil || self.boardTopics.count == 0 ) {
+                //login session failed. then relogin.
+                NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+                NSString *userName1 = [userDefaultes stringForKey:@"saved_username"];
+                NSString *password = [userDefaultes stringForKey:@"saved_password"];
+                
+                [BDWMUserModel checkLogin:userName1 userPass:password blockFunction:^(NSString *name, NSError *error){
+                    if ( !error && name!=nil ) {
+                        //login success reload mail.
+                        [self.boardReader getBoardTopicsWithBlock:^(NSMutableArray *topics, NSError *error){
+                            if (!error){
+                                self.boardTopics = topics;
+                                //login success but no topics.
+                                if (self.boardTopics==nil || self.boardTopics.count==0) {
+                                    //
+                                    [BDWMAlertMessage alertMessage:@"可能没有查看权限哦！"];
+                                    [self.navigationController popViewControllerAnimated:YES];
+                                }else{
+                                    [self.tableView reloadData];
+                                }
+                                
+                            }else{
+                                [BDWMAlertMessage alertMessage:@"获取不到数据."];
+                                [self.navigationController popViewControllerAnimated:YES];
+                            }
+                        }];
+                    }else{
+                        [BDWMAlertMessage alertMessage:@"获取不到数据."];
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }
+                }];
+            }else{
+                //find topics.
+                [self.tableView reloadData];
+            }
         }else{
-            [BDWMAlertMessage alertAndAutoDismissMessage:@"哎呀～获取不到数据～"];
+            [BDWMAlertMessage alertAndAutoDismissMessage:@"获取不到数据."];
+            [self.navigationController popViewControllerAnimated:YES];
         }
     }];
     }else{
         task= [self.boardReader getBoardPostsWithBlock:^(NSMutableArray *posts, NSError *error) {
             if (!error) {
                 self.boardPosts = posts;
-                [self.tableView reloadData];
+                if ( self.boardPosts==nil || self.boardPosts.count == 0 ) {
+                    //login session failed. then relogin.
+                    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+                    NSString *userName1 = [userDefaultes stringForKey:@"saved_username"];
+                    NSString *password = [userDefaultes stringForKey:@"saved_password"];
+                    
+                    [BDWMUserModel checkLogin:userName1 userPass:password blockFunction:^(NSString *name, NSError *error){
+                        if ( !error && name!=nil ) {
+                            //login success reload mail.
+                            [self.boardReader getBoardPostsWithBlock:^(NSMutableArray *posts, NSError *error){
+                                if (!error){
+                                    self.boardPosts = posts;
+                                    //login success but no posts.
+                                    if (self.boardPosts==nil || self.boardPosts.count==0) {
+                                        //
+                                        [BDWMAlertMessage alertMessage:@"可能没有查看权限哦！"];
+                                        [self.navigationController popViewControllerAnimated:YES];
+                                    }else{
+                                        [self.tableView reloadData];
+                                    }
+                                    
+                                }else{
+                                    [BDWMAlertMessage alertMessage:@"获取不到数据."];
+                                    [self.navigationController popViewControllerAnimated:YES];
+                                }
+                            }];
+                        }else{
+                            [BDWMAlertMessage alertMessage:@"获取不到数据."];
+                            [self.navigationController popViewControllerAnimated:YES];
+                        }
+                    }];
+                }else{
+                    //find posts.
+                    [self.tableView reloadData];
+                }
             }else{
-                [BDWMAlertMessage alertAndAutoDismissMessage:@"哎呀～获取不到数据～"];
+                [BDWMAlertMessage alertAndAutoDismissMessage:@"获取不到数据."];
+                [self.navigationController popViewControllerAnimated:YES];
             }
         }];
     }
