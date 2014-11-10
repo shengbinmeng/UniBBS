@@ -59,9 +59,44 @@
     NSURLSessionTask *task = [self.topicReader getTopicPostsWithBlock:self.topicAddress blockFunction:^(NSMutableArray *topicPosts_t, NSError *error) {
         if (!error) {
             self.topicPosts = topicPosts_t;
-            [self.tableView reloadData];
+            if ( self.topicPosts==nil || self.topicPosts.count == 0 ) {
+                //login session failed. then relogin.
+                NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+                NSString *userName1 = [userDefaultes stringForKey:@"saved_username"];
+                NSString *password = [userDefaultes stringForKey:@"saved_password"];
+                
+                [BDWMUserModel checkLogin:userName1 userPass:password blockFunction:^(NSString *name, NSError *error){
+                    if ( !error && name!=nil ) {
+                        //login success reload topicposts.
+                        [self.topicReader getTopicPostsWithBlock:self.topicAddress blockFunction:^(NSMutableArray *topicPosts_t, NSError *error){
+                            if (!error){
+                                self.topicPosts = topicPosts_t;
+                                //login success but no topicposts. seems impossible.
+                                if (self.topicPosts==nil || self.topicPosts.count==0) {
+                                    //
+                                    [BDWMAlertMessage alertAndAutoDismissMessage:@"怎么会没有帖子！"];
+                                    [self.navigationController popViewControllerAnimated:YES];
+                                }else{
+                                    [self.tableView reloadData];
+                                }
+                                
+                            }else{
+                                [BDWMAlertMessage alertMessage:@"获取不到数据."];
+                                [self.navigationController popViewControllerAnimated:YES];
+                            }
+                        }];
+                    }else{
+                        [BDWMAlertMessage alertMessage:@"获取不到数据."];
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }
+                }];
+            }else{
+                //find topicposts.
+                [self.tableView reloadData];
+            }
         }else{
             [BDWMAlertMessage alertAndAutoDismissMessage:@"哎呀～获取不到数据～"];
+            
         }
     }];
 
