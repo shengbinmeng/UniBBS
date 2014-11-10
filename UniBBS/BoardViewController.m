@@ -47,6 +47,12 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+- (void)killScroll
+{
+    CGPoint offset = self.tableView.contentOffset;
+    [self.tableView setContentOffset:offset animated:NO];
+}
+
 - (void) displayMore
 {
     if (topicMode) {
@@ -57,6 +63,8 @@
                 if(topics != nil && topics.count > 0) {
                     self.boardTopics = topics;
                     [self.tableView reloadData];
+                    [self killScroll];
+                    
                 } else {
                     [BDWMAlertMessage alertAndAutoDismissMessage:@"没有啦～"];
                 }
@@ -64,6 +72,7 @@
                 [BDWMAlertMessage alertAndAutoDismissMessage:@"哎呀～获取不到数据～"];
             }
             [self.tableView.bottomRefreshControl endRefreshing];
+            
         }];
         
         
@@ -139,6 +148,7 @@
 }
 
 - (void)reload:(__unused id)sender {
+  
     NSURLSessionTask *task;
     self.boardReader.dataAddress = nil;
     if (topicMode){
@@ -179,6 +189,7 @@
             }else{
                 //find topics.
                 [self.tableView reloadData];
+                
             }
         }else{
             [BDWMAlertMessage alertAndAutoDismissMessage:@"获取不到数据."];
@@ -232,6 +243,8 @@
     }
     
     [self.refreshControl setRefreshingWithStateOfTask:task];
+    
+
 }
 
 #pragma mark - View lifecycle

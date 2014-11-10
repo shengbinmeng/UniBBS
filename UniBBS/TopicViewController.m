@@ -106,12 +106,19 @@
     [((UIButton*)self.tableView.tableFooterView) setTitle:@"上拉载入更多" forState:UIControlStateNormal];
 }
 
+- (void)killScroll
+{
+    CGPoint offset = self.tableView.contentOffset;
+    [self.tableView setContentOffset:offset animated:NO];
+}
+
 - (void) displayMore
 {
     [self.topicReader getTopicPostsWithBlock:[self.topicReader getNextPageHref] blockFunction:^(NSMutableArray *topicPosts_t, NSError *error) {
         if (!error) {
             [self.topicPosts addObjectsFromArray:topicPosts_t];
             [self.tableView reloadData];
+            [self killScroll];
         } else {
             [((UIButton*)self.tableView.tableFooterView) setTitle:@"没有更多" forState:UIControlStateNormal];
         }
