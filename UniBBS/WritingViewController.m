@@ -257,7 +257,7 @@
                 
             }else{
                 [BDWMAlertMessage stopSpinner];
-                [BDWMAlertMessage alertMessage:@"哎呀～获取不到数据～"];
+                [BDWMAlertMessage alertMessage:@"网络错误"];
                 [self.navigationController popViewControllerAnimated:YES];
             }
         }];

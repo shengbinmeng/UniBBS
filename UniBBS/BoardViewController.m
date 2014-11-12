@@ -69,7 +69,7 @@
                     [BDWMAlertMessage alertAndAutoDismissMessage:@"没有啦～"];
                 }
             }else{
-                [BDWMAlertMessage alertAndAutoDismissMessage:@"哎呀～获取不到数据～"];
+                [BDWMAlertMessage alertAndAutoDismissMessage:@"网络错误"];
             }
             [self.tableView.bottomRefreshControl endRefreshing];
             
@@ -88,7 +88,7 @@
                     [BDWMAlertMessage alertAndAutoDismissMessage:@"没有啦～"];
                 }
             }else{
-                [BDWMAlertMessage alertAndAutoDismissMessage:@"哎呀～获取不到数据～"];
+                [BDWMAlertMessage alertAndAutoDismissMessage:@"网络错误"];
             }
             [self.tableView.bottomRefreshControl endRefreshing];
         }];

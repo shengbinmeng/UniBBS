@@ -46,6 +46,7 @@ UIAlertView *connectingAlert;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"知道了" otherButtonTitles:nil];
     [alert show];
     
+    [BDWMAlertMessage stopSpinner];
     [self performSelector:@selector(dimissAlert:) withObject:alert afterDelay:0.8];
 }
 
@@ -60,6 +61,7 @@ UIAlertView *connectingAlert;
 
 + (void)alertMessage:(NSString *)message{
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+    [BDWMAlertMessage stopSpinner];
     [alert show];
 }
 @end

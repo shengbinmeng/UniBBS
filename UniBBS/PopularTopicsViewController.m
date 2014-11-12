@@ -113,7 +113,7 @@
             self.popularTopics = topics;
             [self.tableView reloadData];
         }else{
-            [BDWMAlertMessage alertAndAutoDismissMessage:@"哎呀～获取不到数据～"];
+            [BDWMAlertMessage alertAndAutoDismissMessage:@"网络错误"];
         }
     }];
 

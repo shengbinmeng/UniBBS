@@ -65,10 +65,13 @@
             [self.navigationController pushViewController:userInfoViewController animated:YES];
             self.userNameTextField.text = @"";
             self.userPasswordTextField.text = @"";
-        }else{
+        }else if(name==nil && error==nil){
             [BDWMAlertMessage stopSpinner];
             self.userPasswordTextField.text = @"";
             [BDWMAlertMessage alertAndAutoDismissMessage:@"用户名或密码错误"];
+        }else{
+            [BDWMAlertMessage stopSpinner];
+            [BDWMAlertMessage alertAndAutoDismissMessage:@"网络错误"];
         }
     }];
 }
