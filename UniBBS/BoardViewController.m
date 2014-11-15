@@ -127,7 +127,12 @@
             [self reload:nil];
             break;
         case 2:
-            [[BBSFavouritesManager favouriteBoards]addObject:self.boardInfo];
+            if (self.boardInfo == nil) {
+                self.boardInfo = [[NSMutableDictionary alloc] init];
+                [self.boardInfo setValue:self.title forKey:@"description"];
+                [self.boardInfo setValue:self.boardName forKey:@"name"];
+            }
+            [[BBSFavouritesManager favouriteBoards] addObject:self.boardInfo];
             break;
         default:
             break;

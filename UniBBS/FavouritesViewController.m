@@ -26,7 +26,6 @@
         // Custom initialization
         self.title = @"本地收藏";
         self.tabBarItem.image = [UIImage imageNamed:@"first"];
-        [BBSFavouritesManager loadData];
         // just assign, for easy using
         favouriteBoards = [BBSFavouritesManager favouriteBoards];
         favouriteTopics = [BBSFavouritesManager favouriteTopics];
@@ -38,7 +37,6 @@
 
 - (void) dealloc
 {
-    [BBSFavouritesManager saveData];
     [favourites release];
     [super dealloc];
 }
@@ -97,7 +95,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [BBSFavouritesManager saveData];
     [super viewWillDisappear:animated];
 }
 

@@ -12,6 +12,7 @@
 #import "BoardListViewController.h"
 #import "SettingsViewController.h"
 #import "ProfileViewController.h"
+#import "BBSFavouritesManager.h"
 
 @implementation UniBBSAppDelegate
 
@@ -41,6 +42,9 @@
     self.tabBarController.viewControllers = [NSArray arrayWithObjects:popularViewController, boardListViewController, profileViewController, settingsViewController, nil];
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
+    
+    [BBSFavouritesManager loadData];
+    
     return YES;
 }
 
@@ -58,6 +62,7 @@
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
      If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
+    [BBSFavouritesManager saveData];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
