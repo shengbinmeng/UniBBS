@@ -136,7 +136,7 @@
             NSString *address = [pageSource substringWithRange:range];
             [topic setValue:[NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", address] forKey:@"address"];
 
-            NSString *infoScope = [pageSource substringWithRange:NSMakeRange(range.location - 180, 180)];
+            NSString *infoScope = [pageSource substringWithRange:NSMakeRange(range.location - 280, 280)];
             
             
             range = [[[NSRegularExpression regularExpressionWithPattern:@"class=col..>([^<]*)<" options:0 error:NULL] firstMatchInString:infoScope options:0 range:NSMakeRange(0, infoScope.length)] rangeAtIndex:1];
@@ -265,7 +265,7 @@
             NSString *address = [pageSource substringWithRange:range];
             [post setValue:[NSString stringWithFormat:@"http://www.bdwm.net/bbs/%@", address] forKey:@"address"];
             
-            NSString *infoScope = [pageSource substringWithRange:NSMakeRange(range.location - 180, 180)];
+            NSString *infoScope = [pageSource substringWithRange:NSMakeRange(range.location - 280, 280)];
             range = [[[NSRegularExpression regularExpressionWithPattern:@"class=col..>([^<]*)<" options:0 error:NULL] firstMatchInString:infoScope options:0 range:NSMakeRange(0, infoScope.length)] rangeAtIndex:1];
             NSString *time = [infoScope substringWithRange:range];
             [post setValue:time forKey:@"time"];
