@@ -267,7 +267,7 @@
         NSDictionary * post = [favouritePosts objectAtIndex:indexPath.row];
         if ([post valueForKey:@"attachments"] != nil) {
             UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"查看附件", nil];
-            [sheet showInView:self.view.window];
+            [sheet showInView:self.view];
             [sheet release];
         } else {
             [tableView deselectRowAtIndexPath:indexPath animated:NO];
