@@ -142,7 +142,7 @@
             }
             case 1:{
                 if (self.topicInfo == nil) {
-                    self.topicInfo = [[NSDictionary alloc] init];
+                    self.topicInfo = [[NSMutableDictionary alloc] init];
                     [self.topicInfo setValue:self.title forKey:@"title"];
                     [self.topicInfo setValue:self.topicAddress forKey:@"address"];
                 }
