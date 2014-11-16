@@ -263,7 +263,6 @@
         BoardViewController *boardViewController = [[BoardViewController alloc] initWithStyle:UITableViewStylePlain];
         boardViewController.title = [board objectForKey:@"description"];
         boardViewController.boardName = [board objectForKey:@"name"];
-        boardViewController.boardInfo = board;
         [self.navigationController pushViewController:boardViewController animated:YES];
         [boardViewController release];
     }

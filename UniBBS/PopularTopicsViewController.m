@@ -250,7 +250,6 @@
     TopicViewController *topicViewController = [[TopicViewController alloc] initWithStyle:UITableViewStylePlain];
     topicViewController.title = [topic valueForKey:@"title"];
     topicViewController.topicAddress = [topic valueForKey:@"address"];
-    topicViewController.topicInfo = topic;
     [self.navigationController pushViewController:topicViewController animated:YES];
     [topicViewController release];
 } 

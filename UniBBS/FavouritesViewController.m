@@ -248,7 +248,6 @@
         BoardViewController *boardViewController = [[[BoardViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
         boardViewController.title = [board objectForKey:@"description"];
         boardViewController.boardName = [board objectForKey:@"name"];
-        boardViewController.boardInfo = board;
         [self.navigationController pushViewController:boardViewController animated:YES];
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
 
@@ -257,8 +256,7 @@
         TopicViewController *topicViewController = [[[TopicViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
         topicViewController.title = [topic valueForKey:@"title"];
         topicViewController.topicAddress = [topic valueForKey:@"address"];
-        topicViewController.topicInfo = topic;
-        [self.navigationController pushViewController:topicViewController animated:YES];  
+        [self.navigationController pushViewController:topicViewController animated:YES];
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
     } else if ([indexPath section] == 2) {
         NSDictionary * post = [favouritePosts objectAtIndex:indexPath.row];

@@ -26,7 +26,7 @@
 
 @implementation TopicViewController
 
-@synthesize topicAddress, topicPosts, topicReader, topicInfo;
+@synthesize topicAddress, topicPosts, topicReader;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -42,7 +42,6 @@
     self.topicPosts = nil;
     self.topicReader = nil;
     self.topicAddress = nil;
-    self.topicInfo = nil;
     [super dealloc];
 }
 
@@ -141,12 +140,10 @@
                 break;
             }
             case 1:{
-                if (self.topicInfo == nil) {
-                    self.topicInfo = [[NSMutableDictionary alloc] init];
-                    [self.topicInfo setValue:self.title forKey:@"title"];
-                    [self.topicInfo setValue:self.topicAddress forKey:@"address"];
-                }
-                [[BBSFavouritesManager favouriteTopics] addObject:self.topicInfo];                
+                NSMutableDictionary *topicInfo = [[NSMutableDictionary alloc] init];
+                [topicInfo setValue:self.title forKey:@"title"];
+                [topicInfo setValue:self.topicAddress forKey:@"address"];
+                [[BBSFavouritesManager favouriteTopics] addObject:topicInfo];
                 break;
             }
             default:

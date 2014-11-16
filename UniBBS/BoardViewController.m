@@ -27,7 +27,7 @@
     BOOL topicMode;
 }
 
-@synthesize boardName, boardAddress, boardReader, boardPosts, boardTopics, boardInfo;
+@synthesize boardName, boardAddress, boardReader, boardPosts, boardTopics;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -126,14 +126,13 @@
             self.boardReader.showSticky = YES;
             [self reload:nil];
             break;
-        case 2:
-            if (self.boardInfo == nil) {
-                self.boardInfo = [[NSMutableDictionary alloc] init];
-                [self.boardInfo setValue:self.title forKey:@"description"];
-                [self.boardInfo setValue:self.boardName forKey:@"name"];
-            }
-            [[BBSFavouritesManager favouriteBoards] addObject:self.boardInfo];
+        case 2:{
+            NSMutableDictionary *boardInfo = [[NSMutableDictionary alloc] init];
+            [boardInfo setValue:self.title forKey:@"description"];
+            [boardInfo setValue:self.boardName forKey:@"name"];
+            [[BBSFavouritesManager favouriteBoards] addObject:boardInfo];
             break;
+        }
         default:
             break;
     }
@@ -294,7 +293,6 @@
     self.boardReader = nil;
     self.boardTopics = nil;
     self.boardPosts = nil;
-    self.boardInfo = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -415,7 +413,6 @@
         TopicViewController *topicViewController = [[[TopicViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
         topicViewController.title = [topic valueForKey:@"title"];
         topicViewController.topicAddress = [topic valueForKey:@"address"];
-        topicViewController.topicInfo = topic;
         [self.navigationController pushViewController:topicViewController animated:YES];    
     } else {
         NSDictionary *post = [boardPosts objectAtIndex:[indexPath row]];

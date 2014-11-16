@@ -17,6 +17,5 @@
 @property (nonatomic, retain) BBSBoardReader *boardReader;
 @property (nonatomic, retain) NSMutableArray *boardPosts;
 @property (nonatomic, retain) NSMutableArray *boardTopics;
-@property (nonatomic, retain) NSDictionary *boardInfo;
 
 @end

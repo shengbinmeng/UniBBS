@@ -13,6 +13,5 @@
 @property (nonatomic, retain) NSString *topicAddress;
 @property (nonatomic, retain) NSMutableArray *topicPosts;
 @property (nonatomic, retain) BBSTopicReader *topicReader;
-@property (nonatomic, retain) NSDictionary *topicInfo;
 
 @end
