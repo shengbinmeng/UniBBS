@@ -42,7 +42,7 @@
         [responseSerializer setAcceptableContentTypes:[NSSet setWithObjects:@"text/html", nil]];
         NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding (kCFStringEncodingGB_18030_2000);
         requestSerializer.stringEncoding = enc;
-        requestSerializer.timeoutInterval = 15;
+        requestSerializer.timeoutInterval = DEFAULT_TIMEOUT_SECONDS;
         _sharedClient.requestSerializer = requestSerializer;
         _sharedClient.responseSerializer= responseSerializer;
     });

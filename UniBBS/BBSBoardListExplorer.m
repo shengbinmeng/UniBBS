@@ -8,6 +8,7 @@
 
 #import "BBSBoardListExplorer.h"
 #import "Utility.h"
+#import "BDWMGlobalData.h"
 
 @implementation BBSBoardListExplorer {
     NSMutableArray *boardList;
@@ -37,7 +38,7 @@
     [[NSURLCache sharedURLCache] setMemoryCapacity:1024*1024*2];
     [request setCachePolicy:NSURLRequestReturnCacheDataElseLoad];
     [request setHTTPMethod:@"GET"]; 
-    [request setTimeoutInterval:15];
+    [request setTimeoutInterval:DEFAULT_TIMEOUT_SECONDS];
     NSData *returnedData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     if (returnedData) {
         NSString *pageSource = [Utility convertDataToString:returnedData];

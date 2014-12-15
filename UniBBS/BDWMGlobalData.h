@@ -28,4 +28,7 @@
 #define DEFAULT_USET_AGENT @"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36"
 
 #define POST_SUFFIX_STRING          @"\n\n发自我的“北大未名”iOS客户端(http://t.cn/R7ZhtYc)"
+
+#define DEFAULT_TIMEOUT_SECONDS     60 //longer for app review.
+
 #endif

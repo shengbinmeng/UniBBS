@@ -8,6 +8,7 @@
 
 #import "BBSPostReader.h"
 #import "Utility.h"
+#import "BDWMGlobalData.h"
 
 @implementation BBSPostReader {
     NSMutableDictionary *postAttributes;
@@ -36,7 +37,7 @@
     NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease]; 
     [request setURL:[NSURL URLWithString:self.dataAddress]];  
     [request setHTTPMethod:@"GET"];
-    [request setTimeoutInterval:15];
+    [request setTimeoutInterval:DEFAULT_TIMEOUT_SECONDS];
     
     NSData *returnedData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     if (returnedData) {
