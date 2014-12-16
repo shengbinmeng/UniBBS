@@ -96,10 +96,10 @@
         }
         case 2:{
             // add to favourites
-            NSMutableDictionary *postInfo = [[NSMutableDictionary alloc] init];
+            NSDictionary *postInfo = [[NSMutableDictionary alloc] init];
             [postInfo setValue:[postAttributes valueForKey:@"content"] forKey:@"content"];
             [postInfo setValue:[postAttributes valueForKey:@"attachments"] forKey:@"attachments"];
-            [[BBSFavouritesManager favouritePosts] addObject:postInfo];
+            [BBSFavouritesManager saveFavoratePosts:postInfo];
             [postInfo release];
             break;
         }

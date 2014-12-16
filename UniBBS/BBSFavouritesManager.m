@@ -8,9 +8,9 @@
 
 #import "BBSFavouritesManager.h"
 
-static NSMutableArray* _favouriteBoards;
-static NSMutableArray* _favouriteTopics;
-static NSMutableArray* _favouritePosts;
+  NSMutableArray* _favouriteBoards=nil;
+  NSMutableArray* _favouriteTopics=nil;
+  NSMutableArray* _favouritePosts=nil;
 
 @implementation BBSFavouritesManager 
 
@@ -31,7 +31,7 @@ static NSMutableArray* _favouritePosts;
     }
     
     filePath = [documentsDirectory stringByAppendingFormat:@"/fav-post.plist"];
-    _favouritePosts = [NSMutableArray arrayWithContentsOfFile:filePath];
+    _favouritePosts = [[NSMutableArray arrayWithContentsOfFile:filePath] mutableCopy];
     if (_favouritePosts == nil) {
         _favouritePosts = [[NSMutableArray alloc] init];
     }
@@ -51,21 +51,31 @@ static NSMutableArray* _favouritePosts;
 {
     return _favouritePosts;
 }
++ (void) saveFavorateBoards:(NSDictionary *)arr
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingFormat:@"/fav-board.plist"];
+    [_favouriteBoards addObject:arr];
+    [_favouriteBoards writeToFile:filePath atomically:YES];
 
-+ (void) saveData
+}
+
++ (void) saveFavorateTopics:(NSDictionary *)arr
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingFormat:@"/fav-topic.plist"];
+    [_favouriteTopics addObject:arr];
+    [_favouriteTopics writeToFile:filePath atomically:YES];
+}
+
++ (void) saveFavoratePosts:(NSDictionary *)arr
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);  
     NSString *documentsDirectory = [paths objectAtIndex:0];  
-    NSString *filePath = [documentsDirectory stringByAppendingFormat:@"/fav-board.plist"];
-    //NSData *plistData = [NSPropertyListSerialization dataFromPropertyList:_favouriteBoards format:NSPropertyListXMLFormat_v1_0 errorDescription:nil];
-    //NSString *plistString = [[NSString alloc] initWithData:plistData encoding:NSUTF8StringEncoding];
-   //[plistData writeToFile:filePath atomically:YES];
-    [_favouriteBoards writeToFile:filePath atomically:YES];
-    
-    filePath = [documentsDirectory stringByAppendingFormat:@"/fav-topic.plist"];
-    [_favouriteTopics writeToFile:filePath atomically:YES];
-    
-    filePath = [documentsDirectory stringByAppendingFormat:@"/fav-post.plist"];
+    NSString *filePath = [documentsDirectory stringByAppendingFormat:@"/fav-post.plist"];
+    [_favouritePosts addObject:arr];
     [_favouritePosts writeToFile:filePath atomically:YES];
 }
 

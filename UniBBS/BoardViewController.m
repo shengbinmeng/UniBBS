@@ -127,10 +127,10 @@
             [self reload:nil];
             break;
         case 2:{
-            NSMutableDictionary *boardInfo = [[NSMutableDictionary alloc] init];
+            NSDictionary *boardInfo = [[NSMutableDictionary alloc] init];
             [boardInfo setValue:self.title forKey:@"description"];
             [boardInfo setValue:self.boardName forKey:@"name"];
-            [[BBSFavouritesManager favouriteBoards] addObject:boardInfo];
+            [BBSFavouritesManager saveFavorateBoards:boardInfo];
             break;
         }
         default:

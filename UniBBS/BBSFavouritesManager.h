@@ -14,5 +14,8 @@
 + (NSMutableArray*) favouriteTopics;
 + (NSMutableArray*) favouritePosts;
 
-+ (void) saveData;
++ (void) saveFavorateBoards:(NSDictionary *)arr;
++ (void) saveFavorateTopics:(NSDictionary *)arr;
++ (void) saveFavoratePosts:(NSDictionary *)arr;
+
 @end
