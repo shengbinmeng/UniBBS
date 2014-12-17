@@ -9,12 +9,15 @@
 #import <UIKit/UIKit.h>
 
 @interface BBSFavouritesManager : NSObject
++ (void) initFavouriteDataBase;
++ (void) loadFavouritesBoards;
++ (BOOL) deleteFavouriteBoard:(NSMutableDictionary *)dict;
 + (void) loadData;
 + (NSMutableArray*) favouriteBoards;
 + (NSMutableArray*) favouriteTopics;
 + (NSMutableArray*) favouritePosts;
 
-+ (void) saveFavorateBoards:(NSDictionary *)arr;
++ (void) saveFavorateBoards:(NSMutableDictionary *)arr;
 + (void) saveFavorateTopics:(NSDictionary *)arr;
 + (void) saveFavoratePosts:(NSDictionary *)arr;
 

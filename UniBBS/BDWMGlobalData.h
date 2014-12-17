@@ -31,4 +31,6 @@
 
 #define DEFAULT_TIMEOUT_SECONDS     60 //longer for app review.
 
+#define DB_NAME                     @"bdwm.db"
+
 #endif

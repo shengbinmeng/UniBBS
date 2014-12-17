@@ -27,10 +27,12 @@
         self.title = @"本地收藏";
         self.tabBarItem.image = [UIImage imageNamed:@"first"];
         // just assign, for easy using
+        [BBSFavouritesManager loadFavouritesBoards];
         favouriteBoards = [BBSFavouritesManager favouriteBoards];
-        favouriteTopics = [BBSFavouritesManager favouriteTopics];
-        favouritePosts = [BBSFavouritesManager favouritePosts];
-        favourites = [[NSMutableArray alloc] initWithObjects:favouriteBoards,favouriteTopics, favouritePosts, nil];
+//        favouriteTopics = [BBSFavouritesManager favouriteTopics];
+//        favouritePosts = [BBSFavouritesManager favouritePosts];
+//        favourites = [[NSMutableArray alloc] initWithObjects:favouriteBoards,favouriteTopics, favouritePosts, nil];
+        favourites = [[NSMutableArray alloc] initWithObjects:favouriteBoards, nil];
     }
     return self;
 }
@@ -141,7 +143,7 @@
     // Configure the cell...
     if ([indexPath section] == 0) {
         NSDictionary *board = [favouriteBoards objectAtIndex:indexPath.row];
-        cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)",[board valueForKey:@"description"], [board valueForKey:@"name"]];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)",[board valueForKey:@"boardTitle"], [board valueForKey:@"boardName"]];
     } else if ([indexPath section] == 1) {
         cell.textLabel.text = [[favouriteTopics objectAtIndex:indexPath.row] valueForKey:@"title"];
     } else if ([indexPath section] == 2) {
@@ -182,6 +184,9 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+        NSMutableDictionary *dict = [[favourites objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
+        [BBSFavouritesManager deleteFavouriteBoard:dict];
+        
         [[favourites objectAtIndex:[indexPath section]] removeObjectAtIndex:[indexPath row]];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
@@ -246,12 +251,12 @@
     if ([indexPath section] == 0) {
         NSDictionary *board = [favouriteBoards objectAtIndex:indexPath.row];
         BoardViewController *boardViewController = [[[BoardViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
-        boardViewController.title = [board objectForKey:@"description"];
-        boardViewController.boardName = [board objectForKey:@"name"];
+        boardViewController.title = [board objectForKey:@"boardTitle"];
+        boardViewController.boardName = [board objectForKey:@"boardName"];
         [self.navigationController pushViewController:boardViewController animated:YES];
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
 
-    } else if ([indexPath section] == 1) {
+    }else if ([indexPath section] == 1) {
         NSDictionary *topic = [favouriteTopics objectAtIndex:[indexPath row]];
         TopicViewController *topicViewController = [[[TopicViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
         topicViewController.title = [topic valueForKey:@"title"];
