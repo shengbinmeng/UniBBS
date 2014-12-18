@@ -15,6 +15,11 @@ NSMutableArray* _favouriteTopics=nil;
 NSMutableArray* _favouritePosts=nil;
 
 @implementation BBSFavouritesManager 
+#define TABLE_NAME_BOARD @"FavouriteBoards"
+#define TABLE_NAME_TOPIC @"FavouriteTopics"
+#define TABLE_NAME_POST  @"FavouritePosts"
+
+#define CREATE_FAVOURITE_BOARD_TABLE [db executeUpdate:[NSString stringWithFormat:@"create table %@ (id integer primary key autoincrement not null, boardName text, boardTitle text, accessCount integer)", TABLE_NAME_BOARD]];
 
 +(void) deleteFavouriteBoardTable
 {
@@ -31,7 +36,8 @@ NSMutableArray* _favouritePosts=nil;
     if (db==nil) {
         return NO;
     }
-    [db executeUpdate:@"delete from favouriteBorads where boardName=:boardName" withParameterDictionary:dict];
+    NSString *sql = [NSString stringWithFormat:@"delete from %@ where id=:id", TABLE_NAME_BOARD];
+    [db executeUpdate:sql withParameterDictionary:dict];
     if ([db hadError]) {
         NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
         return NO;
@@ -45,14 +51,17 @@ NSMutableArray* _favouritePosts=nil;
     if (db==nil) {
         return;
     }
-    if (NO==[self isTableExist:db tableName:@"favouriteBorads"]) {
-        [db executeUpdate:@"create table favouriteBorads (boardName text, boardTitle text, accessCount integer)"];
+    if (NO==[self isTableExist:db tableName:TABLE_NAME_BOARD]) {
+        CREATE_FAVOURITE_BOARD_TABLE
     }
     if ([self isExistRecord:dict]) {
         return;
     }
     [dict setObject:[NSNumber numberWithInt:1] forKey:@"accessCount"];
-    [db executeUpdate:@"insert into favouriteBorads values (:boardName, :boardTitle, :accessCount)" withParameterDictionary:dict];
+    [dict setObject:[NSNull null] forKey:@"id"];
+    NSLog(@"saving %@,accessCount:%@", [dict objectForKey:@"boardName"], [dict objectForKey:@"accessCount"]);
+    NSString *sql = [NSString stringWithFormat:@"insert into %@ values (:id, :boardName, :boardTitle, :accessCount)", TABLE_NAME_BOARD];
+    [db executeUpdate:sql withParameterDictionary:dict];
     if ([db hadError]) {
         NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
     }
@@ -64,7 +73,8 @@ NSMutableArray* _favouritePosts=nil;
     if (db==nil) {
         return YES;//return yes and do not do save operation.
     }
-    FMResultSet *rs = [db executeQuery:@"select * from favouriteBorads where boardName=:boardName" withParameterDictionary:dict];
+    NSString *sql = [NSString stringWithFormat:@"select * from %@ where boardName=:boardName", TABLE_NAME_BOARD];
+    FMResultSet *rs = [db executeQuery:sql withParameterDictionary:dict];
     if ([rs next]) {
         return YES;
     }else{
@@ -85,14 +95,17 @@ NSMutableArray* _favouritePosts=nil;
         return;
     }
     //table not exist then creat one.
-    if (YES==[self isTableExist:db tableName:@"favouriteBorads"]) {
-        FMResultSet *rs = [db executeQuery:@"select * from favouriteBorads"];
+    if (YES==[self isTableExist:db tableName:TABLE_NAME_BOARD]) {
+        NSString *sql = [NSString stringWithFormat:@"select * from %@", TABLE_NAME_BOARD];
+        FMResultSet *rs = [db executeQuery:sql];
         while ([rs next]) {//add all results.
+            NSDictionary *resultDict = [rs resultDictionary];
+            NSLog(@"load %@,id:%d,accessCount:%d", [resultDict objectForKey:@"boardName"],[[resultDict objectForKey:@"id"] integerValue],[[resultDict objectForKey:@"accessCount"] integerValue]);
             [_favouriteBoards addObject:[rs resultDictionary]] ;
         }
     }else{
         //this should never happen.
-         [db executeUpdate:@"create table favouriteBorads (boardName text, boardTitle text, accessCount integer)"];
+         CREATE_FAVOURITE_BOARD_TABLE
     }
     [db close];
 }
@@ -103,8 +116,8 @@ NSMutableArray* _favouritePosts=nil;
     if (db==nil) {
         return;
     }
-    if (NO==[self isTableExist:db tableName:@"favouriteBorads"]) {
-        [db executeUpdate:@"create table favouriteBorads (boardName text, boardTitle text, accessCount integer)"];
+    if (NO==[self isTableExist:db tableName:TABLE_NAME_BOARD]) {
+        CREATE_FAVOURITE_BOARD_TABLE
     }
     [db close];
 }
