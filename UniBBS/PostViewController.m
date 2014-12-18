@@ -99,7 +99,7 @@
             NSDictionary *postInfo = [[NSMutableDictionary alloc] init];
             [postInfo setValue:[postAttributes valueForKey:@"content"] forKey:@"content"];
             [postInfo setValue:[postAttributes valueForKey:@"attachments"] forKey:@"attachments"];
-            [BBSFavouritesManager saveFavoratePosts:postInfo];
+   //         [BBSFavouritesManager saveFavoratePosts:postInfo];
             [postInfo release];
             break;
         }

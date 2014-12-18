@@ -16,52 +16,54 @@ NSMutableArray* _favouritePosts=nil;
 
 @implementation BBSFavouritesManager 
 
-+ (void) initFavouriteDataBase
++(void) deleteFavouriteBoardTable
 {
-    FMDatabase *db = [self initDatabase];
-    //table not exist then creat one.
-    if (NO==[self isTableExist:db tableName:@"favouriteBorads"]) {
-        [db executeUpdate:@"create table favouriteBorads (boardName text, boardTitle text)"];
-    }
-    [db close];
+    // delete the old db.
+    NSString *doc=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *dbPath=[doc stringByAppendingPathComponent:DB_NAME];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager removeItemAtPath:dbPath error:nil];
+
 }
-+ (BOOL) isTableExist:(FMDatabase *) db tableName:(NSString *)tableName
++ (BOOL) deleteFavouriteBoard:(NSMutableDictionary *)dict
 {
-    FMResultSet *rs = [db executeQuery:@"select count(*) as 'count' from sqlite_master where type ='table' and name = ?", tableName];
-    while ([rs next])
-    {
-        // just print out what we've got in a number of formats.
-        NSInteger count = [rs intForColumn:@"count"];
-        if (0 == count)
-        {
-            return NO;
-        }
-        else
-        {
-            return YES;
-        }
+    FMDatabase *db = [self getDatabase];
+    if (db==nil) {
+        return NO;
     }
-    
-    return NO;
+    [db executeUpdate:@"delete from favouriteBorads where boardName=:boardName" withParameterDictionary:dict];
+    if ([db hadError]) {
+        NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
+        return NO;
+    }
+    return YES;
 }
 
-+ (FMDatabase *) initDatabase
++ (void) saveFavorateBoards:(NSMutableDictionary *)dict
 {
-    NSString *doc=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-    NSString *fileName=[doc stringByAppendingPathComponent:DB_NAME];
-    FMDatabase *db = [FMDatabase databaseWithPath:fileName];
-    if (![db open]) {
-        NSLog(@"Could not open db.");
-        NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
-        return nil;
+    FMDatabase *db = [self getDatabase];
+    if (db==nil) {
+        return;
     }
-    
-    return db;
+    if (NO==[self isTableExist:db tableName:@"favouriteBorads"]) {
+        [db executeUpdate:@"create table favouriteBorads (boardName text, boardTitle text, accessCount integer)"];
+    }
+    if ([self isExistRecord:dict]) {
+        return;
+    }
+    [dict setObject:[NSNumber numberWithInt:1] forKey:@"accessCount"];
+    [db executeUpdate:@"insert into favouriteBorads values (:boardName, :boardTitle, :accessCount)" withParameterDictionary:dict];
+    if ([db hadError]) {
+        NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
+    }
 }
 
 + (BOOL) isExistRecord:(NSMutableDictionary *)dict
 {
-    FMDatabase *db = [self initDatabase];
+    FMDatabase *db = [self getDatabase];
+    if (db==nil) {
+        return YES;//return yes and do not do save operation.
+    }
     FMResultSet *rs = [db executeQuery:@"select * from favouriteBorads where boardName=:boardName" withParameterDictionary:dict];
     if ([rs next]) {
         return YES;
@@ -69,7 +71,7 @@ NSMutableArray* _favouritePosts=nil;
         return NO;
     }
 }
-
+//load fabourite boards result from db.
 + (void) loadFavouritesBoards
 {
     if (_favouriteBoards==nil) {
@@ -78,29 +80,63 @@ NSMutableArray* _favouritePosts=nil;
         [_favouriteBoards removeAllObjects];
     }
     
-    FMDatabase *db = [self initDatabase];
+    FMDatabase *db = [self getDatabase];
+    if (db==nil) {
+        return;
+    }
     //table not exist then creat one.
-    if (NO==[self isTableExist:db tableName:@"favouriteBorads"]) {
-        [db executeUpdate:@"create table favouriteBorads (boardName text, boardTitle text)"];
-    }else{
+    if (YES==[self isTableExist:db tableName:@"favouriteBorads"]) {
         FMResultSet *rs = [db executeQuery:@"select * from favouriteBorads"];
         while ([rs next]) {//add all results.
             [_favouriteBoards addObject:[rs resultDictionary]] ;
         }
+    }else{
+        //this should never happen.
+         [db executeUpdate:@"create table favouriteBorads (boardName text, boardTitle text, accessCount integer)"];
+    }
+    [db close];
+}
+//if favouriteBoards table not exist then create one.
++ (void) initFavouriteDataBase
+{
+    FMDatabase *db = [self getDatabase];
+    if (db==nil) {
+        return;
+    }
+    if (NO==[self isTableExist:db tableName:@"favouriteBorads"]) {
+        [db executeUpdate:@"create table favouriteBorads (boardName text, boardTitle text, accessCount integer)"];
     }
     [db close];
 }
 
-+ (void) loadData
++ (BOOL) isTableExist:(FMDatabase *) db tableName:(NSString *)tableName
 {
-    
-    if (_favouriteTopics==nil) {
-        _favouriteTopics = [[NSMutableArray alloc] init];
+    FMResultSet *rs = [db executeQuery:@"select count(*) as 'count' from sqlite_master where type ='table' and name = ?", tableName];
+    if ([rs next])
+    {
+        // just print out what we've got in a number of formats.
+        NSInteger count = [rs intForColumn:@"count"];
+        if (0 == count){
+            return NO;
+        }else{
+            return YES;
+        }
     }
-    if (_favouritePosts==nil) {
-        _favouritePosts = [[NSMutableArray alloc] init];
+    return NO;
+}
+//get db object
++ (FMDatabase *) getDatabase
+{
+    NSString *doc=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *dbPath=[doc stringByAppendingPathComponent:DB_NAME];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
+    if (![db open]) {
+        NSLog(@"Could not open db.");
+        NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
+        return nil;
     }
     
+    return db;
 }
 
 + (NSMutableArray*) favouriteBoards
@@ -116,29 +152,6 @@ NSMutableArray* _favouritePosts=nil;
 + (NSMutableArray*) favouritePosts
 {
     return _favouritePosts;
-}
-
-+ (BOOL) deleteFavouriteBoard:(NSMutableDictionary *)dict
-{
-    FMDatabase *db = [self initDatabase];
-    [db executeUpdate:@"delete from favouriteBorads where boardName=:boardName" withParameterDictionary:dict];
-    if ([db hadError]) {
-        NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
-        return NO;
-    }
-    return YES;
-}
-
-+ (void) saveFavorateBoards:(NSMutableDictionary *)dict
-{
-    FMDatabase *db = [self initDatabase];
-    if ([self isExistRecord:dict]) {
-        return;
-    }
-    [db executeUpdate:@"insert into favouriteBorads values (:boardName, :boardTitle)" withParameterDictionary:dict];
-    if ([db hadError]) {
-        NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
-    }
 }
 
 + (void) saveFavorateTopics:(NSDictionary *)arr
