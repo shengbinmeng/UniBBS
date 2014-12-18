@@ -140,10 +140,10 @@
                 break;
             }
             case 1:{
-                NSDictionary *topicInfo = [[NSMutableDictionary alloc] init];
+                NSMutableDictionary *topicInfo = [[NSMutableDictionary alloc] init];
                 [topicInfo setValue:self.title forKey:@"title"];
                 [topicInfo setValue:self.topicAddress forKey:@"address"];
-        //        [BBSFavouritesManager saveFavorateTopics:topicInfo];
+                [BBSFavouritesManager saveFavouriteTopics:topicInfo];
                 break;
             }
             default:
@@ -186,9 +186,9 @@
             }
             case 2:{
                 // favourite
-                NSDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+                NSMutableDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
                 [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
-       //         [BBSFavouritesManager saveFavoratePosts:post];
+                [BBSFavouritesManager saveFavouritePosts:post];
                 break;
             }
             case 3:{

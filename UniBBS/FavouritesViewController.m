@@ -11,6 +11,7 @@
 #import "BoardViewController.h"
 #import "TopicViewController.h"
 #import "AttachmentsViewController.h"
+#import "BDWMAlertMessage.h"
 
 @implementation FavouritesViewController {
     NSMutableArray* favouriteBoards;
@@ -27,12 +28,11 @@
         self.title = @"本地收藏";
         self.tabBarItem.image = [UIImage imageNamed:@"first"];
         // just assign, for easy using
-        [BBSFavouritesManager loadFavouritesBoards];
+        [BBSFavouritesManager loadFavourites];
         favouriteBoards = [BBSFavouritesManager favouriteBoards];
-//        favouriteTopics = [BBSFavouritesManager favouriteTopics];
-//        favouritePosts = [BBSFavouritesManager favouritePosts];
-//        favourites = [[NSMutableArray alloc] initWithObjects:favouriteBoards,favouriteTopics, favouritePosts, nil];
-        favourites = [[NSMutableArray alloc] initWithObjects:favouriteBoards, nil];
+        favouriteTopics = [BBSFavouritesManager favouriteTopics];
+        favouritePosts = [BBSFavouritesManager favouritePosts];
+        favourites = [[NSMutableArray alloc] initWithObjects:favouriteBoards,favouriteTopics, favouritePosts, nil];
     }
     return self;
 }
@@ -67,7 +67,7 @@
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
-    [BBSFavouritesManager deleteFavouriteBoardTable];
+    
 //    // Make sure you call super first
 //    [super setEditing:editing animated:animated];
 //    
@@ -186,10 +186,23 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
         NSMutableDictionary *dict = [[favourites objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
-        [BBSFavouritesManager deleteFavouriteBoard:dict];
+        //delete from db.
+        BOOL deleteSuccess = NO;
+        if ([indexPath section] == 0) {
+            deleteSuccess = [BBSFavouritesManager deleteFavouriteBoard:dict];
+        } else if ([indexPath section] == 1) {
+            deleteSuccess = [BBSFavouritesManager deleteFavouriteTopic:dict];
+        } else if ([indexPath section] == 2) {
+            deleteSuccess = [BBSFavouritesManager deleteFavouritePost:dict];
+        }
+        //delete from view.
+        if (deleteSuccess==YES) {
+            [[favourites objectAtIndex:[indexPath section]] removeObjectAtIndex:[indexPath row]];
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        }else{
+            [BDWMAlertMessage alertMessage:@"删除失败。"];
+        }
         
-        [[favourites objectAtIndex:[indexPath section]] removeObjectAtIndex:[indexPath row]];
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view

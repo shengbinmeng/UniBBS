@@ -96,11 +96,11 @@
         }
         case 2:{
             // add to favourites
-            NSDictionary *postInfo = [[NSMutableDictionary alloc] init];
-            [postInfo setValue:[postAttributes valueForKey:@"content"] forKey:@"content"];
-            [postInfo setValue:[postAttributes valueForKey:@"attachments"] forKey:@"attachments"];
-   //         [BBSFavouritesManager saveFavoratePosts:postInfo];
-            [postInfo release];
+//            NSMutableDictionary *postInfo = [[NSMutableDictionary alloc] init];
+//            [postInfo setValue:[postAttributes valueForKey:@"content"] forKey:@"content"];
+//            [postInfo setValue:[postAttributes valueForKey:@"attachments"] forKey:@"attachments"];
+            [BBSFavouritesManager saveFavouritePosts:[self.postAttributes mutableCopy]];
+ //           [postInfo release];
             break;
         }
         case 3:{
