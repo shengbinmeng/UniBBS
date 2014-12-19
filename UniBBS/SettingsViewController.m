@@ -10,9 +10,11 @@
 #import "WebViewController.h"
 #import "SettingModel.h"
 #import "BDWMAlertMessage.h"
+#import "BBSFavouritesManager.h"
+#import "BDWMUserModel.h"
 
 @interface SettingsViewController ()
-
+@property (readwrite, nonatomic, strong) UIAlertView *alertView;
 @end
 
 @implementation SettingsViewController
@@ -140,17 +142,19 @@
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
         return 1;
-    } else if (section == 1) {
+    }else if (section == 1) {
         return 3;
-    } else if (section ==2){
+    } else if (section == 2) {
         return 1;
+    } else if (section ==3){
+        return 2;
     }
     return 1;
 }
@@ -178,6 +182,10 @@
             [switchview setOn:[SettingModel boolUsePostSuffixString] animated:NO];
             cell.accessoryView = switchview;
             [switchview release];
+        }else if([indexPath row] == 1){
+            [cell.textLabel setText:@"清空收藏夹"];
+        }else if([indexPath row] == 2){
+            [cell.textLabel setText:@"清空个人设置"];
         }
         return cell;
     }
@@ -215,6 +223,19 @@
         return cell;
     }
     
+    if ([indexPath section] == 3) {
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"DefaultStyleCell"];
+        if(cell == nil) {
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"] autorelease];
+        }
+        if([indexPath row] == 0){
+            [cell.textLabel setText:@"清空收藏夹"];
+        }else if([indexPath row] == 1){
+            [cell.textLabel setText:@"清空个人设置"];
+        }
+        return cell;
+    }
+    
     return nil;
 }
 
@@ -229,6 +250,9 @@
     if (section == 2) {
         header = @"反馈";
     }
+    if (section == 3){
+        header = @"高级设置";
+    }
     return header;
 }
 
@@ -238,12 +262,15 @@
     if (section == 0) {
         footerText = [NSString stringWithFormat:@"打开小尾巴就是在您发布的消息结尾加上“发自我的北大未名iOS客户端”字样"];
     }
+    if (section == 3) {
+        footerText = [NSString stringWithFormat:@"高级设置，请谨慎使用"];
+    }
     return footerText;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+        
     if ([indexPath section] == 1) {
         if ([indexPath row] == 0) {
             WebViewController *aboutViewController =[[[WebViewController alloc] init] autorelease];
@@ -270,6 +297,47 @@
             [self sendMail];
             return;
         }
+    }
+    
+    if ([indexPath section] == 3){
+        self.alertView = [[UIAlertView alloc] initWithTitle:@"警告"
+                                             message:@"message"
+                                            delegate:self
+                                   cancelButtonTitle:@"取消"
+                                   otherButtonTitles:@"确定",nil];
+        if ([indexPath row] ==0 ) {
+            self.alertView.tag = 0;
+            self.alertView.message = @"确定清空收藏夹?";
+            [self.alertView show];
+            return;
+        }else if([indexPath row] == 1){
+            //delete user setting cache.
+            self.alertView.tag = 1;
+            self.alertView.message = @"确定清空个人设置?";
+            [self.alertView show];
+        }
+    }
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (alertView.tag) {
+        case 0:
+            if (buttonIndex==1) {
+                [BBSFavouritesManager deleteFavouriteTable];
+                NSLog(@"db file deleted");
+            }
+            break;
+        case 1:
+            if (buttonIndex==1) {
+                //todo: support multi-user
+                //current version is the same as logout.
+                [BDWMUserModel logout];
+                NSLog(@"db user setting deleted");
+            }
+            break;
+        default:
+            break;
     }
 }
 

@@ -18,6 +18,7 @@ NSMutableArray* _favouritePosts=nil;
 #define TABLE_NAME_BOARD @"FavouriteBoards"
 #define TABLE_NAME_TOPIC @"FavouriteTopics"
 #define TABLE_NAME_POST  @"FavouritePosts"
+#define TABLE_NAME_POST_ATTACHMENT @"FavouritePostAttachments"
 
 #define TYPE_BOARD 1
 #define TYPE_TOPIC 2
@@ -28,6 +29,15 @@ NSMutableArray* _favouritePosts=nil;
 #define CREATE_FAVOURITE_TOPIC_TABLE [db executeUpdate:[NSString stringWithFormat:@"create table %@ (id integer primary key autoincrement not null, title text, address text)", TABLE_NAME_TOPIC]];
 
 #define CREATE_FAVOURITE_POST_TABLE [db executeUpdate:[NSString stringWithFormat:@"create table %@ (id integer primary key autoincrement not null, content text, replyAddress text, replyMailAddress test)", TABLE_NAME_POST]];
+
++(void) createFavouritePostAttachments:(FMDatabase *)db
+{
+    NSString *sql = [NSString stringWithFormat:@"create table %@ (id integer primary key autoincrement not null, postId integer, url test, name test, constraint \"postId\" foreign key (\"postId\") references \"FavouritePosts\"(\"id\") on delete cascade on update cascade )", TABLE_NAME_POST_ATTACHMENT] ;
+    [db executeUpdate:sql];
+    if ([db hadError]) {
+        NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
+    }
+}
 
 +(void) deleteFavouriteTable
 {
@@ -159,6 +169,7 @@ NSMutableArray* _favouritePosts=nil;
         case TYPE_POST:
             if (NO==[self isTableExist:db tableName:TABLE_NAME_POST]) {
                 CREATE_FAVOURITE_POST_TABLE
+                [self createFavouritePostAttachments:db];
             }
             if ([self isExistRecord:dict which:TYPE_POST db:db]) {
                 return;
@@ -175,6 +186,34 @@ NSMutableArray* _favouritePosts=nil;
     }
     
     [db executeUpdate:sql withParameterDictionary:dict];
+    
+    if (TYPE_POST==which) {
+        sql = [NSString stringWithFormat:@"select * from %@ where content=:content", TABLE_NAME_POST];
+        FMResultSet *rs = [db executeQuery:sql withParameterDictionary:dict];
+        if ([db hadError]) {
+            NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
+        }
+        if ([rs next]) {
+            NSDictionary *resultDict = [rs resultDictionary];
+            NSInteger postId = [[resultDict objectForKey:@"id"] integerValue];
+            NSArray *attachments = [dict objectForKey:@"attachments"];
+            
+            if (attachments!=nil) {
+                for (int i=0; i< [attachments count]; i++) {
+                    NSMutableDictionary *postAttachment = [attachments objectAtIndex:i];
+                    [postAttachment setObject:[NSNumber numberWithInteger:postId]  forKey:@"postId"];
+                    [postAttachment setObject:[NSNull null] forKey:@"id"];
+                    sql = [NSString stringWithFormat:@"insert into %@ values (:id, :postId, :url, :name)", TABLE_NAME_POST_ATTACHMENT];
+                    [db executeUpdate:sql withParameterDictionary:postAttachment];
+                    if ([db hadError]) {
+                        NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
+                    }
+                }
+            }
+            
+        }
+    }
+    
     if ([db hadError]) {
         NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
     }
@@ -285,15 +324,31 @@ NSMutableArray* _favouritePosts=nil;
         NSString *sql = [NSString stringWithFormat:@"select * from %@", TABLE_NAME_POST];
         FMResultSet *rs = [db executeQuery:sql];
         while ([rs next]) {//add all results.
-            NSDictionary *resultDict = [rs resultDictionary];
+            NSMutableDictionary *resultDict = [[rs resultDictionary] mutableCopy];
+            NSInteger postId = [[resultDict objectForKey:@"id"] integerValue];
+            NSString *postIdString = [NSString stringWithFormat:@"%ld", (long)postId];
+            BOOL have_attachment=NO;
+            NSMutableArray *attachmentsArray = [[NSMutableArray alloc] init];
+            
+            sql = [NSString stringWithFormat:@"select * from %@ where postId=?", TABLE_NAME_POST_ATTACHMENT];
+            FMResultSet * attachmentsResultSet = [db executeQuery:sql, postIdString];
+            
+            while ([attachmentsResultSet next]) {
+                NSDictionary *resultDict_t = [attachmentsResultSet resultDictionary];
+                have_attachment=YES;
+                [attachmentsArray addObject:resultDict_t];
+            }
+            if (YES==have_attachment) {
+                [resultDict setObject:attachmentsArray forKey:@"attachments"];
+            }
 #ifdef DEBUG
             NSLog(@"load %@", [resultDict objectForKey:@"content"]);
 #endif
-            [_favouritePosts addObject:[rs resultDictionary]] ;
+            [_favouritePosts addObject:resultDict] ;
         }
     }else{
-        //this should never happen.
         CREATE_FAVOURITE_POST_TABLE
+        [self createFavouritePostAttachments:db];
     }
     
 }
@@ -313,6 +368,9 @@ NSMutableArray* _favouritePosts=nil;
     }
     if (NO==[self isTableExist:db tableName:TABLE_NAME_POST]) {
         CREATE_FAVOURITE_POST_TABLE
+    }
+    if (NO==[self isTableExist:db tableName:TABLE_NAME_POST_ATTACHMENT]) {
+        [self createFavouritePostAttachments:db];
     }
     [db close];
 }
