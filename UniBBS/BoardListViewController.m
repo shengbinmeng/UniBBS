@@ -121,11 +121,17 @@
     if ([self.title isEqualToString:@"分类讨论区"]) {
         BBSBoardListExplorer *explorer = [[BBSBoardListExplorer alloc] initWithAddress:self.listAddress];
         wholeBoardList = [[explorer getWholeBoardList] retain];
+        if (wholeBoardList == nil || wholeBoardList.count==0) {
+#ifdef DEBUG
+            NSLog(@"fetch whole board list again.");
+#endif
+            wholeBoardList = [[explorer getWholeBoardList] retain];
+        }
         [explorer release];
     }
     self.boardList = [self.boardExplorer getBoardList];
     categaryBoardList = [self.boardList retain];
-    
+  
     [self.tableView reloadData];
     [indicator stopAnimating];
     [indicator removeFromSuperview];

@@ -114,7 +114,19 @@
             self.popularTopics = topics;
             [self.tableView reloadData];
         }else{
-            [BDWMAlertMessage alertAndAutoDismissMessage:@"未取到数据！可能是网络或其他原因导致。"];
+            //try again.
+#ifdef DEBUG
+            NSLog(@"try fetch data again.");
+#endif
+            //todo:continue show refreshing. I can't control refreshing animation.
+            [BBSPopularReader getPopularTopicsWithBlock:href blockFunction:^(NSMutableArray *topics, NSError *error) {
+                if (!error) {
+                    self.popularTopics = topics;
+                    [self.tableView reloadData];
+                }else{
+                    [BDWMAlertMessage alertAndAutoDismissMessage:@"未取到数据！可能是网络或其他原因导致。"];
+                }
+            }];
         }
     }];
 
