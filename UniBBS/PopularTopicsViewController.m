@@ -164,7 +164,9 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
+    //No need to auto login, because app will try login action if can't fetch topic data or can't send topic.
+    //And auto login may cause app no response. 
+    /*
     if (NO==[BDWMUserModel isLogined]) {
         NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
         NSString *userName = [userDefaultes stringForKey:@"saved_username"];
@@ -180,6 +182,7 @@
         }];
 
     }
+     */
 }
 
 - (void)viewWillDisappear:(BOOL)animated
