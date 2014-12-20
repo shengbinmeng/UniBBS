@@ -97,6 +97,20 @@
     [super viewDidAppear:animated];
 
     [self.userNameTextField becomeFirstResponder];
+    
+    if (NO==[BDWMUserModel isLogined]) {
+        NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+        NSString *userName = [userDefaultes stringForKey:@"saved_username"];
+        NSString *password = [userDefaultes stringForKey:@"saved_password"];
+        
+        if( userName==nil || password==nil )
+            return;
+        self.userNameTextField.text = userName;
+        self.userPasswordTextField.text = password;
+        
+        [self clickLoginButton:self];
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {
