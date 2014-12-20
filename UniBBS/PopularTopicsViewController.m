@@ -89,6 +89,7 @@
     numLimit = 20;
     [((UIButton*)self.tableView.tableFooterView) setTitle:@"更多" forState:UIControlStateNormal];
     [((UIButton*)self.tableView.tableFooterView) setEnabled:YES];
+    //todo:show refreshing.
     [self reload:nil];
     if (self.popularTopics.count != 0) {
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
@@ -113,7 +114,7 @@
             self.popularTopics = topics;
             [self.tableView reloadData];
         }else{
-            [BDWMAlertMessage alertAndAutoDismissMessage:@"网络错误"];
+            [BDWMAlertMessage alertAndAutoDismissMessage:@"未取到数据！可能是网络或其他原因导致。"];
         }
     }];
 
@@ -216,10 +217,17 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (popularTopics != nil && popularTopics.count == 0) {
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        NSString *alertTitle = @"消息";
+#ifdef DEBUG
+        alertTitle = @"热点列表";
+#endif
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:alertTitle message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
         [alert show];
         [alert release];
+        [popularTopics release];
+        popularTopics = nil;
+        return 0;
     }
     NSInteger num = MIN([popularTopics count], numLimit);
     return num;
