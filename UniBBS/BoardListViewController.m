@@ -49,11 +49,14 @@
 
 - (void) buttonPressed 
 {
-    NSString * option = @"全部版面";
+    UIActionSheet *sheet;
+    
     if (showingAll) {
-        option = @"分类版面";
+        sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分类版面", @"刷新", nil];
+    }else{
+        sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"全部版面", @"刷新", nil];
     }
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:option, nil];
+    
     [sheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
 }
 
@@ -70,6 +73,16 @@
             showingAll = !showingAll;
             if (showingAll) self.boardList = wholeBoardList;
             else self.boardList = categaryBoardList;
+            break;
+        case 1:
+        {
+            UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [self.view insertSubview:indicator aboveSubview:self.tableView];
+            indicator.center = self.view.center;
+            [indicator startAnimating];
+            
+            [self performSelectorInBackground:@selector(loadData:) withObject:indicator];
+        }
             break;
         default:
             break;
