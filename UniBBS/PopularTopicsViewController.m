@@ -177,25 +177,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    //No need to auto login, because app will try login action if can't fetch topic data or can't send topic.
-    //And auto login may cause app no response.
-    /*
-    if (NO==[BDWMUserModel isLogined]) {
-        NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-        NSString *userName = [userDefaultes stringForKey:@"saved_username"];
-        NSString *password = [userDefaultes stringForKey:@"saved_password"];
-        
-        [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
-            if ( !error && name!=nil ) {
-                // I find it annoying when I want to read the content but alert comes up
-                //[BDWMAlertMessage alertAndAutoDismissMessage:@"登录成功！"];
-            }else{
 
-            }
-        }];
-
-    }
-     */
 }
 
 - (void)viewWillDisappear:(BOOL)animated
