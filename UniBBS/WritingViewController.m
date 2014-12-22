@@ -26,12 +26,6 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nil bundle:nil];
-    
-    if(self != nil)
-    {
-        
-        
-    }
     return self;
 }
 
@@ -63,7 +57,7 @@
     [dic setObject:self.titleTextField.text     forKey:@"title"];
     
     //SecretGarden plate need weather anonymous flag.
-    if ( [board  isEqual: @"SecretGarden"]) {
+    if ([board isEqual: @"SecretGarden"]) {
         [dic setObject:@"Y" forKey:@"anonymous"];
     }
     
@@ -71,9 +65,9 @@
     [dic setObject:@"N" forKey:@"noreply"];
     [dic setObject:@"0" forKey:@"signature"];
     NSMutableString *content = [[NSMutableString alloc] init];
-    if( [SettingModel boolUsePostSuffixString] ){
+    if ([SettingModel boolUsePostSuffixString]) {
         content = [BDWMString linkString:self.contentTextView.text string:POST_SUFFIX_STRING];
-    }else{
+    } else {
         content = [self.contentTextView.text mutableCopy];
     }
     
@@ -98,45 +92,45 @@
     NSString *title = self.titleTextField.text;
     NSString *content = self.contentTextView.text;
     
-    if (title.length==0) {
+    if (title.length == 0) {
         [BDWMAlertMessage alertAndAutoDismissMessage:@"亲，忘记写标题了。"];
     }
-    if(content.length==0){
+    if (content.length == 0) {
         [BDWMAlertMessage alertAndAutoDismissMessage:@"怎么也得写点东西再发啊～"];
     }
     
-    NSMutableDictionary* dic = [NSMutableDictionary dictionary];
-    [dic setObject:[self.postDict objectForKey:@"board"]    forKey:@"board"];
-    [dic setObject:[self.postDict objectForKey:@"threadid"] forKey:@"threadid"];
-    [dic setObject:[self.postDict objectForKey:@"postid"]   forKey:@"postid"];
-    [dic setObject:[self.postDict objectForKey:@"id"]  forKey:@"id"];
+    NSMutableDictionary* parameters = [NSMutableDictionary dictionary];
+    [parameters setObject:[self.postDict objectForKey:@"board"]    forKey:@"board"];
+    [parameters setObject:[self.postDict objectForKey:@"threadid"] forKey:@"threadid"];
+    [parameters setObject:[self.postDict objectForKey:@"postid"]   forKey:@"postid"];
+    [parameters setObject:[self.postDict objectForKey:@"id"]  forKey:@"id"];
     
-    [dic setObject:[self.postDict objectForKey:@"code"]             forKey:@"code"];
-    [dic setObject:[self.postDict objectForKey:@"title_exp"]      forKey:@"title_exp"];
-    [dic setObject:[self.postDict objectForKey:@"notice_author"]    forKey:@"notice_author"];
-    [dic setObject:self.titleTextField.text     forKey:@"title"];
+    [parameters setObject:[self.postDict objectForKey:@"code"]             forKey:@"code"];
+    [parameters setObject:[self.postDict objectForKey:@"title_exp"]      forKey:@"title_exp"];
+    [parameters setObject:[self.postDict objectForKey:@"notice_author"]    forKey:@"notice_author"];
+    [parameters setObject:self.titleTextField.text     forKey:@"title"];
     
     //SecretGarden plate need weather anonymous flag.
     if ( [[self.postDict objectForKey:@"board"]  isEqual: @"SecretGarden"]) {
-        [dic setObject:@"Y" forKey:@"anonymous"];
+        [parameters setObject:@"Y" forKey:@"anonymous"];
     }
     
     //some data below may be changeable for user in later version.
-    [dic setObject:@"N" forKey:@"noreply"];
-    [dic setObject:@"0" forKey:@"signature"];
-    NSMutableString *content_t = [[NSMutableString alloc] init];
+    [parameters setObject:@"N" forKey:@"noreply"];
+    [parameters setObject:@"0" forKey:@"signature"];
+    NSMutableString *postText = [[NSMutableString alloc] init];
     
     if( [SettingModel boolUsePostSuffixString] ){
-        content_t = [BDWMString linkString:content string:POST_SUFFIX_STRING];
+        postText = [BDWMString linkString:content string:POST_SUFFIX_STRING];
     }else{
-        content_t = [content mutableCopy];
+        postText = [content mutableCopy];
     }
     
-    [dic setObject:content_t forKey:@"text"];
-    [dic setObject:@"on" forKey:@"unfoldpic"];
+    [parameters setObject:postText forKey:@"text"];
+    [parameters setObject:@"on" forKey:@"unfoldpic"];
     
     NSString *url = [BDWMString linkString:BDWM_PREFIX string:BDWM_COMPOSE_SUFFIX];
-    [[AFAppDotNetAPIClient sharedClient] POST:url parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+    [[AFAppDotNetAPIClient sharedClient] POST:url parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"Compose pose success!");
         [BDWMAlertMessage stopSpinner];
         [self.navigationController popViewControllerAnimated:YES];
@@ -152,9 +146,9 @@
     [BDWMAlertMessage startSpinner:@"正在发送..."];
     if ([self.fromWhere isEqualToString:@"reply"]) {
         [self doReply];
-    }else if( [self.fromWhere isEqualToString:@"compose"]){
+    } else if( [self.fromWhere isEqualToString:@"compose"]) {
         [self doCompose];
-    }else{
+    } else {
         [BDWMAlertMessage stopSpinner];
         [BDWMAlertMessage alertAndAutoDismissMessage:@"我去！从哪里点过来的！"];
     }
@@ -195,10 +189,6 @@
     
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-
-}
 
 - (void)viewDidAppear:(BOOL)animated{
     
