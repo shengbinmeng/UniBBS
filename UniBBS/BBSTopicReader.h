@@ -14,11 +14,6 @@
 
 - (id)initWithAddress:(NSString *)address;
 
-//- (NSMutableArray*) readNextPage;
-//- (NSMutableArray*) readPreviousPage;
-//- (NSMutableArray*) readFirstPage;
-//- (NSMutableArray*) readLastPage;
-
 - (NSURLSessionDataTask *)getTopicPostsWithBlock:(NSString *)href blockFunction:(void (^)(NSMutableArray *topicPosts, NSError *error))block;
 - (NSMutableArray*) readTopicPosts:(NSData *)returnedData;
 -(NSString *)getNextPageHref;

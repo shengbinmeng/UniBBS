@@ -11,15 +11,20 @@
 
 @interface DatabaseWrapper : NSObject
 
-+ (FMDatabase *) getDatabase;
-+ (void) deleteDatabase;
-+ (BOOL) isTableExist:(NSString *)tableName;
-+ (BOOL) deleteRecord:(NSMutableDictionary *)dict sql:(NSString*)sql;
-+ (void) createTable:(NSString *)sql;
-+ (BOOL) isExistRecord:(NSMutableDictionary *)dict sql:(NSString*)sql;
-+ (void) insertRecord:(NSMutableDictionary *)dict sql:(NSString*)sql;
-+ (NSDictionary *) getOneRecord:(NSMutableDictionary *)dict sql:(NSString*)sql;
-+ (NSMutableArray *) getAllRecord:(NSString*)sql;
-+ (NSMutableArray *) getAllRecord:(NSString*)sql parameter:(NSString*)parameter;
++ (FMDatabase *)getDatabase;
+
++ (void)createTable:(NSString *)sql;
++ (BOOL)isTableExist:(NSString *)tableName;
+
++ (void)deleteDatabase;
++ (BOOL)deleteRecord:(NSMutableDictionary *)dict sql:(NSString*)sql;
+
++ (BOOL)isExistRecord:(NSMutableDictionary *)dict sql:(NSString*)sql;
++ (void)insertRecord:(NSMutableDictionary *)dict sql:(NSString*)sql;
+
++ (NSDictionary *)getOneRecord:(NSMutableDictionary *)dict sql:(NSString*)sql;
+
++ (NSMutableArray *)getAllRecord:(NSString*)sql;
++ (NSMutableArray *)getAllRecord:(NSString*)sql parameter:(NSString*)parameter;
 
 @end

@@ -11,8 +11,10 @@
 #import "WritingMailViewController.h"
 
 @interface MailViewController ()
+
 @property (retain, nonatomic) IBOutlet UITextView *mailContentTextView;
 @property (retain, nonatomic) NSDictionary *mail;
+
 @end
 
 #define ACTION_FROM_BAR_BUTTON 8888
@@ -27,7 +29,7 @@
     self.navigationItem.rightBarButtonItem = barButton;
     
     self.mail = [MailModel loadMailByhref:self.href];
-    if(self.mail==nil){
+    if(self.mail == nil){
         NSLog(@"error: can't get mail.");
         [self.navigationController popViewControllerAnimated:YES];
     }

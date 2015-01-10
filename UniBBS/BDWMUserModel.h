@@ -17,7 +17,7 @@
 + (NSURLSessionDataTask *) checkLogin:(NSString *)UserName userPass:(NSString *)UserPass blockFunction:(void (^)(NSString *name, NSError *error))block;
 + (NSMutableDictionary *)LoadUserInfo:(NSString *)userName;
 
-+ (BOOL) isLogined;
-+ (NSString*) getLoginUser;
-+(BOOL) getBoolShouldRelogin;
++ (BOOL)isLogined;
++ (NSString*)getLoginUser;
++(BOOL)getBoolShouldRelogin;
 @end

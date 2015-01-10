@@ -10,8 +10,8 @@
 
 @interface BDWMPosting : NSObject
 
-@property (nonatomic, strong) NSString *content;//
-@property (nonatomic, strong) NSString *reply_href;//
-@property (nonatomic, strong) NSString *mail_href;//
+@property (nonatomic, strong) NSString *content;
+@property (nonatomic, strong) NSString *reply_href;
+@property (nonatomic, strong) NSString *mail_href;
 
 @end

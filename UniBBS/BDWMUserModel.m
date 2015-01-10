@@ -17,15 +17,15 @@ static BOOL logined = NO;
 static NSString *loginUser = nil;
 static BOOL shouldReloin = NO;
 
-+(BOOL) getBoolShouldRelogin{
++(BOOL)getBoolShouldRelogin{
     return shouldReloin;
 }
 
-+ (BOOL) isLogined {
++ (BOOL)isLogined {
     return logined;
 }
 
-+ (NSString*) getLoginUser {
++ (NSString*)getLoginUser {
     return loginUser;
 }
 
@@ -59,14 +59,14 @@ static BOOL shouldReloin = NO;
     [userDefaultes synchronize];
     
     logined = YES;
-    if (loginUser==nil) {
+    if (loginUser == nil) {
         loginUser = [[NSString alloc]init];
     }
     loginUser = [userName copy];
     
 }
 
-+ (NSURLSessionDataTask *) checkLogin:(NSString *)UserName userPass:(NSString *)UserPass blockFunction:(void (^)(NSString *name, NSError *error))block
++ (NSURLSessionDataTask *)checkLogin:(NSString *)UserName userPass:(NSString *)UserPass blockFunction:(void (^)(NSString *name, NSError *error))block
 {
     return [[AFAppDotNetAPIClient sharedClient] POST:@"https://www.bdwm.net/bbs/bbslog2.php" parameters:[NSDictionary dictionaryWithObjectsAndKeys:UserName, @"userid", UserPass, @"passwd",nil] success:^(NSURLSessionDataTask *task, id responseObject) {
         
@@ -77,25 +77,16 @@ static BOOL shouldReloin = NO;
         
         doc = [[TFHpple alloc] initWithHTMLData:htmlData];
         if ([BDWMUserModel checkUserName:doc UserName:UserName]) {
-            
             NSLog(@"Login success!");
             [BDWMUserModel saveUsernameAndPassword:UserName userPassword:UserPass];
             
-
-            if (block) {
-                block(UserName, nil);
-            }
-            
+            if (block) block(UserName, nil);
         } else {
-            if (block) {
-                block(nil, nil);
-            }
+            if (block) block(nil, nil);
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        if (block) {
-            block(nil, error);
-        }
+        if (block) block(nil, error);
     }];
 }
     
@@ -103,12 +94,9 @@ static BOOL shouldReloin = NO;
     NSArray *usernameArray = [doc searchWithXPathQuery:@"//table[@class='loginbox']/tr[2]/td/a"];
     NSLog(@"doc size %lu",(unsigned long)doc.data.length);
     if ([usernameArray count] > 0) {
-        NSString *username =[[[usernameArray objectAtIndex:0] objectForKey:@"href"] stringByReplacingOccurrencesOfString:@"bbsqry.php?name=" withString:@""];
+        NSString *username = [[[usernameArray objectAtIndex:0] objectForKey:@"href"] stringByReplacingOccurrencesOfString:@"bbsqry.php?name=" withString:@""];
         
-        if ([[username lowercaseString] isEqualToString:[user_name lowercaseString]]) {
-            
-            return YES;
-        }
+        if ([[username lowercaseString] isEqualToString:[user_name lowercaseString]]) return YES;
     }
     return NO;
 }
@@ -154,9 +142,7 @@ static BOOL shouldReloin = NO;
     
     e = [arr objectAtIndex:13];
     NSString *duties = [e text];
-    if (duties==nil) {
-        duties = @"打酱油";
-    }
+    if (duties == nil) duties = @"打酱油";
     [userInfoDict setObject:duties forKeyedSubscript:@"duties"];
     
     return userInfoDict;

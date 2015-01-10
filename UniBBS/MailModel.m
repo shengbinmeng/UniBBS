@@ -11,6 +11,7 @@
 #import "BDWMString.h"
 #import "BDWMGlobalData.h"
 #import "TFHpple.h"
+
 @implementation MailModel
 
 + (NSMutableDictionary *)loadComposeMailNeededData
@@ -57,19 +58,16 @@
     doc = [[TFHpple alloc] initWithHTMLData:htmlDataUTF8];
     NSArray *arr = [doc searchWithXPathQuery:@"//form[@name='frmpost']//table[@class='post']//tr"];
     
-    if ( doc==nil ) {
-        return nil;
-    }
-    if (arr.count<MAIL_REPLY_TABLE_TR_NUMBER) {
-        return nil;
-    }
+    if (doc == nil) return nil;
+    
+    if (arr.count < MAIL_REPLY_TABLE_TR_NUMBER) return nil;
     
     //parse username and signature.
     TFHppleElement *e = [arr objectAtIndex:0];
     NSArray *arr_tr = [e searchWithXPathQuery:@"//input[@name='to']"];
-    if (arr_tr==nil || arr_tr.count==0) {
-        return nil;
-    }
+    
+    if (arr_tr==nil || arr_tr.count==0) return nil;
+    
     TFHppleElement *ee = [arr_tr objectAtIndex:0];
     NSString *recever = [ee objectForKey:@"value"];
     [dict setObject:recever forKey:@"to"];
@@ -82,9 +80,8 @@
     //parse title and quote type
     e = [arr objectAtIndex:1];
     arr_tr = [e searchWithXPathQuery:@"//input[@name='title']"];
-    if (arr_tr==nil || arr_tr.count==0) {
-        return nil;
-    }
+    if (arr_tr == nil || arr_tr.count == 0) return nil;
+        
     ee = [arr_tr objectAtIndex:0];
     NSString *title = [ee objectForKey:@"value"];
     [dict setObject:title forKey:@"title"];
@@ -93,18 +90,16 @@
     //parse content.
     e = [arr objectAtIndex:2];
     arr_tr = [e searchWithXPathQuery:@"//textarea[@name='text']"];
-    if (arr_tr==nil || arr_tr.count==0) {
-        return nil;
-    }
+    if (arr_tr == nil || arr_tr.count == 0) return nil;
+    
     ee = [arr_tr objectAtIndex:0];
     NSString *content = [ee text];
     [dict setObject:content forKey:@"text"];
     
     //parse some hidden input.
     arr = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='id']"];
-    if (arr==nil || arr.count==0) {
-        return nil;
-    }
+    if (arr == nil || arr.count == 0) return nil;
+    
     e = [arr objectAtIndex:0];
     NSString *id = [e objectForKey:@"value"];
     [dict setObject:id forKey:@"id"];
@@ -142,9 +137,8 @@
     
     doc = [[TFHpple alloc] initWithHTMLData:htmlDataUTF8];
     NSArray *arr = [doc searchWithXPathQuery:@"//table[@class='doc']//td[@class='doc']//pre"];
-    if (arr.count == 0) {
-        return nil;
-    }
+    
+    if (arr.count == 0) return nil;
     
     TFHppleElement *e = [arr objectAtIndex:0];
     
@@ -153,20 +147,19 @@
     //We must make sure every object added is not nil.
     NSArray *child = e.children;
     NSLog(@"child:%lu",(unsigned long)child.count);
-    for (int i=0; i<child.count; i++) {
+    for (int i = 0; i < child.count; i++) {
         TFHppleElement *ee = [child objectAtIndex:i];
-        if ([ee content]==nil) {//surround by <span>, like quote.
+        if ([ee content] == nil) {//surround by <span>, like quote.
             //search span then,
-            if ([ee text]==nil) {//handle last message, for example "ip source" and "reedit by who and when."
+            if ([ee text] == nil) {//handle last message, for example "ip source" and "reedit by who and when."
                 //search <b>
                 NSArray *post = [ee searchWithXPathQuery:@"//span"];
-                if (post.count<=0) {
-                    continue;
-                }
+                
+                if (post.count <= 0) continue;
+            
                 TFHppleElement *span = [post objectAtIndex:0];
-                if ([span text]==nil) {
-                    continue;
-                }
+                if ([span text] == nil) continue;
+
                 NSLog(@"==i:%i %@",i,[span text]);
             
                 [content appendString:[span text]];
@@ -181,15 +174,15 @@
     NSLog(@"content:%@",content);
     
     //parse reply mail link
-    int index=-1;
+    int index = -1;
     arr = [doc searchWithXPathQuery:@"//center/table[@class='foot']//table[@class='foot']"];
     
-    if (arr.count==MAIL_DETAIL_FOOTER_ELEMENT_NUMBER) {
+    if (arr.count == MAIL_DETAIL_FOOTER_ELEMENT_NUMBER) {
         index = 3;
-    }else if(arr.count==MAIL_DETAIL_FOOTER_ELEMENT_NUMBER-1){
+    }else if(arr.count == MAIL_DETAIL_FOOTER_ELEMENT_NUMBER-1){
         //no previous page or next page
         index = 2;
-    }else if(arr.count==MAIL_DETAIL_FOOTER_ELEMENT_NUMBER-2){
+    }else if(arr.count == MAIL_DETAIL_FOOTER_ELEMENT_NUMBER-2){
         //only one mail.
         index = 1;
     }else{
@@ -198,7 +191,7 @@
     
     e = [arr objectAtIndex:index];
     NSArray *reply = [e searchWithXPathQuery:@"//th[@class='foot']//a"];
-    if (reply.count<=0) {//no reply link, means didn't login or something.
+    if (reply.count <= 0) {//no reply link, means didn't login or something.
         [dict setValue:@"" forKey:@"reply_href"];
     }else{
         TFHppleElement *reply_link = [reply objectAtIndex:0];
@@ -209,7 +202,7 @@
     //parse delete href.
     e = [arr objectAtIndex:index+1];
     NSArray *del = [e searchWithXPathQuery:@"//th[@class='foot']//a"];
-    if (del.count<=0) {
+    if (del.count <= 0) {
         [dict setValue:@"" forKey:@"delete_href"];
     }else{
         TFHppleElement *del_link = [del objectAtIndex:0];
@@ -222,9 +215,8 @@
         [dict setValue:str forKey:@"delete_href"];
     }
 
-    
-    
     [dict setValue:content forKey:@"content"];
+    
     return dict;
 }
 
@@ -232,13 +224,9 @@
     NSString *url = [BDWMString linkString:BDWM_PREFIX string:BDWM_MAIL_LIST_SUFFIX];
     return [[AFAppDotNetAPIClient sharedClient] GET:url parameters:nil success:^(NSURLSessionDataTask * __unused task, id responseObject) {
         NSArray *results = [self loadMails:responseObject];
-        if (block) {
-            block( results, nil);
-        }
+        if (block) block( results, nil);
     } failure:^(NSURLSessionDataTask *__unused task, NSError *error) {
-        if (block) {
-            block([NSArray array], error);
-        }
+        if (block) block([NSArray array], error);
     }];
 }
 
@@ -254,14 +242,11 @@
     
     NSMutableArray *results = [[NSMutableArray alloc]init];
     //index 0 is title.
-    for ( int i=1; i<mails.count; i++ ) {
+    for (int i = 1; i < mails.count; i++) {
         TFHppleElement *e = [mails objectAtIndex:i];
-        
         NSArray *mail_element = [e searchWithXPathQuery:@"//td"];
         
-        if ( mail_element.count< MAIL_LIST_ELEMENT_NUMBER ) {
-            continue;
-        }
+        if (mail_element.count < MAIL_LIST_ELEMENT_NUMBER) continue;
         
         //parse mail author
         TFHppleElement *ee = [mail_element objectAtIndex:3];

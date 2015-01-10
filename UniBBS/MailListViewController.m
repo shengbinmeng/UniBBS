@@ -16,8 +16,10 @@
 #import "BDWMAlertMessage.h"
 
 @interface MailListViewController ()
+
 @property (strong, nonatomic) NSArray *mails;
 @property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl;
+
 @end
 
 @implementation MailListViewController
@@ -49,20 +51,20 @@
     NSURLSessionTask *task = [MailModel getAllMailWithBlock:userName blockFunction:^(NSArray *mails, NSError *error) {
         if (!error) {
             self.mails = mails;
-            if ( self.mails==nil || self.mails.count == 0 ) {
+            if (self.mails == nil || self.mails.count == 0) {
                 //login session failed. then relogin.
                 NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
                 NSString *userName1 = [userDefaultes stringForKey:@"saved_username"];
                 NSString *password = [userDefaultes stringForKey:@"saved_password"];
                 
                 [BDWMUserModel checkLogin:userName1 userPass:password blockFunction:^(NSString *name, NSError *error){
-                    if ( !error && name!=nil ) {
+                    if ( !error && name != nil ) {
                         //login success reload mail.
                         [MailModel getAllMailWithBlock:name blockFunction:^(NSArray *mails, NSError *error){
                             if (!error){
                                 self.mails = mails;
                                 //login success but no mail.
-                                if (self.mails==nil || self.mails.count==0) {
+                                if (self.mails == nil || self.mails.count == 0) {
                                     //
                                     [BDWMAlertMessage alertAndAutoDismissMessage:@"没有信件哦！"];
                                 }else{

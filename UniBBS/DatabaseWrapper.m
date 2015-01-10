@@ -12,7 +12,7 @@
 @implementation DatabaseWrapper
 
 //get db object
-+ (FMDatabase *) getDatabase
++ (FMDatabase *)getDatabase
 {
     NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSString *dbPath = [doc stringByAppendingPathComponent:DB_NAME];
@@ -27,7 +27,7 @@
     return db;
 }
 
-+(void) deleteDatabase
++(void)deleteDatabase
 {
     // delete the old db.
     NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
@@ -37,7 +37,7 @@
     [fileManager removeItemAtPath:dbPath error:nil];
 }
 
-+(void) createTable:(NSString *)sql
++(void)createTable:(NSString *)sql
 {
     FMDatabase *db = [self getDatabase];
     
@@ -48,7 +48,7 @@
     [db close];
 }
 
-+ (BOOL) isTableExist:(NSString *)tableName
++ (BOOL)isTableExist:(NSString *)tableName
 {
     FMDatabase *db = [self getDatabase];
     FMResultSet *rs = [db executeQuery:@"select count(*) as 'count' from sqlite_master where type ='table' and name = ?", tableName];
@@ -69,7 +69,7 @@
     return NO;
 }
 
-+ (BOOL) isExistRecord:(NSMutableDictionary *)dict sql:(NSString*)sql
++ (BOOL)isExistRecord:(NSMutableDictionary *)dict sql:(NSString*)sql
 {
     FMDatabase *db = [self getDatabase];
     FMResultSet *rs = [db executeQuery:sql withParameterDictionary:dict];
@@ -83,7 +83,7 @@
     }
 }
 
-+ (BOOL) deleteRecord:(NSMutableDictionary *)dict sql:(NSString*)sql
++ (BOOL)deleteRecord:(NSMutableDictionary *)dict sql:(NSString*)sql
 {
     FMDatabase *db = [self getDatabase];
     
@@ -102,7 +102,7 @@
     return YES;
 }
 
-+ (void) insertRecord:(NSMutableDictionary *)dict sql:(NSString*)sql
++ (void)insertRecord:(NSMutableDictionary *)dict sql:(NSString*)sql
 {
     FMDatabase *db = [DatabaseWrapper getDatabase];
     
@@ -125,7 +125,7 @@
     [db close];
 }
 
-+ (NSDictionary *) getOneRecord:(NSMutableDictionary *)dict sql:(NSString*)sql
++ (NSDictionary *)getOneRecord:(NSMutableDictionary *)dict sql:(NSString*)sql
 {
     NSDictionary *resultDict = [[NSDictionary alloc] init];
     FMDatabase *db = [DatabaseWrapper getDatabase];
@@ -140,7 +140,7 @@
     return resultDict;
 }
 
-+ (NSMutableArray *) getAllRecord:(NSString*)sql
++ (NSMutableArray *)getAllRecord:(NSString*)sql
 {
     NSMutableArray *resultArray = [[NSMutableArray alloc] init];
     FMDatabase *db = [DatabaseWrapper getDatabase];
@@ -155,7 +155,7 @@
     return resultArray;
 }
 
-+ (NSMutableArray *) getAllRecord:(NSString*)sql parameter:(NSString*)parameter
++ (NSMutableArray *)getAllRecord:(NSString*)sql parameter:(NSString*)parameter
 {
     NSMutableArray *resultArray = [[NSMutableArray alloc] init];
     FMDatabase *db = [DatabaseWrapper getDatabase];

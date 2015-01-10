@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface SettingModel : NSObject
+
 + (BOOL)boolUsePostSuffixString;
 + (void)setBoolUsePostSuffixString:(BOOL)value;
+
 @end

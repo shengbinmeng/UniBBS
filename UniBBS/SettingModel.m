@@ -14,11 +14,11 @@
 {
     NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
     NSString * ifUse = [userDefaultes stringForKey:@"bool_use_post_suffix_string"];
-    if (ifUse==nil) {
+    if (ifUse == nil) {
         return YES;//default open.
-    }else if( [ifUse isEqualToString:@"YES"] ){
+    } else if ([ifUse isEqualToString:@"YES"]){
         return YES;
-    }else{
+    } else {
         return NO;
     }
 }

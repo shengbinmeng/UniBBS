@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MailListViewController : UITableViewController
+
 @property (nonatomic, retain) NSString *userName;
+
 @end

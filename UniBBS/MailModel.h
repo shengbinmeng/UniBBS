@@ -9,10 +9,14 @@
 #import <Foundation/Foundation.h>
 
 @interface MailModel : NSObject
+
 + (NSURLSessionDataTask *)getAllMailWithBlock:(NSString *)userName blockFunction:(void (^)(NSArray *mails, NSError *error))block;
+
 + (NSMutableArray *)loadMails:(NSData *)htmlData;
 + (NSDictionary *)loadMailByhref:(NSString *)href;
 + (NSMutableDictionary *)loadReplyMailNeededData:(NSString *)href;
 + (NSMutableDictionary *)loadComposeMailNeededData;
+
 + (NSURLSessionDataTask *)deleteMailByHref:(NSString *)href;
+
 @end

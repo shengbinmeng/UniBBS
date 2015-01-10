@@ -15,10 +15,12 @@
 #import "MailListViewController.h"
 
 @interface WritingMailViewController ()
+
 @property (retain, nonatomic) IBOutlet UITextField *toTextField;
 @property (retain, nonatomic) IBOutlet UITextField *titleTextField;
 @property (retain, nonatomic) IBOutlet UITextView *contentTextView;
 @property (nonatomic, retain) NSMutableDictionary *replyDict;
+
 @end
 
 @implementation WritingMailViewController
@@ -35,7 +37,6 @@
     
     NSString *url = [BDWMString linkString:BDWM_PREFIX string:BDWM_REPLY_MAIL_SUFFIX];
     [[AFAppDotNetAPIClient sharedClient] POST:url parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
-        
         NSLog(@"Reply mail success!");
         [BDWMAlertMessage stopSpinner];
         //Todo: segue to mail list view.
@@ -60,12 +61,10 @@
     
     NSString *url = [BDWMString linkString:BDWM_PREFIX string:BDWM_REPLY_MAIL_SUFFIX];
     [[AFAppDotNetAPIClient sharedClient] POST:url parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
-        
         NSLog(@"compose mail success!");
         [BDWMAlertMessage stopSpinner];
         //Todo: segue to mail list view.
         [self.navigationController popViewControllerAnimated:YES];
-        
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"compose mail failed!");
         [BDWMAlertMessage stopSpinner];
@@ -74,15 +73,15 @@
 }
 
 - (void) sendButtonPressed {
-    if (self.toTextField.text.length==0) {
+    if (self.toTextField.text.length == 0) {
         [BDWMAlertMessage alertAndAutoDismissMessage:@"哥! 给谁发呢?"];
         return;
     }
-    if (self.titleTextField.text.length==0) {
+    if (self.titleTextField.text.length == 0) {
         [BDWMAlertMessage alertAndAutoDismissMessage:@"哥! 写个主题再发么!"];
         return;
     }
-    if (self.contentTextView.text.length==0) {
+    if (self.contentTextView.text.length == 0) {
         [BDWMAlertMessage alertAndAutoDismissMessage:@"哥! 写点内容吧!"];
         return;
     }
@@ -129,7 +128,7 @@
     [topView setBarStyle:UIBarStyleDefault];
     
     // Used as place holder
-    UIBarButtonItem * button1 =[[UIBarButtonItem  alloc] initWithBarButtonSystemItem:                                        UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    UIBarButtonItem * button1 = [[UIBarButtonItem  alloc] initWithBarButtonSystemItem:                                        UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     
     UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStyleDone  target:self action:@selector(hideKeyboard)];
     NSArray * buttonsArray = [NSArray arrayWithObjects:button1, button1, button1, doneButton,nil];
@@ -144,9 +143,9 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
-    if( theTextField==self.toTextField ){
+    if (theTextField == self.toTextField) {
         [self.titleTextField becomeFirstResponder];
-    }else if( theTextField==self.titleTextField){
+    } else if (theTextField == self.titleTextField){
         [self.contentTextView becomeFirstResponder];
     }
     return YES;

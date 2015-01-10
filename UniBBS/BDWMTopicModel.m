@@ -16,13 +16,10 @@
     
     return [[AFAppDotNetAPIClient sharedClient] GET:string parameters:nil success:^(NSURLSessionDataTask * __unused task, id responseObject) {
         NSDictionary *result = [self getNeededReplyData:responseObject];
-        if (block) {
-            block( result, nil);
-        }
+        
+        if (block) block( result, nil);
     } failure:^(NSURLSessionDataTask *__unused task, NSError *error) {
-        if (block) {
-            block([NSDictionary dictionary], error);
-        }
+        if (block) block([NSDictionary dictionary], error);
     }];
     
 }
@@ -39,15 +36,13 @@
     
     NSMutableArray *results = [[NSMutableArray alloc]init];
     //skip first node, because first node is title.
-    for ( int i=1; i<topics.count; i++ ) {
+    for (int i = 1; i < topics.count; i++) {
         TFHppleElement *e = [topics objectAtIndex:i];
         BDWMTopic *topic = [[BDWMTopic alloc]init];
         
         NSArray *plate_element = [e searchWithXPathQuery:@"//td"];
         
-        if ( plate_element.count< TOPIC_ELEMENT_NUMBER ) {
-            continue;
-        }
+        if ( plate_element.count< TOPIC_ELEMENT_NUMBER ) continue;
         
         //parse topic_author
         TFHppleElement *ee = [plate_element objectAtIndex:1];
@@ -81,7 +76,6 @@
     }
     
     return results;
-
 }
 
 #pragma mark - Posting
@@ -91,8 +85,6 @@
     TFHpple * doc;
     
     NSString *string = [NSString stringWithFormat:@"%@%@", BDWM_PREFIX, href];
-    
-//    NSLog(@"href=%@",string);
     
     NSData *htmlData = [NSData dataWithContentsOfURL:[NSURL URLWithString:string]];
     
@@ -109,9 +101,9 @@
         NSMutableString *content = [[NSMutableString alloc]init];
         TFHppleElement *e = [news objectAtIndex:i];
         NSArray *post = [e searchWithXPathQuery:@"//tr//td//pre"];
-        if (post.count<=0) {
-            continue;
-        }
+        
+        if (post.count <= 0) continue;
+            
         e = [post objectAtIndex:0];
         
         //The code below may be some what complicated, but very useful.
@@ -119,18 +111,18 @@
         //We must make sure every object added is not nil.
         NSArray *child = e.children;
         NSLog(@"child:%lu",(unsigned long)child.count);
-        for (int i=0; i<child.count; i++) {
+        for (int i = 0; i < child.count; i++) {
             TFHppleElement *ee = [child objectAtIndex:i];
-            if ([ee content]==nil) {//surround by <span>, like quote.
+            if ([ee content] == nil) {//surround by <span>, like quote.
                 //search span then,
-                if ([ee text]==nil) {//handle last message, for example "ip source" and "reedit by who and when."
+                if ([ee text] == nil) {//handle last message, for example "ip source" and "reedit by who and when."
                     //search <b>
                     NSArray *post = [ee searchWithXPathQuery:@"//span"];
-                    if (post.count<=0) {
+                    if (post.count <= 0) {
                         continue;
                     }
                     TFHppleElement *span = [post objectAtIndex:0];
-                    if ([span text]==nil) {
+                    if ([span text] == nil) {
                         continue;
                     }
                     NSLog(@"==i:%i %@",i,[span text]);
@@ -148,17 +140,17 @@
         NSLog(@"content:%@",content);
         
         BDWMPosting *posting = [[BDWMPosting alloc]init];
-        posting.content      = content;
+        posting.content = content;
         
         //parse reply link
         e = [news objectAtIndex:i];
         NSArray *reply = [e searchWithXPathQuery:@"//table[@class='foot']//th[@class='postNew']//a"];
-        if (reply.count<=0) {//no reply link, means didn't login.
+        if (reply.count <= 0) {//no reply link, means didn't login.
             posting.reply_href = @"";
         }else{
             TFHppleElement *reply_link = [reply objectAtIndex:0];
             NSString *reply_href = [reply_link objectForKey:@"href"];
-            posting.reply_href   = reply_href;
+            posting.reply_href = reply_href;
         }
         
         [postings addObject:posting];
@@ -176,40 +168,38 @@
     NSData *utf8Data = [BDWMString DataConverse_GB2312_to_UTF8:htmlData];
     doc = [[TFHpple alloc] initWithHTMLData:utf8Data];
     
-    if ( doc.data == nil ) {
-        return nil;
-    }
+    if (doc.data == nil) return nil;
     
     TFHppleElement *e;
     
     NSArray *titles = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='title_exp']"];
-    if (titles==nil || titles.count==0) {
-        return nil;
-    }
+   
+    if (titles == nil || titles.count == 0) return nil;
+
     e = [titles objectAtIndex:0];
     NSString *reply_title = [e objectForKey:@"value"];
     [dic setValue:reply_title forKey:@"title_exp"];
    
     NSArray *boards = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='board']"];
-    if (boards==nil || boards.count==0) {
-        return nil;
-    }
+    
+    if (boards == nil || boards.count == 0) return nil;
+
     e = [boards objectAtIndex:0];
     NSString *board = [e objectForKey:@"value"];
     [dic setValue:board forKey:@"board"];
     
     NSArray *threadids = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='threadid']"];
-    if (threadids==nil || threadids.count==0) {
-        return nil;
-    }
+    
+    if (threadids == nil || threadids.count == 0) return nil;
+        
     e = [threadids objectAtIndex:0];
     NSString *threadid = [e objectForKey:@"value"];
     [dic setValue:threadid forKey:@"threadid"];
     
     NSArray *postids = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='postid']"];
-    if (postids==nil || postids.count==0) {
-        return nil;
-    }
+    
+    if (postids == nil || postids.count == 0) return nil;
+    
     e = [postids objectAtIndex:0];
     NSString *postid = [e objectForKey:@"value"];
     [dic setValue:postid forKey:@"postid"];
@@ -254,21 +244,16 @@
     NSData *utf8Data = [BDWMString DataConverse_GB2312_to_UTF8:htmlData];
     doc = [[TFHpple alloc] initWithHTMLData:utf8Data];
     
-    if ( doc.data == nil ) {
-        return nil;
-    }
+    if (doc.data == nil) return nil;
     
     TFHppleElement *e;
     
-//    NSArray *titles = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='title_exp']"];
-//    e = [titles objectAtIndex:0];
-//    NSString *reply_title = [e objectForKey:@"value"];
     [dic setValue:@"" forKey:@"title_exp"];
     
     NSArray *boards = [doc searchWithXPathQuery:@"//form[@name='frmpost']//input[@name='board']"];
-    if (boards==nil || boards.count==0) {
-        return nil;
-    }
+    
+    if (boards == nil || boards.count == 0) return nil;
+
     e = [boards objectAtIndex:0];
     NSString *board = [e objectForKey:@"value"];
     [dic setValue:board forKey:@"board"];
