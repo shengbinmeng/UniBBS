@@ -28,10 +28,10 @@
         self.title = @"本地收藏";
         self.tabBarItem.image = [UIImage imageNamed:@"first"];
         // just assign, for easy using
-        [BBSFavouritesManager loadFavourites];
-        favouriteBoards = [BBSFavouritesManager favouriteBoards];
-        favouriteTopics = [BBSFavouritesManager favouriteTopics];
-        favouritePosts = [BBSFavouritesManager favouritePosts];
+        
+        favouriteBoards = [BBSFavouritesManager loadFavouriteBoards];
+        favouriteTopics = [BBSFavouritesManager loadFavouriteTopics];
+        favouritePosts = [BBSFavouritesManager loadFavouritePosts];
         favourites = [[NSMutableArray alloc] initWithObjects:favouriteBoards,favouriteTopics, favouritePosts, nil];
     }
     return self;

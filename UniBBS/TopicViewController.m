@@ -143,7 +143,7 @@
                 NSMutableDictionary *topicInfo = [[NSMutableDictionary alloc] init];
                 [topicInfo setValue:self.title forKey:@"title"];
                 [topicInfo setValue:self.topicAddress forKey:@"address"];
-                [BBSFavouritesManager saveFavouriteTopics:topicInfo];
+                [BBSFavouritesManager saveFavouriteTopic:topicInfo];
                 break;
             }
             default:
@@ -188,7 +188,7 @@
                 // favourite
                 NSMutableDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
                 [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
-                [BBSFavouritesManager saveFavouritePosts:post];
+                [BBSFavouritesManager saveFavouritePost:post];
                 break;
             }
             case 3:{

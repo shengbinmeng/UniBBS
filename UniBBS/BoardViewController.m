@@ -130,7 +130,7 @@
             NSMutableDictionary *boardInfo = [[NSMutableDictionary alloc] init];
             [boardInfo setObject:self.title forKey:@"boardTitle"];
             [boardInfo setObject:self.boardName forKey:@"boardName"];
-            [BBSFavouritesManager saveFavouriteBoards:boardInfo];
+            [BBSFavouritesManager saveFavouriteBoard:boardInfo];
             break;
         }
         default:

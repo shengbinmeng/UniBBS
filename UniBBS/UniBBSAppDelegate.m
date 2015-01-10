@@ -43,8 +43,6 @@
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
     
-    [BBSFavouritesManager initFavouriteDataBase];
-    
     return YES;
 }
 

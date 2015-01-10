@@ -10,20 +10,16 @@
 
 @interface BBSFavouritesManager : NSObject
 
-+ (void) initFavouriteDataBase;
-+ (void) loadFavourites;
++ (void) saveFavouriteBoard:(NSMutableDictionary *)board;
++ (void) saveFavouriteTopic:(NSMutableDictionary *)topic;
++ (void) saveFavouritePost:(NSMutableDictionary *)post;
 
-+(BOOL) deleteFavouriteBoard:(NSMutableDictionary *)dict;
-+(BOOL) deleteFavouriteTopic:(NSMutableDictionary *)dict;
-+(BOOL) deleteFavouritePost:(NSMutableDictionary *)dict;
-+(void) deleteFavouriteTable;
++ (NSMutableArray *) loadFavouriteBoards;
++ (NSMutableArray *) loadFavouriteTopics;
++ (NSMutableArray *) loadFavouritePosts;
 
-+ (void) saveFavouriteBoards:(NSMutableDictionary *)dict;
-+ (void) saveFavouriteTopics:(NSMutableDictionary *)dict;
-+ (void) saveFavouritePosts:(NSMutableDictionary *)dict;
-
-+ (NSMutableArray*) favouriteBoards;
-+ (NSMutableArray*) favouriteTopics;
-+ (NSMutableArray*) favouritePosts;
++(BOOL) deleteFavouriteBoard:(NSMutableDictionary *)board;
++(BOOL) deleteFavouriteTopic:(NSMutableDictionary *)topic;
++(BOOL) deleteFavouritePost:(NSMutableDictionary *)post;
 
 @end

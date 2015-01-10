@@ -10,7 +10,7 @@
 #import "WebViewController.h"
 #import "SettingModel.h"
 #import "BDWMAlertMessage.h"
-#import "BBSFavouritesManager.h"
+#import "DatabaseWrapper.h"
 #import "BDWMUserModel.h"
 
 @interface SettingsViewController ()
@@ -324,7 +324,7 @@
     switch (alertView.tag) {
         case 0:
             if (buttonIndex==1) {
-                [BBSFavouritesManager deleteFavouriteTable];
+                [DatabaseWrapper deleteDatabase];
                 NSLog(@"db file deleted");
             }
             break;
