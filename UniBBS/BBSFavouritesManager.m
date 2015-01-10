@@ -274,7 +274,7 @@ NSMutableArray* _favouritePosts=nil;
         while ([rs next]) {//add all results.
             NSDictionary *resultDict = [rs resultDictionary];
 #ifdef DEBUG
-            NSLog(@"load %@,id:%d,accessCount:%d", [resultDict objectForKey:@"boardName"],[[resultDict objectForKey:@"id"] integerValue],[[resultDict objectForKey:@"accessCount"] integerValue]);
+            NSLog(@"load %@,id:%ld,accessCount:%ld", [resultDict objectForKey:@"boardName"],(long)[[resultDict objectForKey:@"id"] integerValue],(long)[[resultDict objectForKey:@"accessCount"] integerValue]);
 #endif
             [_favouriteBoards addObject:[rs resultDictionary]] ;
         }
