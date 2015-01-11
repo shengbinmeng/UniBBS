@@ -3,7 +3,7 @@
 //  UniBBS
 //
 //  Created by FanYingming on 15/1/10.
-//  Copyright (c) 2015年 Peking University. All rights reserved.
+//  Copyright (c) 2015 Peking University. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

@@ -3,7 +3,7 @@
 //  UniBBS
 //
 //  Created by FanYingming on 15/1/10.
-//  Copyright (c) 2015年 Peking University. All rights reserved.
+//  Copyright (c) 2015 Peking University. All rights reserved.
 //
 
 #import "DatabaseWrapper.h"
@@ -27,7 +27,7 @@
     return db;
 }
 
-+(void)deleteDatabase
++ (void)deleteDatabase
 {
     // delete the old db.
     NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
@@ -43,7 +43,9 @@
     
     [db executeUpdate:sql];
     
-    if ([db hadError]) NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
+    if ([db hadError]) {
+        NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
+    }
     
     [db close];
 }
@@ -53,14 +55,13 @@
     FMDatabase *db = [self getDatabase];
     FMResultSet *rs = [db executeQuery:@"select count(*) as 'count' from sqlite_master where type ='table' and name = ?", tableName];
     
-    if ([rs next])
-    {
+    if ([rs next]) {
         // just print out what we've got in a number of formats.
         NSInteger count = [rs intForColumn:@"count"];
-        if (0 == count){
+        if (0 == count) {
             [db close];
             return NO;
-        }else{
+        } else {
             [db close];
             return YES;
         }
@@ -77,7 +78,7 @@
     if ([rs next]) {
         [db close];
         return YES;
-    }else{
+    } else {
         [db close];
         return NO;
     }
@@ -87,7 +88,7 @@
 {
     FMDatabase *db = [self getDatabase];
     
-    if (db == nil){
+    if (db == nil) {
         [db close];
         return NO;
     }
@@ -96,7 +97,9 @@
     NSLog(@"%@", sql);
 #endif
     [db executeUpdate:sql withParameterDictionary:dict];
-    if ([db hadError]) NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
+    if ([db hadError]) {
+        NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
+    }
     [db close];
     
     return YES;
@@ -120,7 +123,9 @@
     
     [db executeUpdate:sql withParameterDictionary:dict];
     
-    if ([db hadError]) NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
+    if ([db hadError]) {
+        NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
+    }
     
     [db close];
 }
@@ -131,9 +136,13 @@
     FMDatabase *db = [DatabaseWrapper getDatabase];
     FMResultSet *rs = [db executeQuery:sql withParameterDictionary:dict];
     
-    if ([db hadError]) NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
+    if ([db hadError]) {
+        NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
+    }
     
-    if ([rs next]) resultDict = [rs resultDictionary];
+    if ([rs next]) {
+        resultDict = [rs resultDictionary];
+    }
     
     [db close];
     
@@ -146,9 +155,13 @@
     FMDatabase *db = [DatabaseWrapper getDatabase];
     FMResultSet *rs = [db executeQuery:sql];
     
-    if ([db hadError]) NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
+    if ([db hadError]) {
+        NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
+    }
     
-    while ([rs next]) [resultArray addObject:[[rs resultDictionary] mutableCopy]];
+    while ([rs next]) {
+        [resultArray addObject:[[rs resultDictionary] mutableCopy]];
+    }
     
     [db close];
     
@@ -161,9 +174,12 @@
     FMDatabase *db = [DatabaseWrapper getDatabase];
     FMResultSet *rs = [db executeQuery:sql, parameter];
     
-    if ([db hadError]) NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
-    
-    while ([rs next]) [resultArray addObject:[[rs resultDictionary] mutableCopy]];
+    if ([db hadError]) {
+        NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
+    }
+    while ([rs next]) {
+        [resultArray addObject:[[rs resultDictionary] mutableCopy]];
+    }
     
     [db close];
 

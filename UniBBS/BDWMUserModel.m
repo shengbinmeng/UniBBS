@@ -17,7 +17,7 @@ static BOOL logined = NO;
 static NSString *loginUser = nil;
 static BOOL shouldReloin = NO;
 
-+(BOOL)getBoolShouldRelogin{
++ (BOOL)getBoolShouldRelogin{
     return shouldReloin;
 }
 
@@ -89,7 +89,7 @@ static BOOL shouldReloin = NO;
         if (block) block(nil, error);
     }];
 }
-    
+
 + (BOOL)checkUserName:(TFHpple *)doc UserName:(NSString *)user_name{
     NSArray *usernameArray = [doc searchWithXPathQuery:@"//table[@class='loginbox']/tr[2]/td/a"];
     NSLog(@"doc size %lu",(unsigned long)doc.data.length);
