@@ -454,7 +454,7 @@
 				ORGANIZATIONNAME = "Peking University";
 				TargetAttributes = {
 					E88A6E461507760600EED88D = {
-						DevelopmentTeam = RSJE9F52Q7;
+						DevelopmentTeam = RAE237RSGC;
 					};
 				};
 			};
