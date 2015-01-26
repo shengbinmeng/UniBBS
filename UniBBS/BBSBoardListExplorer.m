@@ -54,7 +54,7 @@
         NSUInteger c = [matches count];
         
         NSString *name, *description, *groupID;
-        for (int i = 0; i < c - 1; ++i) {
+        for (int i = 0; i < c; i++) {
             NSMutableDictionary *board = [[NSMutableDictionary alloc] init];
             NSTextCheckingResult *m = [matches objectAtIndex:i];
             NSString *type = [pageSource substringWithRange:[m rangeAtIndex:1]];
