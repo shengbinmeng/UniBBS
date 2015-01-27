@@ -45,7 +45,7 @@
 }
 
 
-- (void) buttonPressed 
+- (void) showOptions
 {
     UIActionSheet *sheet;
     if ([self.postAttributes valueForKey:@"attachments"] != nil) {
@@ -167,7 +167,7 @@
 {
     [super viewDidLoad];
     
-    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(buttonPressed)];
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(showOptions)];
     self.navigationItem.rightBarButtonItem = button;
     [button release];
     
@@ -282,14 +282,9 @@
 
 #pragma mark - Table view delegate
 
-- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return nil;
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    [self showOptions];
 }
 
 - (CGFloat)tableView:(UITableView *) tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
