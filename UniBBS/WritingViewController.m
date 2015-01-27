@@ -193,7 +193,7 @@
 - (void)viewDidAppear:(BOOL)animated{
     
     if (self.href == nil) {
-        [BDWMAlertMessage alertMessage:@"哎呦！没有找到链接！"];
+        [BDWMAlertMessage alertMessage:@"无法回复！可能是置顶帖或无回复权限。"];
         [self.navigationController popViewControllerAnimated:YES];
         return;
     }
