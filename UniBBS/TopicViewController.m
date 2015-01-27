@@ -213,7 +213,7 @@
 
 - (void) barButtonPressed
 {
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"底部工具栏", @"收藏此话题", nil];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"滚动到底部", @"收藏此话题", nil];
     [sheet setTag:ACTION_FROM_BAR_BUTTON];
     [sheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
     [sheet release];
