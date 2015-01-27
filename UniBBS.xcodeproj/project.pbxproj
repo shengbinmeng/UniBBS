@@ -81,6 +81,7 @@
 		6C46687D19EC13A3006E2A5C /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@2x.png"; sourceTree = "<group>"; };
 		6C4E5FB319F67F5600BB909F /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		6C4E5FB419F67F5600BB909F /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		6CE7FDD11A7792DF007EF3CC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		6CEAAC8319E942C600C29CA4 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		6CEAAC8419E942C600C29CA4 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		6CEAAC8519E942C600C29CA4 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -106,7 +107,6 @@
 		E88A6E4D1507760600EED88D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E88A6E4F1507760600EED88D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		E88A6E531507760600EED88D /* UniBBS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UniBBS-Info.plist"; sourceTree = "<group>"; };
-		E88A6E551507760600EED88D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E88A6E571507760600EED88D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E88A6E591507760600EED88D /* UniBBS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UniBBS-Prefix.pch"; sourceTree = "<group>"; };
 		E88A6E5A1507760600EED88D /* UniBBSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UniBBSAppDelegate.h; sourceTree = "<group>"; };
@@ -463,7 +463,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
+				"zh-Hans",
 			);
 			mainGroup = E88A6E3C1507760500EED88D;
 			productRefGroup = E88A6E481507760600EED88D /* Products */;
@@ -585,7 +585,7 @@
 		E88A6E541507760600EED88D /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				E88A6E551507760600EED88D /* en */,
+				6CE7FDD11A7792DF007EF3CC /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
