@@ -9,6 +9,8 @@
 #import "BDWMTopicModel.h"
 #import "BDWMString.h"
 #import "AFAppDotNetAPIClient.h"
+#import "Utility.h"
+
 @implementation BDWMTopicModel
 
 + (NSURLSessionDataTask *)loadReplyNeededDataWithBlock:(NSString *)href blockFunction:(void (^)(NSDictionary* data, NSError *error))block {
@@ -166,6 +168,7 @@
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
 
     NSData *utf8Data = [BDWMString DataConverse_GB2312_to_UTF8:htmlData];
+    utf8Data = [[Utility convertDataToString:htmlData] dataUsingEncoding:NSUTF8StringEncoding];
     doc = [[TFHpple alloc] initWithHTMLData:utf8Data];
     
     if (doc.data == nil) return nil;
