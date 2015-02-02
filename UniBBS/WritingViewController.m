@@ -206,12 +206,13 @@
             if (!error) {
                 self.postDict = dic;
                 
-                if (self.postDict!=nil) {
+                if (self.postDict != nil) {
                     self.titleTextField.text = [self.postDict objectForKey:@"title_exp"];
                     self.contentTextView.text = [self.postDict objectForKey:@"quote"];
                     [BDWMAlertMessage stopSpinner];
-                }else{
+                } else {
                     //login session failed. then relogin.
+                    //or can't get need data because no reply authority.
                     NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
                     NSString *userName = [userDefaultes stringForKey:@"saved_username"];
                     NSString *password = [userDefaultes stringForKey:@"saved_password"];
@@ -228,35 +229,38 @@
                                         self.titleTextField.text = [self.postDict objectForKey:@"title_exp"];
                                         self.contentTextView.text = [self.postDict objectForKey:@"quote"];
                                         [BDWMAlertMessage stopSpinner];
+                                    } else {
+                                        //relogin success but still can't get needed data.
+                                        [BDWMAlertMessage stopSpinner];
+                                        [BDWMAlertMessage alertMessage:@"可能是没有权限。"];
+                                        [self.navigationController popViewControllerAnimated:YES];
+                                        return;
                                     }
-                                }else{//relogin, but still can't get needed data.
+                                } else {//relogin, but still can't get needed data.
                                     [BDWMAlertMessage stopSpinner];
                                     [BDWMAlertMessage alertMessage:@"获取不到数据！"];
                                     [self.navigationController popViewControllerAnimated:YES];
                                 }
                             }];
-        
-                            
-                        }else{//relogin failed.
+                        } else {//relogin failed.
                             [BDWMAlertMessage stopSpinner];
                             [BDWMAlertMessage alertMessage:@"获取不到数据！"];
                             [self.navigationController popViewControllerAnimated:YES];
                         }
                     }];
                 }
-                
-            }else{
+            } else {
                 [BDWMAlertMessage stopSpinner];
                 [BDWMAlertMessage alertMessage:@"网络错误"];
                 [self.navigationController popViewControllerAnimated:YES];
             }
         }];
         
-    }else if( [self.fromWhere isEqualToString:@"compose"] ){
+    } else if ([self.fromWhere isEqualToString:@"compose"]){
         
         self.postDict = [BDWMTopicModel getNeededComposeData:self.href];
         
-        if (self.postDict==nil) {
+        if (self.postDict == nil) {
             //login session failed. then relogin.
             NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
             NSString *userName = [userDefaultes stringForKey:@"saved_username"];
@@ -264,30 +268,29 @@
             
             [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
                 if ( !error && name!=nil ) {
-                    
                     //refetch data.
                     self.postDict = [BDWMTopicModel getNeededComposeData:[self href]];
                     //login success but still can't get needed data.
-                    if (self.postDict==nil) {
+                    if (self.postDict == nil) {
                         [BDWMAlertMessage stopSpinner];
                         [BDWMAlertMessage alertMessage:@"是不是没有发帖权限？"];
                         [self.navigationController popViewControllerAnimated:YES];
-                    }else{
+                    } else {
                  //       [BDWMAlertMessage alertAndAutoDismissMessage:@"重新登录成功！"];
                         [BDWMAlertMessage stopSpinner];
                     }
                     
-                }else{//login failed.
+                } else {//login failed.
                     [BDWMAlertMessage stopSpinner];
                     [BDWMAlertMessage alertMessage:@"网络错误？"];
                     [self.navigationController popViewControllerAnimated:YES];
                 }
             }];
-        }else{
+        } else {
             //get compose needed data success.
             [BDWMAlertMessage stopSpinner];
         }
-    }else{
+    } else {
         [BDWMAlertMessage alertAndAutoDismissMessage:@"我去！从哪里点过来的！"];
     }
 }
