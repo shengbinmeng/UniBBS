@@ -23,17 +23,17 @@ PODS:
   - CCBottomRefreshControl (0.3.0):
     - ReactiveCocoa
     - UIView+TKGeometry
-  - FMDB (2.4):
-    - FMDB/standard (= 2.4)
-  - FMDB/common (2.4)
-  - FMDB/standard (2.4):
+  - FMDB (2.5):
+    - FMDB/standard (= 2.5)
+  - FMDB/common (2.5)
+  - FMDB/standard (2.5):
     - FMDB/common
-  - ReactiveCocoa (2.4.2):
-    - ReactiveCocoa/UI (= 2.4.2)
-  - ReactiveCocoa/Core (2.4.2):
+  - ReactiveCocoa (2.4.4):
+    - ReactiveCocoa/UI (= 2.4.4)
+  - ReactiveCocoa/Core (2.4.4):
     - ReactiveCocoa/no-arc
-  - ReactiveCocoa/no-arc (2.4.2)
-  - ReactiveCocoa/UI (2.4.2):
+  - ReactiveCocoa/no-arc (2.4.4)
+  - ReactiveCocoa/UI (2.4.4):
     - ReactiveCocoa/Core
   - UIView+TKGeometry (0.2)
 
@@ -45,8 +45,8 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
   CCBottomRefreshControl: 0dd3b0d9d50a36586495d183a0662fb1d0025579
-  FMDB: 0b2fa25e5264ef177973c0cb8c02c711107979aa
-  ReactiveCocoa: 8418a82b67af2f1b7587baf29c329040a23c2063
+  FMDB: 0efa188cf0dd1ce82c27a478cd5f5fa245308677
+  ReactiveCocoa: 31119068e3dde866bd257cf74e1f06b4023bf387
   UIView+TKGeometry: 60a88dcf2af8420175cb1c789a02d6254ebb89a7
 
 COCOAPODS: 0.35.0
