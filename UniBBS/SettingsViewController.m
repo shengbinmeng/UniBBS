@@ -142,7 +142,7 @@
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -150,19 +150,28 @@
     if (section == 0) {
         return 1;
     }else if (section == 1) {
-        return 3;
-    } else if (section == 2) {
         return 1;
-    } else if (section ==3){
+    }else if (section == 2) {
+        return 3;
+    } else if (section == 3) {
+        return 1;
+    } else if (section == 4){
         return 2;
     }
     return 1;
 }
 
-- (void) switchChanged:(id)sender {
+- (void) boolUsePostSuffixStringSwitchChanged:(id)sender {
     UISwitch* switchControl = sender;
     NSLog( @"The switch is %@", switchControl.on ? @"ON" : @"OFF" );
     [SettingModel setBoolUsePostSuffixString:switchControl.on];
+    
+}
+
+- (void) boolAutoLoginSwitchChanged:(id)sender {
+    UISwitch* switchControl = sender;
+    NSLog( @"The switch is %@", switchControl.on ? @"ON" : @"OFF" );
+    [SettingModel setBoolAutoLogin:switchControl.on];
     
 }
 
@@ -178,19 +187,32 @@
             [cell.textLabel setText:@"打开小尾巴"];
             //add a switch
             UISwitch *switchview = [[UISwitch alloc] initWithFrame:CGRectZero];
-            [switchview addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
+            [switchview addTarget:self action:@selector(boolUsePostSuffixStringSwitchChanged:) forControlEvents:UIControlEventValueChanged];
             [switchview setOn:[SettingModel boolUsePostSuffixString] animated:NO];
             cell.accessoryView = switchview;
             [switchview release];
-        }else if([indexPath row] == 1){
-            [cell.textLabel setText:@"清空收藏夹"];
-        }else if([indexPath row] == 2){
-            [cell.textLabel setText:@"清空个人设置"];
         }
         return cell;
     }
     
     if ([indexPath section] == 1) {
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"DefaultStyleCell"];
+        if(cell == nil) {
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"] autorelease];
+        }
+        if ([indexPath row] == 0) {
+            [cell.textLabel setText:@"自动登陆"];
+            //add a switch
+            UISwitch *switchview = [[UISwitch alloc] initWithFrame:CGRectZero];
+            [switchview addTarget:self action:@selector(boolAutoLoginSwitchChanged:) forControlEvents:UIControlEventValueChanged];
+            [switchview setOn:[SettingModel boolAutoLogin] animated:NO];
+            cell.accessoryView = switchview;
+            [switchview release];
+        }
+        return cell;
+    }
+    
+    if ([indexPath section] == 2) {
         
         UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"Value1StyleCell"];
         if(cell == nil) {
@@ -212,7 +234,7 @@
         return cell;
     }
     
-    if ([indexPath section] ==2) {
+    if ([indexPath section] ==3) {
         UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"DefaultStyleCell"];
         if(cell == nil) {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"] autorelease];
@@ -223,7 +245,7 @@
         return cell;
     }
     
-    if ([indexPath section] == 3) {
+    if ([indexPath section] == 4) {
         UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"DefaultStyleCell"];
         if(cell == nil) {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"] autorelease];
@@ -245,12 +267,15 @@
         header = @"设置";
     }
     if (section == 1) {
-        header = @"关于";
+        header = @"";
     }
     if (section == 2) {
+        header = @"关于";
+    }
+    if (section == 3) {
         header = @"反馈";
     }
-    if (section == 3){
+    if (section == 4){
         header = @"高级设置";
     }
     return header;
@@ -262,7 +287,10 @@
     if (section == 0) {
         footerText = [NSString stringWithFormat:@"打开小尾巴就是在您发布的消息结尾加上“发自我的北大未名iOS客户端”字样"];
     }
-    if (section == 3) {
+    if (section == 1) {
+        footerText = [NSString stringWithFormat:@"开启自动登陆后，应用会在启动时自动登陆您的账号"];
+    }
+    if (section == 4) {
         footerText = [NSString stringWithFormat:@"高级设置，请谨慎使用"];
     }
     return footerText;
@@ -271,7 +299,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
         
-    if ([indexPath section] == 1) {
+    if ([indexPath section] == 2) {
         if ([indexPath row] == 0) {
             WebViewController *aboutViewController =[[[WebViewController alloc] init] autorelease];
             aboutViewController.webAddress = @"http://unibbs.sinaapp.com/bdwm";
@@ -292,14 +320,14 @@
         }
     }
     
-    if ([indexPath section] == 2) {
+    if ([indexPath section] == 3) {
         if ([indexPath row] ==0) {
             [self sendMail];
             return;
         }
     }
     
-    if ([indexPath section] == 3){
+    if ([indexPath section] == 4){
         self.alertView = [[UIAlertView alloc] initWithTitle:@"警告"
                                              message:@"message"
                                             delegate:self

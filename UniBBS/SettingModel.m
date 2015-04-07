@@ -35,4 +35,30 @@
     [userDefaultes setObject:saveString forKey:@"bool_use_post_suffix_string"];
     [userDefaultes synchronize];
 }
+
++ (BOOL)boolAutoLogin
+{
+    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+    NSString * ifUse = [userDefaultes stringForKey:@"bool_auto_login"];
+    if (ifUse == nil) {
+        return YES;//default open.
+    } else if ([ifUse isEqualToString:@"YES"]){
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
++ (void)setBoolAutoLogin:(BOOL)value{
+    NSString *saveString = [[NSString alloc] init];
+    if (value) {
+        saveString = @"YES";
+    }else{
+        saveString = @"NO";
+    }
+    
+    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+    [userDefaultes setObject:saveString forKey:@"bool_auto_login"];
+    [userDefaultes synchronize];
+}
 @end

@@ -13,4 +13,7 @@
 + (BOOL)boolUsePostSuffixString;
 + (void)setBoolUsePostSuffixString:(BOOL)value;
 
++ (BOOL)boolAutoLogin;
++ (void)setBoolAutoLogin:(BOOL)value;
+
 @end
