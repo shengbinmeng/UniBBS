@@ -19,5 +19,6 @@
 
 + (BOOL)isLogined;
 + (NSString*)getLoginUser;
-+(BOOL)getBoolShouldRelogin;
++ (BOOL)getEnterAppAndAutoLogin;
++ (void)setEnterAppAndAutoLogin:(BOOL)status;
 @end

@@ -15,10 +15,14 @@
 
 static BOOL logined = NO;
 static NSString *loginUser = nil;
-static BOOL shouldReloin = NO;
+static BOOL enterAppAndAutoLogin = NO;
 
-+ (BOOL)getBoolShouldRelogin{
-    return shouldReloin;
++ (BOOL)getEnterAppAndAutoLogin{
+    return enterAppAndAutoLogin;
+}
+
++ (void)setEnterAppAndAutoLogin:(BOOL)status{
+    enterAppAndAutoLogin = status;
 }
 
 + (BOOL)isLogined {

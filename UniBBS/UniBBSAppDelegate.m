@@ -13,6 +13,7 @@
 #import "SettingsViewController.h"
 #import "ProfileViewController.h"
 #import "BBSFavouritesManager.h"
+#import "BDWMUserModel.h"
 
 @implementation UniBBSAppDelegate
 
@@ -38,6 +39,8 @@
     profileViewController = [[[UINavigationController alloc] initWithRootViewController:viewController3] autorelease];
     settingsViewController = [[[UINavigationController alloc] initWithRootViewController:viewController4] autorelease];
 
+    [BDWMUserModel setEnterAppAndAutoLogin:YES];
+    
     self.tabBarController = [[[UITabBarController alloc] init] autorelease];
     self.tabBarController.viewControllers = [NSArray arrayWithObjects:popularViewController, boardListViewController, profileViewController, settingsViewController, nil];
     self.window.rootViewController = self.tabBarController;

@@ -11,6 +11,7 @@
 #import "BBSPopularReader.h"
 #import "BDWMUserModel.h"
 #import "BDWMAlertMessage.h"
+#import "BDWMUserModel.h"
 
 @interface PopularTopicsViewController ()
 @property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl;
@@ -177,7 +178,28 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-
+    if ([BDWMUserModel getEnterAppAndAutoLogin]==YES && [BDWMUserModel isLogined]==NO) {
+        NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+        NSString *userName = [userDefaultes stringForKey:@"saved_username"];
+        NSString *password = [userDefaultes stringForKey:@"saved_password"];
+        
+        if (userName==nil || password==nil ) {
+            return;
+        }
+        [BDWMAlertMessage startSpinner:@"正在登陆..."];
+        
+        [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
+            if ( !error && name!=nil ) {
+                // I find it annoying when I want to read the content but alert comes up
+                //[BDWMAlertMessage alertAndAutoDismissMessage:@"登录成功！"];
+                [BDWMUserModel setEnterAppAndAutoLogin:NO];
+                [BDWMAlertMessage stopSpinner];
+            }else{
+                [BDWMAlertMessage alertMessage:@"登陆失败!"];
+            }
+        }];
+        
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
