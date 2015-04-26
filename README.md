@@ -16,7 +16,7 @@ This project is using CocoaPods. To get more information about it, please go to:
 
 ####说明
 
-还需要开发的功能请参看 Issues
+还需要开发的功能请参看 [Issues](https://github.com/shengbinmeng/UniBBS/issues)
 
 ####LICENSE
 MIT
