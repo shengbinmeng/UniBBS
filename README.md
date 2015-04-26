@@ -13,3 +13,10 @@ pod install
 ```
 
 This project is using CocoaPods. To get more information about it, please go to: http://cocoapods.org/.
+
+####说明
+
+还需要开发的功能请参看 Issues
+
+####LICENSE
+MIT
