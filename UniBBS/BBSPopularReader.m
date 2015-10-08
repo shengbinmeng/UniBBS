@@ -44,7 +44,7 @@
     if (returnedData) {
         NSString *pageSource = [Utility convertDataToString:returnedData];
 
-        NSString *pattern = @"<td><a href='bbstop.php.board=([^']*)'>([^<]*)</a></td>[^<]*<td>(Anonymous|<a href='bbsqry.php.name=[^']*'>[^<]*</a>)</td>[^<]*<td>([^<]*)</td>[^<]*<td><a href='bbstcon.php.board=[^']*.threadid=([0-9]*)'>([^<]*)</a></td>";
+        NSString *pattern = @"<td><a href='bbstop2.php.board=([^']*)'>([^<]*)</a></td>[^<]*<td>(Anonymous|<a href='bbsqry.php.name=[^']*'>[^<]*</a>)</td>[^<]*<td>([^<]*)</td>[^<]*<td><a href='bbstcon.php.board=[^']*.threadid=([0-9]*)'>([^<]*)</a></td>";
 
         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:NULL];
         NSArray *matches = [regex matchesInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];

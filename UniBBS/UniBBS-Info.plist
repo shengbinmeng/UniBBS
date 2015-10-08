@@ -2,6 +2,27 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSAppTransportSecurity</key>
+      <dict>
+          <key>NSExceptionDomains</key>
+          <dict>
+              <key>bdwm.net</key>
+              <dict>
+                  <!--适用于这个特定域名下的所有子域-->
+                  <key>NSIncludesSubdomains</key>
+                  <true/>
+                  <!--扩展可接受的密码列表：这个域名可以使用不支持 forward secrecy 协议的密码-->
+                  <key>NSExceptionRequiresForwardSecrecy</key>
+                  <false/>
+                  <!--允许App进行不安全的HTTP请求-->
+                  <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                  <true/>
+                  <!--在这里声明所支持的 TLS 最低版本-->
+                  <key>NSExceptionMinimumTLSVersion</key>
+                  <string>TLSv1.0</string>
+              </dict>
+          </dict>
+      </dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>zh_CN</string>
 	<key>CFBundleDisplayName</key>
