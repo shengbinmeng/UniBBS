@@ -1,4 +1,4 @@
-platform :ios, '8.0'
-pod "AFNetworking", "~> 2.4.1"
-pod "CCBottomRefreshControl"
+platform :ios, '9.0'
+pod 'AFNetworking'
+pod 'CCBottomRefreshControl'
 pod 'FMDB'
