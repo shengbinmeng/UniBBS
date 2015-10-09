@@ -16,6 +16,7 @@
 		6C46688119EC13A3006E2A5C /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C46687C19EC13A3006E2A5C /* settings.png */; };
 		6C46688219EC13A3006E2A5C /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C46687D19EC13A3006E2A5C /* settings@2x.png */; };
 		6C4E5FB519F67F5600BB909F /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C4E5FB419F67F5600BB909F /* SettingsViewController.m */; };
+		6CE9A9DD1BC7F1BC002C86EE /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CE9A9DC1BC7F1BC002C86EE /* libxml2.2.tbd */; };
 		6CEAAC8619E942C600C29CA4 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CEAAC8419E942C600C29CA4 /* LoginViewController.m */; };
 		6CEAAC8719E942C600C29CA4 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CEAAC8519E942C600C29CA4 /* LoginViewController.xib */; };
 		6CEAAC8A19EA82C600C29CA4 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CEAAC8919EA82C600C29CA4 /* ProfileViewController.m */; };
@@ -42,7 +43,6 @@
 		E8F19F62150B5DB3001008B4 /* BBSPostReader.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F19F61150B5DB3001008B4 /* BBSPostReader.m */; };
 		E8F19F7F150BC81F001008B4 /* BBSBoardReader.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F19F7E150BC81E001008B4 /* BBSBoardReader.m */; };
 		EAD105B3B0FEFD6C256D6A5B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D57E3888AA1D894B2FC3690 /* libPods.a */; };
-		F7062E6019E6CCEC00F61328 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F7062E5F19E6CCEC00F61328 /* libxml2.2.dylib */; };
 		F7062E6619E6CE2C00F61328 /* BDWMAlertMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F7062E6219E6CE2C00F61328 /* BDWMAlertMessage.m */; };
 		F7062E6719E6CE2C00F61328 /* BDWMString.m in Sources */ = {isa = PBXBuildFile; fileRef = F7062E6519E6CE2C00F61328 /* BDWMString.m */; };
 		F7062E7019E6D19800F61328 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = F7062E6B19E6D19800F61328 /* TFHpple.m */; };
@@ -82,6 +82,7 @@
 		6C4E5FB319F67F5600BB909F /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		6C4E5FB419F67F5600BB909F /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		6CE7FDD11A7792DF007EF3CC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		6CE9A9DC1BC7F1BC002C86EE /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
 		6CEAAC8319E942C600C29CA4 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		6CEAAC8419E942C600C29CA4 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		6CEAAC8519E942C600C29CA4 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -129,7 +130,6 @@
 		E8F19F61150B5DB3001008B4 /* BBSPostReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSPostReader.m; sourceTree = "<group>"; };
 		E8F19F7D150BC81E001008B4 /* BBSBoardReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSBoardReader.h; sourceTree = "<group>"; };
 		E8F19F7E150BC81E001008B4 /* BBSBoardReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSBoardReader.m; sourceTree = "<group>"; };
-		F7062E5F19E6CCEC00F61328 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		F7062E6119E6CE2C00F61328 /* BDWMAlertMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDWMAlertMessage.h; sourceTree = "<group>"; };
 		F7062E6219E6CE2C00F61328 /* BDWMAlertMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDWMAlertMessage.m; sourceTree = "<group>"; };
 		F7062E6319E6CE2C00F61328 /* BDWMGlobalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDWMGlobalData.h; sourceTree = "<group>"; };
@@ -180,8 +180,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CE9A9DD1BC7F1BC002C86EE /* libxml2.2.tbd in Frameworks */,
 				F791CDB019FCF0F600531CF0 /* MessageUI.framework in Frameworks */,
-				F7062E6019E6CCEC00F61328 /* libxml2.2.dylib in Frameworks */,
 				E86D644D15162FFB0001DA10 /* QuartzCore.framework in Frameworks */,
 				E88A6E4C1507760600EED88D /* UIKit.framework in Frameworks */,
 				E88A6E4E1507760600EED88D /* Foundation.framework in Frameworks */,
@@ -243,8 +243,8 @@
 		E88A6E4A1507760600EED88D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6CE9A9DC1BC7F1BC002C86EE /* libxml2.2.tbd */,
 				F791CDAF19FCF0F600531CF0 /* MessageUI.framework */,
-				F7062E5F19E6CCEC00F61328 /* libxml2.2.dylib */,
 				E86D644C15162FFB0001DA10 /* QuartzCore.framework */,
 				E88A6E4B1507760600EED88D /* UIKit.framework */,
 				E88A6E4D1507760600EED88D /* Foundation.framework */,
