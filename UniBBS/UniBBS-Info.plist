@@ -2,27 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSAppTransportSecurity</key>
-      <dict>
-          <key>NSExceptionDomains</key>
-          <dict>
-              <key>bdwm.net</key>
-              <dict>
-                  <!--适用于这个特定域名下的所有子域-->
-                  <key>NSIncludesSubdomains</key>
-                  <true/>
-                  <!--扩展可接受的密码列表：这个域名可以使用不支持 forward secrecy 协议的密码-->
-                  <key>NSExceptionRequiresForwardSecrecy</key>
-                  <false/>
-                  <!--允许App进行不安全的HTTP请求-->
-                  <key>NSExceptionAllowsInsecureHTTPLoads</key>
-                  <true/>
-                  <!--在这里声明所支持的 TLS 最低版本-->
-                  <key>NSExceptionMinimumTLSVersion</key>
-                  <string>TLSv1.0</string>
-              </dict>
-          </dict>
-      </dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>zh_CN</string>
 	<key>CFBundleDisplayName</key>
@@ -30,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>pku.shengbin.WMBBS</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -43,6 +22,23 @@
 	<string>1.1.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>bdwm.net</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSExceptionMinimumTLSVersion</key>
+				<string>TLSv1.0</string>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<false/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
