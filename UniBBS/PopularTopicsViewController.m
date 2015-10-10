@@ -186,7 +186,7 @@
         if (userName==nil || password==nil ) {
             return;
         }
-        [BDWMAlertMessage startSpinner:@"正在登陆..."];
+        [BDWMAlertMessage startSpinner:@"正在登录..."];
         
         [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
             if ( !error && name!=nil ) {
@@ -195,7 +195,7 @@
                 [BDWMUserModel setEnterAppAndAutoLogin:NO];
                 [BDWMAlertMessage stopSpinner];
             }else{
-                [BDWMAlertMessage alertMessage:@"登陆失败!"];
+                [BDWMAlertMessage alertMessage:@"登录失败!"];
             }
         }];
         

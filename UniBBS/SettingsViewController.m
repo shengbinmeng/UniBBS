@@ -201,7 +201,7 @@
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"] autorelease];
         }
         if ([indexPath row] == 0) {
-            [cell.textLabel setText:@"自动登陆"];
+            [cell.textLabel setText:@"自动登录"];
             //add a switch
             UISwitch *switchview = [[UISwitch alloc] initWithFrame:CGRectZero];
             [switchview addTarget:self action:@selector(boolAutoLoginSwitchChanged:) forControlEvents:UIControlEventValueChanged];
@@ -288,7 +288,7 @@
         footerText = [NSString stringWithFormat:@"打开小尾巴就是在您发布的消息结尾加上“发自我的北大未名iOS客户端”字样"];
     }
     if (section == 1) {
-        footerText = [NSString stringWithFormat:@"开启自动登陆后，应用会在启动时自动登陆您的账号"];
+        footerText = [NSString stringWithFormat:@"开启自动登录后，应用会在启动时自动登录您的账号"];
     }
     if (section == 4) {
         footerText = [NSString stringWithFormat:@"高级设置，请谨慎使用"];

@@ -36,7 +36,7 @@
 - (void)reload:(__unused id)sender {
    
     if ([BDWMUserModel isLogined] == NO) {
-        [BDWMAlertMessage alertMessage:@"啊！出错了！没有登陆居然也能到这里！"];
+        [BDWMAlertMessage alertMessage:@"啊！出错了！没有登录居然也能到这里！"];
         [self.navigationController popViewControllerAnimated:YES];
         return;
     }
