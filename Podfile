@@ -1,4 +1,12 @@
+# Uncomment the next line to define a global platform for your project
 platform :ios, '8.0'
-pod "AFNetworking", "~> 2.4.1"
-pod "CCBottomRefreshControl", "~> 0.3.0"
-pod 'FMDB'
+
+target 'UniBBS' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for UniBBS
+pod 'AFNetworking', '~> 2.4.1'
+pod 'CCBottomRefreshControl', '~> 0.5.1'
+pod 'FMDB', '~> 2.6.2'
+end

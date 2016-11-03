@@ -100,7 +100,7 @@
     }];
 
     //    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:task delegate:nil];
-    [self.refreshControl setRefreshingWithStateOfTask:task];
+//    [self.refreshControl setRefreshingWithStateOfTask:task];
     
     [((UIButton*)self.tableView.tableFooterView) setTitle:@"上拉载入更多" forState:UIControlStateNormal];
 }

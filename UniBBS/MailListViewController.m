@@ -93,7 +93,7 @@
     }];
     
 //    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:task delegate:nil];
-    [self.refreshControl setRefreshingWithStateOfTask:task];
+ //   [self.refreshControl setRefreshingWithStateOfTask:task];
 }
 
 - (void)viewDidLoad {

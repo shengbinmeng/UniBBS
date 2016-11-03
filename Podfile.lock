@@ -20,33 +20,24 @@ PODS:
   - AFNetworking/UIKit (2.4.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - CCBottomRefreshControl (0.3.0):
-    - ReactiveCocoa
-    - UIView+TKGeometry
-  - FMDB (2.5):
-    - FMDB/standard (= 2.5)
-  - FMDB/common (2.5)
-  - FMDB/standard (2.5):
-    - FMDB/common
-  - ReactiveCocoa (2.4.4):
-    - ReactiveCocoa/UI (= 2.4.4)
-  - ReactiveCocoa/Core (2.4.4):
-    - ReactiveCocoa/no-arc
-  - ReactiveCocoa/no-arc (2.4.4)
-  - ReactiveCocoa/UI (2.4.4):
-    - ReactiveCocoa/Core
-  - UIView+TKGeometry (0.2)
+  - CCBottomRefreshControl (0.5.1):
+    - Masonry (~> 0.6.2)
+  - FMDB (2.6.2):
+    - FMDB/standard (= 2.6.2)
+  - FMDB/standard (2.6.2)
+  - Masonry (0.6.4)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.4.1)
-  - CCBottomRefreshControl (~> 0.3.0)
-  - FMDB
+  - CCBottomRefreshControl (~> 0.5.1)
+  - FMDB (~> 2.6.2)
 
 SPEC CHECKSUMS:
-  AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
-  CCBottomRefreshControl: 0dd3b0d9d50a36586495d183a0662fb1d0025579
-  FMDB: 0efa188cf0dd1ce82c27a478cd5f5fa245308677
-  ReactiveCocoa: 31119068e3dde866bd257cf74e1f06b4023bf387
-  UIView+TKGeometry: 60a88dcf2af8420175cb1c789a02d6254ebb89a7
+  AFNetworking: 41d45d2c14219af0fa5addf3cfd433a002c13c9f
+  CCBottomRefreshControl: 57a596348855260f627ffc2b311328ed15b94877
+  FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
+  Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
 
-COCOAPODS: 0.38.2
+PODFILE CHECKSUM: d6640284c494124b68b3bbaeda7b710a0b2d4ab0
+
+COCOAPODS: 1.1.1

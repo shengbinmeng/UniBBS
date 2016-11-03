@@ -246,7 +246,7 @@
         }];
     }
     
-    [self.refreshControl setRefreshingWithStateOfTask:task];
+ //   [self.refreshControl setRefreshingWithStateOfTask:task];
     
 
 }

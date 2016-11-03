@@ -20,6 +20,7 @@
 		6CEAAC8619E942C600C29CA4 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CEAAC8419E942C600C29CA4 /* LoginViewController.m */; };
 		6CEAAC8719E942C600C29CA4 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CEAAC8519E942C600C29CA4 /* LoginViewController.xib */; };
 		6CEAAC8A19EA82C600C29CA4 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CEAAC8919EA82C600C29CA4 /* ProfileViewController.m */; };
+		BC868DCCF9485D57C055EAF3 /* libPods-UniBBS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C2DC4CC1C97BBE66B953285 /* libPods-UniBBS.a */; };
 		E83179461537BF9900A219E4 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E83179451537BF9900A219E4 /* WebViewController.m */; };
 		E831794A1537EFF000A219E4 /* AttachmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E83179491537EFF000A219E4 /* AttachmentsViewController.m */; };
 		E843C4261508E3F800A83C22 /* BBSBoardListExplorer.m in Sources */ = {isa = PBXBuildFile; fileRef = E843C4251508E3F800A83C22 /* BBSBoardListExplorer.m */; };
@@ -42,7 +43,6 @@
 		E8F19F5F150B544F001008B4 /* BBSTopicReader.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F19F5E150B544F001008B4 /* BBSTopicReader.m */; };
 		E8F19F62150B5DB3001008B4 /* BBSPostReader.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F19F61150B5DB3001008B4 /* BBSPostReader.m */; };
 		E8F19F7F150BC81F001008B4 /* BBSBoardReader.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F19F7E150BC81E001008B4 /* BBSBoardReader.m */; };
-		EAD105B3B0FEFD6C256D6A5B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D57E3888AA1D894B2FC3690 /* libPods.a */; };
 		F7062E6619E6CE2C00F61328 /* BDWMAlertMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F7062E6219E6CE2C00F61328 /* BDWMAlertMessage.m */; };
 		F7062E6719E6CE2C00F61328 /* BDWMString.m in Sources */ = {isa = PBXBuildFile; fileRef = F7062E6519E6CE2C00F61328 /* BDWMString.m */; };
 		F7062E7019E6D19800F61328 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = F7062E6B19E6D19800F61328 /* TFHpple.m */; };
@@ -70,6 +70,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1C2DC4CC1C97BBE66B953285 /* libPods-UniBBS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UniBBS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D57E3888AA1D894B2FC3690 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C46686F19EC0B3C006E2A5C /* boards.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boards.png; sourceTree = "<group>"; };
 		6C46687119EC0B3C006E2A5C /* popular.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popular.png; sourceTree = "<group>"; };
@@ -89,7 +90,9 @@
 		6CEAAC8819EA82C600C29CA4 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		6CEAAC8919EA82C600C29CA4 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		719A31F362C4F2C25201F727 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		A645523AD3D3A64ABA3F8D74 /* Pods-UniBBS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UniBBS.release.xcconfig"; path = "Pods/Target Support Files/Pods-UniBBS/Pods-UniBBS.release.xcconfig"; sourceTree = "<group>"; };
 		B79CD6A25DDCA0A1365EC6E0 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		E76B0F2F1D9FAB841B96D848 /* Pods-UniBBS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UniBBS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UniBBS/Pods-UniBBS.debug.xcconfig"; sourceTree = "<group>"; };
 		E83179441537BF9900A219E4 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		E83179451537BF9900A219E4 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		E83179481537EFF000A219E4 /* AttachmentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentsViewController.h; sourceTree = "<group>"; };
@@ -186,7 +189,7 @@
 				E88A6E4C1507760600EED88D /* UIKit.framework in Frameworks */,
 				E88A6E4E1507760600EED88D /* Foundation.framework in Frameworks */,
 				E88A6E501507760600EED88D /* CoreGraphics.framework in Frameworks */,
-				EAD105B3B0FEFD6C256D6A5B /* libPods.a in Frameworks */,
+				BC868DCCF9485D57C055EAF3 /* libPods-UniBBS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,6 +201,8 @@
 			children = (
 				719A31F362C4F2C25201F727 /* Pods.debug.xcconfig */,
 				B79CD6A25DDCA0A1365EC6E0 /* Pods.release.xcconfig */,
+				E76B0F2F1D9FAB841B96D848 /* Pods-UniBBS.debug.xcconfig */,
+				A645523AD3D3A64ABA3F8D74 /* Pods-UniBBS.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -250,6 +255,7 @@
 				E88A6E4D1507760600EED88D /* Foundation.framework */,
 				E88A6E4F1507760600EED88D /* CoreGraphics.framework */,
 				5D57E3888AA1D894B2FC3690 /* libPods.a */,
+				1C2DC4CC1C97BBE66B953285 /* libPods-UniBBS.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -429,11 +435,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E88A6E791507760600EED88D /* Build configuration list for PBXNativeTarget "UniBBS" */;
 			buildPhases = (
-				50CBCB7FA71B2A7BECC66281 /* Check Pods Manifest.lock */,
+				50CBCB7FA71B2A7BECC66281 /* [CP] Check Pods Manifest.lock */,
 				E88A6E431507760600EED88D /* Sources */,
 				E88A6E441507760600EED88D /* Frameworks */,
 				E88A6E451507760600EED88D /* Resources */,
-				EFFF2B7D35E67C7C6FA1E90F /* Copy Pods Resources */,
+				EFFF2B7D35E67C7C6FA1E90F /* [CP] Copy Pods Resources */,
+				3146660B550B35D3EFFCDA23 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -454,7 +461,7 @@
 				ORGANIZATIONNAME = "Peking University";
 				TargetAttributes = {
 					E88A6E461507760600EED88D = {
-						DevelopmentTeam = RAE237RSGC;
+						DevelopmentTeam = 78ERSNX2Y5;
 					};
 				};
 			};
@@ -501,34 +508,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		50CBCB7FA71B2A7BECC66281 /* Check Pods Manifest.lock */ = {
+		3146660B550B35D3EFFCDA23 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UniBBS/Pods-UniBBS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EFFF2B7D35E67C7C6FA1E90F /* Copy Pods Resources */ = {
+		50CBCB7FA71B2A7BECC66281 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		EFFF2B7D35E67C7C6FA1E90F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UniBBS/Pods-UniBBS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -670,13 +692,14 @@
 		};
 		E88A6E7A1507760600EED88D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 719A31F362C4F2C25201F727 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = E76B0F2F1D9FAB841B96D848 /* Pods-UniBBS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 78ERSNX2Y5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UniBBS/UniBBS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -685,7 +708,7 @@
 					"$(SDKROOT)/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = "UniBBS/UniBBS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = pku.shengbin.WMBBS;
 				PRODUCT_NAME = WMBBS;
 				PROVISIONING_PROFILE = "";
@@ -697,13 +720,14 @@
 		};
 		E88A6E7B1507760600EED88D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B79CD6A25DDCA0A1365EC6E0 /* Pods.release.xcconfig */;
+			baseConfigurationReference = A645523AD3D3A64ABA3F8D74 /* Pods-UniBBS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 78ERSNX2Y5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UniBBS/UniBBS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -712,7 +736,7 @@
 					"$(SDKROOT)/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = "UniBBS/UniBBS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = pku.shengbin.WMBBS;
 				PRODUCT_NAME = WMBBS;
 				PROVISIONING_PROFILE = "";
