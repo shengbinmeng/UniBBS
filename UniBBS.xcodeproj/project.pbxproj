@@ -202,24 +202,48 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		E86D93B9152722DD0037F06D /* PostController */ = {
+		E86D93B9152722DD0037F06D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				E83179481537EFF000A219E4 /* AttachmentsViewController.h */,
 				E83179491537EFF000A219E4 /* AttachmentsViewController.m */,
+				E88A6E641507760600EED88D /* BoardListViewController.h */,
+				E88A6E651507760600EED88D /* BoardListViewController.m */,
+				E88A6E821507913E00EED88D /* BoardViewController.h */,
+				E88A6E831507913E00EED88D /* BoardViewController.m */,
 				E8F19F56150B2577001008B4 /* FavouritesViewController.h */,
 				E8F19F57150B2577001008B4 /* FavouritesViewController.m */,
+				6CEAAC8319E942C600C29CA4 /* LoginViewController.h */,
+				6CEAAC8419E942C600C29CA4 /* LoginViewController.m */,
+				6CEAAC8519E942C600C29CA4 /* LoginViewController.xib */,
+				F72939AA19EAA21800EA68ED /* MailListViewController.h */,
+				F72939AB19EAA21800EA68ED /* MailListViewController.m */,
+				F72939B419EAC8A500EA68ED /* MailViewController.h */,
+				F72939B519EAC8A500EA68ED /* MailViewController.m */,
+				F72939B619EAC8A500EA68ED /* MailViewController.xib */,
 				E88A6E5D1507760600EED88D /* PopularTopicsViewController.h */,
 				E88A6E5E1507760600EED88D /* PopularTopicsViewController.m */,
 				E88A6E7D1507882100EED88D /* PostViewController.h */,
 				E88A6E7E1507882100EED88D /* PostViewController.m */,
+				6CEAAC8819EA82C600C29CA4 /* ProfileViewController.h */,
+				6CEAAC8919EA82C600C29CA4 /* ProfileViewController.m */,
+				6C4E5FB319F67F5600BB909F /* SettingsViewController.h */,
+				6C4E5FB419F67F5600BB909F /* SettingsViewController.m */,
 				E843C455150A790800A83C22 /* TopicViewController.h */,
 				E843C456150A790800A83C22 /* TopicViewController.m */,
+				F785A81619E983140001FB65 /* UserInfoViewController.h */,
+				F785A81719E983140001FB65 /* UserInfoViewController.m */,
+				F785A81819E983140001FB65 /* UserInfoViewController.xib */,
+				E83179441537BF9900A219E4 /* WebViewController.h */,
+				E83179451537BF9900A219E4 /* WebViewController.m */,
+				F785A81E19EA16C90001FB65 /* WritingMailViewController.h */,
+				F785A81F19EA16C90001FB65 /* WritingMailViewController.m */,
+				F785A82019EA16C90001FB65 /* WritingMailViewController.xib */,
 				F785A82D19EA2A240001FB65 /* WritingViewController.h */,
 				F785A82E19EA2A240001FB65 /* WritingViewController.m */,
 				F785A82F19EA2A240001FB65 /* WritingViewController.xib */,
 			);
-			name = PostController;
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 		E88A6E3C1507760500EED88D = {
@@ -258,17 +282,13 @@
 			isa = PBXGroup;
 			children = (
 				E8FE83A915247F5200CC112D /* BBSReaderModel */,
-				F72939AF19EAA2B800EA68ED /* BoardController */,
 				F7E6D7B719F558E600EB5AC2 /* Images.xcassets */,
-				F72939AE19EAA27F00EA68ED /* MailController */,
 				F785A80F19E97EC70001FB65 /* Model */,
-				E86D93B9152722DD0037F06D /* PostController */,
+				E86D93B9152722DD0037F06D /* ViewControllers */,
 				E8E5BD7015735062004BE6F9 /* Resources */,
-				F72939B019EAA2E000EA68ED /* SettingController */,
 				E88A6E521507760600EED88D /* Supporting Files */,
 				E88A6E5A1507760600EED88D /* UniBBSAppDelegate.h */,
 				E88A6E5B1507760600EED88D /* UniBBSAppDelegate.m */,
-				F72939AD19EAA22900EA68ED /* UserController */,
 				F7062E6819E6CE4100F61328 /* Utils */,
 			);
 			path = UniBBS;
@@ -345,58 +365,6 @@
 				F7062E6F19E6D19800F61328 /* XPathQuery.m */,
 			);
 			name = Hpple;
-			sourceTree = "<group>";
-		};
-		F72939AD19EAA22900EA68ED /* UserController */ = {
-			isa = PBXGroup;
-			children = (
-				6CEAAC8819EA82C600C29CA4 /* ProfileViewController.h */,
-				6CEAAC8919EA82C600C29CA4 /* ProfileViewController.m */,
-				6CEAAC8319E942C600C29CA4 /* LoginViewController.h */,
-				6CEAAC8419E942C600C29CA4 /* LoginViewController.m */,
-				6CEAAC8519E942C600C29CA4 /* LoginViewController.xib */,
-				F785A81619E983140001FB65 /* UserInfoViewController.h */,
-				F785A81719E983140001FB65 /* UserInfoViewController.m */,
-				F785A81819E983140001FB65 /* UserInfoViewController.xib */,
-			);
-			name = UserController;
-			sourceTree = "<group>";
-		};
-		F72939AE19EAA27F00EA68ED /* MailController */ = {
-			isa = PBXGroup;
-			children = (
-				F72939AA19EAA21800EA68ED /* MailListViewController.h */,
-				F72939AB19EAA21800EA68ED /* MailListViewController.m */,
-				F72939B419EAC8A500EA68ED /* MailViewController.h */,
-				F72939B519EAC8A500EA68ED /* MailViewController.m */,
-				F72939B619EAC8A500EA68ED /* MailViewController.xib */,
-				F785A81E19EA16C90001FB65 /* WritingMailViewController.h */,
-				F785A81F19EA16C90001FB65 /* WritingMailViewController.m */,
-				F785A82019EA16C90001FB65 /* WritingMailViewController.xib */,
-			);
-			name = MailController;
-			sourceTree = "<group>";
-		};
-		F72939AF19EAA2B800EA68ED /* BoardController */ = {
-			isa = PBXGroup;
-			children = (
-				E88A6E641507760600EED88D /* BoardListViewController.h */,
-				E88A6E651507760600EED88D /* BoardListViewController.m */,
-				E88A6E821507913E00EED88D /* BoardViewController.h */,
-				E88A6E831507913E00EED88D /* BoardViewController.m */,
-			);
-			name = BoardController;
-			sourceTree = "<group>";
-		};
-		F72939B019EAA2E000EA68ED /* SettingController */ = {
-			isa = PBXGroup;
-			children = (
-				E83179441537BF9900A219E4 /* WebViewController.h */,
-				E83179451537BF9900A219E4 /* WebViewController.m */,
-				6C4E5FB319F67F5600BB909F /* SettingsViewController.h */,
-				6C4E5FB419F67F5600BB909F /* SettingsViewController.m */,
-			);
-			name = SettingController;
 			sourceTree = "<group>";
 		};
 		F785A80F19E97EC70001FB65 /* Model */ = {
@@ -530,7 +498,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run \'pod install\' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		DA471D98EABAFA0F4362A42F /* [CP] Copy Pods Resources */ = {
