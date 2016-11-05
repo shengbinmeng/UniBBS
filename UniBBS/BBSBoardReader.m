@@ -274,6 +274,9 @@
             //range = [res rangeAtIndex:1]; //TODO: use author info address
             range = [res rangeAtIndex:2];
             NSString *author = [infoScope substringWithRange:range];
+            if (author.length == 0) {
+                continue;
+            }
             [post setValue:author forKey:@"author"];
             
             if(self.showSticky) range = [r rangeAtIndex:3];
