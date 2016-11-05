@@ -156,7 +156,7 @@
     } else {
         TopicViewController *topicViewController = [[[TopicViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
         topicViewController.title = @"同主题展开";
-        topicViewController.topicAddress = address;
+        topicViewController.topicURI = address;
         [self.navigationController pushViewController:topicViewController animated:YES];   
     }
 }

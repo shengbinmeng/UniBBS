@@ -26,7 +26,7 @@
 
 @implementation TopicViewController
 
-@synthesize topicAddress, topicPosts, topicReader;
+@synthesize topicURI, topicPosts, topicReader;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -41,7 +41,7 @@
 {
     self.topicPosts = nil;
     self.topicReader = nil;
-    self.topicAddress = nil;
+    self.topicURI = nil;
     [super dealloc];
 }
 
@@ -55,7 +55,7 @@
 
 - (void)reload:(__unused id)sender {
     
-    NSURLSessionTask *task = [self.topicReader getTopicPostsWithBlock:self.topicAddress blockFunction:^(NSMutableArray *topicPosts_t, NSError *error) {
+    NSURLSessionTask *task = [self.topicReader getTopicPostsWithBlock:self.topicURI blockFunction:^(NSMutableArray *topicPosts_t, NSError *error) {
         if (!error) {
             self.topicPosts = topicPosts_t;
             if ( self.topicPosts==nil || self.topicPosts.count == 0 ) {
@@ -67,7 +67,7 @@
                 [BDWMUserModel checkLogin:userName1 userPass:password blockFunction:^(NSString *name, NSError *error){
                     if ( !error && name!=nil ) {
                         //login success reload topicposts.
-                        [self.topicReader getTopicPostsWithBlock:self.topicAddress blockFunction:^(NSMutableArray *topicPosts_t, NSError *error){
+                        [self.topicReader getTopicPostsWithBlock:self.topicURI blockFunction:^(NSMutableArray *topicPosts_t, NSError *error){
                             if (!error){
                                 self.topicPosts = topicPosts_t;
                                 //login success but no topicposts. seems impossible.
@@ -113,7 +113,7 @@
 
 - (void) displayMore
 {
-    [self.topicReader getTopicPostsWithBlock:[self.topicReader getNextPageHref] blockFunction:^(NSMutableArray *topicPosts_t, NSError *error) {
+    [self.topicReader getNextPostsWithBlock:^(NSMutableArray *topicPosts_t, NSError *error) {
         if (!error) {
             [self.topicPosts addObjectsFromArray:topicPosts_t];
             [self.tableView reloadData];
@@ -142,7 +142,7 @@
             case 1:{
                 NSMutableDictionary *topicInfo = [[NSMutableDictionary alloc] init];
                 [topicInfo setValue:self.title forKey:@"title"];
-                [topicInfo setValue:self.topicAddress forKey:@"address"];
+                [topicInfo setValue:self.topicURI forKey:@"address"];
                 [BBSFavouritesManager saveFavouriteTopic:topicInfo];
                 break;
             }
@@ -244,7 +244,7 @@
 
     if (self.topicReader == nil) {
         // first time load, alloc the model
-        BBSTopicReader *reader = [[BBSTopicReader alloc] initWithAddress:self.topicAddress];
+        BBSTopicReader *reader = [[BBSTopicReader alloc] initWithAddress:self.topicURI];
         self.topicReader = reader;
         [reader release];
         [self reload:nil];

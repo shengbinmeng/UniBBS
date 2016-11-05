@@ -26,27 +26,39 @@
     return self.dataAddress;
 }
 
-- (id)initWithAddress:(NSString *)address 
+- (id)initWithURI:(NSString *)uri
 {
     self = [super init];
     if (self) {
-        self.dataAddress = address;
+        self.dataAddress = uri;
     }
     return self;
 }
 
-- (NSURLSessionDataTask *)getTopicPostsWithBlock:(NSString *)href blockFunction:(void (^)(NSMutableArray *topicPosts, NSError *error))block {
-    return [[AFAppDotNetAPIClient sharedClient] GET:href parameters:nil success:^(NSURLSessionDataTask * __unused task, id responseObject) {
+- (NSURLSessionDataTask *)getTopicPostsWithBlock:(void (^)(NSMutableArray *topicPosts, NSError *error))block {
+    return [[AFAppDotNetAPIClient sharedClient] GET:self.dataAddress parameters:nil success:^(NSURLSessionDataTask * __unused task, id responseObject) {
         NSMutableArray *results = [self readTopicPosts:responseObject];
         if (block) {
-            block( results, nil);
+            block(results, nil);
         }
     } failure:^(NSURLSessionDataTask *__unused task, NSError *error) {
         if (block) {
             block([NSMutableArray array], error);
         }
     }];
-    
+}
+
+- (NSURLSessionDataTask *)getNextPostsWithBlock:(void (^)(NSMutableArray *topicPosts, NSError *error))block {
+    return [[AFAppDotNetAPIClient sharedClient] GET:[self getNextPageHref] parameters:nil success:^(NSURLSessionDataTask * __unused task, id responseObject) {
+        NSMutableArray *results = [self readTopicPosts:responseObject];
+        if (block) {
+            block(results, nil);
+        }
+    } failure:^(NSURLSessionDataTask *__unused task, NSError *error) {
+        if (block) {
+            block([NSMutableArray array], error);
+        }
+    }];
 }
 
 - (NSMutableArray*) readTopicPosts:(NSData *)returnedData

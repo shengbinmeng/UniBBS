@@ -12,18 +12,15 @@
 
 @implementation BBSPopularReader
 
-@synthesize dataAddress;
-
-- (id)initWithAddress:(NSString *)address 
-{
-    self = [super init];
-    if (self) {
-        self.dataAddress = address;
++ (NSURLSessionDataTask *)getPopularTopicsOfType:(int)type WithBlock:(void (^)(NSMutableArray *topics, NSError *error))block {
+    // type 0
+    NSString *href = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=7";
+    if (type == 1) {
+        href = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=180";
     }
-    return self;
-}
-
-+ (NSURLSessionDataTask *)getPopularTopicsWithBlock:(NSString *)href blockFunction:(void (^)(NSMutableArray *topics, NSError *error))block {
+    if (type == 2) {
+        href = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=2520";
+    }
     return [[AFAppDotNetAPIClient sharedClient] GET:href parameters:nil success:^(NSURLSessionDataTask * __unused task, id responseObject) {
         NSMutableArray *results = [self readPopularTopics:responseObject];
         if (block) {
@@ -84,7 +81,6 @@
 
 - (void) dealloc 
 {
-
     [super dealloc];
 }
 @end

@@ -412,7 +412,7 @@
         NSDictionary *topic = [boardTopics objectAtIndex:[indexPath row]];
         TopicViewController *topicViewController = [[[TopicViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
         topicViewController.title = [topic valueForKey:@"title"];
-        topicViewController.topicAddress = [topic valueForKey:@"address"];
+        topicViewController.topicURI = [topic valueForKey:@"address"];
         [self.navigationController pushViewController:topicViewController animated:YES];    
     } else {
         NSDictionary *post = [boardPosts objectAtIndex:[indexPath row]];

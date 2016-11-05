@@ -275,7 +275,7 @@
         NSDictionary *topic = [favouriteTopics objectAtIndex:[indexPath row]];
         TopicViewController *topicViewController = [[[TopicViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
         topicViewController.title = [topic valueForKey:@"title"];
-        topicViewController.topicAddress = [topic valueForKey:@"address"];
+        topicViewController.topicURI = [topic valueForKey:@"address"];
         [self.navigationController pushViewController:topicViewController animated:YES];
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
     } else if ([indexPath section] == 2) {
