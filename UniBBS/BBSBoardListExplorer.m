@@ -49,7 +49,7 @@
 #ifdef DEBUG     
         NSLog(@"%@",pageSource);
 #endif
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"bbs(xboa|top).php.(group|board)=([^\"]*)\">([^<]*)</a>" options:0 error:NULL];
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"bbs(xboa|top|top2).php.(group|board)=([^\"]*)\">([^<]*)</a>" options:0 error:NULL];
         NSArray *matches = [regex matchesInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         NSUInteger c = [matches count];
         
@@ -76,7 +76,14 @@
                 [board setValue:[NSString stringWithFormat:@"http://www.bdwm.net/bbs/bbstop.php?board=%@", name] forKey:@"address"];
                 NSString *description = [pageSource substringWithRange:[m rangeAtIndex:4]];
                 [board setValue:description forKey:@"description"];
-            }            
+            } else if ([type isEqualToString:@"top2"]) {
+                [board setValue:@"NO" forKey:@"isGroup"];
+                NSString *name = [pageSource substringWithRange:[m rangeAtIndex:3]];
+                [board setValue:name forKey:@"name"];
+                [board setValue:[NSString stringWithFormat:@"http://www.bdwm.net/bbs/bbstop2.php?board=%@", name] forKey:@"address"];
+                NSString *description = [pageSource substringWithRange:[m rangeAtIndex:4]];
+                [board setValue:description forKey:@"description"];
+            }
             [boardList addObject:board];
             [board release];
         }
