@@ -121,7 +121,6 @@
     // Do any additional setup after loading the view from its nib.
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStyleBordered target:self action:@selector(sendButtonPressed)];
     self.navigationItem.rightBarButtonItem = button;
-    [button release];
     
     int screenWidth = [[UIScreen mainScreen] bounds].size.width;
     UIToolbar * topView = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, screenWidth, 36)];
@@ -135,8 +134,6 @@
     [topView setItems:buttonsArray];
     
     [self.contentTextView setInputAccessoryView:topView];
-    
-    [topView release];
     
     self.titleTextField.delegate = self;
     self.toTextField.delegate = self;
@@ -156,10 +153,4 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)dealloc {
-    [_toTextField release];
-    [_titleTextField release];
-    [_contentTextView release];
-    [super dealloc];
-}
 @end

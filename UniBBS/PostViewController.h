@@ -12,7 +12,7 @@
 @interface PostViewController : UITableViewController 
 <UIActionSheetDelegate>
 
-@property (nonatomic, retain) NSString *postAddress;
+@property (nonatomic, retain) NSString *postURI;
 @property (nonatomic, retain) NSDictionary *postAttributes;
 @property (nonatomic, retain) BBSPostReader *postReader;
 

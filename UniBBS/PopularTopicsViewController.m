@@ -20,8 +20,6 @@
 @implementation PopularTopicsViewController {
     int numLimit;
     int popType; // 0 for instance, 1 for day, 2 for week
-    
-    NSString *href;
 }
 
 @synthesize popularReader, popularTopics;
@@ -37,11 +35,6 @@
     }
     return self;
 }
-
-- (void) dealloc {
-    [super dealloc];
-}
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -69,17 +62,14 @@
     }
     switch (index) {
         case 0:
-            href = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=7";
             popType = 0;
             self.title = @"实时热点";
             break;
         case 1:
-            href = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=180";
             popType = 1;
             self.title = @"当天最热";
             break;
         case 2:
-            href = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=2520";
             popType = 2;
             self.title = @"一周热点";
             break;
@@ -110,24 +100,12 @@
 
 - (void)reload:(__unused id)sender {
     
-    NSURLSessionTask *task = [BBSPopularReader getPopularTopicsWithBlock:href blockFunction:^(NSMutableArray *topics, NSError *error) {
+    NSURLSessionTask *task = [BBSPopularReader getPopularTopicsOfType: popType WithBlock:^(NSMutableArray *topics, NSError *error) {
         if (!error) {
             self.popularTopics = topics;
             [self.tableView reloadData];
-        }else{
-            //try again.
-#ifdef DEBUG
-            NSLog(@"try fetch data again.");
-#endif
-            //todo:continue show refreshing. I can't control refreshing animation.
-            [BBSPopularReader getPopularTopicsWithBlock:href blockFunction:^(NSMutableArray *topics, NSError *error) {
-                if (!error) {
-                    self.popularTopics = topics;
-                    [self.tableView reloadData];
-                }else{
-                    [BDWMAlertMessage alertAndAutoDismissMessage:@"未取到数据！可能是网络或其他原因导致。"];
-                }
-            }];
+        } else {
+            [BDWMAlertMessage alertAndAutoDismissMessage:@"未取到数据！可能是网络或其他原因导致。"];
         }
     }];
 
@@ -142,7 +120,6 @@
     // Do any additional setup after loading the view, typically from a nib.
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(buttonPressed)];
     self.navigationItem.rightBarButtonItem = button;
-    [button release];
     
 //    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 //    [button1 setTitle:@"更多" forState:UIControlStateNormal];
@@ -154,13 +131,7 @@
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
     [self.tableView.tableHeaderView addSubview:self.refreshControl];
     
-    
-    if (self.popularTopics == nil) {
-        href = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=180";
-    }
-    
     [self reload:nil];
-    
 }
 
 - (void)viewDidUnload
@@ -240,8 +211,6 @@
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:alertTitle message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
         [alert show];
-        [alert release];
-        [popularTopics release];
         popularTopics = nil;
         return 0;
     }
@@ -255,7 +224,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     NSDictionary *topic = [popularTopics objectAtIndex:[indexPath row]];
@@ -276,9 +245,8 @@
     NSDictionary *topic = [popularTopics objectAtIndex:[indexPath row]];
     TopicViewController *topicViewController = [[TopicViewController alloc] initWithStyle:UITableViewStylePlain];
     topicViewController.title = [topic valueForKey:@"title"];
-    topicViewController.topicAddress = [topic valueForKey:@"address"];
+    topicViewController.topicURI = [topic valueForKey:@"address"];
     [self.navigationController pushViewController:topicViewController animated:YES];
-    [topicViewController release];
 } 
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath

@@ -17,7 +17,7 @@
 #import "BDWMAlertMessage.h"
 @implementation PostViewController
 
-@synthesize postAddress, postAttributes, postReader;
+@synthesize postURI, postAttributes, postReader;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -26,14 +26,6 @@
         // Custom initialization
     }
     return self;
-}
-
-- (void) dealloc
-{
-    self.postAddress = nil;
-    self.postAttributes = nil;
-    self.postReader = nil;
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -55,7 +47,6 @@
     }
     
     [sheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
-    [sheet release];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -69,7 +60,7 @@
             //check if logined
             if ([BDWMUserModel isLogined]) {
                 // reply
-                WritingViewController *reply = [[[WritingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
+                WritingViewController *reply = [[WritingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil];
 
                 reply.href = [self.postAttributes objectForKey:@"replyAddress"];
                 reply.fromWhere = @"reply";
@@ -84,7 +75,7 @@
         case 1:{
             if ([BDWMUserModel isLogined]) {
                 // reply mail
-                WritingMailViewController *mail = [[[WritingMailViewController alloc] initWithNibName:@"WritingMailViewController" bundle:nil] autorelease];
+                WritingMailViewController *mail = [[WritingMailViewController alloc] initWithNibName:@"WritingMailViewController" bundle:nil] ;
                 mail.href = [self.postAttributes objectForKey:@"replyMailAddress"];
                 [self.navigationController pushViewController:mail animated:YES];
             }else{
@@ -101,7 +92,7 @@
         }
         case 3:{
             //view attachments
-            AttachmentsViewController *attachViewController = [[[AttachmentsViewController alloc] init] autorelease];
+            AttachmentsViewController *attachViewController = [[AttachmentsViewController alloc] init];
             NSArray *attachments = [self.postAttributes valueForKey:@"attachments"];
             attachViewController.title = @"附件列表";
             attachViewController.attachments = attachments;
@@ -116,14 +107,12 @@
 
 - (void) displayPreviousPost
 {
-    NSString *address = [self.postAttributes valueForKey:@"prevPostAddress"];
-    if (address == nil) {
+    NSDictionary *previousPost = [self.postReader getPreviousPost];
+    if (previousPost == nil) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"已没有上一篇" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
-        [alert release];
     } else {
-        self.postReader.dataAddress = address;
-        self.postAttributes = [self.postReader getPostAttributes];
+        self.postAttributes = previousPost;
         self.title = [self.postAttributes valueForKey:@"title"];
         [self.tableView reloadData];
         [self.tableView scrollsToTop];
@@ -132,14 +121,12 @@
 
 - (void) displayNextPost
 {
-    NSString *address = [self.postAttributes valueForKey:@"nextPostAddress"];
-    if (address == nil) {
+    NSDictionary *nextPost = [self.postReader getNextPost];
+    if (nextPost == nil) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"已没有下一篇" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
-        [alert release];
     } else {
-        self.postReader.dataAddress = address;
-        self.postAttributes = [self.postReader getPostAttributes];
+        self.postAttributes = nextPost;
         self.title = [self.postAttributes valueForKey:@"title"];
         [self.tableView reloadData];
         [self.tableView scrollsToTop];
@@ -148,15 +135,14 @@
 
 - (void) expandSameTopic
 {
-    NSString *address = [self.postAttributes valueForKey:@"sameTopicAddress"];
-    if (address == nil) {
+    NSString *uri = [self.postReader getSameTopicUri];
+    if (uri == nil) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"展开失败，奇怪" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
-        [alert release];
     } else {
-        TopicViewController *topicViewController = [[[TopicViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+        TopicViewController *topicViewController = [[TopicViewController alloc] initWithStyle:UITableViewStylePlain];
         topicViewController.title = @"同主题展开";
-        topicViewController.topicAddress = address;
+        topicViewController.topicURI = uri;
         [self.navigationController pushViewController:topicViewController animated:YES];   
     }
 }
@@ -169,21 +155,20 @@
     
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(showOptions)];
     self.navigationItem.rightBarButtonItem = button;
-    [button release];
     
-    UIBarButtonItem *prev = [[[UIBarButtonItem alloc] initWithTitle:@"上一篇"
+    UIBarButtonItem *prev = [[UIBarButtonItem alloc] initWithTitle:@"上一篇"
                                   style:UIBarButtonItemStyleBordered   
                                   target:self
-                                  action:@selector(displayPreviousPost)] autorelease];
-    UIBarButtonItem *expan = [[[UIBarButtonItem alloc] initWithTitle:@"同主题展开"
+                                  action:@selector(displayPreviousPost)];
+    UIBarButtonItem *expan = [[UIBarButtonItem alloc] initWithTitle:@"同主题展开"
                                                                   style:UIBarButtonItemStyleBordered
                                                                  target:self
-                                                                 action:@selector(expandSameTopic)] autorelease];
-    UIBarButtonItem *next = [[[UIBarButtonItem alloc] initWithTitle:@"下一篇"
+                                                                 action:@selector(expandSameTopic)];
+    UIBarButtonItem *next = [[UIBarButtonItem alloc] initWithTitle:@"下一篇"
                                     style:UIBarButtonItemStyleBordered
                                     target:self
-                                    action:@selector(displayNextPost)] autorelease];
-    UIBarButtonItem *space = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
+                                    action:@selector(displayNextPost)];
+    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     NSArray *toolbarItems = [NSArray arrayWithObjects: 
                              prev,
                              space,
@@ -196,9 +181,8 @@
     
     if (self.postReader == nil) {
         // first time load, alloc the model
-        BBSPostReader *reader = [[BBSPostReader alloc] initWithAddress:self.postAddress];
+        BBSPostReader *reader = [[BBSPostReader alloc] initWithURI:self.postURI];
         self.postReader = reader;
-        [reader release];
         self.postAttributes = [self.postReader getPostAttributes];
     }
 }
@@ -263,7 +247,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     // Configure the cell...
     NSString *content = [self.postAttributes valueForKey:@"content"];

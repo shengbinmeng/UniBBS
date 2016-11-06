@@ -27,13 +27,8 @@
 
 - (NSMutableArray*) getBoardList 
 {
-    if (boardList) {
-        [boardList release];
-    }
-    
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     boardList = [[NSMutableArray alloc] init];
-    NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease]; 
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:self.dataAddress]]; 
     [[NSURLCache sharedURLCache] setMemoryCapacity:1024*1024*2];
     [request setCachePolicy:NSURLRequestReturnCacheDataElseLoad];
@@ -43,7 +38,6 @@
     if (returnedData) {
         NSString *pageSource = [Utility convertDataToString:returnedData];
         if (pageSource == nil) {
-            [pool drain];
             return boardList;
         }
 #ifdef DEBUG     
@@ -85,11 +79,9 @@
                 [board setValue:description forKey:@"description"];
             }
             [boardList addObject:board];
-            [board release];
         }
     }
     
-    [pool drain];
     return boardList;
 }
 
@@ -97,12 +89,6 @@
 {
     self.dataAddress = @"http://www.bdwm.net/bbs/bbsall.php";
     return [self getBoardList];
-}
-
-- (void) dealloc 
-{
-    [boardList release];
-    [super dealloc];
 }
 
 @end

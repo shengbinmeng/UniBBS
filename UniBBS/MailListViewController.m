@@ -100,7 +100,6 @@
     
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"写信" style:UIBarButtonItemStyleBordered target:self action:@selector(segueToComposeMail)];
     self.navigationItem.rightBarButtonItem = button;
-    [button release];
     
     self.refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
@@ -111,7 +110,7 @@
 
 - (void)segueToComposeMail
 {
-    WritingMailViewController *composeMailViewController = [[[WritingMailViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    WritingMailViewController *composeMailViewController = [[WritingMailViewController alloc] initWithNibName:nil bundle:nil];
     
     [self.navigationController pushViewController:composeMailViewController animated:YES];
 }
@@ -140,7 +139,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     // Configure the cell...
     NSDictionary *mail = [self.mails objectAtIndex:indexPath.row];
@@ -161,7 +160,6 @@
     mailViewController.href = [mail objectForKey:@"href"];
     NSLog(@"mail reply href:%@",mailViewController.href);
     [self.navigationController pushViewController:mailViewController animated:YES];
-    [mailViewController release];
 }
 
 @end

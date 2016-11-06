@@ -37,12 +37,6 @@
     return self;
 }
 
-- (void) dealloc
-{
-    [favourites release];
-    [super dealloc];
-}
-
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -139,7 +133,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:([indexPath section] == 2 ? PostCellIdentifier : CellIdentifier)];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:([indexPath section] == 2 ? PostCellIdentifier : CellIdentifier)] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:([indexPath section] == 2 ? PostCellIdentifier : CellIdentifier)];
     }
     
     // Configure the cell...
@@ -245,7 +239,7 @@
     NSInteger index = buttonIndex - actionSheet.firstOtherButtonIndex;
     switch (index) {
         case 0:{
-            AttachmentsViewController *attachViewController = [[[AttachmentsViewController alloc] init] autorelease];
+            AttachmentsViewController *attachViewController = [[AttachmentsViewController alloc] init];
             NSDictionary * post = [favouritePosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
             [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
             NSArray *attachments = [post valueForKey:@"attachments"];
@@ -265,7 +259,7 @@
 {
     if ([indexPath section] == 0) {
         NSDictionary *board = [favouriteBoards objectAtIndex:indexPath.row];
-        BoardViewController *boardViewController = [[[BoardViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+        BoardViewController *boardViewController = [[BoardViewController alloc] initWithStyle:UITableViewStylePlain];
         boardViewController.title = [board objectForKey:@"boardTitle"];
         boardViewController.boardName = [board objectForKey:@"boardName"];
         [self.navigationController pushViewController:boardViewController animated:YES];
@@ -273,9 +267,9 @@
 
     }else if ([indexPath section] == 1) {
         NSDictionary *topic = [favouriteTopics objectAtIndex:[indexPath row]];
-        TopicViewController *topicViewController = [[[TopicViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+        TopicViewController *topicViewController = [[TopicViewController alloc] initWithStyle:UITableViewStylePlain];
         topicViewController.title = [topic valueForKey:@"title"];
-        topicViewController.topicAddress = [topic valueForKey:@"address"];
+        topicViewController.topicURI = [topic valueForKey:@"address"];
         [self.navigationController pushViewController:topicViewController animated:YES];
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
     } else if ([indexPath section] == 2) {
@@ -283,7 +277,6 @@
         if ([post valueForKey:@"attachments"] != nil) {
             UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"查看附件", nil];
             [sheet showInView:self.view];
-            [sheet release];
         } else {
             [tableView deselectRowAtIndexPath:indexPath animated:NO];
         }
