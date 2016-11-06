@@ -163,7 +163,7 @@
                 NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
                 NSString *userName1 = [userDefaultes stringForKey:@"saved_username"];
                 NSString *password = [userDefaultes stringForKey:@"saved_password"];
-                
+                /*
                 [BDWMUserModel checkLogin:userName1 userPass:password blockFunction:^(NSString *name, NSError *error){
                     if ( !error && name!=nil ) {
                         //login success reload mail.
@@ -188,7 +188,7 @@
                         [BDWMAlertMessage alertMessage:@"获取不到数据."];
                         [self.navigationController popViewControllerAnimated:YES];
                     }
-                }];
+                }];*/
             }else{
                 //find topics.
                 [self.tableView reloadData];
@@ -208,7 +208,7 @@
                     NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
                     NSString *userName1 = [userDefaultes stringForKey:@"saved_username"];
                     NSString *password = [userDefaultes stringForKey:@"saved_password"];
-                    
+                    /*
                     [BDWMUserModel checkLogin:userName1 userPass:password blockFunction:^(NSString *name, NSError *error){
                         if ( !error && name!=nil ) {
                             //login success reload mail.
@@ -233,7 +233,7 @@
                             [BDWMAlertMessage alertMessage:@"获取不到数据."];
                             [self.navigationController popViewControllerAnimated:YES];
                         }
-                    }];
+                    }];*/
                 }else{
                     //find posts.
                     [self.tableView reloadData];

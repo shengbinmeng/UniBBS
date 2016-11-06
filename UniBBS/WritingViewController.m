@@ -213,7 +213,7 @@
                     NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
                     NSString *userName = [userDefaultes stringForKey:@"saved_username"];
                     NSString *password = [userDefaultes stringForKey:@"saved_password"];
-                    
+                    /*
                     [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
                         if ( !error && name!=nil ) {//relogin success.
                             
@@ -244,7 +244,7 @@
                             [BDWMAlertMessage alertMessage:@"获取不到数据！"];
                             [self.navigationController popViewControllerAnimated:YES];
                         }
-                    }];
+                    }];*/
                 }
             } else {
                 [BDWMAlertMessage stopSpinner];
@@ -262,7 +262,7 @@
             NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
             NSString *userName = [userDefaultes stringForKey:@"saved_username"];
             NSString *password = [userDefaultes stringForKey:@"saved_password"];
-            
+            /*
             [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
                 if ( !error && name!=nil ) {
                     //refetch data.
@@ -282,7 +282,7 @@
                     [BDWMAlertMessage alertMessage:@"网络错误？"];
                     [self.navigationController popViewControllerAnimated:YES];
                 }
-            }];
+            }];*/
         } else {
             //get compose needed data success.
             [BDWMAlertMessage stopSpinner];

@@ -158,7 +158,7 @@
             return;
         }
         [BDWMAlertMessage startSpinner:@"正在登录..."];
-        
+        /*
         [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
             if ( !error && name!=nil ) {
                 // I find it annoying when I want to read the content but alert comes up
@@ -169,6 +169,7 @@
                 [BDWMAlertMessage alertMessage:@"登录失败!"];
             }
         }];
+         */
         
     }
 }

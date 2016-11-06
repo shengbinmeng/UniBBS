@@ -39,7 +39,7 @@
         requestSerializer = [AFHTTPRequestSerializer serializer];
         responseSerializer = [AFHTTPResponseSerializer serializer];
         [requestSerializer setValue:DEFAULT_USET_AGENT forHTTPHeaderField:@"User-Agent"];
-        [responseSerializer setAcceptableContentTypes:[NSSet setWithObjects:@"text/html", nil]];
+        [responseSerializer setAcceptableContentTypes:[NSSet setWithObjects:@"text/html", @"application/json", nil]];
         NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding (kCFStringEncodingGB_18030_2000);
         requestSerializer.stringEncoding = enc;
         requestSerializer.timeoutInterval = DEFAULT_TIMEOUT_SECONDS;

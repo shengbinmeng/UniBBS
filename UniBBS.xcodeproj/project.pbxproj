@@ -67,7 +67,6 @@
 		F791CDB019FCF0F600531CF0 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F791CDAF19FCF0F600531CF0 /* MessageUI.framework */; };
 		F7E6D7B119F3B7B300EB5AC2 /* SettingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E6D7B019F3B7B300EB5AC2 /* SettingModel.m */; };
 		F7E6D7B819F558E600EB5AC2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7E6D7B719F558E600EB5AC2 /* Images.xcassets */; };
-		F7FC59551DCED16400011993 /* BDWMNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = F7FC59541DCED16400011993 /* BDWMNetwork.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -174,8 +173,6 @@
 		F7E6D7AF19F3B7B300EB5AC2 /* SettingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingModel.h; sourceTree = "<group>"; };
 		F7E6D7B019F3B7B300EB5AC2 /* SettingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingModel.m; sourceTree = "<group>"; };
 		F7E6D7B719F558E600EB5AC2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		F7FC59541DCED16400011993 /* BDWMNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDWMNetwork.m; sourceTree = "<group>"; };
-		F7FC59561DCED17E00011993 /* BDWMNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BDWMNetwork.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -389,8 +386,6 @@
 				F7E6D7B019F3B7B300EB5AC2 /* SettingModel.m */,
 				F76BDB0C1A615A9A00114063 /* DatabaseWrapper.h */,
 				F76BDB0D1A615A9A00114063 /* DatabaseWrapper.m */,
-				F7FC59541DCED16400011993 /* BDWMNetwork.m */,
-				F7FC59561DCED17E00011993 /* BDWMNetwork.h */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -558,7 +553,6 @@
 				6C4E5FB519F67F5600BB909F /* SettingsViewController.m in Sources */,
 				F72939AC19EAA21800EA68ED /* MailListViewController.m in Sources */,
 				6CEAAC8A19EA82C600C29CA4 /* ProfileViewController.m in Sources */,
-				F7FC59551DCED16400011993 /* BDWMNetwork.m in Sources */,
 				E86D93BC15273C720037F06D /* BBSFavouritesManager.m in Sources */,
 				E83179461537BF9900A219E4 /* WebViewController.m in Sources */,
 				E831794A1537EFF000A219E4 /* AttachmentsViewController.m in Sources */,
