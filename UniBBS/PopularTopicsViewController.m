@@ -149,6 +149,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    /*
     if ([BDWMUserModel getEnterAppAndAutoLogin]==YES && [BDWMUserModel isLogined]==NO) {
         NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
         NSString *userName = [userDefaultes stringForKey:@"saved_username"];
@@ -158,7 +159,7 @@
             return;
         }
         [BDWMAlertMessage startSpinner:@"正在登录..."];
-        /*
+        
         [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
             if ( !error && name!=nil ) {
                 // I find it annoying when I want to read the content but alert comes up
@@ -169,9 +170,10 @@
                 [BDWMAlertMessage alertMessage:@"登录失败!"];
             }
         }];
-         */
+        
         
     }
+     */
 }
 
 - (void)viewWillDisappear:(BOOL)animated

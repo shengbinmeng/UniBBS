@@ -48,9 +48,9 @@
     
     [BDWMUserModel checkLogin:userName userPass:userPass blockFunction:^(NSDictionary *responseDict, NSError *error){
         if (error == nil) {
-            int code = [responseDict valueForKey:@"code"];
+            int code = [[responseDict objectForKey:@"code"] intValue];
             if (code == 0) {
-                [BDWMUserModel saveUsernameAndPassword:userName userPassword:userPass];
+            //    [BDWMUserModel saveUsernameAndPassword:userName userPassword:userPass];
                 UserInfoViewController *userInfoViewController = [[UserInfoViewController alloc] initWithNibName:@"UserInfoViewController" bundle:nil];
                 userInfoViewController.userName = userName;
                 
