@@ -30,15 +30,10 @@
 }
 
 - (NSDictionary*) getPostAttributes 
-{        
-    if (postAttributes) {
-        [postAttributes release];
-    } 
-    
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+{
     postAttributes = [[NSMutableDictionary alloc] init];
 
-    NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease]; 
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:self.dataAddress]];  
     [request setHTTPMethod:@"GET"];
     [request setTimeoutInterval:DEFAULT_TIMEOUT_SECONDS];
@@ -47,7 +42,6 @@
     if (returnedData) {
         NSString *pageSource = [Utility convertDataToString:returnedData];        
         if (pageSource == nil) {
-            [pool drain];
             return postAttributes;
         }
 
@@ -62,7 +56,7 @@
             return postAttributes;
         }
         
-        NSMutableString *postContent = [[[NSMutableString alloc] init] autorelease];
+        NSMutableString *postContent = [[NSMutableString alloc] init];
         [postContent appendString:[pageSource substringWithRange:NSMakeRange(rbeg.location + 5, rend.location - rbeg.location - 5)]];
         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<[^>]+>" options:0 error:NULL];
         [regex replaceMatchesInString:postContent options:0 range:NSMakeRange(0, [postContent length]) withTemplate:@""];
@@ -76,9 +70,9 @@
         regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"(http://attach..bdwm.net/[^\"]*)\"[^>]*>([^<]*)</a>" options:0 error:NULL];
         NSArray *result = [regex matchesInString:postContent options:0 range:NSMakeRange(0, postContent.length)];
         if ([result count] != 0) {
-            NSMutableArray * attachments = [[[NSMutableArray alloc] init] autorelease];
+            NSMutableArray * attachments = [[NSMutableArray alloc] init];
             for (int i = 0; i < [result count]; ++i) {
-                NSMutableDictionary * attach = [[[NSMutableDictionary alloc] init] autorelease];
+                NSMutableDictionary * attach = [[NSMutableDictionary alloc] init];
                 NSTextCheckingResult *r = [result objectAtIndex:i];
                 NSString *url = [pageSource substringWithRange:[r rangeAtIndex:1]];
                 NSString *name = [pageSource substringWithRange:[r rangeAtIndex:2]];
@@ -132,15 +126,9 @@
         
     }
         
-    [pool drain];
     return postAttributes;
 }
 
-- (void) dealloc
-{
-    [postAttributes release];
-    [super dealloc];
-}
 
 - (NSDictionary*) getPreviousPost
 {

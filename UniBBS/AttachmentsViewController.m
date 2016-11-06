@@ -26,12 +26,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [attachments release];
-    [super dealloc];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -71,7 +65,7 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     // Configure the cell...
     NSDictionary *attach = [attachments objectAtIndex:indexPath.row];
@@ -90,7 +84,6 @@
     webViewController.title = [attach valueForKey:@"name"];
     webViewController.webAddress = [attach valueForKey:@"url"];
     [self.navigationController pushViewController:webViewController animated:YES];
-    [webViewController release];
 }
 
 @end

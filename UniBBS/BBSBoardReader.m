@@ -106,9 +106,6 @@
 - (NSMutableArray*) readBoardTopics:(NSData *)returnedData
 {
     readingTopics = YES;
-    if (boardTopics) {
-        [boardTopics release];
-    }
     
     boardTopics = [[NSMutableArray alloc] init];
 
@@ -173,28 +170,22 @@
             }
             
             [boardTopics addObject:topic];
-            [topic release];
         }
         
         regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"(bbstop.php[^\"]*)\">上页</a>" options:0 error:nil];
         NSTextCheckingResult *r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         NSRange range = [r rangeAtIndex:1];
-        if (previousPage) {
-            [previousPage release];
-        }
+
         if (r && range.length) {
-            previousPage = [[pageSource substringWithRange:range] retain];
+            previousPage = [pageSource substringWithRange:range];
         } else {
             previousPage = nil;
         }
         regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"(bbstop.php[^\"]*)\">下页</a>" options:0 error:nil];
         r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         range = [r rangeAtIndex:1];
-        if (nextPage) {
-            [nextPage release];
-        }
         if (r && range.length) {
-            nextPage = [[pageSource substringWithRange:range] retain];
+            nextPage = [pageSource substringWithRange:range];
         } else {
             nextPage = nil;
         }
@@ -202,16 +193,11 @@
         regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"(bbstop.php[^\"]*)\">最新</a>" options:0 error:NULL];
         r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         range = [r rangeAtIndex:1];
-        if (latestPage) {
-            [latestPage release];
-        }
         if (r && range.length) {
-            latestPage = [[pageSource substringWithRange:range] retain];
+            latestPage = [pageSource substringWithRange:range];
         } else {
             latestPage = nil;
-        }
-        
-        [pageSource release];
+        }        
     }
 
     if (self.showSticky) {
@@ -237,9 +223,6 @@
 - (NSMutableArray*) readBoardPosts:(NSData *)returnedData
 {
     readingTopics = NO;
-    if (boardPosts) {
-        [boardPosts release];
-    }
     
     boardPosts = [[NSMutableArray alloc] init];
     
@@ -291,28 +274,22 @@
             }
             
             [boardPosts addObject:post];
-            [post release];
         }
         
         regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"(bbsdoc.php[^\"]*)\">上页</a>" options:0 error:nil];
         NSTextCheckingResult *r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         NSRange range = [r rangeAtIndex:1];
-        if (previousPage) {
-            [previousPage release];
-        }
         if (r && range.length) {
-            previousPage = [[pageSource substringWithRange:range] retain];
+            previousPage = [pageSource substringWithRange:range];
         } else {
             previousPage = nil;
         }
         regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"(bbsdoc.php[^\"]*)\">下页</a>" options:0 error:nil];
         r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         range = [r rangeAtIndex:1];
-        if (nextPage) {
-            [nextPage release];
-        }
+
         if (r && range.length) {
-            nextPage = [[pageSource substringWithRange:range] retain];
+            nextPage = [pageSource substringWithRange:range];
         } else {
             nextPage = nil;
         }
@@ -320,16 +297,11 @@
         regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"(bbsdoc.php[^\"]*)\">最新</a>" options:0 error:NULL];
         r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         range = [r rangeAtIndex:1];
-        if (latestPage) {
-            [latestPage release];
-        }
         if (r && range.length) {
-            latestPage = [[pageSource substringWithRange:range] retain];
+            latestPage = [pageSource substringWithRange:range];
         } else {
             latestPage = nil;
         }
-        
-        [pageSource release];
     }
     //sort array. sticky topic should be front, normal topic should be sort by post time(reverse normal topics here).
     if (self.showSticky) {
@@ -350,17 +322,6 @@
     }
     
     return boardPosts;
-}
-
-- (void) dealloc 
-{
-    [boardPosts release];
-    [boardPosts release];
-    [firstPage release];
-    [lastPage release];
-    [previousPage release];
-    [nextPage release];
-    [super dealloc];
 }
 
 @end

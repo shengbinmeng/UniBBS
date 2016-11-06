@@ -55,7 +55,6 @@ UIAlertView *connectingAlert;
     if(alert)
     {
         [alert dismissWithClickedButtonIndex:[alert cancelButtonIndex] animated:YES];
-        [alert release];
     }
 }
 

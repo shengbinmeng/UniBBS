@@ -14,6 +14,6 @@
 
 - (id)initWithURI:(NSString *)uri;
 - (NSURLSessionDataTask *)getTopicPostsWithBlock:(void (^)(NSMutableArray *topicPosts, NSError *error))block;
-- (NSURLSessionDataTask *)getMorePostsWithBlock:(void (^)(NSMutableArray *topicPosts, NSError *error))block;
+- (NSURLSessionDataTask *)getNextPostsWithBlock:(void (^)(NSMutableArray *topicPosts, NSError *error))block;
 
 @end

@@ -37,14 +37,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    self.topicPosts = nil;
-    self.topicReader = nil;
-    self.topicURI = nil;
-    [super dealloc];
-}
-
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -55,7 +47,7 @@
 
 - (void)reload:(__unused id)sender {
     
-    NSURLSessionTask *task = [self.topicReader getTopicPostsWithBlock:self.topicURI blockFunction:^(NSMutableArray *topicPosts_t, NSError *error) {
+    NSURLSessionTask *task = [self.topicReader getTopicPostsWithBlock:^(NSMutableArray *topicPosts_t, NSError *error) {
         if (!error) {
             self.topicPosts = topicPosts_t;
             if ( self.topicPosts==nil || self.topicPosts.count == 0 ) {
@@ -67,7 +59,7 @@
                 [BDWMUserModel checkLogin:userName1 userPass:password blockFunction:^(NSString *name, NSError *error){
                     if ( !error && name!=nil ) {
                         //login success reload topicposts.
-                        [self.topicReader getTopicPostsWithBlock:self.topicURI blockFunction:^(NSMutableArray *topicPosts_t, NSError *error){
+                        [self.topicReader getTopicPostsWithBlock:^(NSMutableArray *topicPosts_t, NSError *error){
                             if (!error){
                                 self.topicPosts = topicPosts_t;
                                 //login success but no topicposts. seems impossible.
@@ -156,7 +148,7 @@
                 //check if logined
                 if ([BDWMUserModel isLogined]) {
                     // reply
-                    WritingViewController *reply = [[[WritingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
+                    WritingViewController *reply = [[WritingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil];
                     NSDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
                     reply.href = [post objectForKey:@"replyAddress"];
                     reply.fromWhere = @"reply";
@@ -172,7 +164,7 @@
             case 1:{
                  if ([BDWMUserModel isLogined]) {
                      // reply mail
-                     WritingMailViewController *mail = [[[WritingMailViewController alloc] initWithNibName:@"WritingMailViewController" bundle:nil] autorelease];
+                     WritingMailViewController *mail = [[WritingMailViewController alloc] initWithNibName:@"WritingMailViewController" bundle:nil];
                      NSDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
                      mail.href = [post objectForKey:@"replyMailAddress"];
                      [self.navigationController pushViewController:mail animated:YES];
@@ -193,7 +185,7 @@
             }
             case 3:{
                 // attachments
-                AttachmentsViewController *attachViewController = [[[AttachmentsViewController alloc] init] autorelease];
+                AttachmentsViewController *attachViewController = [[AttachmentsViewController alloc] init];
                 NSDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
                 [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
                 NSArray *attachments = [post valueForKey:@"attachments"];
@@ -216,7 +208,6 @@
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"滚动到底部", @"收藏此话题", nil];
     [sheet setTag:ACTION_FROM_BAR_BUTTON];
     [sheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
-    [sheet release];
 }
 
 #pragma mark - View lifecycle
@@ -224,7 +215,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIBarButtonItem *barButton = [[[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(barButtonPressed)] autorelease];
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(barButtonPressed)];
     self.navigationItem.rightBarButtonItem = barButton;
 
     self.refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
@@ -234,7 +225,6 @@
     UIRefreshControl *bottomRefreshControl = [UIRefreshControl new];
     [bottomRefreshControl addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventValueChanged];
     self.tableView.bottomRefreshControl = bottomRefreshControl;
-    [bottomRefreshControl release];
     
     UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button1 setTitle:@"上拉载入更多" forState:UIControlStateNormal];
@@ -244,9 +234,8 @@
 
     if (self.topicReader == nil) {
         // first time load, alloc the model
-        BBSTopicReader *reader = [[BBSTopicReader alloc] initWithAddress:self.topicURI];
+        BBSTopicReader *reader = [[BBSTopicReader alloc] initWithURI:self.topicURI];
         self.topicReader = reader;
-        [reader release];
         [self reload:nil];
     }
 
@@ -303,7 +292,6 @@
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
         [alert show];
-        [alert release];
     }
     return [self.topicPosts count];
 }
@@ -313,7 +301,7 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
     //CGFloat contentWidth = self.tableView.frame.size.width;
@@ -341,7 +329,6 @@
         sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"回信给作者", @"收藏此帖", nil];
     }
     [sheet showInView:self.view];
-    [sheet release];
 }
 
 - (CGFloat)tableView:(UITableView *) tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

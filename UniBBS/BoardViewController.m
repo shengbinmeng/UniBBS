@@ -108,7 +108,7 @@
         case 0:{
             if ([BDWMUserModel isLogined]) {
                 // new post
-                WritingViewController *newPost = [[[WritingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
+                WritingViewController *newPost = [[WritingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil];
                 newPost.fromWhere = @"compose";
                 newPost.href  = [BDWMString linkString:@"bbspst.php?board=" string:self.boardName];
                 NSLog(@"compose href:%@",newPost.href);
@@ -148,7 +148,6 @@
     
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发表新帖", option1, @"收藏本版", nil];
     [sheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
-    [sheet release];
 }
 
 - (void)reload:(__unused id)sender {
@@ -262,7 +261,6 @@
  
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(barButtonPressed)];
     self.navigationItem.rightBarButtonItem = barButton;
-    [barButton release];
 
     self.refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
@@ -276,7 +274,6 @@
         BBSBoardReader *reader = [[BBSBoardReader alloc] initWithBoardName:self.boardName];
         self.boardReader = reader;
         self.boardReader.showSticky = YES;
-        [reader release];
     }
     
     [self reload:nil];
@@ -341,7 +338,6 @@
             UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
             [alert show];
-            [alert release];
         }
         return [self.boardTopics count];
     } else {
@@ -349,7 +345,6 @@
             UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
             [alert show];
-            [alert release];
         }
         return [self.boardPosts count];
     }
@@ -361,7 +356,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     // Configure the cell...
@@ -410,13 +405,13 @@
     
     if (topicMode) {
         NSDictionary *topic = [boardTopics objectAtIndex:[indexPath row]];
-        TopicViewController *topicViewController = [[[TopicViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+        TopicViewController *topicViewController = [[TopicViewController alloc] initWithStyle:UITableViewStylePlain];
         topicViewController.title = [topic valueForKey:@"title"];
         topicViewController.topicURI = [topic valueForKey:@"address"];
         [self.navigationController pushViewController:topicViewController animated:YES];    
     } else {
         NSDictionary *post = [boardPosts objectAtIndex:[indexPath row]];
-        PostViewController *postViewController = [[[PostViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+        PostViewController *postViewController = [[PostViewController alloc] initWithStyle:UITableViewStylePlain];
         postViewController.title = [post valueForKey:@"title"];
         postViewController.postURI = [post valueForKey:@"address"];
         [self.navigationController pushViewController:postViewController animated:YES];

@@ -36,11 +36,6 @@
     return self;
 }
 
-- (void) dealloc {
-    [super dealloc];
-}
-
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -125,7 +120,6 @@
     // Do any additional setup after loading the view, typically from a nib.
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(buttonPressed)];
     self.navigationItem.rightBarButtonItem = button;
-    [button release];
     
 //    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 //    [button1 setTitle:@"更多" forState:UIControlStateNormal];
@@ -217,8 +211,6 @@
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:alertTitle message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
         [alert show];
-        [alert release];
-        [popularTopics release];
         popularTopics = nil;
         return 0;
     }
@@ -232,7 +224,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     NSDictionary *topic = [popularTopics objectAtIndex:[indexPath row]];
@@ -255,7 +247,6 @@
     topicViewController.title = [topic valueForKey:@"title"];
     topicViewController.topicURI = [topic valueForKey:@"address"];
     [self.navigationController pushViewController:topicViewController animated:YES];
-    [topicViewController release];
 } 
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath

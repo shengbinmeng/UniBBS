@@ -184,9 +184,6 @@
     
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStyleBordered target:self action:@selector(sendButtonPressed)];
     self.navigationItem.rightBarButtonItem = button;
-    [button release];
-    
-    
 }
 
 
@@ -301,9 +298,4 @@
     [BDWMAlertMessage alertAndAutoDismissMessage:@"哈哈破手机！居然会内存不足！"];
 }
 
-- (void)dealloc {
-    [_titleTextField release];
-    [_contentTextView release];
-    [super dealloc];
-}
 @end

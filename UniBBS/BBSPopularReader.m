@@ -72,15 +72,10 @@
             address = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/bbstcon.php?board=%@&threadid=%@", boardName, threadID];
             [topic setValue:address forKey:@"address"];
             [popularTopics addObject:topic];
-            [topic release];
         }
     }
     
     return popularTopics;
 }
 
-- (void) dealloc 
-{
-    [super dealloc];
-}
 @end

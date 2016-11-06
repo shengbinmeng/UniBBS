@@ -83,8 +83,8 @@
             rend = [pageSource rangeOfString:@"</pre>" options:0 range:range];
             if(rbeg.location == NSNotFound || rend.location == NSNotFound || rbeg.location >= rend.location)
                 break;
-            NSMutableDictionary *post = [[[NSMutableDictionary alloc] init] autorelease];
-            NSMutableString *postContent = [[[NSMutableString alloc] init] autorelease];
+            NSMutableDictionary *post = [[NSMutableDictionary alloc] init];
+            NSMutableString *postContent = [[NSMutableString alloc] init];
             [postContent appendString:[pageSource substringWithRange:NSMakeRange(rbeg.location + 5, rend.location - rbeg.location - 5)]];
             NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<[^>]+>" options:0 error:NULL];
             [regex replaceMatchesInString:postContent options:0 range:NSMakeRange(0, [postContent length]) withTemplate:@""];
@@ -123,9 +123,9 @@
             regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"(http://attach..bdwm.net/[^\"]*)\"[^>]*>([^<]*)</a>" options:0 error:NULL];
             NSArray *result = [regex matchesInString:pageSource options:0 range:attachRange];
             if ([result count] != 0) {
-                NSMutableArray * attachments = [[[NSMutableArray alloc] init] autorelease];
+                NSMutableArray * attachments = [[NSMutableArray alloc] init];
                 for (int i = 0; i < [result count]; ++i) {
-                    NSMutableDictionary * attach = [[[NSMutableDictionary alloc] init] autorelease];
+                    NSMutableDictionary * attach = [[NSMutableDictionary alloc] init];
                     NSTextCheckingResult *r = [result objectAtIndex:i];
                     NSString *url = [pageSource substringWithRange:[r rangeAtIndex:1]];
                     NSString *name = [pageSource substringWithRange:[r rangeAtIndex:2]];
@@ -145,10 +145,8 @@
         r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         range = [r rangeAtIndex:1];
         if (r && range.length) {
-            [previousPage release];
-            previousPage = [[pageSource substringWithRange:range] retain];
+            previousPage = [pageSource substringWithRange:range];
         } else {
-            [previousPage release];
             previousPage = nil;
         }
         
@@ -156,10 +154,8 @@
         r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         range = [r rangeAtIndex:1];
         if (r && range.length) {
-            [nextPage release];
-            nextPage = [[pageSource substringWithRange:range] retain];
+            nextPage = [pageSource substringWithRange:range];
         } else {
-            [nextPage release];
             nextPage = nil;
         }
         
@@ -167,10 +163,8 @@
         r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         range = [r rangeAtIndex:1];
         if (r && range.length) {
-            [firstPage release];
-            firstPage = [[pageSource substringWithRange:range] retain];
+            firstPage = [pageSource substringWithRange:range];
         } else {
-            [firstPage release];
             firstPage = nil;
         }
         
@@ -178,10 +172,8 @@
         r = [regex firstMatchInString:pageSource options:0 range:NSMakeRange(0, [pageSource length])];
         range = [r rangeAtIndex:1];
         if (r && range.length) {
-            [lastPage release];
-            lastPage = [[pageSource substringWithRange:range] retain];
+            lastPage = [pageSource substringWithRange:range];
         } else {
-            [lastPage release];
             lastPage = nil;
         }
     }

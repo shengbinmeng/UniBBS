@@ -49,7 +49,7 @@
     [BDWMUserModel checkLogin:userName userPass:userPass blockFunction:^(NSString *name, NSError *error){
         if ( !error && name!=nil ) {
             [BDWMUserModel saveUsernameAndPassword:userName userPassword:userPass];
-            UserInfoViewController *userInfoViewController = [[[UserInfoViewController alloc] initWithNibName:@"UserInfoViewController" bundle:nil] autorelease];
+            UserInfoViewController *userInfoViewController = [[UserInfoViewController alloc] initWithNibName:@"UserInfoViewController" bundle:nil];
             userInfoViewController.userName = userName;
             
             NSMutableDictionary *userInfoDict = [BDWMUserModel LoadUserInfo:userName];
@@ -118,9 +118,4 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)dealloc {
-    [_userNameTextField release];
-    [_userPasswordTextField release];
-    [super dealloc];
-}
 @end

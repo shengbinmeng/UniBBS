@@ -48,11 +48,9 @@
     // Do any additional setup after loading the view from its nib.
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"注销" style:UIBarButtonItemStyleBordered target:self action:@selector(logoutButtonPressed)];
     self.navigationItem.rightBarButtonItem = button;
-    [button release];
     //always back to profile view.
     button = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonPressed)];
     self.navigationItem.leftBarButtonItem = button;
-    [button release];
     
     if (self.userInfoDict==nil) {
         self.userInfoDict = [BDWMUserModel LoadUserInfo:[BDWMUserModel getLoginUser]];
@@ -75,15 +73,4 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-- (void)dealloc {
-    [_userNameLabel release];
-    [_loginTimesLabel release];
-    [_postingNumLabel release];
-    [_energyNumLabel release];
-    [_totalScoreLabel release];
-    [_originalScoreLabel release];
-    [_dutiesLabel release];
-    [super dealloc];
-}
 @end
