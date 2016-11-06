@@ -1,24 +1,18 @@
 PODS:
-  - AFNetworking (2.4.1):
-    - AFNetworking/NSURLConnection (= 2.4.1)
-    - AFNetworking/NSURLSession (= 2.4.1)
-    - AFNetworking/Reachability (= 2.4.1)
-    - AFNetworking/Security (= 2.4.1)
-    - AFNetworking/Serialization (= 2.4.1)
-    - AFNetworking/UIKit (= 2.4.1)
-  - AFNetworking/NSURLConnection (2.4.1):
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.4.1):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.4.1)
-  - AFNetworking/Security (2.4.1)
-  - AFNetworking/Serialization (2.4.1)
-  - AFNetworking/UIKit (2.4.1):
-    - AFNetworking/NSURLConnection
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
   - CCBottomRefreshControl (0.5.1):
     - Masonry (~> 0.6.2)
@@ -28,16 +22,16 @@ PODS:
   - Masonry (0.6.4)
 
 DEPENDENCIES:
-  - AFNetworking (~> 2.4.1)
+  - AFNetworking (~> 3.1.0)
   - CCBottomRefreshControl (~> 0.5.1)
   - FMDB (~> 2.6.2)
 
 SPEC CHECKSUMS:
-  AFNetworking: 41d45d2c14219af0fa5addf3cfd433a002c13c9f
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   CCBottomRefreshControl: 57a596348855260f627ffc2b311328ed15b94877
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
 
-PODFILE CHECKSUM: d6640284c494124b68b3bbaeda7b710a0b2d4ab0
+PODFILE CHECKSUM: 8eebd0f7b2a50251398c2767370ec301de0c576f
 
 COCOAPODS: 1.1.1
