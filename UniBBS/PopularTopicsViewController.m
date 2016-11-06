@@ -149,6 +149,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    /*
     if ([BDWMUserModel getEnterAppAndAutoLogin]==YES && [BDWMUserModel isLogined]==NO) {
         NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
         NSString *userName = [userDefaultes stringForKey:@"saved_username"];
@@ -170,7 +171,9 @@
             }
         }];
         
+        
     }
+     */
 }
 
 - (void)viewWillDisappear:(BOOL)animated

@@ -70,28 +70,18 @@ static BOOL enterAppAndAutoLogin = NO;
     
 }
 
-+ (NSURLSessionDataTask *)checkLogin:(NSString *)UserName userPass:(NSString *)UserPass blockFunction:(void (^)(NSString *name, NSError *error))block
++ (void)checkLogin:(NSString *)UserName userPass:(NSString *)UserPass blockFunction:(void (^)(NSDictionary *responseDict, NSError *error))block
 {
-    return [[AFAppDotNetAPIClient sharedClient] POST:@"https://www.bdwm.net/bbs/bbslog2.php" parameters:[NSDictionary dictionaryWithObjectsAndKeys:UserName, @"userid", UserPass, @"passwd",nil] success:^(NSURLSessionDataTask *task, id responseObject) {
-        
-        TFHpple * doc;
-        NSString * url = @"http://www.bdwm.net/bbs/bbsman.php";
-        NSData *htmlData = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
-        //   NSData *htmlDataUTF8 = [BDWMString DataConverse_GB2312_to_UTF8:htmlData];
-        
-        doc = [[TFHpple alloc] initWithHTMLData:htmlData];
-        if ([BDWMUserModel checkUserName:doc UserName:UserName]) {
-            NSLog(@"Login success!");
-            [BDWMUserModel saveUsernameAndPassword:UserName userPassword:UserPass];
-            
-            if (block) block(UserName, nil);
-        } else {
-            if (block) block(nil, nil);
-        }
-        
+    
+    [[AFAppDotNetAPIClient sharedClient] POST:@"https://bdwm.net/client/bbsclient.php" parameters:[NSDictionary dictionaryWithObjectsAndKeys:@"login", @"type", UserName, @"username", UserPass, @"password",nil] success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions error:nil];
+        NSLog(@"Login POST success!");
+        block(dict, nil);
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        if (block) block(nil, error);
+        NSLog(@"Login POST failed!");
+        block(nil, error);
     }];
+    
 }
 
 + (BOOL)checkUserName:(TFHpple *)doc UserName:(NSString *)user_name{

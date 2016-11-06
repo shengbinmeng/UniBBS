@@ -55,10 +55,10 @@
     if (self.userInfoDict==nil) {
         self.userInfoDict = [BDWMUserModel LoadUserInfo:[BDWMUserModel getLoginUser]];
     }
-    self.userNameLabel.text = [self.userInfoDict objectForKey:@"userName"];
-    self.loginTimesLabel.text = [self.userInfoDict objectForKey:@"loginTimes"];
-    self.postingNumLabel.text = [self.userInfoDict objectForKey:@"postingNum"];
-    self.energyNumLabel.text = [self.userInfoDict objectForKey:@"energyNum"];
+    self.userNameLabel.text = [self.userInfoDict objectForKey:@"nickname"];
+    self.loginTimesLabel.text = [self.userInfoDict objectForKey:@"numlogins"];
+    self.postingNumLabel.text = [self.userInfoDict objectForKey:@"numposts"];
+    self.energyNumLabel.text = [self.userInfoDict objectForKey:@"life"];
     self.totalScoreLabel.text = [self.userInfoDict objectForKey:@"totalScore"];
     self.originalScoreLabel.text = [self.userInfoDict objectForKey:@"originalScore"];
     self.dutiesLabel.text = [self.userInfoDict objectForKey:@"duties"];

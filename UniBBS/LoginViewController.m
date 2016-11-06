@@ -46,32 +46,27 @@
     
     [BDWMAlertMessage startSpinner:@"正在登录"];
     
-    [BDWMUserModel checkLogin:userName userPass:userPass blockFunction:^(NSString *name, NSError *error){
-        if ( !error && name!=nil ) {
-            [BDWMUserModel saveUsernameAndPassword:userName userPassword:userPass];
-            UserInfoViewController *userInfoViewController = [[UserInfoViewController alloc] initWithNibName:@"UserInfoViewController" bundle:nil];
-            userInfoViewController.userName = userName;
-            
-            NSMutableDictionary *userInfoDict = [BDWMUserModel LoadUserInfo:userName];
-            
-            if (userInfoDict==nil || userInfoDict.count==0) {
+    [BDWMUserModel checkLogin:userName userPass:userPass blockFunction:^(NSDictionary *responseDict, NSError *error){
+        if (error == nil) {
+            int code = [[responseDict objectForKey:@"code"] intValue];
+            if (code == 0) {
+            //    [BDWMUserModel saveUsernameAndPassword:userName userPassword:userPass];
+                UserInfoViewController *userInfoViewController = [[UserInfoViewController alloc] initWithNibName:@"UserInfoViewController" bundle:nil];
+                userInfoViewController.userName = userName;
+                
+                userInfoViewController.userInfoDict = responseDict;
                 [BDWMAlertMessage stopSpinner];
-                [BDWMAlertMessage alertMessage:@"获取不到用户数据!"];
-                return;
+                [self.navigationController pushViewController:userInfoViewController animated:YES];
+                self.userNameTextField.text = @"";
+                self.userPasswordTextField.text = @"";
+            } else {
+                [BDWMAlertMessage alertAndAutoDismissMessage:responseDict[@"msg"]];
             }
-    
-            userInfoViewController.userInfoDict = userInfoDict;
+        } else {
             [BDWMAlertMessage stopSpinner];
-            [self.navigationController pushViewController:userInfoViewController animated:YES];
             self.userNameTextField.text = @"";
             self.userPasswordTextField.text = @"";
-        }else if(name==nil && error==nil){
-            [BDWMAlertMessage stopSpinner];
-            self.userPasswordTextField.text = @"";
-            [BDWMAlertMessage alertAndAutoDismissMessage:@"用户名或密码错误"];
-        }else{
-            [BDWMAlertMessage stopSpinner];
-            [BDWMAlertMessage alertAndAutoDismissMessage:@"网络错误"];
+            [BDWMAlertMessage alertAndAutoDismissMessage:@"登陆请求错误"];
         }
     }];
 }

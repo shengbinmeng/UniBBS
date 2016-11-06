@@ -6,7 +6,7 @@ target 'UniBBS' do
   # use_frameworks!
 
   # Pods for UniBBS
-pod 'AFNetworking', '~> 2.4.1'
+pod 'AFNetworking', '~> 3.1.0'
 pod 'CCBottomRefreshControl', '~> 0.5.1'
 pod 'FMDB', '~> 2.6.2'
 end
