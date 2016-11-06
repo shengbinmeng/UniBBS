@@ -8,6 +8,7 @@
 
 #import "BDWMUserModel.h"
 #import "AFAppDotNetAPIClient.h"
+#import "BDWMNetwork.h"
 #import "BDWMString.h"
 
 @implementation BDWMUserModel
@@ -70,8 +71,14 @@ static BOOL enterAppAndAutoLogin = NO;
     
 }
 
-+ (NSURLSessionDataTask *)checkLogin:(NSString *)UserName userPass:(NSString *)UserPass blockFunction:(void (^)(NSString *name, NSError *error))block
++ (void)checkLogin:(NSString *)UserName userPass:(NSString *)UserPass blockFunction:(void (^)(NSString *name, NSError *error))block
 {
+    [[BDWMNetwork sharedManager] requestWithMethod:GET WithPath:@"" WithParams:[NSDictionary dictionaryWithObjectsAndKeys:@"login", @"type", UserName, @"username", UserPass, @"password",nil] WithSuccessBlock:^(NSDictionary *dic) {
+            NSLog(@"Login success!");
+        } WithFailurBlock:^(NSError *error) {
+            NSLog(@"Login success!");
+        }];
+    /*
     return [[AFAppDotNetAPIClient sharedClient] POST:@"https://www.bdwm.net/bbs/bbslog2.php" parameters:[NSDictionary dictionaryWithObjectsAndKeys:UserName, @"userid", UserPass, @"passwd",nil] success:^(NSURLSessionDataTask *task, id responseObject) {
         
         TFHpple * doc;
@@ -92,6 +99,7 @@ static BOOL enterAppAndAutoLogin = NO;
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         if (block) block(nil, error);
     }];
+     */
 }
 
 + (BOOL)checkUserName:(TFHpple *)doc UserName:(NSString *)user_name{
