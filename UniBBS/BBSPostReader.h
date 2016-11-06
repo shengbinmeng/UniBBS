@@ -10,10 +10,14 @@
 
 @interface BBSPostReader : NSObject
 
-@property (nonatomic, retain) NSString *dataAddress;
-
-- (id)initWithAddress:(NSString *)address;
+- (id)initWithURI:(NSString *)uri;
 
 - (NSDictionary*) getPostAttributes;
+
+- (NSDictionary*) getNextPost;
+
+- (NSDictionary*) getPreviousPost;
+
+- (NSString*) getSameTopicUri;
 
 @end

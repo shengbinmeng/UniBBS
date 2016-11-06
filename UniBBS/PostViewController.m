@@ -17,7 +17,7 @@
 #import "BDWMAlertMessage.h"
 @implementation PostViewController
 
-@synthesize postAddress, postAttributes, postReader;
+@synthesize postURI, postAttributes, postReader;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -30,7 +30,7 @@
 
 - (void) dealloc
 {
-    self.postAddress = nil;
+    self.postURI = nil;
     self.postAttributes = nil;
     self.postReader = nil;
     [super dealloc];
@@ -116,14 +116,13 @@
 
 - (void) displayPreviousPost
 {
-    NSString *address = [self.postAttributes valueForKey:@"prevPostAddress"];
-    if (address == nil) {
+    NSDictionary *previousPost = [self.postReader getPreviousPost];
+    if (previousPost == nil) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"已没有上一篇" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
         [alert release];
     } else {
-        self.postReader.dataAddress = address;
-        self.postAttributes = [self.postReader getPostAttributes];
+        self.postAttributes = previousPost;
         self.title = [self.postAttributes valueForKey:@"title"];
         [self.tableView reloadData];
         [self.tableView scrollsToTop];
@@ -132,14 +131,13 @@
 
 - (void) displayNextPost
 {
-    NSString *address = [self.postAttributes valueForKey:@"nextPostAddress"];
-    if (address == nil) {
+    NSDictionary *nextPost = [self.postReader getNextPost];
+    if (nextPost == nil) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"已没有下一篇" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
         [alert release];
     } else {
-        self.postReader.dataAddress = address;
-        self.postAttributes = [self.postReader getPostAttributes];
+        self.postAttributes = nextPost;
         self.title = [self.postAttributes valueForKey:@"title"];
         [self.tableView reloadData];
         [self.tableView scrollsToTop];
@@ -148,15 +146,15 @@
 
 - (void) expandSameTopic
 {
-    NSString *address = [self.postAttributes valueForKey:@"sameTopicAddress"];
-    if (address == nil) {
+    NSString *uri = [self.postReader getSameTopicUri];
+    if (uri == nil) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"展开失败，奇怪" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
         [alert release];
     } else {
         TopicViewController *topicViewController = [[[TopicViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
         topicViewController.title = @"同主题展开";
-        topicViewController.topicURI = address;
+        topicViewController.topicURI = uri;
         [self.navigationController pushViewController:topicViewController animated:YES];   
     }
 }
@@ -196,7 +194,7 @@
     
     if (self.postReader == nil) {
         // first time load, alloc the model
-        BBSPostReader *reader = [[BBSPostReader alloc] initWithAddress:self.postAddress];
+        BBSPostReader *reader = [[BBSPostReader alloc] initWithAddress:self.postURI];
         self.postReader = reader;
         [reader release];
         self.postAttributes = [self.postReader getPostAttributes];

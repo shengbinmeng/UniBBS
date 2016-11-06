@@ -10,17 +10,21 @@
 #import "Utility.h"
 #import "BDWMGlobalData.h"
 
+@interface BBSPostReader ()
+@property (nonatomic, retain) NSString *dataAddress;
+@end
+
 @implementation BBSPostReader {
     NSMutableDictionary *postAttributes;
 }
 
 @synthesize dataAddress;
 
-- (id)initWithAddress:(NSString *)address 
+- (id)initWithURI:(NSString *)uri
 {
     self = [super init];
     if (self) {
-        self.dataAddress = address;
+        self.dataAddress = uri;
     }
     return self;
 }
@@ -136,6 +140,33 @@
 {
     [postAttributes release];
     [super dealloc];
+}
+
+- (NSDictionary*) getPreviousPost
+{
+    NSString *address = [postAttributes valueForKey:@"prevPostAddress"];
+    if (address == nil) {
+        return nil;
+    } else {
+        self.dataAddress = address;
+        return [self getPostAttributes];
+    }
+}
+
+- (NSDictionary*) getNextPost
+{
+    NSString *address = [postAttributes valueForKey:@"nextPostAddress"];
+    if (address == nil) {
+        return nil;
+    } else {
+        self.dataAddress = address;
+        return [self getPostAttributes];
+    }
+}
+
+- (NSString*) getSameTopicUri
+{
+    return [postAttributes valueForKey:@"sameTopicAddress"];
 }
 
 @end

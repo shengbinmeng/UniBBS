@@ -418,7 +418,7 @@
         NSDictionary *post = [boardPosts objectAtIndex:[indexPath row]];
         PostViewController *postViewController = [[[PostViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
         postViewController.title = [post valueForKey:@"title"];
-        postViewController.postAddress = [post valueForKey:@"address"];
+        postViewController.postURI = [post valueForKey:@"address"];
         [self.navigationController pushViewController:postViewController animated:YES];
     }
 }
