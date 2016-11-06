@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class BBSTopicReader;
-
+#import "BBSTopicReader.h"
 @interface TopicViewController : UITableViewController <UIActionSheetDelegate>
 
 @property (nonatomic, retain) NSString *topicURI;

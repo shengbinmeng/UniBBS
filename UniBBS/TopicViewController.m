@@ -7,7 +7,7 @@
 //
 
 #import "TopicViewController.h"
-#import "BBSTopicReader.h"
+#import "BDWMTopicReader.h"
 #import "PostViewController.h"
 #import "BBSFavouritesManager.h"
 #import "AttachmentsViewController.h"
@@ -234,7 +234,7 @@
 
     if (self.topicReader == nil) {
         // first time load, alloc the model
-        BBSTopicReader *reader = [[BBSTopicReader alloc] initWithURI:self.topicURI];
+        BDWMTopicReader *reader = [[BDWMTopicReader alloc] initWithURI:self.topicURI];
         self.topicReader = reader;
         [self reload:nil];
     }

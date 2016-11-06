@@ -8,10 +8,10 @@
 
 #import "PopularTopicsViewController.h"
 #import "TopicViewController.h"
-#import "BBSPopularReader.h"
 #import "BDWMUserModel.h"
 #import "BDWMAlertMessage.h"
 #import "BDWMUserModel.h"
+#import "BDWMPopularReader.h"
 
 @interface PopularTopicsViewController ()
 @property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl;
@@ -22,7 +22,7 @@
     int popType; // 0 for instance, 1 for day, 2 for week
 }
 
-@synthesize popularReader, popularTopics;
+@synthesize popularTopics;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -100,7 +100,7 @@
 
 - (void)reload:(__unused id)sender {
     
-    NSURLSessionTask *task = [BBSPopularReader getPopularTopicsOfType: popType WithBlock:^(NSMutableArray *topics, NSError *error) {
+    NSURLSessionTask *task = [BDWMPopularReader getPopularTopicsOfType: popType WithBlock:^(NSMutableArray *topics, NSError *error) {
         if (!error) {
             self.popularTopics = topics;
             [self.tableView reloadData];

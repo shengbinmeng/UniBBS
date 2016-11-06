@@ -8,12 +8,10 @@
 
 #import <UIKit/UIKit.h>
 //#import "EGORefreshTableHeaderView.h"
-@class BBSPopularReader;
 
 @interface PopularTopicsViewController : UITableViewController<UIActionSheetDelegate>
 //<EGORefreshTableHeaderDelegate, UIActionSheetDelegate>
 
 @property (nonatomic, retain) NSMutableArray *popularTopics;
-@property (nonatomic, retain) BBSPopularReader *popularReader;
 
 @end

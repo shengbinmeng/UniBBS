@@ -10,7 +10,6 @@
 
 @interface BBSPopularReader : NSObject
 
-+ (NSMutableArray*)readPopularTopics:(NSData *)returnedData;
 + (NSURLSessionDataTask *)getPopularTopicsOfType:(int)type WithBlock:(void (^)(NSMutableArray *topics, NSError *error))block;
 
 @end
