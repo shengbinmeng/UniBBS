@@ -20,6 +20,8 @@
 		6C70A8361DCEF40700BCE889 /* BDWMPopularReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C70A8351DCEF40700BCE889 /* BDWMPopularReader.m */; };
 		6C70A83A1DCEF56C00BCE889 /* BDWMTopicReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C70A8391DCEF56C00BCE889 /* BDWMTopicReader.m */; };
 		6C70A83D1DCEFC9300BCE889 /* BDWMPostReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C70A83C1DCEFC9300BCE889 /* BDWMPostReader.m */; };
+		6C70A8461DCF0C5C00BCE889 /* BDWMBoardListExplorer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C70A8451DCF0C5C00BCE889 /* BDWMBoardListExplorer.m */; };
+		6C70A8491DCF0C7E00BCE889 /* BDWMBoardReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C70A8481DCF0C7E00BCE889 /* BDWMBoardReader.m */; };
 		6CE9A9DD1BC7F1BC002C86EE /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CE9A9DC1BC7F1BC002C86EE /* libxml2.2.tbd */; };
 		6CEAAC8619E942C600C29CA4 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CEAAC8419E942C600C29CA4 /* LoginViewController.m */; };
 		6CEAAC8719E942C600C29CA4 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CEAAC8519E942C600C29CA4 /* LoginViewController.xib */; };
@@ -89,6 +91,10 @@
 		6C70A8391DCEF56C00BCE889 /* BDWMTopicReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDWMTopicReader.m; sourceTree = "<group>"; };
 		6C70A83B1DCEFC9300BCE889 /* BDWMPostReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDWMPostReader.h; sourceTree = "<group>"; };
 		6C70A83C1DCEFC9300BCE889 /* BDWMPostReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDWMPostReader.m; sourceTree = "<group>"; };
+		6C70A8441DCF0C5C00BCE889 /* BDWMBoardListExplorer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDWMBoardListExplorer.h; sourceTree = "<group>"; };
+		6C70A8451DCF0C5C00BCE889 /* BDWMBoardListExplorer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDWMBoardListExplorer.m; sourceTree = "<group>"; };
+		6C70A8471DCF0C7E00BCE889 /* BDWMBoardReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDWMBoardReader.h; sourceTree = "<group>"; };
+		6C70A8481DCF0C7E00BCE889 /* BDWMBoardReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDWMBoardReader.m; sourceTree = "<group>"; };
 		6CE7FDD11A7792DF007EF3CC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		6CE9A9DC1BC7F1BC002C86EE /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
 		6CEAAC8319E942C600C29CA4 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
@@ -205,6 +211,10 @@
 		6C70A8371DCEF51A00BCE889 /* BDWM */ = {
 			isa = PBXGroup;
 			children = (
+				6C70A8441DCF0C5C00BCE889 /* BDWMBoardListExplorer.h */,
+				6C70A8451DCF0C5C00BCE889 /* BDWMBoardListExplorer.m */,
+				6C70A8471DCF0C7E00BCE889 /* BDWMBoardReader.h */,
+				6C70A8481DCF0C7E00BCE889 /* BDWMBoardReader.m */,
 				6C70A8341DCEF40700BCE889 /* BDWMPopularReader.h */,
 				6C70A8351DCEF40700BCE889 /* BDWMPopularReader.m */,
 				6C70A83B1DCEFC9300BCE889 /* BDWMPostReader.h */,
@@ -555,6 +565,7 @@
 				F785A81419E97F580001FB65 /* AFAppDotNetAPIClient.m in Sources */,
 				E88A6E661507760600EED88D /* BoardListViewController.m in Sources */,
 				E88A6E801507882100EED88D /* PostViewController.m in Sources */,
+				6C70A8461DCF0C5C00BCE889 /* BDWMBoardListExplorer.m in Sources */,
 				E88A6E851507913F00EED88D /* BoardViewController.m in Sources */,
 				E843C4261508E3F800A83C22 /* BBSBoardListExplorer.m in Sources */,
 				F785A82119EA16C90001FB65 /* WritingMailViewController.m in Sources */,
@@ -587,6 +598,7 @@
 				F7062E6719E6CE2C00F61328 /* BDWMString.m in Sources */,
 				6C70A83D1DCEFC9300BCE889 /* BDWMPostReader.m in Sources */,
 				F72939B719EAC8A500EA68ED /* MailViewController.m in Sources */,
+				6C70A8491DCF0C7E00BCE889 /* BDWMBoardReader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

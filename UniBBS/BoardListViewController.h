@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-@class BBSBoardListExplorer;
-@interface BoardListViewController : UITableViewController 
+#import "BBSBoardListExplorer.h"
+
+@interface BoardListViewController : UITableViewController
 <UIActionSheetDelegate, UISearchDisplayDelegate, UISearchBarDelegate>
 
 @property (nonatomic, retain) NSString *listURI;

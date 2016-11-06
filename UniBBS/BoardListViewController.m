@@ -7,7 +7,7 @@
 //
 
 #import "BoardListViewController.h"
-#import "BBSBoardListExplorer.h"
+#import "BDWMBoardListExplorer.h"
 #import "BoardViewController.h"
 
 @implementation BoardListViewController {
@@ -111,7 +111,7 @@
     }
     
     if (self.boardExplorer == nil) {
-        BBSBoardListExplorer *explorer = [[BBSBoardListExplorer alloc] initWithURI:self.listURI];
+        BDWMBoardListExplorer *explorer = [[BDWMBoardListExplorer alloc] initWithURI:self.listURI];
         self.boardExplorer = explorer;
     }
     
@@ -125,8 +125,7 @@
 
 - (void) loadData:(UIActivityIndicatorView*) indicator {
     if ([self.title isEqualToString:@"分类讨论区"]) {
-        BBSBoardListExplorer *explorer = [[BBSBoardListExplorer alloc] initWithURI:self.listURI];
-        wholeBoardList = [explorer getWholeBoardList];
+        wholeBoardList = [self.boardExplorer getWholeBoardList];
     }
     categaryBoardList = [self.boardExplorer getBoardList];
     

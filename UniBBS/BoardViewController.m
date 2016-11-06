@@ -9,7 +9,7 @@
 #import "BoardViewController.h"
 #import "PostViewController.h"
 #import "TopicViewController.h"
-#import "BBSBoardReader.h"
+#import "BDWMBoardReader.h"
 #import "BBSFavouritesManager.h"
 #import "WritingViewController.h"
 #import "BDWMString.h"
@@ -269,7 +269,7 @@
     self.tableView.bottomRefreshControl = self.bottomRefreshControl;
     
     if (self.boardReader == nil) {
-        BBSBoardReader *reader = [[BBSBoardReader alloc] initWithBoardURI:self.boardURI];
+        BDWMBoardReader *reader = [[BDWMBoardReader alloc] initWithURI:self.boardURI];
         self.boardReader = reader;
         self.boardReader.showSticky = YES;
     }

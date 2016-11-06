@@ -11,6 +11,7 @@
 #import "AFAppDotNetAPIClient.h"
 
 @interface BBSBoardReader ()
+@property (nonatomic, retain) NSString *boardURI;
 @property (nonatomic, retain) NSString *dataAddress;
 @end
 
@@ -27,7 +28,7 @@
 
 @synthesize boardURI, dataAddress, showSticky;
 
-- (id)initWithBoardURI:(NSString *)uri
+- (id)initWithURI:(NSString *)uri
 {
     self = [super init];
     if (self) {

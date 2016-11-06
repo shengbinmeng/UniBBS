@@ -10,10 +10,9 @@
 
 @interface BBSBoardReader : NSObject
 
-@property (nonatomic, retain) NSString *boardURI;
 @property (nonatomic, assign) BOOL showSticky;
 
-- (id)initWithBoardURI:(NSString *)uri;
+- (id)initWithURI:(NSString *)uri;
 - (NSURLSessionDataTask *)getBoardTopicsWithBlock:(void (^)(NSMutableArray *topics, NSError *error))block;
 - (NSURLSessionDataTask *)getBoardPostsWithBlock:(void (^)(NSMutableArray *posts, NSError *error))block;
 - (NSURLSessionDataTask *)getBoardNextTopicsWithBlock:(void (^)(NSMutableArray *topics, NSError *error))block;

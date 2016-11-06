@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class BBSBoardReader;
+#import "BBSBoardReader.h"
 
 @interface BoardViewController : UITableViewController 
 <UIActionSheetDelegate>
