@@ -9,7 +9,6 @@
 #import "MailListViewController.h"
 #import "WritingMailViewController.h"
 #import "UIRefreshControl+AFNetworking.h"
-#import "UIAlertView+AFNetworking.h"
 #import "MailModel.h"
 #import "MailViewController.h"
 #import "BDWMUserModel.h"
