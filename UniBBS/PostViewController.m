@@ -7,7 +7,7 @@
 //
 
 #import "PostViewController.h"
-#import "BBSPostReader.h"
+#import "BDWMPostReader.h"
 #import "TopicViewController.h"
 #import "BBSFavouritesManager.h"
 #import "AttachmentsViewController.h"
@@ -15,6 +15,7 @@
 #import "WritingMailViewController.h"
 #import "BDWMUserModel.h"
 #import "BDWMAlertMessage.h"
+
 @implementation PostViewController
 
 @synthesize postURI, postAttributes, postReader;
@@ -181,7 +182,7 @@
     
     if (self.postReader == nil) {
         // first time load, alloc the model
-        BBSPostReader *reader = [[BBSPostReader alloc] initWithURI:self.postURI];
+        BDWMPostReader *reader = [[BDWMPostReader alloc] initWithURI:self.postURI];
         self.postReader = reader;
         self.postAttributes = [self.postReader getPostAttributes];
     }

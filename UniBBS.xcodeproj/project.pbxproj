@@ -19,6 +19,7 @@
 		6C4E5FB519F67F5600BB909F /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C4E5FB419F67F5600BB909F /* SettingsViewController.m */; };
 		6C70A8361DCEF40700BCE889 /* BDWMPopularReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C70A8351DCEF40700BCE889 /* BDWMPopularReader.m */; };
 		6C70A83A1DCEF56C00BCE889 /* BDWMTopicReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C70A8391DCEF56C00BCE889 /* BDWMTopicReader.m */; };
+		6C70A83D1DCEFC9300BCE889 /* BDWMPostReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C70A83C1DCEFC9300BCE889 /* BDWMPostReader.m */; };
 		6CE9A9DD1BC7F1BC002C86EE /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CE9A9DC1BC7F1BC002C86EE /* libxml2.2.tbd */; };
 		6CEAAC8619E942C600C29CA4 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CEAAC8419E942C600C29CA4 /* LoginViewController.m */; };
 		6CEAAC8719E942C600C29CA4 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CEAAC8519E942C600C29CA4 /* LoginViewController.xib */; };
@@ -86,6 +87,8 @@
 		6C70A8351DCEF40700BCE889 /* BDWMPopularReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDWMPopularReader.m; sourceTree = "<group>"; };
 		6C70A8381DCEF56C00BCE889 /* BDWMTopicReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDWMTopicReader.h; sourceTree = "<group>"; };
 		6C70A8391DCEF56C00BCE889 /* BDWMTopicReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDWMTopicReader.m; sourceTree = "<group>"; };
+		6C70A83B1DCEFC9300BCE889 /* BDWMPostReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDWMPostReader.h; sourceTree = "<group>"; };
+		6C70A83C1DCEFC9300BCE889 /* BDWMPostReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDWMPostReader.m; sourceTree = "<group>"; };
 		6CE7FDD11A7792DF007EF3CC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		6CE9A9DC1BC7F1BC002C86EE /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
 		6CEAAC8319E942C600C29CA4 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
@@ -204,6 +207,8 @@
 			children = (
 				6C70A8341DCEF40700BCE889 /* BDWMPopularReader.h */,
 				6C70A8351DCEF40700BCE889 /* BDWMPopularReader.m */,
+				6C70A83B1DCEFC9300BCE889 /* BDWMPostReader.h */,
+				6C70A83C1DCEFC9300BCE889 /* BDWMPostReader.m */,
 				6C70A8381DCEF56C00BCE889 /* BDWMTopicReader.h */,
 				6C70A8391DCEF56C00BCE889 /* BDWMTopicReader.m */,
 			);
@@ -580,6 +585,7 @@
 				E89AA62E15411E6100506BA4 /* Utility.m in Sources */,
 				F785A81919E983140001FB65 /* UserInfoViewController.m in Sources */,
 				F7062E6719E6CE2C00F61328 /* BDWMString.m in Sources */,
+				6C70A83D1DCEFC9300BCE889 /* BDWMPostReader.m in Sources */,
 				F72939B719EAC8A500EA68ED /* MailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
