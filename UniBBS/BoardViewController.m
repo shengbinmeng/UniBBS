@@ -27,7 +27,7 @@
     BOOL topicMode;
 }
 
-@synthesize boardName, boardAddress, boardReader, boardPosts, boardTopics;
+@synthesize boardURI, boardName, boardReader, boardPosts, boardTopics;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -122,14 +122,13 @@
         }
         case 1:
             topicMode = !topicMode;
-            self.boardReader.dataAddress = nil;
             self.boardReader.showSticky = YES;
             [self reload:nil];
             break;
         case 2:{
             NSMutableDictionary *boardInfo = [[NSMutableDictionary alloc] init];
             [boardInfo setObject:self.title forKey:@"boardTitle"];
-            [boardInfo setObject:self.boardName forKey:@"boardName"];
+            [boardInfo setObject:self.boardURI forKey:@"boardName"];
             [BBSFavouritesManager saveFavouriteBoard:boardInfo];
             break;
         }
@@ -153,12 +152,11 @@
 - (void)reload:(__unused id)sender {
   
     NSURLSessionTask *task;
-    self.boardReader.dataAddress = nil;
     if (topicMode){
         task= [self.boardReader getBoardTopicsWithBlock:^(NSMutableArray *topics, NSError *error) {
         if (!error) {
             self.boardTopics = topics;
-            if ( self.boardTopics==nil || self.boardTopics.count == 0 ) {
+            if (self.boardTopics == nil || self.boardTopics.count == 0 ) {
                 //login session failed. then relogin.
                 NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
                 NSString *userName1 = [userDefaultes stringForKey:@"saved_username"];
@@ -271,7 +269,7 @@
     self.tableView.bottomRefreshControl = self.bottomRefreshControl;
     
     if (self.boardReader == nil) {
-        BBSBoardReader *reader = [[BBSBoardReader alloc] initWithBoardName:self.boardName];
+        BBSBoardReader *reader = [[BBSBoardReader alloc] initWithBoardURI:self.boardURI];
         self.boardReader = reader;
         self.boardReader.showSticky = YES;
     }
@@ -284,12 +282,6 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-    
-    self.boardName = nil;
-    self.boardAddress = nil;
-    self.boardReader = nil;
-    self.boardTopics = nil;
-    self.boardPosts = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -29,7 +29,7 @@
     // Override point for customization after application launch.
     PopularTopicsViewController *viewController1 = [[PopularTopicsViewController alloc] initWithStyle:UITableViewStylePlain];
     BoardListViewController *viewController2 = [[BoardListViewController alloc] initWithStyle:UITableViewStylePlain];
-    viewController2.listAddress = @"http://www.bdwm.net/bbs/bbsxboa.php?group=0";
+    viewController2.listURI = @"http://www.bdwm.net/bbs/bbsxboa.php?group=0";
 
     ProfileViewController *viewController3 = [[ProfileViewController alloc] initWithStyle:UITableViewStyleGrouped];
     SettingsViewController *viewController4 = [[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];

@@ -10,22 +10,24 @@
 #import "Utility.h"
 #import "BDWMGlobalData.h"
 
+@interface BBSBoardListExplorer ()
+@property (nonatomic, retain) NSString *dataAddress;
+@end
+
 @implementation BBSBoardListExplorer {
     NSMutableArray *boardList;
 }
 
-@synthesize dataAddress;
-
-- (id)initWithAddress:(NSString *)address 
+- (id)initWithURI:(NSString *)uri
 {
     self = [super init];
     if (self) {
-        self.dataAddress = address;
+        self.dataAddress = uri;
     }
     return self;
 }
 
-- (NSMutableArray*) getBoardList 
+- (NSMutableArray*) getBoardList
 {
     boardList = [[NSMutableArray alloc] init];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -85,7 +87,7 @@
     return boardList;
 }
 
-- (NSMutableArray*) getWholeBoardList 
+- (NSMutableArray*) getWholeBoardList
 {
     self.dataAddress = @"http://www.bdwm.net/bbs/bbsall.php";
     return [self getBoardList];

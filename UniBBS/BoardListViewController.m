@@ -18,7 +18,7 @@
     BOOL showingAll;
 }
 
-@synthesize listAddress, boardList, boardExplorer;
+@synthesize listURI, boardList, boardExplorer;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -61,10 +61,15 @@
    
     switch (index) {
         case 0:
+        {
             showingAll = !showingAll;
-            if (showingAll) self.boardList = wholeBoardList;
-            else self.boardList = categaryBoardList;
+            if (showingAll) {
+                self.boardList = wholeBoardList;
+            } else {
+                self.boardList = categaryBoardList;
+            }
             break;
+        }
         case 1:
         {
             UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -106,7 +111,7 @@
     }
     
     if (self.boardExplorer == nil) {
-        BBSBoardListExplorer *explorer = [[BBSBoardListExplorer alloc] initWithAddress:self.listAddress];
+        BBSBoardListExplorer *explorer = [[BBSBoardListExplorer alloc] initWithURI:self.listURI];
         self.boardExplorer = explorer;
     }
     
@@ -120,17 +125,12 @@
 
 - (void) loadData:(UIActivityIndicatorView*) indicator {
     if ([self.title isEqualToString:@"分类讨论区"]) {
-        BBSBoardListExplorer *explorer = [[BBSBoardListExplorer alloc] initWithAddress:self.listAddress];
+        BBSBoardListExplorer *explorer = [[BBSBoardListExplorer alloc] initWithURI:self.listURI];
         wholeBoardList = [explorer getWholeBoardList];
-        if (wholeBoardList == nil || wholeBoardList.count==0) {
-#ifdef DEBUG
-            NSLog(@"fetch whole board list again.");
-#endif
-            wholeBoardList = [explorer getWholeBoardList];
-        }
     }
-    self.boardList = [self.boardExplorer getBoardList];
-    categaryBoardList = self.boardList;
+    categaryBoardList = [self.boardExplorer getBoardList];
+    
+    self.boardList = categaryBoardList;
   
     [self.tableView reloadData];
     [indicator stopAnimating];
@@ -205,19 +205,13 @@
     } else {
         if (self.boardList != nil && self.boardList.count == 0) {
             NSString *alertTitle = @"消息";
-#ifdef DEBUG
-            alertTitle = @"版块列表";
-#endif
-            
             UIAlertView * alert = [[UIAlertView alloc] initWithTitle:alertTitle message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
             [alert show];
-            wholeBoardList = nil;
-            categaryBoardList = nil;
-            boardList = nil;
             return 0;
+        } else {
+            return self.boardList.count;
         }
-        return boardList.count;
     }
 }
 
@@ -256,7 +250,7 @@
         NSDictionary *board = [searchResult objectAtIndex:[indexPath row]];
         BoardViewController *boardViewController = [[BoardViewController alloc] initWithStyle:UITableViewStylePlain];
         boardViewController.title = [board objectForKey:@"description"];
-        boardViewController.boardName = [board objectForKey:@"name"];
+        boardViewController.boardURI = [board objectForKey:@"name"];
         [self.navigationController pushViewController:boardViewController animated:YES];
         return;
     }
@@ -264,13 +258,13 @@
     NSDictionary *board = [boardList objectAtIndex:[indexPath row]];
     if ([[board  valueForKey:@"isGroup"] isEqualToString:@"YES"]) {
         BoardListViewController * nextLevelBoardList = [[BoardListViewController alloc] initWithStyle:UITableViewStylePlain];
-        nextLevelBoardList.listAddress = [board valueForKey:@"address"];
+        nextLevelBoardList.listURI = [board valueForKey:@"address"];
         nextLevelBoardList.title = [board objectForKey:@"description"];
         [self.navigationController pushViewController:nextLevelBoardList animated:YES];
     } else {
         BoardViewController *boardViewController = [[BoardViewController alloc] initWithStyle:UITableViewStylePlain];
         boardViewController.title = [board objectForKey:@"description"];
-        boardViewController.boardName = [board objectForKey:@"name"];
+        boardViewController.boardURI = [board objectForKey:@"name"];
         [self.navigationController pushViewController:boardViewController animated:YES];
     }
 }

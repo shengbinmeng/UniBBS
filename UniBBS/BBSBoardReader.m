@@ -10,6 +10,10 @@
 #import "Utility.h"
 #import "AFAppDotNetAPIClient.h"
 
+@interface BBSBoardReader ()
+@property (nonatomic, retain) NSString *dataAddress;
+@end
+
 @implementation BBSBoardReader {
     NSMutableArray *boardTopics;
     NSMutableArray *boardPosts;
@@ -21,22 +25,19 @@
     BOOL readingTopics;
 }
 
-@synthesize boardName, dataAddress, showSticky;
+@synthesize boardURI, dataAddress, showSticky;
 
-
-- (id)initWithBoardName:(NSString *)name 
+- (id)initWithBoardURI:(NSString *)uri
 {
     self = [super init];
     if (self) {
-        self.boardName = name;
+        self.boardURI = uri;
     }
     return self;
 }
 
 - (NSURLSessionDataTask *)getBoardPostsWithBlock:(void (^)(NSMutableArray *posts, NSError *error))block {
-    if (self.dataAddress == nil) {
-        self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/bbsdoc.php?board=%@", self.boardName];
-    }
+    self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/bbsdoc.php?board=%@", self.boardURI];
     
     return [[AFAppDotNetAPIClient sharedClient] GET:self.dataAddress parameters:nil success:^(NSURLSessionDataTask * __unused task, id responseObject) {
         NSMutableArray *results = [self readBoardPosts:responseObject];
@@ -86,9 +87,7 @@
 }
 
 - (NSURLSessionDataTask *)getBoardTopicsWithBlock:(void (^)(NSMutableArray *topics, NSError *error))block {
-    if (self.dataAddress == nil) {
-        self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/bbstop.php?board=%@", self.boardName];
-    }
+    self.dataAddress = [NSString stringWithFormat:@"http://www.bdwm.net/bbs/bbstop.php?board=%@", self.boardURI];
     
     return [[AFAppDotNetAPIClient sharedClient] GET:self.dataAddress parameters:nil success:^(NSURLSessionDataTask * __unused task, id responseObject) {
         NSMutableArray *results = [self readBoardTopics:responseObject];

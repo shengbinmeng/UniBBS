@@ -261,7 +261,7 @@
         NSDictionary *board = [favouriteBoards objectAtIndex:indexPath.row];
         BoardViewController *boardViewController = [[BoardViewController alloc] initWithStyle:UITableViewStylePlain];
         boardViewController.title = [board objectForKey:@"boardTitle"];
-        boardViewController.boardName = [board objectForKey:@"boardName"];
+        boardViewController.boardURI = [board objectForKey:@"boardName"];
         [self.navigationController pushViewController:boardViewController animated:YES];
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
 

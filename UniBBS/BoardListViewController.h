@@ -11,7 +11,7 @@
 @interface BoardListViewController : UITableViewController 
 <UIActionSheetDelegate, UISearchDisplayDelegate, UISearchBarDelegate>
 
-@property (nonatomic, retain) NSString *listAddress;
+@property (nonatomic, retain) NSString *listURI;
 @property (nonatomic, retain) NSMutableArray *boardList;
 @property (nonatomic, retain) BBSBoardListExplorer *boardExplorer;
 
