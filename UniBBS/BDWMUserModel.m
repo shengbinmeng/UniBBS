@@ -8,6 +8,7 @@
 
 #import "BDWMUserModel.h"
 #import "AFAppDotNetAPIClient.h"
+#import "BDWMNetwork.h"
 #import "BDWMString.h"
 
 @implementation BDWMUserModel
@@ -72,13 +73,9 @@ static BOOL enterAppAndAutoLogin = NO;
 
 + (void)checkLogin:(NSString *)UserName userPass:(NSString *)UserPass blockFunction:(void (^)(NSDictionary *responseDict, NSError *error))block
 {
-    
-    [[AFAppDotNetAPIClient sharedClient] POST:@"https://bdwm.net/client/bbsclient.php" parameters:[NSDictionary dictionaryWithObjectsAndKeys:@"login", @"type", UserName, @"username", UserPass, @"password",nil] success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions error:nil];
-        NSLog(@"Login POST success!");
-        block(dict, nil);
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"Login POST failed!");
+    [[BDWMNetwork sharedManager] requestWithMethod:POST WithParams:[NSDictionary dictionaryWithObjectsAndKeys:@"login", @"type", UserName, @"username", UserPass, @"password",nil] WithSuccessBlock:^(NSDictionary *dic) {
+        block(dic, nil);
+    } WithFailurBlock:^(NSError *error) {
         block(nil, error);
     }];
     
