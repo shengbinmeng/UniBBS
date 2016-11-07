@@ -14,7 +14,7 @@
     static BDWMNetwork *manager = nil;
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
-        manager = [[self alloc] initWithBaseURL:[NSURL URLWithString:@"https://bdwm.net/client/bbsclient.php"]];
+        manager = [[self alloc] initWithBaseURL:[NSURL URLWithString:@"https://www.bdwm.net/"]];
     });
     return manager;
 }
@@ -75,31 +75,6 @@
          WithSuccessBlock:(requestSuccessBlock)success
           WithFailurBlock:(requestFailureBlock)failure
 {
-    switch (method) {
-        case GET:{
-            [self GET:@"" parameters:params progress:nil success:^(NSURLSessionTask *task, NSDictionary * responseObject) {
-                NSLog(@"JSON: %@", responseObject);
-                success(responseObject);
-            } failure:^(NSURLSessionTask *operation, NSError *error) {
-                NSLog(@"Error: %@", error);
-                failure(error);
-            }];
-            break;
-        }
-        case POST:{
-            [self POST:@"" parameters:params progress:nil success:^(NSURLSessionTask *task, NSDictionary * responseObject) {
-                NSLog(@"JSON: %@", responseObject);
-                success(responseObject);
-            } failure:^(NSURLSessionTask *operation, NSError *error) {
-                NSLog(@"Error: %@", error);
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:error.localizedDescription delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                [alert show];
-                failure(error);
-            }];
-            break;
-        }
-        default:
-            break;
-    }
+    [self requestWithMethod:method WithPath:@"client/bbscient.php" WithParams:params WithSuccessBlock:success WithFailurBlock:failure];
 }
 @end
