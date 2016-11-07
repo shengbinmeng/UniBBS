@@ -8,6 +8,7 @@
 
 #import "MailModel.h"
 #import "AFAppDotNetAPIClient.h"
+#import "BDWMNetwork.h"
 #import "BDWMString.h"
 #import "BDWMGlobalData.h"
 #import "TFHpple.h"
@@ -220,13 +221,18 @@
     return dict;
 }
 
-+ (NSURLSessionDataTask *)getAllMailWithBlock:(NSString *)userName blockFunction:(void (^)(NSArray *mails, NSError *error))block {
-    NSString *url = [BDWMString linkString:BDWM_PREFIX string:BDWM_MAIL_LIST_SUFFIX];
-    return [[AFAppDotNetAPIClient sharedClient] GET:url parameters:nil success:^(NSURLSessionDataTask * __unused task, id responseObject) {
-        NSArray *results = [self loadMails:responseObject];
-        if (block) block( results, nil);
-    } failure:^(NSURLSessionDataTask *__unused task, NSError *error) {
-        if (block) block([NSArray array], error);
++ (void)getAllMailWithBlock:(NSString *)userName blockFunction:(void (^)(NSArray *mails, NSString *error))block {
+    [[BDWMNetwork sharedManager] requestWithMethod:POST WithParams:[NSDictionary dictionaryWithObjectsAndKeys:@"getmaillist", @"type",nil] WithSuccessBlock:^(NSDictionary *dic) {
+        NSMutableArray *results = [[NSMutableArray alloc]init];
+        int code = [[dic objectForKey:@"code"] intValue];
+        if (code == 0) {
+            block(results, nil);
+        } else {
+            block(results, (NSString *)[dic objectForKey:@"msg"]);
+        }
+        
+    } WithFailurBlock:^(NSError *error) {
+        block(nil, error.localizedDescription);
     }];
 }
 

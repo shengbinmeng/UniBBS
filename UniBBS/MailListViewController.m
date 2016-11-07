@@ -47,46 +47,17 @@
         return;
     }
     NSString *userName = self.userName;
-    NSURLSessionTask *task = [MailModel getAllMailWithBlock:userName blockFunction:^(NSArray *mails, NSError *error) {
-        if (!error) {
+    [MailModel getAllMailWithBlock:userName blockFunction:^(NSArray *mails, NSString *error) {
+        if (error == nil) {
             self.mails = mails;
             if (self.mails == nil || self.mails.count == 0) {
-                //login session failed. then relogin.
-                NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-                NSString *userName1 = [userDefaultes stringForKey:@"saved_username"];
-                NSString *password = [userDefaultes stringForKey:@"saved_password"];
-                /*
-                [BDWMUserModel checkLogin:userName1 userPass:password blockFunction:^(NSString *name, NSError *error){
-                    if ( !error && name != nil ) {
-                        //login success reload mail.
-                        [MailModel getAllMailWithBlock:name blockFunction:^(NSArray *mails, NSError *error){
-                            if (!error){
-                                self.mails = mails;
-                                //login success but no mail.
-                                if (self.mails == nil || self.mails.count == 0) {
-                                    //
-                                    [BDWMAlertMessage alertAndAutoDismissMessage:@"没有信件哦！"];
-                                }else{
-                                    [self.tableView reloadData];
-                                }
-                                
-                            }else{
-                                [BDWMAlertMessage alertMessage:@"获取不到数据."];
-                                [self.navigationController popViewControllerAnimated:YES];
-                            }
-                        }];
-                    }else{
-                        [BDWMAlertMessage alertMessage:@"获取不到数据."];
-                        [self.navigationController popViewControllerAnimated:YES];
-                    }
-                }];*/
+                [BDWMAlertMessage alertMessage:@"获取不到数据."];
             }else{
                 //find mails.
                 [self.tableView reloadData];
             }
-            
         }else{
-            [BDWMAlertMessage alertMessage:@"获取不到数据."];
+            [BDWMAlertMessage alertMessage:error];
             [self.navigationController popViewControllerAnimated:YES];
         }
     }];
