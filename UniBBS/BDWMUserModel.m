@@ -71,12 +71,18 @@ static BOOL enterAppAndAutoLogin = NO;
     
 }
 
-+ (void)checkLogin:(NSString *)UserName userPass:(NSString *)UserPass blockFunction:(void (^)(NSDictionary *responseDict, NSError *error))block
++ (void)checkLogin:(NSString *)UserName userPass:(NSString *)UserPass blockFunction:(void (^)(NSDictionary *responseDict, NSString *error))block
 {
     [[BDWMNetwork sharedManager] requestWithMethod:POST WithParams:[NSDictionary dictionaryWithObjectsAndKeys:@"login", @"type", UserName, @"username", UserPass, @"password",nil] WithSuccessBlock:^(NSDictionary *dic) {
-        block(dic, nil);
+        int code = [[dic objectForKey:@"code"] intValue];
+        if (code == 0) {
+            [BDWMUserModel saveUsernameAndPassword:UserName userPassword:UserPass];
+            block(dic, nil);
+        } else {
+            block(dic, (NSString *)[dic objectForKey:@"msg"]);
+        }
     } WithFailurBlock:^(NSError *error) {
-        block(nil, error);
+        block(nil, error.localizedDescription);
     }];
     
 }

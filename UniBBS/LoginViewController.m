@@ -46,27 +46,21 @@
     
     [BDWMAlertMessage startSpinner:@"正在登录"];
     
-    [BDWMUserModel checkLogin:userName userPass:userPass blockFunction:^(NSDictionary *responseDict, NSError *error){
+    [BDWMUserModel checkLogin:userName userPass:userPass blockFunction:^(NSDictionary *responseDict, NSString *error){
         if (error == nil) {
-            int code = [[responseDict objectForKey:@"code"] intValue];
-            if (code == 0) {
-            //    [BDWMUserModel saveUsernameAndPassword:userName userPassword:userPass];
-                UserInfoViewController *userInfoViewController = [[UserInfoViewController alloc] initWithNibName:@"UserInfoViewController" bundle:nil];
-                userInfoViewController.userName = userName;
-                
-                userInfoViewController.userInfoDict = responseDict;
-                [BDWMAlertMessage stopSpinner];
-                [self.navigationController pushViewController:userInfoViewController animated:YES];
-                self.userNameTextField.text = @"";
-                self.userPasswordTextField.text = @"";
-            } else {
-                [BDWMAlertMessage alertAndAutoDismissMessage:responseDict[@"msg"]];
-            }
+            UserInfoViewController *userInfoViewController = [[UserInfoViewController alloc] initWithNibName:@"UserInfoViewController" bundle:nil];
+            userInfoViewController.userName = userName;
+            
+            userInfoViewController.userInfoDict = responseDict;
+            [BDWMAlertMessage stopSpinner];
+            [self.navigationController pushViewController:userInfoViewController animated:YES];
+            self.userNameTextField.text = @"";
+            self.userPasswordTextField.text = @"";
         } else {
             [BDWMAlertMessage stopSpinner];
             self.userNameTextField.text = @"";
             self.userPasswordTextField.text = @"";
-            [BDWMAlertMessage alertAndAutoDismissMessage:@"登陆请求错误"];
+            [BDWMAlertMessage alertAndAutoDismissMessage:error];
         }
     }];
 }
