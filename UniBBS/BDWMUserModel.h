@@ -19,6 +19,7 @@
 
 + (BOOL)isLogined;
 + (NSString*)getLoginUser;
++ (NSString*)getToken;
 + (BOOL)getEnterAppAndAutoLogin;
 + (void)setEnterAppAndAutoLogin:(BOOL)status;
 @end

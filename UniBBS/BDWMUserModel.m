@@ -16,6 +16,7 @@
 
 static BOOL logined = NO;
 static NSString *loginUser = nil;
+static NSString *_token = nil;
 static BOOL enterAppAndAutoLogin = NO;
 
 + (BOOL)getEnterAppAndAutoLogin{
@@ -34,6 +35,9 @@ static BOOL enterAppAndAutoLogin = NO;
     return loginUser;
 }
 
++ (NSString*)getToken {
+    return _token;
+}
 
 /**
  *  Logout - Just clean the cookies
@@ -51,24 +55,30 @@ static BOOL enterAppAndAutoLogin = NO;
     NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
     [userDefaultes removeObjectForKey:@"saved_username"];
     [userDefaultes removeObjectForKey:@"saved_password"];
+    [userDefaultes removeObjectForKey:@"saved_token"];
     [userDefaultes synchronize];
     
     logined = NO;
     loginUser = nil;
+    _token = nil;
 }
 
-+ (void)saveUsernameAndPassword:(NSString *)userName userPassword:(NSString *)userPassword {
++ (void)saveUsernameAndPassword:(NSString *)userName userPassword:(NSString *)userPassword  token:(NSString *)token{
     NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
     [userDefaultes setObject:userName forKey:@"saved_username"];
     [userDefaultes setObject:userPassword forKey:@"saved_password"];
+    [userDefaultes setObject:token forKey:@"saved_token"];
     [userDefaultes synchronize];
     
     logined = YES;
     if (loginUser == nil) {
-        loginUser = [[NSString alloc]init];
+        loginUser = [[NSString alloc] init];
+    }
+    if (_token == nil) {
+        _token = [[NSString alloc] init];
     }
     loginUser = [userName copy];
-    
+    _token = [token copy];
 }
 
 + (void)checkLogin:(NSString *)UserName userPass:(NSString *)UserPass blockFunction:(void (^)(NSDictionary *responseDict, NSString *error))block
@@ -76,7 +86,8 @@ static BOOL enterAppAndAutoLogin = NO;
     [[BDWMNetwork sharedManager] requestWithMethod:POST WithParams:[NSDictionary dictionaryWithObjectsAndKeys:@"login", @"type", UserName, @"username", UserPass, @"password",nil] WithSuccessBlock:^(NSDictionary *dic) {
         int code = [[dic objectForKey:@"code"] intValue];
         if (code == 0) {
-            [BDWMUserModel saveUsernameAndPassword:UserName userPassword:UserPass];
+            NSString *token = (NSString *)[dic objectForKey:@"token"];
+            [BDWMUserModel saveUsernameAndPassword:UserName userPassword:UserPass token:token];
             block(dic, nil);
         } else {
             block(dic, (NSString *)[dic objectForKey:@"msg"]);
@@ -84,7 +95,6 @@ static BOOL enterAppAndAutoLogin = NO;
     } WithFailurBlock:^(NSError *error) {
         block(nil, error.localizedDescription);
     }];
-    
 }
 
 + (BOOL)checkUserName:(TFHpple *)doc UserName:(NSString *)user_name{

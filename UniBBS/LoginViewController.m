@@ -87,7 +87,7 @@
 
     [self.userNameTextField becomeFirstResponder];
     
-    if (NO==[BDWMUserModel isLogined]) {
+    if (NO == [BDWMUserModel isLogined]) {
         NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
         NSString *userName = [userDefaultes stringForKey:@"saved_username"];
         NSString *password = [userDefaultes stringForKey:@"saved_password"];

@@ -7,6 +7,7 @@
 //
 
 #import "BDWMNetwork.h"
+#import "BDWMUserModel.h"
 
 @implementation BDWMNetwork
 
@@ -78,6 +79,15 @@
          WithSuccessBlock:(requestSuccessBlock)success
           WithFailurBlock:(requestFailureBlock)failure
 {
-    [self requestWithMethod:method WithPath:@"client/bbsclient.php" WithParams:params WithSuccessBlock:success WithFailurBlock:failure];
+    NSString *token = [BDWMUserModel getToken];
+    
+    NSMutableDictionary * mutableDict = [NSMutableDictionary dictionary];
+    [mutableDict addEntriesFromDictionary:params];
+    
+    if (token != nil) {
+        [mutableDict setObject:token forKey:@"token"];
+    }
+    
+    [self requestWithMethod:method WithPath:@"client/bbsclient.php" WithParams:mutableDict WithSuccessBlock:success WithFailurBlock:failure];
 }
 @end
