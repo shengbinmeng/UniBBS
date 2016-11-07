@@ -8,7 +8,7 @@
 
 #import <AFNetworking/AFNetworking.h>
 
-typedef void (^requestSuccessBlock)(id dic);
+typedef void (^requestSuccessBlock)(NSDictionary *dic);
 
 typedef void (^requestFailureBlock)(NSError *error);
 

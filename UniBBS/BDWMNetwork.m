@@ -23,13 +23,16 @@
 {
     self = [super initWithBaseURL:url];
     if (self) {
-        self.requestSerializer.timeoutInterval = 5;
+        self.requestSerializer.timeoutInterval = 60;
         self.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [self.requestSerializer setValue:url.absoluteString forHTTPHeaderField:@"Referer"];
         
     //    self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/plain", @"text/javascript", @"text/json", @"text/html", nil];
         self.responseSerializer = [AFJSONResponseSerializer serializer];
+        
+        self.securityPolicy.allowInvalidCertificates = YES;
+        self.securityPolicy.validatesDomainName = NO;
         
         self.securityPolicy.allowInvalidCertificates = YES;
     }
@@ -75,6 +78,6 @@
          WithSuccessBlock:(requestSuccessBlock)success
           WithFailurBlock:(requestFailureBlock)failure
 {
-    [self requestWithMethod:method WithPath:@"client/bbscient.php" WithParams:params WithSuccessBlock:success WithFailurBlock:failure];
+    [self requestWithMethod:method WithPath:@"client/bbsclient.php" WithParams:params WithSuccessBlock:success WithFailurBlock:failure];
 }
 @end
