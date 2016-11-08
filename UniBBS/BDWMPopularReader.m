@@ -7,11 +7,22 @@
 //
 
 #import "BDWMPopularReader.h"
+#import "BDWMNetwork.h"
 
 @implementation BDWMPopularReader
 + (NSURLSessionDataTask *)getPopularTopicsOfType:(int)type WithBlock:(void (^)(NSMutableArray *topics, NSError *error))block
 {
-    // TODO: Replace the following code to implement new reader using the API. 
-    return [super getPopularTopicsOfType:type WithBlock:block];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:@"gettop", @"type", @"30", @"number", nil];
+    
+    [[BDWMNetwork sharedManager] requestWithMethod:GET WithParams:params WithSuccessBlock:^(NSDictionary *dic) {
+        NSLog(@"%@", dic);
+        NSArray *array = (NSArray*)dic;
+        NSMutableArray *popularTopics = [[NSMutableArray alloc] initWithArray:array];
+        block(popularTopics, nil);
+    } WithFailurBlock:^(NSError *error) {
+        block(nil, error);
+    }];
+    
+    return nil;
 }
 @end

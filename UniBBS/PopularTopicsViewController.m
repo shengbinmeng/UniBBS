@@ -234,7 +234,7 @@
     cell.textLabel.text = [topic valueForKey:@"title"];
     cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
     
-    NSString *detail = [NSString stringWithFormat:@"%@    -   %@",[topic valueForKey:@"time"], [topic valueForKey:@"author"]];
+    NSString *detail = [NSString stringWithFormat:@"%@    -   %@",[topic valueForKey:@"date"], [topic valueForKey:@"author"]];
     cell.detailTextLabel.text = detail;
     cell.detailTextLabel.font = [UIFont systemFontOfSize:13];
     
@@ -248,8 +248,9 @@
     NSDictionary *topic = [popularTopics objectAtIndex:[indexPath row]];
     TopicViewController *topicViewController = [[TopicViewController alloc] initWithStyle:UITableViewStylePlain];
     topicViewController.title = [topic valueForKey:@"title"];
-    topicViewController.topicURI = [topic valueForKey:@"address"];
-    [self.navigationController pushViewController:topicViewController animated:YES];
+    topicViewController.topicURI = [topic valueForKey:@"threadid"];
+    [BDWMAlertMessage alertMessage:@"Not implemented yet!"];
+    //[self.navigationController pushViewController:topicViewController animated:YES];
 } 
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
