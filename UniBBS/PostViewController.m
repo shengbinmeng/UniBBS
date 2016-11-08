@@ -63,7 +63,7 @@
                 // reply
                 WritingViewController *reply = [[WritingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil];
 
-                reply.href = [self.postAttributes objectForKey:@"replyAddress"];
+            //    reply.href = [self.postAttributes objectForKey:@"replyAddress"];
                 reply.fromWhere = @"reply";
                 [self.navigationController pushViewController:reply animated:YES];
             }else{

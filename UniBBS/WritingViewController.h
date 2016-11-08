@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface WritingViewController : UIViewController
-@property (strong, nonatomic) NSString *href;
+@property (strong, nonatomic) NSString *board;
 @property (strong, nonatomic) NSString *fromWhere;
 @end

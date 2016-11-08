@@ -99,47 +99,18 @@
         [BDWMAlertMessage alertAndAutoDismissMessage:@"怎么也得写点东西再发啊～"];
     }
     
-    NSMutableDictionary* parameters = [NSMutableDictionary dictionary];
-    [parameters setObject:[self.postDict objectForKey:@"board"]    forKey:@"board"];
-    [parameters setObject:[self.postDict objectForKey:@"threadid"] forKey:@"threadid"];
-    [parameters setObject:[self.postDict objectForKey:@"postid"]   forKey:@"postid"];
-    [parameters setObject:[self.postDict objectForKey:@"id"]  forKey:@"id"];
+    int anonymous = 0;
     
-    [parameters setObject:[self.postDict objectForKey:@"code"]             forKey:@"code"];
-    [parameters setObject:[self.postDict objectForKey:@"title_exp"]      forKey:@"title_exp"];
-    [parameters setObject:[self.postDict objectForKey:@"notice_author"]    forKey:@"notice_author"];
-    [parameters setObject:self.titleTextField.text     forKey:@"title"];
-    
-    //SecretGarden plate need weather anonymous flag.
-    if ( [[self.postDict objectForKey:@"board"]  isEqual: @"SecretGarden"]) {
-        [parameters setObject:@"Y" forKey:@"anonymous"];
-    }
-    
-    //some data below may be changeable for user in later version.
-    [parameters setObject:@"N" forKey:@"noreply"];
-    [parameters setObject:@"0" forKey:@"signature"];
-    NSMutableString *postText = [[NSMutableString alloc] init];
-    
-    if( [SettingModel boolUsePostSuffixString] ){
-        postText = [BDWMString linkString:content string:POST_SUFFIX_STRING];
-    }else{
-        postText = [content mutableCopy];
-    }
-    
-    [parameters setObject:postText forKey:@"text"];
-    [parameters setObject:@"on" forKey:@"unfoldpic"];
-    
-    NSString *url = [BDWMString linkString:BDWM_PREFIX string:BDWM_COMPOSE_SUFFIX];
-    [[AFAppDotNetAPIClient sharedClient] POST:url parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSLog(@"Compose pose success!");
+    [BDWMPosting sendPosting:self.board WithTitle:title WithContent:content WithAnonymous:anonymous blockFunction:^(NSDictionary *responseDict, NSString *error) {
         [BDWMAlertMessage stopSpinner];
-        [self.navigationController popViewControllerAnimated:YES];
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"Compose failed!");
-        [BDWMAlertMessage stopSpinner];
-        [BDWMAlertMessage alertAndAutoDismissMessage:@"发布失败"];
+        if (error == nil) {
+            NSLog(@"Compose pose success!");
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            NSLog(@"Compose failed!");
+            [BDWMAlertMessage alertMessage:error];
+        }
     }];
-
 }
 
 - (void) sendButtonPressed {
@@ -169,6 +140,12 @@
         self.title = @"我去！从哪里点过来的！";
     }
     
+    if (self.board == nil || self.board.length == 0) {
+        [BDWMAlertMessage alertMessage:@"从未知版面进入"];
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    
     int screenWidth = [[UIScreen mainScreen] bounds].size.width;
     UIToolbar * topView = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, screenWidth, 36)];
     [topView setBarStyle:UIBarStyleDefault];
@@ -184,112 +161,6 @@
     
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStylePlain target:self action:@selector(sendButtonPressed)];
     self.navigationItem.rightBarButtonItem = button;
-}
-
-
-- (void)viewDidAppear:(BOOL)animated{
-    
-    if (self.href == nil) {
-        [BDWMAlertMessage alertMessage:@"无法回复！可能是置顶帖或无回复权限。"];
-        [self.navigationController popViewControllerAnimated:YES];
-        return;
-    }
-    
-    [BDWMAlertMessage startSpinner:@"加载数据中"];
-    
-    if ( [self.fromWhere isEqualToString:@"reply"] ) {
-        
-        [BDWMTopicModel loadReplyNeededDataWithBlock:self.href blockFunction:^(NSDictionary *dic, NSError *error) {
-            if (!error) {
-                self.postDict = dic;
-                
-                if (self.postDict != nil) {
-                    self.titleTextField.text = [self.postDict objectForKey:@"title_exp"];
-                    self.contentTextView.text = [self.postDict objectForKey:@"quote"];
-                    [BDWMAlertMessage stopSpinner];
-                } else {
-                    //login session failed. then relogin.
-                    //or can't get need data because no reply authority.
-                    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-                    NSString *userName = [userDefaultes stringForKey:@"saved_username"];
-                    NSString *password = [userDefaultes stringForKey:@"saved_password"];
-                    /*
-                    [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
-                        if ( !error && name!=nil ) {//relogin success.
-                            
-                            //refetch data.
-                            [BDWMTopicModel loadReplyNeededDataWithBlock:self.href blockFunction:^(NSDictionary *dic, NSError *error){
-                                self.postDict = dic;
-                                
-                                if (!error) {//relogin success and get needed data.
-                                    if (self.postDict!=nil) {
-                                        self.titleTextField.text = [self.postDict objectForKey:@"title_exp"];
-                                        self.contentTextView.text = [self.postDict objectForKey:@"quote"];
-                                        [BDWMAlertMessage stopSpinner];
-                                    } else {
-                                        //relogin success but still can't get needed data.
-                                        [BDWMAlertMessage stopSpinner];
-                                        [BDWMAlertMessage alertMessage:@"可能是没有权限。"];
-                                        [self.navigationController popViewControllerAnimated:YES];
-                                        return;
-                                    }
-                                } else {//relogin, but still can't get needed data.
-                                    [BDWMAlertMessage stopSpinner];
-                                    [BDWMAlertMessage alertMessage:@"获取不到数据！"];
-                                    [self.navigationController popViewControllerAnimated:YES];
-                                }
-                            }];
-                        } else {//relogin failed.
-                            [BDWMAlertMessage stopSpinner];
-                            [BDWMAlertMessage alertMessage:@"获取不到数据！"];
-                            [self.navigationController popViewControllerAnimated:YES];
-                        }
-                    }];*/
-                }
-            } else {
-                [BDWMAlertMessage stopSpinner];
-                [BDWMAlertMessage alertMessage:@"网络错误"];
-                [self.navigationController popViewControllerAnimated:YES];
-            }
-        }];
-        
-    } else if ([self.fromWhere isEqualToString:@"compose"]){
-        
-        self.postDict = [BDWMTopicModel getNeededComposeData:self.href];
-        
-        if (self.postDict == nil) {
-            //login session failed. then relogin.
-            NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-            NSString *userName = [userDefaultes stringForKey:@"saved_username"];
-            NSString *password = [userDefaultes stringForKey:@"saved_password"];
-            /*
-            [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
-                if ( !error && name!=nil ) {
-                    //refetch data.
-                    self.postDict = [BDWMTopicModel getNeededComposeData:[self href]];
-                    //login success but still can't get needed data.
-                    if (self.postDict == nil) {
-                        [BDWMAlertMessage stopSpinner];
-                        [BDWMAlertMessage alertMessage:@"是不是没有发帖权限？"];
-                        [self.navigationController popViewControllerAnimated:YES];
-                    } else {
-                 //       [BDWMAlertMessage alertAndAutoDismissMessage:@"重新登录成功！"];
-                        [BDWMAlertMessage stopSpinner];
-                    }
-                    
-                } else {//login failed.
-                    [BDWMAlertMessage stopSpinner];
-                    [BDWMAlertMessage alertMessage:@"网络错误？"];
-                    [self.navigationController popViewControllerAnimated:YES];
-                }
-            }];*/
-        } else {
-            //get compose needed data success.
-            [BDWMAlertMessage stopSpinner];
-        }
-    } else {
-        [BDWMAlertMessage alertAndAutoDismissMessage:@"我去！从哪里点过来的！"];
-    }
 }
 
 - (void)didReceiveMemoryWarning {

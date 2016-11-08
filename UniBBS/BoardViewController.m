@@ -110,10 +110,9 @@
                 // new post
                 WritingViewController *newPost = [[WritingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil];
                 newPost.fromWhere = @"compose";
-                newPost.href  = [BDWMString linkString:@"bbspst.php?board=" string:self.boardName];
-                NSLog(@"compose href:%@",newPost.href);
+                newPost.board  = self.boardURI;
                 [self.navigationController pushViewController:newPost animated:YES];
-            }else{
+            } else {
                 //Todo: segue to login view, and if login success, segue to compose topic view.
                 [BDWMAlertMessage alertAndAutoDismissMessage:@"登录以后才能发帖呢."];
             }
