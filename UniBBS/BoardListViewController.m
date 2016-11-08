@@ -68,6 +68,7 @@
             } else {
                 self.boardList = categaryBoardList;
             }
+            [self.tableView reloadData];
             break;
         }
         case 1:
@@ -76,15 +77,12 @@
             [self.view insertSubview:indicator aboveSubview:self.tableView];
             indicator.center = self.view.center;
             [indicator startAnimating];
-            
             [self performSelectorInBackground:@selector(loadData:) withObject:indicator];
         }
             break;
         default:
             break;
     }
-    
-    [self.tableView reloadData];
 }
 
 #pragma mark - View lifecycle

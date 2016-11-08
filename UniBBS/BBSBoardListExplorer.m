@@ -89,8 +89,11 @@
 
 - (NSMutableArray*) getWholeBoardList
 {
+    NSString *oldAddress = self.dataAddress;
     self.dataAddress = @"http://www.bdwm.net/bbs/bbsall.php";
-    return [self getBoardList];
+    NSMutableArray* list = [self getBoardList];
+    self.dataAddress = oldAddress;
+    return list;
 }
 
 @end
