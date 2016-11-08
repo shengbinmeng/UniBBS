@@ -12,7 +12,7 @@
 @implementation BDWMPosting
 
 + (void) sendPosting:(NSString *)board WithTitle:(NSString *)title WithContent:(NSString *)content  WithAnonymous:(int)anonymous blockFunction:(void (^)(NSDictionary *responseDict, NSString *error))block{
-    [[BDWMNetwork sharedManager] requestWithMethod:POST WithParams:[NSDictionary dictionaryWithObjectsAndKeys:@"post", @"type", title, @"title", content, @"text", [NSNumber numberWithInt: anonymous], @"anonymous", nil] WithSuccessBlock:^(NSDictionary *dic) {
+    [[BDWMNetwork sharedManager] requestWithMethod:POST WithParams:[NSDictionary dictionaryWithObjectsAndKeys:@"post", @"type", board, @"board", title, @"title", content, @"text", [NSNumber numberWithInt: anonymous], @"anonymous", nil] WithSuccessBlock:^(NSDictionary *dic) {
         int code = [[dic objectForKey:@"code"] intValue];
         if (code == 0) {
             block(dic, nil);
