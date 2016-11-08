@@ -94,7 +94,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     if ([self.title isEqualToString:@"分类讨论区"]) {
-        UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(buttonPressed)];
+        UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStylePlain target:self action:@selector(buttonPressed)];
         self.navigationItem.rightBarButtonItem = button;
     }
         

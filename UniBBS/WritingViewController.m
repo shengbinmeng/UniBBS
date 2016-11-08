@@ -182,7 +182,7 @@
     
     [self.contentTextView setInputAccessoryView:topView];
     
-    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStyleBordered target:self action:@selector(sendButtonPressed)];
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStylePlain target:self action:@selector(sendButtonPressed)];
     self.navigationItem.rightBarButtonItem = button;
 }
 

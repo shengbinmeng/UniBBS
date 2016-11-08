@@ -154,19 +154,19 @@
 {
     [super viewDidLoad];
     
-    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(showOptions)];
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStylePlain target:self action:@selector(showOptions)];
     self.navigationItem.rightBarButtonItem = button;
     
     UIBarButtonItem *prev = [[UIBarButtonItem alloc] initWithTitle:@"上一篇"
-                                  style:UIBarButtonItemStyleBordered   
+                                  style:UIBarButtonItemStylePlain
                                   target:self
                                   action:@selector(displayPreviousPost)];
     UIBarButtonItem *expan = [[UIBarButtonItem alloc] initWithTitle:@"同主题展开"
-                                                                  style:UIBarButtonItemStyleBordered
+                                                                  style:UIBarButtonItemStylePlain
                                                                  target:self
                                                                  action:@selector(expandSameTopic)];
     UIBarButtonItem *next = [[UIBarButtonItem alloc] initWithTitle:@"下一篇"
-                                    style:UIBarButtonItemStyleBordered
+                                    style:UIBarButtonItemStylePlain
                                     target:self
                                     action:@selector(displayNextPost)];
     UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];

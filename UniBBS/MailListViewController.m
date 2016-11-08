@@ -69,7 +69,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"写信" style:UIBarButtonItemStyleBordered target:self action:@selector(segueToComposeMail)];
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"写信" style:UIBarButtonItemStylePlain target:self action:@selector(segueToComposeMail)];
     self.navigationItem.rightBarButtonItem = button;
     
     [BDWMAlertMessage alertMessage:@"站内信功能暂时下线啦，请在web端进行处理~"];
