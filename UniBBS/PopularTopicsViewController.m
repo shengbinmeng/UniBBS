@@ -236,7 +236,7 @@
     cell.textLabel.text = [topic valueForKey:@"title"];
     cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
     
-    NSString *detail = [NSString stringWithFormat:@"%@    -   %@",[topic valueForKey:@"date"], [topic valueForKey:@"author"]];
+    NSString *detail = [NSString stringWithFormat:@"%@  -  %@  -  %@",[topic valueForKey:@"date"], [topic valueForKey:@"author"], [topic valueForKey:@"boardDescription"]];
     cell.detailTextLabel.text = detail;
     cell.detailTextLabel.font = [UIFont systemFontOfSize:13];
     
