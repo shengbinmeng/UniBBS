@@ -31,59 +31,29 @@
 
 - (void)doReply
 {
-    NSDictionary *dic_needed_data = self.postDict;
+    NSString *title = self.titleTextField.text;
+    NSString *content = self.contentTextView.text;
     
-    NSString *board         = [dic_needed_data objectForKey:@"board"];
-    NSString *threadid      = [dic_needed_data objectForKey:@"threadid"];
-    NSString *postid        = [dic_needed_data objectForKey:@"postid"];
-    NSString *user_id       = [dic_needed_data objectForKey:@"user_id"];
-    NSString *code          = [dic_needed_data objectForKey:@"code"];
-    NSString *reply_title   = [dic_needed_data objectForKey:@"title_exp"];
-    NSString *notice_author = [dic_needed_data objectForKey:@"notice_author"];
-    NSString *quser         = [dic_needed_data objectForKey:@"quser"];
-    
-    NSLog(@"Reply_title:%@",reply_title);
-    //This dictionary's data was actually needed for reply post.
-    //Which data was need? We find needed data through poat data analyse by network of chrome developer tool.
-    NSMutableDictionary* dic = [NSMutableDictionary dictionary];
-    [dic setObject:board    forKey:@"board"];
-    [dic setObject:threadid forKey:@"threadid"];
-    [dic setObject:postid   forKey:@"postid"];
-    [dic setObject:user_id  forKey:@"id"];
-    
-    [dic setObject:code             forKey:@"code"];
-    [dic setObject:reply_title      forKey:@"title_exp"];
-    [dic setObject:notice_author    forKey:@"notice_author"];
-    [dic setObject:self.titleTextField.text     forKey:@"title"];
-    
-    //SecretGarden plate need weather anonymous flag.
-    if ([board isEqual: @"SecretGarden"]) {
-        [dic setObject:@"Y" forKey:@"anonymous"];
+    if (title.length == 0) {
+        [BDWMAlertMessage alertAndAutoDismissMessage:@"亲，忘记写标题了。"];
+        return;
+    }
+    if (content.length == 0) {
+        [BDWMAlertMessage alertAndAutoDismissMessage:@"怎么也得写点东西再发啊～"];
+        return;
     }
     
-    //some data below may be changeable for user in later version.
-    [dic setObject:@"N" forKey:@"noreply"];
-    [dic setObject:@"0" forKey:@"signature"];
-    NSMutableString *content = [[NSMutableString alloc] init];
-    if ([SettingModel boolUsePostSuffixString]) {
-        content = [BDWMString linkString:self.contentTextView.text string:POST_SUFFIX_STRING];
-    } else {
-        content = [self.contentTextView.text mutableCopy];
-    }
+    int anonymous = 0;
     
-    [dic setObject:content forKey:@"text"];
-    [dic setObject:quser forKey:@"quser"];
-    [dic setObject:@"on" forKey:@"unfoldpic"];
-    
-    NSString *url = [BDWMString linkString:BDWM_PREFIX string:BDWM_COMPOSE_SUFFIX];
-    [[AFAppDotNetAPIClient sharedClient] POST:url parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSLog(@"Reply success!");
+    [BDWMPosting replyPosting:self.board WithTitle:title WithContent:content WithAnonymous:anonymous WithThreadid:self.threadid  WithPostid:self.postid  WithAuthor:self.author blockFunction:^(NSDictionary *responseDict, NSString *error) {
         [BDWMAlertMessage stopSpinner];
-        [self.navigationController popViewControllerAnimated:YES];
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"Reply failed!");
-        [BDWMAlertMessage stopSpinner];
-        [BDWMAlertMessage alertAndAutoDismissMessage:@"发布失败"];
+        if (error == nil) {
+            NSLog(@"Reply pose success!");
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            NSLog(@"Reply failed!");
+            [BDWMAlertMessage alertMessage:error];
+        }
     }];
 }
 
@@ -94,9 +64,11 @@
     
     if (title.length == 0) {
         [BDWMAlertMessage alertAndAutoDismissMessage:@"亲，忘记写标题了。"];
+        return;
     }
     if (content.length == 0) {
         [BDWMAlertMessage alertAndAutoDismissMessage:@"怎么也得写点东西再发啊～"];
+        return;
     }
     
     int anonymous = 0;

@@ -149,11 +149,19 @@
                 if ([BDWMUserModel isLogined]) {
                     // reply
                     WritingViewController *reply = [[WritingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil];
-                    NSDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
-             //       reply.href = [post objectForKey:@"replyAddress"];
+                    NSDictionary * postDict = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+                    NSInteger index = [self.topicURI rangeOfString:@"/"].location;
+                    NSString* board = [self.topicURI substringToIndex:index];
+                    NSString* threadid = [self.topicURI substringFromIndex:index+1];
+                    
                     reply.fromWhere = @"reply";
+                    reply.board = board;
+                    reply.threadid = threadid;
+                    reply.postid = (NSString *)[postDict objectForKey:@"postid"];
+                    reply.author = (NSString *)[postDict objectForKey:@"author"];
+                    
                     [self.navigationController pushViewController:reply animated:YES];
-                }else{
+                } else {
                     //did not logined
                     //Todo: segue to login view, and if login success, segue to reply view.
                     [BDWMAlertMessage alertAndAutoDismissMessage:@"登录以后才能回复呢."];
