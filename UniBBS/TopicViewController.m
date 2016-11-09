@@ -315,12 +315,18 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    //CGFloat contentWidth = self.tableView.frame.size.width;
     UIFont *font = [UIFont systemFontOfSize:14];
     NSString *content = [[self.topicPosts objectAtIndex:indexPath.row] valueForKey:@"content"];
+
     cell.textLabel.numberOfLines = 0;
     cell.textLabel.font = font;
-    cell.textLabel.text = content;
+    
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithData:[content dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType} documentAttributes:nil error:nil];
+    
+    NSDictionary *attributes = @{NSFontAttributeName:font};
+    [attributedString addAttributes:attributes range:NSMakeRange(0, attributedString.length)];
+    
+    cell.textLabel.attributedText = attributedString;
     cell.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     cell.textLabel.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
