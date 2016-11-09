@@ -72,10 +72,6 @@
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"写信" style:UIBarButtonItemStylePlain target:self action:@selector(segueToComposeMail)];
     self.navigationItem.rightBarButtonItem = button;
     
-    [BDWMAlertMessage alertMessage:@"站内信功能暂时下线啦，请在web端进行处理~"];
-    [self.navigationController popViewControllerAnimated:YES];
-    return;
-    
     self.refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
     [self.tableView.tableHeaderView addSubview:self.refreshControl];

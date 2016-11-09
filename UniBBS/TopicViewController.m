@@ -170,6 +170,8 @@
                 break;
             }
             case 1:{
+                [BDWMAlertMessage alertMessage:@"站内信功能暂时下线啦，请在web端进行处理~"];
+                /*
                  if ([BDWMUserModel isLogined]) {
                      // reply mail
                      WritingMailViewController *mail = [[WritingMailViewController alloc] initWithNibName:@"WritingMailViewController" bundle:nil];
@@ -181,7 +183,7 @@
                      //Todo: segue to login view, and if login success, segue to reply mail view.
                      [BDWMAlertMessage alertAndAutoDismissMessage:@"登录以后才能写信呢."];
                  }
-                
+                */
                 break;
             }
             case 2:{
