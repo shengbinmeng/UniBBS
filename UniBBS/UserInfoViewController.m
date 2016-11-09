@@ -59,6 +59,21 @@
     self.loginTimesLabel.text = [NSString stringWithFormat: @"%d", [[self.userInfoDict objectForKey:@"numlogins"] intValue]];
     self.postingNumLabel.text = [NSString stringWithFormat: @"%d", [[self.userInfoDict objectForKey:@"numposts"] intValue]];
     self.energyNumLabel.text = [NSString stringWithFormat: @"%d", [[self.userInfoDict objectForKey:@"life"] intValue]];
+    
+    int numSeconds = [[self.userInfoDict objectForKey:@"staytime"] intValue];
+    int days = numSeconds / (60 * 60 * 24);
+    numSeconds -= days * (60 * 60 * 24);
+    int hours = numSeconds / (60 * 60);
+    if (days > 0) {
+        self.totalScoreLabel.text = [NSString stringWithFormat: @"%d天%d小时", days, hours];
+    } else {
+        self.totalScoreLabel.text = [NSString stringWithFormat: @"%d小时", hours];
+    }
+    
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[self.userInfoDict objectForKey:@"createtime"] intValue]];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy年MM月dd日 HH时mm分"];
+    self.originalScoreLabel.text = [dateFormatter stringFromDate:date];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
