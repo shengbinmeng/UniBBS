@@ -12,10 +12,12 @@
 
 + (void)logout;
 + (void)deleteUsernameAndPassword;
-+ (void)saveUsernameAndPassword:(NSString *)userName userPassword:(NSString *)userPassword  token:(NSString *)token;
++ (void)saveUserInformation:(NSDictionary *)userInfo;
 + (BOOL)checkUserName:(TFHpple *)doc UserName:(NSString *)user_name;
 + (void) checkLogin:(NSString *)UserName userPass:(NSString *)UserPass blockFunction:(void (^)(NSDictionary *name, NSString *error))block;
 + (NSMutableDictionary *)LoadUserInfo:(NSString *)userName;
+
++ (NSDictionary *)getStoredUserInfo;
 
 + (BOOL)isLogined;
 + (NSString*)getLoginUser;

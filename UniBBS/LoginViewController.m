@@ -49,7 +49,6 @@
     [BDWMUserModel checkLogin:userName userPass:userPass blockFunction:^(NSDictionary *responseDict, NSString *error){
         if (error == nil) {
             UserInfoViewController *userInfoViewController = [[UserInfoViewController alloc] initWithNibName:@"UserInfoViewController" bundle:nil];
-            userInfoViewController.userName = userName;
             
             userInfoViewController.userInfoDict = responseDict;
             [BDWMAlertMessage stopSpinner];
@@ -58,8 +57,8 @@
             self.userPasswordTextField.text = @"";
         } else {
             [BDWMAlertMessage stopSpinner];
-            self.userNameTextField.text = @"";
             self.userPasswordTextField.text = @"";
+            [self.userNameTextField becomeFirstResponder];
             [BDWMAlertMessage alertAndAutoDismissMessage:error];
         }
     }];
@@ -86,20 +85,6 @@
     [super viewDidAppear:animated];
 
     [self.userNameTextField becomeFirstResponder];
-    
-    if (NO == [BDWMUserModel isLogined]) {
-        NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-        NSString *userName = [userDefaultes stringForKey:@"saved_username"];
-        NSString *password = [userDefaultes stringForKey:@"saved_password"];
-        
-        if( userName==nil || password==nil )
-            return;
-        self.userNameTextField.text = userName;
-        self.userPasswordTextField.text = password;
-        
-        [self clickLoginButton:self];
-        
-    }
 }
 
 - (void)didReceiveMemoryWarning {

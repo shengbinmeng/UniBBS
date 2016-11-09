@@ -53,9 +53,7 @@ static BOOL enterAppAndAutoLogin = NO;
 
 + (void)deleteUsernameAndPassword {
     NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-    [userDefaultes removeObjectForKey:@"saved_username"];
-    [userDefaultes removeObjectForKey:@"saved_password"];
-    [userDefaultes removeObjectForKey:@"saved_token"];
+    [userDefaultes removeObjectForKey:@"userInfo"];
     [userDefaultes synchronize];
     
     logined = NO;
@@ -63,11 +61,9 @@ static BOOL enterAppAndAutoLogin = NO;
     _token = nil;
 }
 
-+ (void)saveUsernameAndPassword:(NSString *)userName userPassword:(NSString *)userPassword  token:(NSString *)token{
++ (void)saveUserInformation:(NSDictionary *)userInfo {
     NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-    [userDefaultes setObject:userName forKey:@"saved_username"];
-    [userDefaultes setObject:userPassword forKey:@"saved_password"];
-    [userDefaultes setObject:token forKey:@"saved_token"];
+    [userDefaultes setObject:userInfo forKey:@"userInfo"];
     [userDefaultes synchronize];
     
     logined = YES;
@@ -77,8 +73,8 @@ static BOOL enterAppAndAutoLogin = NO;
     if (_token == nil) {
         _token = [[NSString alloc] init];
     }
-    loginUser = [userName copy];
-    _token = [token copy];
+    loginUser = [(NSString *)[userInfo objectForKey:@"username"] copy];
+    _token = [(NSString *)[userInfo objectForKey:@"token"] copy];
 }
 
 + (void)checkLogin:(NSString *)UserName userPass:(NSString *)UserPass blockFunction:(void (^)(NSDictionary *responseDict, NSString *error))block
@@ -86,8 +82,11 @@ static BOOL enterAppAndAutoLogin = NO;
     [[BDWMNetwork sharedManager] requestWithMethod:POST WithParams:[NSDictionary dictionaryWithObjectsAndKeys:@"login", @"type", UserName, @"username", UserPass, @"password",nil] WithSuccessBlock:^(NSDictionary *dic) {
         int code = [[dic objectForKey:@"code"] intValue];
         if (code == 0) {
-            NSString *token = (NSString *)[dic objectForKey:@"token"];
-            [BDWMUserModel saveUsernameAndPassword:UserName userPassword:UserPass token:token];
+            NSMutableDictionary * mutableDict = [NSMutableDictionary dictionary];
+            [mutableDict addEntriesFromDictionary:dic];
+            [mutableDict setObject:UserName forKey:@"username"];
+            [mutableDict setObject:UserPass forKey:@"password"];
+            [BDWMUserModel saveUserInformation:mutableDict];
             block(dic, nil);
         } else {
             block(dic, (NSString *)[dic objectForKey:@"msg"]);
@@ -95,6 +94,13 @@ static BOOL enterAppAndAutoLogin = NO;
     } WithFailurBlock:^(NSError *error) {
         block(nil, error.localizedDescription);
     }];
+}
+
++ (NSDictionary *)getStoredUserInfo {
+    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+    NSDictionary * userInfo = [userDefaultes dictionaryForKey:@"userInfo"];
+    
+    return userInfo;
 }
 
 + (BOOL)checkUserName:(TFHpple *)doc UserName:(NSString *)user_name{

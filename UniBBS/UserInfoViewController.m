@@ -52,8 +52,8 @@
     button = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
     self.navigationItem.leftBarButtonItem = button;
     
-    if (self.userInfoDict==nil) {
-        self.userInfoDict = [BDWMUserModel LoadUserInfo:[BDWMUserModel getLoginUser]];
+    if (self.userInfoDict == nil) {
+        self.userInfoDict = [BDWMUserModel getStoredUserInfo];
     }
     self.userNameLabel.text = (NSString *)[self.userInfoDict objectForKey:@"nickname"];
     self.loginTimesLabel.text = [NSString stringWithFormat: @"%d", [[self.userInfoDict objectForKey:@"numlogins"] intValue]];
