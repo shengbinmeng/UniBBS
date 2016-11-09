@@ -7,19 +7,41 @@
 //
 
 #import "BDWMBoardReader.h"
+#import "BDWMNetwork.h"
 
-@implementation BDWMBoardReader
+@implementation BDWMBoardReader {
+    NSString *_board;
+    int _page;
+}
 
 - (id)initWithURI:(NSString *)uri
 {
-    // TODO: Override to implement with new API.
-    return [super initWithURI:uri];
+    self = [super init];
+    if (self) {
+        _board = uri;
+        _page = 1;
+    }
+    return self;
 }
 
 - (NSURLSessionDataTask *)getBoardTopicsWithBlock:(void (^)(NSMutableArray *topics, NSError *error))block
 {
-    // TODO: Override to implement with new API.
-    return [super getBoardTopicsWithBlock:block];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:@"getthreads", @"type", _board, @"board", [NSString stringWithFormat:@"%d", _page], @"page", nil];
+    
+    [[BDWMNetwork sharedManager] requestWithMethod:GET WithParams:params WithSuccessBlock:^(NSDictionary *dic) {
+        int code = [[dic objectForKey:@"code"] intValue];
+        if (code == 0) {
+            NSMutableArray *topics = [NSMutableArray arrayWithArray:[dic objectForKey:@"datas"]];
+            block(topics, nil);
+        } else {
+            NSDictionary *errorDictionary = @{NSLocalizedDescriptionKey : [dic objectForKey:@"msg"]};
+            NSError *error = [NSError errorWithDomain:@"BDWM API Error" code:code userInfo:errorDictionary];
+            block(nil, error);
+        }
+    } WithFailurBlock:^(NSError *error) {
+        block(nil, error);
+    }];
+    return nil;
 }
 
 - (NSURLSessionDataTask *)getBoardPostsWithBlock:(void (^)(NSMutableArray *posts, NSError *error))block
@@ -30,8 +52,8 @@
 
 - (NSURLSessionDataTask *)getBoardNextTopicsWithBlock:(void (^)(NSMutableArray *topics, NSError *error))block
 {
-    // TODO: Override to implement with new API.
-    return [super getBoardNextTopicsWithBlock:block];
+    _page++;
+    return [self getBoardTopicsWithBlock:block];
 }
 
 - (NSURLSessionDataTask *)getBoardNextPostsWithBlock:(void (^)(NSMutableArray *posts, NSError *error))block

@@ -86,7 +86,7 @@
                 [self.tableView reloadData];
             }
         }else{
-            [BDWMAlertMessage alertAndAutoDismissMessage:@"获取不到数据."];
+            [BDWMAlertMessage alertMessage:[error localizedDescription]];
             [self.navigationController popViewControllerAnimated:YES];
         }
     }];
@@ -180,7 +180,8 @@
                 // favourite
                 NSMutableDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
                 [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
-                [BBSFavouritesManager saveFavouritePost:post];
+                // TODO: Fix this.
+                //[BBSFavouritesManager saveFavouritePost:post];
                 break;
             }
             case 3:{

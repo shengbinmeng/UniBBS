@@ -104,6 +104,7 @@
         if (!error) {
             self.popularTopics = topics;
             [self.tableView reloadData];
+            [self.refreshControl endRefreshing];
         } else {
             [BDWMAlertMessage alertAndAutoDismissMessage:@"未取到数据！可能是网络或其他原因导致。"];
         }
@@ -119,7 +120,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStylePlain target:self action:@selector(buttonPressed)];
-    self.navigationItem.rightBarButtonItem = button;
+    // TODO: Remove UI because feature is removed.
+    //self.navigationItem.rightBarButtonItem = button;
     
 //    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 //    [button1 setTitle:@"更多" forState:UIControlStateNormal];
@@ -248,9 +250,8 @@
     NSDictionary *topic = [popularTopics objectAtIndex:[indexPath row]];
     TopicViewController *topicViewController = [[TopicViewController alloc] initWithStyle:UITableViewStylePlain];
     topicViewController.title = [topic valueForKey:@"title"];
-    topicViewController.topicURI = [topic valueForKey:@"threadid"];
-    [BDWMAlertMessage alertMessage:@"Not implemented yet!"];
-    //[self.navigationController pushViewController:topicViewController animated:YES];
+    topicViewController.topicURI = [NSString stringWithFormat:@"%@/%@", [topic valueForKey:@"boardName"], [topic valueForKey:@"threadid"]];
+    [self.navigationController pushViewController:topicViewController animated:YES];
 } 
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath

@@ -144,7 +144,8 @@
         option1 = @"回帖模式";
     }
     
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发表新帖", option1, @"收藏本版", nil];
+    // TODO: Mode selection is disable for now. Enable it later.
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发表新帖", @"收藏本版", nil];
     [sheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
 }
 
@@ -192,7 +193,7 @@
                 
             }
         }else{
-            [BDWMAlertMessage alertAndAutoDismissMessage:@"获取不到数据."];
+            [BDWMAlertMessage alertAndAutoDismissMessage:[error localizedDescription]];
             [self.navigationController popViewControllerAnimated:YES];
         }
     }];
@@ -354,14 +355,19 @@
     if (topicMode) {
         NSDictionary *topic = [boardTopics objectAtIndex:[indexPath row]];
 
-        if ([[topic valueForKey:@"sticky"] isEqualToString:@"YES"]) {
+        if ([[topic valueForKey:@"top"] intValue] == 1) {
             cell.textLabel.text = [NSString stringWithFormat:@"%@%@", @"【置顶】", [topic valueForKey:@"title"]];
         } else {
             cell.textLabel.text = [topic valueForKey:@"title"];
         }
         cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
         
-        NSString *detail = [NSString stringWithFormat:@"%@    -   %@",[topic valueForKey:@"time"], [topic valueForKey:@"author"]];
+        NSInteger timestamp = [[topic valueForKey:@"timestamp"] intValue];
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:timestamp];
+        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+        [format setDateFormat:@"MM-dd HH:mm:ss"];
+        NSString *time = [format stringFromDate:date];
+        NSString *detail = [NSString stringWithFormat:@"%@    -   %@", time , [topic valueForKey:@"author"]];
         cell.detailTextLabel.text = detail;
         cell.detailTextLabel.font = [UIFont systemFontOfSize:13];
 
@@ -374,7 +380,7 @@
         }
         cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
         
-        NSString *detail = [NSString stringWithFormat:@"%@    -   %@",[ post valueForKey:@"time"], [post valueForKey:@"author"]];
+        NSString *detail = [NSString stringWithFormat:@"%@    -   %@",[post valueForKey:@"time"], [post valueForKey:@"author"]];
         cell.detailTextLabel.text = detail;
         cell.detailTextLabel.font = [UIFont systemFontOfSize:13];
     }
@@ -398,7 +404,7 @@
         NSDictionary *topic = [boardTopics objectAtIndex:[indexPath row]];
         TopicViewController *topicViewController = [[TopicViewController alloc] initWithStyle:UITableViewStylePlain];
         topicViewController.title = [topic valueForKey:@"title"];
-        topicViewController.topicURI = [topic valueForKey:@"address"];
+        topicViewController.topicURI = [NSString stringWithFormat:@"%@/%@", self.boardURI, [topic valueForKey:@"threadid"]];
         [self.navigationController pushViewController:topicViewController animated:YES];    
     } else {
         NSDictionary *post = [boardPosts objectAtIndex:[indexPath row]];
