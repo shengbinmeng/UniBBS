@@ -197,9 +197,25 @@
             case 3:{
                 // attachments
                 AttachmentsViewController *attachViewController = [[AttachmentsViewController alloc] init];
-                NSDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+                NSDictionary *post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
                 [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
-                NSArray *attachments = [post valueForKey:@"attachments"];
+                NSString *attaches = [post valueForKey:@"attaches"];
+                NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"([^\"]*)\"[^>]*>([^<]*)</a>" options:0 error:NULL];
+                NSArray *result = [regex matchesInString:attaches options:0 range:NSMakeRange(0, attaches.length)];
+                NSMutableArray * attachments = [[NSMutableArray alloc] init];
+                if ([result count] != 0) {
+                    for (int i = 0; i < [result count]; ++i) {
+                        NSMutableDictionary * attach = [[NSMutableDictionary alloc] init];
+                        NSTextCheckingResult *r = [result objectAtIndex:i];
+                        NSString *url = [attaches substringWithRange:[r rangeAtIndex:1]];
+                        // Note that the API doesn't document the URL encoding. Now it is GB18030 and they may change it later.
+                        url = [url stringByAddingPercentEscapesUsingEncoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000)];
+                        NSString *name = [attaches substringWithRange:[r rangeAtIndex:2]];
+                        [attach setValue:url forKey:@"url"];
+                        [attach setValue:name forKey:@"name"];
+                        [attachments addObject:attach];
+                    }
+                }
                 attachViewController.title = @"附件列表";
                 attachViewController.attachments = attachments;
                 [self.navigationController pushViewController:attachViewController animated:YES];
@@ -315,18 +331,22 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    UIFont *font = [UIFont systemFontOfSize:14];
-    NSString *content = [[self.topicPosts objectAtIndex:indexPath.row] valueForKey:@"content"];
-
-    cell.textLabel.numberOfLines = 0;
-    cell.textLabel.font = font;
+    NSString *orignalContent = [[self.topicPosts objectAtIndex:indexPath.row] valueForKey:@"content"];
+    
+    NSMutableString *content = [[NSMutableString alloc] initWithString:orignalContent];
+    // Remove all embeded image because we can not display them in text label. And the problem is they will also make it slower to create attributed string below.
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<img[^>]+>" options:0 error:NULL];
+    [regex replaceMatchesInString:content options:0 range:NSMakeRange(0, [content length]) withTemplate:@""];
     
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithData:[content dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType} documentAttributes:nil error:nil];
     
+    UIFont *font = [UIFont systemFontOfSize:14];
     NSDictionary *attributes = @{NSFontAttributeName:font};
     [attributedString addAttributes:attributes range:NSMakeRange(0, attributedString.length)];
     
     cell.textLabel.attributedText = attributedString;
+    cell.textLabel.font = font;
+    cell.textLabel.numberOfLines = 0;
     cell.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     cell.textLabel.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
@@ -340,7 +360,7 @@
 {
     UIActionSheet *sheet;
     NSDictionary * post = [self.topicPosts objectAtIndex:indexPath.row];
-    if ([post valueForKey:@"attachments"] != nil) {
+    if ([post valueForKey:@"attaches"] != nil) {
         sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"回信给作者", @"收藏此帖", @"查看附件", nil];
     } else {
         sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"回信给作者", @"收藏此帖", nil];
