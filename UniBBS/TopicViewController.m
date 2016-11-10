@@ -84,6 +84,7 @@
             }else{
                 //find topicposts.
                 [self.tableView reloadData];
+                [self.refreshControl endRefreshing];
             }
         }else{
             [BDWMAlertMessage alertMessage:[error localizedDescription]];
