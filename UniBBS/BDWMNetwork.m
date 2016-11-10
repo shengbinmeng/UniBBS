@@ -50,7 +50,27 @@
         case GET:{
             [self GET:path parameters:params progress:nil success:^(NSURLSessionTask *task, NSDictionary * responseObject) {
                 NSLog(@"JSON: %@", responseObject);
-                success(responseObject);
+                if ([responseObject isKindOfClass:[NSArray class]]) {
+                    success(responseObject);
+                } else {
+                    int code = [[responseObject objectForKey:@"code"] intValue];
+                    NSString * msg = (NSString *)[responseObject objectForKey:@"msg"];
+                    
+                    //token expire
+                    if ([msg  isEqual: @"您所在的IP段被禁止访问该页面。"] && code == -1) {
+                        [BDWMUserModel autoLogin:^() {
+                            [self GET:path parameters:params progress:nil  success:^(NSURLSessionTask *task, NSDictionary * responseObject1) {
+                                success(responseObject1);
+                            } failure:^(NSURLSessionTask *operation, NSError *error) {
+                                success(responseObject);
+                            }];
+                        } WithFailurBlock:^(){
+                            success(responseObject);
+                        }];
+                    } else {
+                        success(responseObject);
+                    }
+                }
             } failure:^(NSURLSessionTask *operation, NSError *error) {
                 NSLog(@"Error: %@", error);
                 failure(error);

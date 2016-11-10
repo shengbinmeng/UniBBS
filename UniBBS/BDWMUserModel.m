@@ -113,6 +113,7 @@ static BOOL enterAppAndAutoLogin = NO;
         }];
     } else {
         NSLog(@"saved user info not found");
+        failure();
     }
 }
 
