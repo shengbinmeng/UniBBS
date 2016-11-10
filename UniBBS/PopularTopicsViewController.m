@@ -151,31 +151,14 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    /*
+    
     if ([BDWMUserModel getEnterAppAndAutoLogin]==YES && [BDWMUserModel isLogined]==NO) {
-        NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-        NSString *userName = [userDefaultes stringForKey:@"saved_username"];
-        NSString *password = [userDefaultes stringForKey:@"saved_password"];
-        
-        if (userName==nil || password==nil ) {
-            return;
-        }
-        [BDWMAlertMessage startSpinner:@"正在登录..."];
-        
-        [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
-            if ( !error && name!=nil ) {
-                // I find it annoying when I want to read the content but alert comes up
-                //[BDWMAlertMessage alertAndAutoDismissMessage:@"登录成功！"];
-                [BDWMUserModel setEnterAppAndAutoLogin:NO];
-                [BDWMAlertMessage stopSpinner];
-            }else{
-                [BDWMAlertMessage alertMessage:@"登录失败!"];
-            }
+        [BDWMUserModel autoLogin:^() {
+            [BDWMAlertMessage alertMessage:@"登录成功!"];
+        } WithFailurBlock:^(){
+            [BDWMAlertMessage alertMessage:@"登录失败!"];
         }];
-        
-        
     }
-     */
 }
 
 - (void)viewWillDisappear:(BOOL)animated

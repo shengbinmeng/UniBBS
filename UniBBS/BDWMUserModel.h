@@ -13,9 +13,9 @@
 + (void)logout;
 + (void)deleteUsernameAndPassword;
 + (void)saveUserInformation:(NSDictionary *)userInfo;
-+ (BOOL)checkUserName:(TFHpple *)doc UserName:(NSString *)user_name;
 + (void) checkLogin:(NSString *)UserName userPass:(NSString *)UserPass blockFunction:(void (^)(NSDictionary *name, NSString *error))block;
-+ (NSMutableDictionary *)LoadUserInfo:(NSString *)userName;
+
++ (void)autoLogin:(void (^)())success WithFailurBlock:(void (^)())failure;
 
 + (NSDictionary *)getStoredUserInfo;
 
