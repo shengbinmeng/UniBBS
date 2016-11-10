@@ -8,6 +8,7 @@
 
 #import "BDWMNetwork.h"
 #import "BDWMUserModel.h"
+#import "BDWMGlobalData.h"
 
 @implementation BDWMNetwork
 
@@ -24,7 +25,7 @@
 {
     self = [super initWithBaseURL:url];
     if (self) {
-        self.requestSerializer.timeoutInterval = 60;
+        self.requestSerializer.timeoutInterval = DEFAULT_TIMEOUT_SECONDS;
         self.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [self.requestSerializer setValue:url.absoluteString forHTTPHeaderField:@"Referer"];
