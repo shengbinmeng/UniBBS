@@ -8,10 +8,16 @@
 
 #import "BDWMPosting.h"
 #import "BDWMNetwork.h"
+#import "BDWMGlobalData.h"
+#import "SettingModel.h"
 
 @implementation BDWMPosting
 
 + (void) sendPosting:(NSString *)board WithTitle:(NSString *)title WithContent:(NSString *)content  WithAnonymous:(int)anonymous blockFunction:(void (^)(NSDictionary *responseDict, NSString *error))block {
+    if ([SettingModel boolUsePostSuffixString]) {
+        content = [content stringByAppendingString:POST_SUFFIX_STRING];
+    }
+    
     NSDictionary *param = @{
                             @"type" : @"post",
                             @"board" : board,
@@ -33,6 +39,10 @@
 }
 
 + (void) replyPosting:(NSString *)board WithTitle:(NSString *)title WithContent:(NSString *)content  WithAnonymous:(int)anonymous WithThreadid:(NSString *)threadid WithPostid:(NSString *)postid WithAuthor:(NSString *)author blockFunction:(void (^)(NSDictionary *responseDict, NSString *error))block {
+    if ([SettingModel boolUsePostSuffixString]) {
+        content = [content stringByAppendingString:POST_SUFFIX_STRING];
+    }
+    
     NSDictionary *param = @{
                             @"type" : @"post",
                             @"board" : board,
