@@ -59,7 +59,15 @@
                     //token expire
                     if ([msg  isEqual: @"您所在的IP段被禁止访问该页面。"] && code == -1) {
                         [BDWMUserModel autoLogin:^() {
-                            [self GET:path parameters:params progress:nil  success:^(NSURLSessionTask *task, NSDictionary * responseObject1) {
+                            NSString *token = [BDWMUserModel getToken];
+                            
+                            NSMutableDictionary * mutableDict = [NSMutableDictionary dictionary];
+                            [mutableDict addEntriesFromDictionary:params];
+                            
+                            if (token != nil) {
+                                [mutableDict setObject:token forKey:@"token"];
+                            }
+                            [self GET:path parameters:mutableDict progress:nil  success:^(NSURLSessionTask *task, NSDictionary * responseObject1) {
                                 success(responseObject1);
                             } failure:^(NSURLSessionTask *operation, NSError *error) {
                                 success(responseObject);
@@ -80,7 +88,31 @@
         case POST:{
             [self POST:path parameters:params progress:nil success:^(NSURLSessionTask *task, NSDictionary * responseObject) {
                 NSLog(@"JSON: %@", responseObject);
-                success(responseObject);
+                int code = [[responseObject objectForKey:@"code"] intValue];
+                NSString * msg = (NSString *)[responseObject objectForKey:@"msg"];
+                
+                //token expire
+                if ([msg  isEqual: @"您所在的IP段被禁止访问该页面。"] && code == -1) {
+                    [BDWMUserModel autoLogin:^() {
+                        NSString *token = [BDWMUserModel getToken];
+                        
+                        NSMutableDictionary * mutableDict = [NSMutableDictionary dictionary];
+                        [mutableDict addEntriesFromDictionary:params];
+                        
+                        if (token != nil) {
+                            [mutableDict setObject:token forKey:@"token"];
+                        }
+                        [self POST:path parameters:mutableDict progress:nil  success:^(NSURLSessionTask *task, NSDictionary * responseObject1) {
+                            success(responseObject1);
+                        } failure:^(NSURLSessionTask *operation, NSError *error) {
+                            success(responseObject);
+                        }];
+                    } WithFailurBlock:^(){
+                        success(responseObject);
+                    }];
+                } else {
+                    success(responseObject);
+                }
             } failure:^(NSURLSessionTask *operation, NSError *error) {
                 NSLog(@"Error: %@", error);
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:error.localizedDescription delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
