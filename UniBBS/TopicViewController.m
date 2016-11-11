@@ -361,7 +361,8 @@
 {
     UIActionSheet *sheet;
     NSDictionary * post = [self.topicPosts objectAtIndex:indexPath.row];
-    if ([post valueForKey:@"attaches"] != nil) {
+    NSString *attaches = [post valueForKey:@"attaches"];
+    if (attaches != nil && attaches.length != 0) {
         sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"回信给作者", @"收藏此帖", @"查看附件", nil];
     } else {
         sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"回信给作者", @"收藏此帖", nil];
