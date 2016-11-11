@@ -375,9 +375,13 @@
     UIFont *font = [UIFont systemFontOfSize:14];
     
     NSString *content = [[self.topicPosts objectAtIndex:indexPath.row] valueForKey:@"content"];
-    CGSize size = [content sizeWithFont:font constrainedToSize:CGSizeMake(contentWidth, 8000) lineBreakMode:NSLineBreakByWordWrapping];
+    NSMutableString *postText = [[NSMutableString alloc] initWithString:content];
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<[^>]+>" options:0 error:NULL];
+    [regex replaceMatchesInString:postText options:0 range:NSMakeRange(0, [postText length]) withTemplate:@""];
     
-    return MAX(size.height, 44.0f) + 40; 
+    CGSize size = [postText sizeWithFont:font constrainedToSize:CGSizeMake(contentWidth, 8000) lineBreakMode:NSLineBreakByWordWrapping];
+    
+    return MAX(size.height, 44.0f) + 40;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
