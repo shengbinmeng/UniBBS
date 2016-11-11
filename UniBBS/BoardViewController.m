@@ -18,11 +18,6 @@
 #import "BDWMUserModel.h"
 #import <CCBottomRefreshControl/UIScrollView+BottomRefreshControl.h>
 
-@interface BoardViewController ()
-@property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl;
-@property (readwrite, nonatomic, strong) UIRefreshControl *bottomRefreshControl;
-@end
-
 @implementation BoardViewController {
     BOOL topicMode;
 }
@@ -190,6 +185,7 @@
             }else{
                 //find topics.
                 [self.tableView reloadData];
+                [self.refreshControl endRefreshing];
                 
             }
         }else{
@@ -264,9 +260,8 @@
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
     [self.tableView.tableHeaderView addSubview:self.refreshControl];
     
-    self.bottomRefreshControl = [UIRefreshControl new];
-    [self.bottomRefreshControl addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventValueChanged];
-    self.tableView.bottomRefreshControl = self.bottomRefreshControl;
+    self.tableView.bottomRefreshControl = [[UIRefreshControl alloc] init];
+    [self.tableView.bottomRefreshControl addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventValueChanged];
     
     if (self.boardReader == nil) {
         BDWMBoardReader *reader = [[BDWMBoardReader alloc] initWithURI:self.boardURI];

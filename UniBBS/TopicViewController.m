@@ -20,10 +20,6 @@
 #define ACTION_FROM_BAR_BUTTON 8888
 #define ACTION_FROM_VIEW_ATTACH 9999
 
-@interface TopicViewController ()
-@property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl;
-@end
-
 @implementation TopicViewController
 
 @synthesize topicURI, topicPosts, topicReader;
@@ -246,13 +242,11 @@
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStylePlain target:self action:@selector(barButtonPressed)];
     self.navigationItem.rightBarButtonItem = barButton;
 
-    self.refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
+    self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
-    [self.tableView.tableHeaderView addSubview:self.refreshControl];
     
-    UIRefreshControl *bottomRefreshControl = [UIRefreshControl new];
-    [bottomRefreshControl addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventValueChanged];
-    self.tableView.bottomRefreshControl = bottomRefreshControl;
+    self.tableView.bottomRefreshControl = [[UIRefreshControl alloc] init];
+    [self.tableView.bottomRefreshControl addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventValueChanged];
     
     UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button1 setTitle:@"上拉载入更多" forState:UIControlStateNormal];

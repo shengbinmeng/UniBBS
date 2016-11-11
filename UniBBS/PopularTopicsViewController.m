@@ -13,10 +13,6 @@
 #import "BDWMUserModel.h"
 #import "BDWMPopularReader.h"
 
-@interface PopularTopicsViewController ()
-@property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl;
-@end
-
 @implementation PopularTopicsViewController {
     int numLimit;
     int popType; // 0 for instance, 1 for day, 2 for week
@@ -129,9 +125,8 @@
 //    [button1 addTarget:self action:@selector(showMore) forControlEvents:UIControlEventTouchUpInside];
 //    [self.tableView setTableFooterView:button1];
 
-    self.refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
+    self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
-    [self.tableView.tableHeaderView addSubview:self.refreshControl];
     
     [self reload:nil];
 }
