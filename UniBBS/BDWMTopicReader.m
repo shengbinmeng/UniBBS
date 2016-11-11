@@ -12,7 +12,7 @@
 @implementation BDWMTopicReader {
     NSString *_board;
     NSString *_threadid;
-    int _page;
+    int _page, _postCount, _postTotalNumber;
 }
 
 - (id)initWithURI:(NSString *)uri
@@ -23,6 +23,8 @@
         _board = [uri substringToIndex:index];
         _threadid = [uri substringFromIndex:index+1];
         _page = 1;
+        _postCount = 0;
+        _postTotalNumber = 0;
     }
     return self;
 }
@@ -34,7 +36,9 @@
     [[BDWMNetwork sharedManager] requestWithMethod:GET WithParams:params WithSuccessBlock:^(NSDictionary *dic) {
         int code = [[dic objectForKey:@"code"] intValue];
         if (code == 0) {
+            _postTotalNumber = [[dic objectForKey:@"totalnum"] intValue];
             NSMutableArray *posts = [NSMutableArray arrayWithArray:[dic objectForKey:@"datas"]];
+            _postCount += posts.count;
             block(posts, nil);
         } else {
             NSDictionary *errorDictionary = @{NSLocalizedDescriptionKey : [dic objectForKey:@"msg"]};
@@ -49,8 +53,15 @@
 
 - (NSURLSessionDataTask *)getNextPostsWithBlock:(void (^)(NSMutableArray *topicPosts, NSError *error))block
 {
-    _page++;
-    return [self getTopicPostsWithBlock:block];
+    if (_postCount < _postTotalNumber) {
+        _page++;
+        return [self getTopicPostsWithBlock:block];
+    } else {
+        NSDictionary *errorDictionary = @{NSLocalizedDescriptionKey : @"已经读完所有帖子"};
+        NSError *error = [NSError errorWithDomain:@"BDWM Reader Error" code:-1 userInfo:errorDictionary];
+        block(nil, error);
+        return nil;
+    }
 }
 
 @end
