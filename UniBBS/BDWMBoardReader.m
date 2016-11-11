@@ -12,6 +12,7 @@
 @implementation BDWMBoardReader {
     NSString *_board;
     int _page;
+    BOOL _gettingNext;
 }
 
 - (id)initWithURI:(NSString *)uri
@@ -20,12 +21,16 @@
     if (self) {
         _board = uri;
         _page = 1;
+        _gettingNext = FALSE;
     }
     return self;
 }
 
 - (NSURLSessionDataTask *)getBoardTopicsWithBlock:(void (^)(NSMutableArray *topics, NSError *error))block
 {
+    if (!_gettingNext) {
+        _page = 1;
+    }
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:@"getthreads", @"type", _board, @"board", [NSString stringWithFormat:@"%d", _page], @"page", nil];
     
     [[BDWMNetwork sharedManager] requestWithMethod:GET WithParams:params WithSuccessBlock:^(NSDictionary *dic) {
@@ -53,7 +58,10 @@
 - (NSURLSessionDataTask *)getBoardNextTopicsWithBlock:(void (^)(NSMutableArray *topics, NSError *error))block
 {
     _page++;
-    return [self getBoardTopicsWithBlock:block];
+    _gettingNext = TRUE;
+    NSURLSessionDataTask *task = [self getBoardTopicsWithBlock:block];
+    _gettingNext = FALSE;
+    return task;
 }
 
 - (NSURLSessionDataTask *)getBoardNextPostsWithBlock:(void (^)(NSMutableArray *posts, NSError *error))block
