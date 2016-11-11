@@ -13,6 +13,7 @@
     NSString *_board;
     NSString *_threadid;
     int _page, _postCount, _postTotalNumber;
+    BOOL _gettingNext;
 }
 
 - (id)initWithURI:(NSString *)uri
@@ -25,20 +26,28 @@
         _page = 1;
         _postCount = 0;
         _postTotalNumber = 0;
+        _gettingNext = FALSE;
     }
     return self;
 }
 
 - (NSURLSessionDataTask *)getTopicPostsWithBlock:(void (^)(NSMutableArray *topicPosts, NSError *error))block
 {
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:@"getposts", @"type", _board, @"board", _threadid, @"threadid", [NSString stringWithFormat:@"%d", _page], @"page", @"50", @"pagesize", nil];
+    int page = 1;
+    if (_gettingNext) {
+        page = _page;
+    }
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:@"getposts", @"type", _board, @"board", _threadid, @"threadid", [NSString stringWithFormat:@"%d", page], @"page", @"50", @"pagesize", nil];
     
     [[BDWMNetwork sharedManager] requestWithMethod:GET WithParams:params WithSuccessBlock:^(NSDictionary *dic) {
         int code = [[dic objectForKey:@"code"] intValue];
         if (code == 0) {
             _postTotalNumber = [[dic objectForKey:@"totalnum"] intValue];
             NSMutableArray *posts = [NSMutableArray arrayWithArray:[dic objectForKey:@"datas"]];
-            _postCount += posts.count;
+            if (_gettingNext) {
+                _postCount += posts.count;
+                _gettingNext = FALSE;
+            }
             block(posts, nil);
         } else {
             NSDictionary *errorDictionary = @{NSLocalizedDescriptionKey : [dic objectForKey:@"msg"]};
@@ -55,6 +64,7 @@
 {
     if (_postCount < _postTotalNumber) {
         _page++;
+        _gettingNext = TRUE;
         return [self getTopicPostsWithBlock:block];
     } else {
         NSDictionary *errorDictionary = @{NSLocalizedDescriptionKey : @"已经读完所有帖子"};
