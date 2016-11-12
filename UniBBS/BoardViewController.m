@@ -10,9 +10,8 @@
 #import "PostViewController.h"
 #import "TopicViewController.h"
 #import "BDWMBoardReader.h"
-#import "BBSFavouritesManager.h"
+#import "BDWMFavouritesManager.h"
 #import "WritingViewController.h"
-#import "BDWMString.h"
 #import "BDWMGlobalData.h"
 #import "BDWMAlertMessage.h"
 #import "BDWMUserModel.h"
@@ -123,7 +122,7 @@
             NSMutableDictionary *boardInfo = [[NSMutableDictionary alloc] init];
             [boardInfo setObject:self.title forKey:@"boardTitle"];
             [boardInfo setObject:self.boardURI forKey:@"boardName"];
-            [BBSFavouritesManager saveFavouriteBoard:boardInfo];
+            [BDWMFavouritesManager saveFavouriteBoard:boardInfo];
             break;
         }
         default:

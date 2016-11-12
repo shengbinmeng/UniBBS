@@ -7,7 +7,7 @@
 //
 
 #import "MailViewController.h"
-#import "MailModel.h"
+#import "BDWMMailModel.h"
 #import "WritingMailViewController.h"
 
 @interface MailViewController ()
@@ -28,7 +28,7 @@
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStylePlain target:self action:@selector(barButtonPressed)];
     self.navigationItem.rightBarButtonItem = barButton;
     
-    self.mail = [MailModel loadMailByhref:self.href];
+    self.mail = [BDWMMailModel loadMailByhref:self.href];
     if(self.mail == nil){
         NSLog(@"error: can't get mail.");
         [self.navigationController popViewControllerAnimated:YES];
@@ -60,7 +60,7 @@
             }
             case 1:{//delete
                 NSString *delHref = [self.mail objectForKey:@"delete_href"];
-                [MailModel deleteMailByHref:delHref];
+                [BDWMMailModel deleteMailByHref:delHref];
                 [self.navigationController popViewControllerAnimated:YES];
                 break;
             }

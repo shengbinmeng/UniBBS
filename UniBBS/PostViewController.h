@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BDWMPostReader.h"
 
-@class BBSPostReader;
-@interface PostViewController : UITableViewController 
+@interface PostViewController : UITableViewController
 <UIActionSheetDelegate>
 
 @property (nonatomic, retain) NSString *postURI;
 @property (nonatomic, retain) NSDictionary *postAttributes;
-@property (nonatomic, retain) BBSPostReader *postReader;
+@property (nonatomic, retain) BDWMPostReader *postReader;
 
 @end

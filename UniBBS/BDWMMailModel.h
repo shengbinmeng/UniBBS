@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MailModel : NSObject
+@interface BDWMMailModel : NSObject
 
 + (void)getAllMailWithBlock:(NSString *)userName blockFunction:(void (^)(NSArray *mails, NSString *error))block;
 

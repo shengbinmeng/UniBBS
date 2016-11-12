@@ -11,13 +11,9 @@
 @interface BBSPostReader : NSObject
 
 - (id)initWithURI:(NSString *)uri;
-
-- (NSDictionary*) getPostAttributes;
-
+- (NSDictionary*) getPost;
 - (NSDictionary*) getNextPost;
-
 - (NSDictionary*) getPreviousPost;
-
 - (NSString*) getSameTopicUri;
 
 @end

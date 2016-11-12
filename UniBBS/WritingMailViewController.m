@@ -7,9 +7,8 @@
 //
 
 #import "WritingMailViewController.h"
-#import "MailModel.h"
+#import "BDWMMailModel.h"
 #import "BDWMGlobalData.h"
-#import "BDWMString.h"
 #import "AFAppDotNetAPIClient.h"
 #import "BDWMAlertMessage.h"
 #import "MailListViewController.h"
@@ -35,7 +34,7 @@
     [dic setObject:self.titleTextField.text forKey:@"title"];
     [dic setObject:self.contentTextView.text forKey:@"text"];
     
-    NSString *url = [BDWMString linkString:BDWM_PREFIX string:BDWM_REPLY_MAIL_SUFFIX];
+    NSString *url = [BDWM_PREFIX stringByAppendingString:BDWM_REPLY_MAIL_SUFFIX];
     [[AFAppDotNetAPIClient sharedClient] POST:url parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"Reply mail success!");
         [BDWMAlertMessage stopSpinner];
@@ -53,13 +52,13 @@
 {
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
     
-    dic = [MailModel loadComposeMailNeededData];
+    dic = [BDWMMailModel loadComposeMailNeededData];
     
     [dic setObject:self.toTextField.text forKey:@"to"];
     [dic setObject:self.titleTextField.text forKey:@"title"];
     [dic setObject:self.contentTextView.text forKey:@"text"];
     
-    NSString *url = [BDWMString linkString:BDWM_PREFIX string:BDWM_REPLY_MAIL_SUFFIX];
+    NSString *url = [BDWM_PREFIX stringByAppendingString:BDWM_REPLY_MAIL_SUFFIX];
     [[AFAppDotNetAPIClient sharedClient] POST:url parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"compose mail success!");
         [BDWMAlertMessage stopSpinner];
@@ -96,7 +95,7 @@
 - (void)viewDidAppear:(BOOL)animated{
     if (self.href != nil) {//reply mode
         [BDWMAlertMessage startSpinner:@"加载数据..."];
-        self.replyDict = [MailModel loadReplyMailNeededData:self.href];
+        self.replyDict = [BDWMMailModel loadReplyMailNeededData:self.href];
         if (self.replyDict == nil) {
             [BDWMAlertMessage stopSpinner];
             [BDWMAlertMessage alertMessage:@"不能回复!是不是登录过期了？"];

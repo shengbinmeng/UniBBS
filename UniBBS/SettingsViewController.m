@@ -8,7 +8,7 @@
 
 #import "SettingsViewController.h"
 #import "WebViewController.h"
-#import "SettingModel.h"
+#import "BDWMSettings.h"
 #import "BDWMAlertMessage.h"
 #import "DatabaseWrapper.h"
 #import "BDWMUserModel.h"
@@ -164,14 +164,14 @@
 - (void) boolUsePostSuffixStringSwitchChanged:(id)sender {
     UISwitch* switchControl = sender;
     NSLog( @"The switch is %@", switchControl.on ? @"ON" : @"OFF" );
-    [SettingModel setBoolUsePostSuffixString:switchControl.on];
+    [BDWMSettings setBoolUsePostSuffixString:switchControl.on];
     
 }
 
 - (void) boolAutoLoginSwitchChanged:(id)sender {
     UISwitch* switchControl = sender;
     NSLog( @"The switch is %@", switchControl.on ? @"ON" : @"OFF" );
-    [SettingModel setBoolAutoLogin:switchControl.on];
+    [BDWMSettings setBoolAutoLogin:switchControl.on];
     
 }
 
@@ -188,7 +188,7 @@
             //add a switch
             UISwitch *switchview = [[UISwitch alloc] initWithFrame:CGRectZero];
             [switchview addTarget:self action:@selector(boolUsePostSuffixStringSwitchChanged:) forControlEvents:UIControlEventValueChanged];
-            [switchview setOn:[SettingModel boolUsePostSuffixString] animated:NO];
+            [switchview setOn:[BDWMSettings boolUsePostSuffixString] animated:NO];
             cell.accessoryView = switchview;
         }
         return cell;
@@ -204,7 +204,7 @@
             //add a switch
             UISwitch *switchview = [[UISwitch alloc] initWithFrame:CGRectZero];
             [switchview addTarget:self action:@selector(boolAutoLoginSwitchChanged:) forControlEvents:UIControlEventValueChanged];
-            [switchview setOn:[SettingModel boolAutoLogin] animated:NO];
+            [switchview setOn:[BDWMSettings boolAutoLogin] animated:NO];
             cell.accessoryView = switchview;
         }
         return cell;

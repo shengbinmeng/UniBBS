@@ -12,9 +12,8 @@
 #import "BoardListViewController.h"
 #import "SettingsViewController.h"
 #import "ProfileViewController.h"
-#import "BBSFavouritesManager.h"
 #import "BDWMUserModel.h"
-#import "SettingModel.h"
+#import "BDWMSettings.h"
 
 @implementation UniBBSAppDelegate
 
@@ -45,7 +44,7 @@
      *This switch can be set at setting view.
      *The default value is true.
      */
-    if ([SettingModel boolAutoLogin]) {
+    if ([BDWMSettings boolAutoLogin]) {
         [BDWMUserModel setEnterAppAndAutoLogin:YES];
     }
     
@@ -71,7 +70,6 @@
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
      If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
- //   [BBSFavouritesManager saveData];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -96,19 +94,5 @@
      See also applicationDidEnterBackground:.
      */
 }
-
-/*
-// Optional UITabBarControllerDelegate method.
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
-{
-}
-*/
-
-/*
-// Optional UITabBarControllerDelegate method.
-- (void)tabBarController:(UITabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed
-{
-}
-*/
 
 @end

@@ -49,12 +49,6 @@
     return nil;
 }
 
-- (NSURLSessionDataTask *)getBoardPostsWithBlock:(void (^)(NSMutableArray *posts, NSError *error))block
-{
-    // TODO: Override to implement with new API.
-    return [super getBoardPostsWithBlock:block];
-}
-
 - (NSURLSessionDataTask *)getBoardNextTopicsWithBlock:(void (^)(NSMutableArray *topics, NSError *error))block
 {
     _page++;
@@ -62,12 +56,6 @@
     NSURLSessionDataTask *task = [self getBoardTopicsWithBlock:block];
     _gettingNext = FALSE;
     return task;
-}
-
-- (NSURLSessionDataTask *)getBoardNextPostsWithBlock:(void (^)(NSMutableArray *posts, NSError *error))block
-{
-    // TODO: Override to implement with new API.
-    return [super getBoardNextPostsWithBlock:block];
 }
 
 @end

@@ -16,10 +16,10 @@
     return [super initWithURI:uri];
 }
 
-- (NSDictionary*) getPostAttributes
+- (NSDictionary*) getPost
 {
     // TODO: Override to implement with new API.
-    return [super getPostAttributes];
+    return [super getPost];
 }
 
 - (NSDictionary*) getNextPost

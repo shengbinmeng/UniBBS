@@ -7,12 +7,11 @@
 //
 
 #import "WritingViewController.h"
-#import "BDWMTopicModel.h"
 #import "AFAppDotNetAPIClient.h"
 #import "BDWMAlertMessage.h"
-#import "BDWMString.h"
-#import "SettingModel.h"
+#import "BDWMSettings.h"
 #import "BDWMUserModel.h"
+#import "BDWMPostWriter.h"
 
 @interface WritingViewController ()
 @property (retain, nonatomic) IBOutlet UITextField *titleTextField;
@@ -45,7 +44,7 @@
     
     int anonymous = 0;
     
-    [BDWMPosting replyPosting:self.board WithTitle:title WithContent:content WithAnonymous:anonymous WithThreadid:self.threadid  WithPostid:self.postid  WithAuthor:self.author blockFunction:^(NSDictionary *responseDict, NSString *error) {
+    [BDWMPostWriter replyPosting:self.board WithTitle:title WithContent:content WithAnonymous:anonymous WithThreadid:self.threadid  WithPostid:self.postid  WithAuthor:self.author blockFunction:^(NSDictionary *responseDict, NSString *error) {
         [BDWMAlertMessage stopSpinner];
         if (error == nil) {
             NSLog(@"Reply pose success!");
@@ -73,7 +72,7 @@
     
     int anonymous = 0;
     
-    [BDWMPosting sendPosting:self.board WithTitle:title WithContent:content WithAnonymous:anonymous blockFunction:^(NSDictionary *responseDict, NSString *error) {
+    [BDWMPostWriter sendPosting:self.board WithTitle:title WithContent:content WithAnonymous:anonymous blockFunction:^(NSDictionary *responseDict, NSString *error) {
         [BDWMAlertMessage stopSpinner];
         if (error == nil) {
             NSLog(@"Compose pose success!");

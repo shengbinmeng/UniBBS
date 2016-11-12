@@ -8,9 +8,9 @@
 
 #import "UserInfoViewController.h"
 #import "BDWMUserModel.h"
-#import "MailListViewController.h"
-#import "LoginViewController.h"
+
 @interface UserInfoViewController ()
+
 @property (retain, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (retain, nonatomic) IBOutlet UILabel *loginTimesLabel;
 @property (retain, nonatomic) IBOutlet UILabel *postingNumLabel;

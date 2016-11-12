@@ -8,8 +8,7 @@
 
 #import "TopicViewController.h"
 #import "BDWMTopicReader.h"
-#import "PostViewController.h"
-#import "BBSFavouritesManager.h"
+#import "BDWMFavouritesManager.h"
 #import "AttachmentsViewController.h"
 #import "WritingViewController.h"
 #import "WritingMailViewController.h"
@@ -132,7 +131,7 @@
                 NSMutableDictionary *topicInfo = [[NSMutableDictionary alloc] init];
                 [topicInfo setValue:self.title forKey:@"title"];
                 [topicInfo setValue:self.topicURI forKey:@"address"];
-                [BBSFavouritesManager saveFavouriteTopic:topicInfo];
+                [BDWMFavouritesManager saveFavouriteTopic:topicInfo];
                 break;
             }
             default:
@@ -188,7 +187,7 @@
                 NSMutableDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
                 [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
                 // TODO: Fix this.
-                //[BBSFavouritesManager saveFavouritePost:post];
+                //[BDWMFavouritesManager saveFavouritePost:post];
                 break;
             }
             case 3:{

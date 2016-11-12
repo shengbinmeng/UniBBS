@@ -9,7 +9,7 @@
 #import "MailListViewController.h"
 #import "WritingMailViewController.h"
 #import "UIRefreshControl+AFNetworking.h"
-#import "MailModel.h"
+#import "BDWMMailModel.h"
 #import "MailViewController.h"
 #import "BDWMUserModel.h"
 #import "BDWMAlertMessage.h"
@@ -47,7 +47,7 @@
         return;
     }
     NSString *userName = self.userName;
-    [MailModel getAllMailWithBlock:userName blockFunction:^(NSArray *mails, NSString *error) {
+    [BDWMMailModel getAllMailWithBlock:userName blockFunction:^(NSArray *mails, NSString *error) {
         if (error == nil) {
             self.mails = mails;
             if (self.mails == nil || self.mails.count == 0) {

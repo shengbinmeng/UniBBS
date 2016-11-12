@@ -9,7 +9,7 @@
 #import "PostViewController.h"
 #import "BDWMPostReader.h"
 #import "TopicViewController.h"
-#import "BBSFavouritesManager.h"
+#import "BDWMFavouritesManager.h"
 #import "AttachmentsViewController.h"
 #import "WritingViewController.h"
 #import "WritingMailViewController.h"
@@ -88,7 +88,7 @@
         }
         case 2:{
             // add to favourites
-            [BBSFavouritesManager saveFavouritePost:[self.postAttributes mutableCopy]];
+            [BDWMFavouritesManager saveFavouritePost:[self.postAttributes mutableCopy]];
             break;
         }
         case 3:{
@@ -184,7 +184,7 @@
         // first time load, alloc the model
         BDWMPostReader *reader = [[BDWMPostReader alloc] initWithURI:self.postURI];
         self.postReader = reader;
-        self.postAttributes = [self.postReader getPostAttributes];
+        self.postAttributes = [self.postReader getPost];
     }
 }
 

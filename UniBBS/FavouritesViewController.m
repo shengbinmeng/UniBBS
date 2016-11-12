@@ -7,7 +7,7 @@
 //
 
 #import "FavouritesViewController.h"
-#import "BBSFavouritesManager.h"
+#import "BDWMFavouritesManager.h"
 #import "BoardViewController.h"
 #import "TopicViewController.h"
 #import "AttachmentsViewController.h"
@@ -29,10 +29,10 @@
         self.tabBarItem.image = [UIImage imageNamed:@"first"];
         // just assign, for easy using
         
-        favouriteBoards = [BBSFavouritesManager loadFavouriteBoards];
-        favouriteTopics = [BBSFavouritesManager loadFavouriteTopics];
-        favouritePosts = [BBSFavouritesManager loadFavouritePosts];
-        favourites = [[NSMutableArray alloc] initWithObjects:favouriteBoards,favouriteTopics, favouritePosts, nil];
+        favouriteBoards = [BDWMFavouritesManager loadFavouriteBoards];
+        favouriteTopics = [BDWMFavouritesManager loadFavouriteTopics];
+        favouritePosts = [BDWMFavouritesManager loadFavouritePosts];
+        favourites = [[NSMutableArray alloc] initWithObjects:favouriteBoards, favouriteTopics, favouritePosts, nil];
     }
     return self;
 }
@@ -184,11 +184,11 @@
         //delete from db.
         BOOL deleteSuccess = NO;
         if ([indexPath section] == 0) {
-            deleteSuccess = [BBSFavouritesManager deleteFavouriteBoard:dict];
+            deleteSuccess = [BDWMFavouritesManager deleteFavouriteBoard:dict];
         } else if ([indexPath section] == 1) {
-            deleteSuccess = [BBSFavouritesManager deleteFavouriteTopic:dict];
+            deleteSuccess = [BDWMFavouritesManager deleteFavouriteTopic:dict];
         } else if ([indexPath section] == 2) {
-            deleteSuccess = [BBSFavouritesManager deleteFavouritePost:dict];
+            deleteSuccess = [BDWMFavouritesManager deleteFavouritePost:dict];
         }
         //delete from view.
         if (deleteSuccess==YES) {

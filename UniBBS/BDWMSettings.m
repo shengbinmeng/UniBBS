@@ -1,14 +1,14 @@
 //
-//  SettingModel.m
+//  BDWMSettings.m
 //  UniBBS
 //
 //  Created by fanyingming on 10/19/14.
 //  Copyright (c) 2014 Peking University. All rights reserved.
 //
 
-#import "SettingModel.h"
+#import "BDWMSettings.h"
 
-@implementation SettingModel
+@implementation BDWMSettings
 
 + (BOOL)boolUsePostSuffixString
 {

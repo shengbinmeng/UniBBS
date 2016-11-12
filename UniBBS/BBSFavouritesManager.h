@@ -18,8 +18,8 @@
 + (NSMutableArray *) loadFavouriteTopics;
 + (NSMutableArray *) loadFavouritePosts;
 
-+(BOOL) deleteFavouriteBoard:(NSMutableDictionary *)board;
-+(BOOL) deleteFavouriteTopic:(NSMutableDictionary *)topic;
-+(BOOL) deleteFavouritePost:(NSMutableDictionary *)post;
++ (BOOL) deleteFavouriteBoard:(NSMutableDictionary *)board;
++ (BOOL) deleteFavouriteTopic:(NSMutableDictionary *)topic;
++ (BOOL) deleteFavouritePost:(NSMutableDictionary *)post;
 
 @end
