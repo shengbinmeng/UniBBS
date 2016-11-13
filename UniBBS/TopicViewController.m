@@ -155,6 +155,7 @@
                     reply.threadid = threadid;
                     reply.postid = (NSString *)[postDict objectForKey:@"postid"];
                     reply.author = (NSString *)[postDict objectForKey:@"author"];
+                    reply.replyTitle = self.title;
                     
                     [self.navigationController pushViewController:reply animated:YES];
                 } else {

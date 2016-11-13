@@ -105,6 +105,7 @@
     // Do any additional setup after loading the view from its nib.
     if ([self.fromWhere isEqualToString:@"reply"]) {
         self.title = @"回帖";
+        self.titleTextField.text = [NSString stringWithFormat:@"Re: %@", self.replyTitle ];
     }else if( [self.fromWhere isEqualToString:@"compose"]){
         self.title = @"发布新帖";
     }else{

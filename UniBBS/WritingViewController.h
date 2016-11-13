@@ -14,4 +14,5 @@
 @property (strong, nonatomic) NSString *threadid;
 @property (strong, nonatomic) NSString *postid;
 @property (strong, nonatomic) NSString *author;
+@property (strong, nonatomic) NSString *replyTitle;
 @end
