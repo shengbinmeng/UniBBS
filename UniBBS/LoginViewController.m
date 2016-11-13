@@ -48,8 +48,7 @@
     
     [BDWMUserModel checkLogin:userName userPass:userPass blockFunction:^(NSDictionary *responseDict, NSString *error){
         if (error == nil) {
-            UserInfoViewController *userInfoViewController = [[UserInfoViewController alloc] initWithNibName:@"UserInfoViewController" bundle:nil];
-            
+            UserInfoViewController *userInfoViewController = [[UserInfoViewController alloc] initWithStyle:UITableViewStylePlain];
             userInfoViewController.userInfoDict = responseDict;
             [BDWMAlertMessage stopSpinner];
             [self.navigationController pushViewController:userInfoViewController animated:YES];
