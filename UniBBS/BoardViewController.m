@@ -152,9 +152,9 @@
             self.boardTopics = topics;
             if (self.boardTopics == nil || self.boardTopics.count == 0 ) {
                 //login session failed. then relogin.
-                NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-                NSString *userName1 = [userDefaultes stringForKey:@"saved_username"];
-                NSString *password = [userDefaultes stringForKey:@"saved_password"];
+                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                NSString *userName1 = [userDefaults stringForKey:@"saved_username"];
+                NSString *password = [userDefaults stringForKey:@"saved_password"];
                 /*
                 [BDWMUserModel checkLogin:userName1 userPass:password blockFunction:^(NSString *name, NSError *error){
                     if ( !error && name!=nil ) {
@@ -198,9 +198,9 @@
                 self.boardPosts = posts;
                 if ( self.boardPosts==nil || self.boardPosts.count == 0 ) {
                     //login session failed. then relogin.
-                    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-                    NSString *userName1 = [userDefaultes stringForKey:@"saved_username"];
-                    NSString *password = [userDefaultes stringForKey:@"saved_password"];
+                    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                    NSString *userName1 = [userDefaults stringForKey:@"saved_username"];
+                    NSString *password = [userDefaults stringForKey:@"saved_password"];
                     /*
                     [BDWMUserModel checkLogin:userName1 userPass:password blockFunction:^(NSString *name, NSError *error){
                         if ( !error && name!=nil ) {

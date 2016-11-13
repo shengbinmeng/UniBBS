@@ -52,9 +52,9 @@ static BOOL enterAppAndAutoLogin = NO;
 }
 
 + (void)deleteUsernameAndPassword {
-    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-    [userDefaultes removeObjectForKey:@"userInfo"];
-    [userDefaultes synchronize];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults removeObjectForKey:@"userInfo"];
+    [userDefaults synchronize];
     
     logined = NO;
     loginUser = nil;
@@ -62,9 +62,9 @@ static BOOL enterAppAndAutoLogin = NO;
 }
 
 + (void)saveUserInformation:(NSDictionary *)userInfo {
-    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-    [userDefaultes setObject:userInfo forKey:@"userInfo"];
-    [userDefaultes synchronize];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:userInfo forKey:@"userInfo"];
+    [userDefaults synchronize];
     
     logined = YES;
     if (loginUser == nil) {
@@ -117,8 +117,8 @@ static BOOL enterAppAndAutoLogin = NO;
 }
 
 + (NSDictionary *)getStoredUserInfo {
-    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-    NSDictionary * userInfo = [userDefaultes dictionaryForKey:@"userInfo"];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary * userInfo = [userDefaults dictionaryForKey:@"userInfo"];
     
     return userInfo;
 }
