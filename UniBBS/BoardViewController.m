@@ -113,12 +113,7 @@
             
             break;
         }
-        case 1:
-            topicMode = !topicMode;
-            self.boardReader.showSticky = YES;
-            [self reload:nil];
-            break;
-        case 2:{
+        case 1:{
             NSMutableDictionary *boardInfo = [[NSMutableDictionary alloc] init];
             [boardInfo setObject:self.title forKey:@"boardTitle"];
             [boardInfo setObject:self.boardURI forKey:@"boardName"];
