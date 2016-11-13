@@ -49,47 +49,22 @@
 
 - (void) displayMore
 {
-    if (topicMode) {
-        [self.boardReader getBoardNextTopicsWithBlock:^(NSMutableArray *topics_t, NSError *error) {
-            if (!error) {
-                NSMutableArray *topics = self.boardTopics;
-                [topics addObjectsFromArray:topics_t];
-                if(topics != nil && topics.count > 0) {
-                    self.boardTopics = topics;
-                    [self.tableView reloadData];
-                    [self killScroll];
-                    
-                } else {
-                    [BDWMAlertMessage alertAndAutoDismissMessage:@"没有啦～"];
-                }
-            }else{
-                [BDWMAlertMessage alertAndAutoDismissMessage:@"网络错误"];
+    [self.boardReader getBoardNextTopicsWithBlock:^(NSMutableArray *topics_t, NSError *error) {
+        if (!error) {
+            NSMutableArray *topics = self.boardTopics;
+            [topics addObjectsFromArray:topics_t];
+            if(topics != nil && topics.count > 0) {
+                self.boardTopics = topics;
+                [self.tableView reloadData];
+                [self killScroll];
+            } else {
+                [((UIButton*)self.tableView.tableFooterView) setTitle:@"没有更多" forState:UIControlStateNormal];
             }
-            [self.tableView.bottomRefreshControl endRefreshing];
-            
-        }];
-        
-        
-    } else {
-        [self.boardReader getBoardNextPostsWithBlock:^(NSMutableArray *posts_t, NSError *error) {
-            if (!error) {
-                NSMutableArray *posts = self.boardPosts;
-                [posts addObjectsFromArray:posts_t];
-                if(posts != nil && posts.count > 0) {
-                    self.boardPosts = posts;
-                    [self.tableView reloadData];
-                } else {
-                    [BDWMAlertMessage alertAndAutoDismissMessage:@"没有啦～"];
-                }
-            }else{
-                [BDWMAlertMessage alertAndAutoDismissMessage:@"网络错误"];
-            }
-            [self.tableView.bottomRefreshControl endRefreshing];
-        }];
-        
-    }
-    
-    
+        } else {
+            [BDWMAlertMessage alertAndAutoDismissMessage:@"网络错误"];
+        }
+        [self.tableView.bottomRefreshControl endRefreshing];
+    }];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -139,103 +114,18 @@
 }
 
 - (void)reload:(__unused id)sender {
-  
-    NSURLSessionTask *task;
-    if (topicMode){
-        task= [self.boardReader getBoardTopicsWithBlock:^(NSMutableArray *topics, NSError *error) {
+    [self.boardReader getBoardTopicsWithBlock:^(NSMutableArray *topics, NSError *error) {
         if (!error) {
             self.boardTopics = topics;
-            if (self.boardTopics == nil || self.boardTopics.count == 0 ) {
-                //login session failed. then relogin.
-                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                NSString *userName1 = [userDefaults stringForKey:@"saved_username"];
-                NSString *password = [userDefaults stringForKey:@"saved_password"];
-                /*
-                [BDWMUserModel checkLogin:userName1 userPass:password blockFunction:^(NSString *name, NSError *error){
-                    if ( !error && name!=nil ) {
-                        //login success reload mail.
-                        [self.boardReader getBoardTopicsWithBlock:^(NSMutableArray *topics, NSError *error){
-                            if (!error){
-                                self.boardTopics = topics;
-                                //login success but no topics.
-                                if (self.boardTopics==nil || self.boardTopics.count==0) {
-                                    //
-                                    [BDWMAlertMessage alertMessage:@"可能没有查看权限哦！"];
-                                    [self.navigationController popViewControllerAnimated:YES];
-                                }else{
-                                    [self.tableView reloadData];
-                                }
-                                
-                            }else{
-                                [BDWMAlertMessage alertMessage:@"获取不到数据."];
-                                [self.navigationController popViewControllerAnimated:YES];
-                            }
-                        }];
-                    }else{
-                        [BDWMAlertMessage alertMessage:@"获取不到数据."];
-                        [self.navigationController popViewControllerAnimated:YES];
-                    }
-                }];*/
-            }else{
-                //find topics.
-                [self.tableView reloadData];
-                [self.refreshControl endRefreshing];
-                
-            }
+            [self.tableView reloadData];
         }else{
             [BDWMAlertMessage alertAndAutoDismissMessage:[error localizedDescription]];
             [self.navigationController popViewControllerAnimated:YES];
         }
+        [self.refreshControl endRefreshing];
     }];
-    }else{
-        task= [self.boardReader getBoardPostsWithBlock:^(NSMutableArray *posts, NSError *error) {
-            if (!error) {
-                self.boardPosts = posts;
-                if ( self.boardPosts==nil || self.boardPosts.count == 0 ) {
-                    //login session failed. then relogin.
-                    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                    NSString *userName1 = [userDefaults stringForKey:@"saved_username"];
-                    NSString *password = [userDefaults stringForKey:@"saved_password"];
-                    /*
-                    [BDWMUserModel checkLogin:userName1 userPass:password blockFunction:^(NSString *name, NSError *error){
-                        if ( !error && name!=nil ) {
-                            //login success reload mail.
-                            [self.boardReader getBoardPostsWithBlock:^(NSMutableArray *posts, NSError *error){
-                                if (!error){
-                                    self.boardPosts = posts;
-                                    //login success but no posts.
-                                    if (self.boardPosts==nil || self.boardPosts.count==0) {
-                                        //
-                                        [BDWMAlertMessage alertMessage:@"可能没有查看权限哦！"];
-                                        [self.navigationController popViewControllerAnimated:YES];
-                                    }else{
-                                        [self.tableView reloadData];
-                                    }
-                                    
-                                }else{
-                                    [BDWMAlertMessage alertMessage:@"获取不到数据."];
-                                    [self.navigationController popViewControllerAnimated:YES];
-                                }
-                            }];
-                        }else{
-                            [BDWMAlertMessage alertMessage:@"获取不到数据."];
-                            [self.navigationController popViewControllerAnimated:YES];
-                        }
-                    }];*/
-                }else{
-                    //find posts.
-                    [self.tableView reloadData];
-                }
-            }else{
-                [BDWMAlertMessage alertAndAutoDismissMessage:@"获取不到数据."];
-                [self.navigationController popViewControllerAnimated:YES];
-            }
-        }];
-    }
     
- //   [self.refreshControl setRefreshingWithStateOfTask:task];
-    
-
+    [((UIButton*)self.tableView.tableFooterView) setTitle:@"上拉载入更多" forState:UIControlStateNormal];
 }
 
 #pragma mark - View lifecycle
@@ -256,6 +146,12 @@
     
     self.tableView.bottomRefreshControl = [[UIRefreshControl alloc] init];
     [self.tableView.bottomRefreshControl addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventValueChanged];
+    
+    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button1 setTitle:@"上拉载入更多" forState:UIControlStateNormal];
+    [button1 setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
+    [self.tableView setTableFooterView:button1];
+    [self.tableView.tableFooterView setHidden:YES];
     
     if (self.boardReader == nil) {
         BDWMBoardReader *reader = [[BDWMBoardReader alloc] initWithURI:self.boardURI];

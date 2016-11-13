@@ -41,54 +41,16 @@
 }
 
 - (void)reload:(__unused id)sender {
-    
-    NSURLSessionTask *task = [self.topicReader getTopicPostsWithBlock:^(NSMutableArray *topicPosts_t, NSError *error) {
+    [self.topicReader getTopicPostsWithBlock:^(NSMutableArray *topicPosts_t, NSError *error) {
         if (!error) {
             self.topicPosts = topicPosts_t;
-            if ( self.topicPosts==nil || self.topicPosts.count == 0 ) {
-                //login session failed. then relogin.
-                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                NSString *userName1 = [userDefaults stringForKey:@"saved_username"];
-                NSString *password = [userDefaults stringForKey:@"saved_password"];
-                /*
-                [BDWMUserModel checkLogin:userName1 userPass:password blockFunction:^(NSString *name, NSError *error){
-                    if ( !error && name!=nil ) {
-                        //login success reload topicposts.
-                        [self.topicReader getTopicPostsWithBlock:^(NSMutableArray *topicPosts_t, NSError *error){
-                            if (!error){
-                                self.topicPosts = topicPosts_t;
-                                //login success but no topicposts. seems impossible.
-                                if (self.topicPosts==nil || self.topicPosts.count==0) {
-                                    //
-                                    [BDWMAlertMessage alertAndAutoDismissMessage:@"怎么会没有帖子！"];
-                                    [self.navigationController popViewControllerAnimated:YES];
-                                }else{
-                                    [self.tableView reloadData];
-                                }
-                                
-                            }else{
-                                [BDWMAlertMessage alertMessage:@"获取不到数据."];
-                                [self.navigationController popViewControllerAnimated:YES];
-                            }
-                        }];
-                    }else{
-                        [BDWMAlertMessage alertMessage:@"获取不到数据."];
-                        [self.navigationController popViewControllerAnimated:YES];
-                    }
-                }];*/
-            }else{
-                //find topicposts.
-                [self.tableView reloadData];
-                [self.refreshControl endRefreshing];
-            }
+            [self.tableView reloadData];
+            [self.refreshControl endRefreshing];
         }else{
             [BDWMAlertMessage alertMessage:[error localizedDescription]];
             [self.navigationController popViewControllerAnimated:YES];
         }
     }];
-
-    //    [UIAlertView showAlertViewForTaskWithErrorOnCompletion:task delegate:nil];
-//    [self.refreshControl setRefreshingWithStateOfTask:task];
     
     [((UIButton*)self.tableView.tableFooterView) setTitle:@"上拉载入更多" forState:UIControlStateNormal];
 }
@@ -245,6 +207,7 @@
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
+    [self.tableView.tableHeaderView addSubview:self.refreshControl];
     
     self.tableView.bottomRefreshControl = [[UIRefreshControl alloc] init];
     [self.tableView.bottomRefreshControl addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventValueChanged];
