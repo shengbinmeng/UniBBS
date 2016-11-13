@@ -86,4 +86,23 @@
     }];
 }
 
++ (void) getThreadsWithFirstPage:(NSString *)board blockFunction:(void (^)(NSDictionary *responseDict, NSString *error))block {
+    NSDictionary *param = @{
+                            @"type" : @"getthreads",
+                            @"board" : board,
+                            @"page" : @"1"
+                            };
+    
+    [[BDWMNetwork sharedManager] requestWithMethod:POST WithParams:param WithSuccessBlock:^(NSDictionary *dic) {
+        int code = [[dic objectForKey:@"code"] intValue];
+        if (code == 0) {
+            block(dic, nil);
+        } else {
+            block(dic, (NSString *)[dic objectForKey:@"msg"]);
+        }
+    } WithFailurBlock:^(NSError *error) {
+        block(nil, error.localizedDescription);
+    }];
+}
+
 @end

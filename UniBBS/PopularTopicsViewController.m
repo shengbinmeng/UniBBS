@@ -149,7 +149,7 @@
     
     if ([BDWMUserModel getEnterAppAndAutoLogin]==YES && [BDWMUserModel isLogined]==NO) {
         [BDWMUserModel autoLogin:^() {
-            [BDWMAlertMessage alertMessage:@"登录成功!"];
+        //    [BDWMAlertMessage alertMessage:@"登录成功!"];
         } WithFailurBlock:^(){
             [BDWMAlertMessage alertMessage:@"登录失败!"];
         }];

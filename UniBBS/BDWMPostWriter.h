@@ -20,4 +20,6 @@
 
 + (void) getReplyQuote:(NSString *)board WithNumber:(NSString *)number WithTimestamp:(NSString *)timestamp blockFunction:(void (^)(NSDictionary *responseDict, NSString *error))block;
 
++ (void) getThreadsWithFirstPage:(NSString *)board blockFunction:(void (^)(NSDictionary *responseDict, NSString *error))block;
+
 @end

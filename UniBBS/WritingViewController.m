@@ -21,7 +21,7 @@
 
 @implementation WritingViewController
 
-
+int anonymous = 0;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nil bundle:nil];
@@ -41,8 +41,6 @@
         [BDWMAlertMessage alertAndAutoDismissMessage:@"怎么也得写点东西再发啊～"];
         return;
     }
-    
-    int anonymous = 0;
     
     [BDWMPostWriter replyPosting:self.board WithTitle:title WithContent:content WithAnonymous:anonymous WithThreadid:self.threadid  WithPostid:self.postid  WithAuthor:self.author blockFunction:^(NSDictionary *responseDict, NSString *error) {
         [BDWMAlertMessage stopSpinner];
@@ -69,8 +67,6 @@
         [BDWMAlertMessage alertAndAutoDismissMessage:@"怎么也得写点东西再发啊～"];
         return;
     }
-    
-    int anonymous = 0;
     
     [BDWMPostWriter sendPosting:self.board WithTitle:title WithContent:content WithAnonymous:anonymous blockFunction:^(NSDictionary *responseDict, NSString *error) {
         [BDWMAlertMessage stopSpinner];
@@ -138,11 +134,23 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    [BDWMAlertMessage startSpinner:@"正在加载数据"];
+    
     [BDWMPostWriter getReplyQuote:self.board WithNumber:self.number WithTimestamp:self.timestamp blockFunction:^(NSDictionary *responseDict, NSString *error) {
-        [BDWMAlertMessage stopSpinner];
         if (error == nil) {
             NSLog(@"get reply quote success!");
             self.contentTextView.text = [NSString stringWithFormat:@"\n\n\n%@", (NSString *)[responseDict objectForKey:@"text"]];
+            
+            [BDWMPostWriter getThreadsWithFirstPage:self.board blockFunction:^(NSDictionary *responseDict, NSString *error) {
+                [BDWMAlertMessage stopSpinner];
+                if (error == nil) {
+                    NSLog(@"getThreadsWithFirstPage success!");
+                    anonymous = [[responseDict objectForKey:@"anonymous"] intValue];
+                } else {
+                    NSLog(@"getThreadsWithFirstPage failed!");
+                    [BDWMAlertMessage alertMessage:error];
+                }
+            }];
         } else {
             NSLog(@"get reply quote failed!");
             [BDWMAlertMessage alertMessage:error];
