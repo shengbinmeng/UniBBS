@@ -135,6 +135,21 @@
     self.navigationItem.rightBarButtonItem = button;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [BDWMPostWriter getReplyQuote:self.board WithNumber:self.number WithTimestamp:self.timestamp blockFunction:^(NSDictionary *responseDict, NSString *error) {
+        [BDWMAlertMessage stopSpinner];
+        if (error == nil) {
+            NSLog(@"get reply quote success!");
+            self.contentTextView.text = [NSString stringWithFormat:@"\n\n\n%@", (NSString *)[responseDict objectForKey:@"text"]];
+        } else {
+            NSLog(@"get reply quote failed!");
+            [BDWMAlertMessage alertMessage:error];
+        }
+    }];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

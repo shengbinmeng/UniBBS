@@ -18,4 +18,6 @@
 
 + (void) replyPosting:(NSString *)board WithTitle:(NSString *)title WithContent:(NSString *)content  WithAnonymous:(int)anonymous WithThreadid:(NSString *)threadid WithPostid:(NSString *)postid WithAuthor:(NSString *)author blockFunction:(void (^)(NSDictionary *responseDict, NSString *error))block;
 
++ (void) getReplyQuote:(NSString *)board WithNumber:(NSString *)number WithTimestamp:(NSString *)timestamp blockFunction:(void (^)(NSDictionary *responseDict, NSString *error))block;
+
 @end

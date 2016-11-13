@@ -15,4 +15,6 @@
 @property (strong, nonatomic) NSString *postid;
 @property (strong, nonatomic) NSString *author;
 @property (strong, nonatomic) NSString *replyTitle;
+@property (strong, nonatomic) NSString *number;
+@property (strong, nonatomic) NSString *timestamp;
 @end

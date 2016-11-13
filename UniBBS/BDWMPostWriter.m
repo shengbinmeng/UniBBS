@@ -66,4 +66,24 @@
     }];
 }
 
++ (void) getReplyQuote:(NSString *)board WithNumber:(NSString *)number WithTimestamp:(NSString *)timestamp blockFunction:(void (^)(NSDictionary *responseDict, NSString *error))block {
+    NSDictionary *param = @{
+                            @"type" : @"quote",
+                            @"board" : board,
+                            @"number" : number,
+                            @"timestamp" : timestamp
+                            };
+    
+    [[BDWMNetwork sharedManager] requestWithMethod:POST WithParams:param WithSuccessBlock:^(NSDictionary *dic) {
+        int code = [[dic objectForKey:@"code"] intValue];
+        if (code == 0) {
+            block(dic, nil);
+        } else {
+            block(dic, (NSString *)[dic objectForKey:@"msg"]);
+        }
+    } WithFailurBlock:^(NSError *error) {
+        block(nil, error.localizedDescription);
+    }];
+}
+
 @end
