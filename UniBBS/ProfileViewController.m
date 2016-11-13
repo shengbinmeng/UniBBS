@@ -137,7 +137,7 @@
         if ([indexPath row] == 0) {
             //segue to appropriate view.
             if ([BDWMUserModel isLogined]) {
-                UserInfoViewController *userInfo = [[UserInfoViewController alloc] initWithNibName:@"UserInfoViewController" bundle:nil];
+                UserInfoViewController *userInfo = [[UserInfoViewController alloc] initWithStyle:UITableViewStylePlain];
                 [self.navigationController pushViewController:userInfo animated:YES];
             }else{
                 LoginViewController *login = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
