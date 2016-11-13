@@ -189,8 +189,7 @@
                 // favourite
                 NSMutableDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
                 [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
-                // TODO: Fix this.
-                //[BDWMFavouritesManager saveFavouritePost:post];
+                [BDWMFavouritesManager saveFavouritePost:[post mutableCopy]];
                 break;
             }
             case 3:{

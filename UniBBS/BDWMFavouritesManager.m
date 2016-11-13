@@ -15,7 +15,7 @@
 
 #define TABLE_NAME_BOARD @"FavouriteBoards"
 #define TABLE_NAME_TOPIC @"FavouriteTopics"
-#define TABLE_NAME_POST  @"FavouritePosts"
+#define TABLE_NAME_POST  @"FavouritePostsV2"
 #define TABLE_NAME_POST_ATTACHMENT @"FavouritePostAttachments"
 
 #pragma mark - create table
@@ -36,7 +36,7 @@
 
 +(void) createFavouritePostsTable
 {
-    NSString *SQLStatement = [NSString stringWithFormat:@"create table %@ (id integer primary key autoincrement not null, content text, replyAddress text, replyMailAddress test)", TABLE_NAME_POST];
+    NSString *SQLStatement = [NSString stringWithFormat:@"create table %@ (id integer primary key autoincrement not null, content text, attaches text)", TABLE_NAME_POST];
     
     [DatabaseWrapper createTable:SQLStatement];
 }
@@ -137,7 +137,7 @@
     if ([self isExistThisPost:post]) return;
     
     [post setObject:[NSNull null] forKey:@"id"];
-    NSString *SQLStatement = [NSString stringWithFormat:@"insert into %@ values (:id, :content, :replyAddress, :replyMailAddress)", TABLE_NAME_POST];
+    NSString *SQLStatement = [NSString stringWithFormat:@"insert into %@ values (:id, :content, :attaches)", TABLE_NAME_POST];
 #ifdef DEBUG
     NSLog(@"saving %@,address:%@", [post objectForKey:@"title"], [post objectForKey:@"address"]);
     NSLog(@"%@", SQLStatement);

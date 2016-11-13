@@ -143,16 +143,20 @@
     } else if ([indexPath section] == 1) {
         cell.textLabel.text = [[favouriteTopics objectAtIndex:indexPath.row] valueForKey:@"title"];
     } else if ([indexPath section] == 2) {
-        NSString *content = [[favouritePosts objectAtIndex:indexPath.row] valueForKey:@"content"];
+        NSString *orignalContent = [[favouritePosts objectAtIndex:indexPath.row] valueForKey:@"content"];
+        NSMutableString *postText = [[NSMutableString alloc] initWithString:orignalContent];
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<[^>]+>" options:0 error:NULL];
+        [regex replaceMatchesInString:postText options:0 range:NSMakeRange(0, [postText length]) withTemplate:@""];
+        
         CGFloat contentWidth = self.tableView.frame.size.width;
         UIFont *font = [UIFont systemFontOfSize:14];
-        CGSize size = [content sizeWithFont:font constrainedToSize:CGSizeMake(contentWidth, 8000) lineBreakMode:NSLineBreakByWordWrapping];
+        CGSize size = [postText sizeWithFont:font constrainedToSize:CGSizeMake(contentWidth, 8000) lineBreakMode:NSLineBreakByWordWrapping];
         CGRect rect = CGRectMake(0, 0, contentWidth, MAX(size.height, 44.0f) + 40);
         cell.textLabel.frame = rect;
         cell.textLabel.numberOfLines = 0;
         cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
         cell.textLabel.font = font;
-        cell.textLabel.text = content;
+        cell.textLabel.text = postText;
         if ([indexPath row] % 2 == 1) {
             cell.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
             cell.textLabel.backgroundColor = [UIColor groupTableViewBackgroundColor];
@@ -160,6 +164,12 @@
         } else {
             cell.contentView.backgroundColor = [UIColor lightGrayColor];
             cell.textLabel.backgroundColor = [UIColor lightGrayColor];
+        }
+        
+        static NSString *CellIdentifier = @"Cell";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
     }
     
@@ -240,12 +250,29 @@
     switch (index) {
         case 0:{
             AttachmentsViewController *attachViewController = [[AttachmentsViewController alloc] init];
-            NSDictionary * post = [favouritePosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+            NSDictionary *post = [favouritePosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
             [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
-            NSArray *attachments = [post valueForKey:@"attachments"];
+            NSString *attaches = [post valueForKey:@"attaches"];
+            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<a href=\"([^\"]*)\"[^>]*>([^<]*)</a>" options:0 error:NULL];
+            NSArray *result = [regex matchesInString:attaches options:0 range:NSMakeRange(0, attaches.length)];
+            NSMutableArray * attachments = [[NSMutableArray alloc] init];
+            if ([result count] != 0) {
+                for (int i = 0; i < [result count]; ++i) {
+                    NSMutableDictionary * attach = [[NSMutableDictionary alloc] init];
+                    NSTextCheckingResult *r = [result objectAtIndex:i];
+                    NSString *url = [attaches substringWithRange:[r rangeAtIndex:1]];
+                    // Note that the API doesn't document the URL encoding. Now it is GB18030 and they may change it later.
+                    url = [url stringByAddingPercentEscapesUsingEncoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000)];
+                    NSString *name = [attaches substringWithRange:[r rangeAtIndex:2]];
+                    [attach setValue:url forKey:@"url"];
+                    [attach setValue:name forKey:@"name"];
+                    [attachments addObject:attach];
+                }
+            }
             attachViewController.title = @"附件列表";
             attachViewController.attachments = attachments;
             [self.navigationController pushViewController:attachViewController animated:YES];
+            
             break;
         }
         default:
@@ -274,7 +301,7 @@
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
     } else if ([indexPath section] == 2) {
         NSDictionary * post = [favouritePosts objectAtIndex:indexPath.row];
-        if ([post valueForKey:@"attachments"] != nil) {
+        if ([post valueForKey:@"attaches"] != nil) {
             UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"查看附件", nil];
             [sheet showInView:self.view];
         } else {
@@ -296,9 +323,15 @@
     if ([indexPath section] == 2) {
         CGFloat contentWidth = self.tableView.frame.size.width;
         UIFont *font = [UIFont systemFontOfSize:14];
-        NSString *content = [[favouritePosts objectAtIndex:indexPath.row] valueForKey:@"content"];
-        CGSize size = [content sizeWithFont:font constrainedToSize:CGSizeMake(contentWidth, 8000) lineBreakMode:NSLineBreakByWordWrapping];
-        return MAX(size.height, 44.0f) + 40; 
+        
+        NSString *orignalContent = [[favouritePosts objectAtIndex:indexPath.row] valueForKey:@"content"];
+        NSMutableString *postText = [[NSMutableString alloc] initWithString:orignalContent];
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<[^>]+>" options:0 error:NULL];
+        [regex replaceMatchesInString:postText options:0 range:NSMakeRange(0, [postText length]) withTemplate:@""];
+        
+        CGSize size = [postText sizeWithFont:font constrainedToSize:CGSizeMake(contentWidth, 8000) lineBreakMode:NSLineBreakByWordWrapping];
+        
+        return MAX(size.height, 44.0f) + 40;
     } else {
         return 44.0;
     }
