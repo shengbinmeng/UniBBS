@@ -13,6 +13,10 @@
 #import "BDWMUserModel.h"
 #import "BDWMPopularReader.h"
 
+@interface PopularTopicsViewController ()
+@property (nonatomic, retain) UIActivityIndicatorView *indicator;
+@end
+
 @implementation PopularTopicsViewController {
     int numLimit;
     int popType; // 0 for instance, 1 for day, 2 for week
@@ -101,6 +105,7 @@
             self.popularTopics = topics;
             [self.tableView reloadData];
             [self.refreshControl endRefreshing];
+            [self.indicator stopAnimating];
         } else {
             [BDWMAlertMessage alertAndAutoDismissMessage:@"未取到数据！可能是网络或其他原因导致。"];
         }
@@ -127,6 +132,14 @@
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
+    
+    if (self.indicator == nil) {
+        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [self.view insertSubview:indicator aboveSubview:self.tableView];
+        indicator.center = self.tableView.center;
+        self.indicator = indicator;
+    }
+    [self.indicator startAnimating];
     
     [self reload:nil];
 }

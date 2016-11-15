@@ -9,7 +9,7 @@
 #import "WebViewController.h"
 
 @interface WebViewController ()
-
+@property (nonatomic, retain) UIActivityIndicatorView *indicator;
 @end
 
 @implementation WebViewController
@@ -33,13 +33,18 @@
     
     UIWebView* webView = [[UIWebView alloc] initWithFrame:self.view.frame];
     webView.scalesPageToFit = YES;
-    
+    webView.delegate = self;
     self.view = webView;
+    
+    if (self.indicator == nil) {
+        self.indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        self.indicator.center = self.view.center;
+        [self.view insertSubview:self.indicator aboveSubview:self.view];
+    }
     
     NSURL* url = [NSURL URLWithString:self.webAddress];
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
     [webView loadRequest:request];
-    
 }
 
 - (void)viewDidUnload
@@ -55,6 +60,14 @@
     } else {
         return YES;
     }
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    [self.indicator startAnimating];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [self.indicator stopAnimating];
 }
 
 @end

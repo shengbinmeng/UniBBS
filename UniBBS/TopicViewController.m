@@ -19,6 +19,10 @@
 #define ACTION_FROM_BAR_BUTTON 8888
 #define ACTION_FROM_VIEW_ATTACH 9999
 
+@interface TopicViewController ()
+@property (nonatomic, retain) UIActivityIndicatorView *indicator;
+@end
+
 @implementation TopicViewController
 
 @synthesize topicURI, topicPosts, topicReader;
@@ -46,6 +50,7 @@
             self.topicPosts = topicPosts_t;
             [self.tableView reloadData];
             [self.refreshControl endRefreshing];
+            [self.indicator stopAnimating];
         }else{
             [BDWMAlertMessage alertMessage:[error localizedDescription]];
             [self.navigationController popViewControllerAnimated:YES];
@@ -222,9 +227,17 @@
         // first time load, alloc the model
         BDWMTopicReader *reader = [[BDWMTopicReader alloc] initWithURI:self.topicURI];
         self.topicReader = reader;
-        [self reload:nil];
     }
-
+    
+    if (self.indicator == nil) {
+        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [self.view insertSubview:indicator aboveSubview:self.tableView];
+        indicator.center = self.tableView.center;
+        self.indicator = indicator;
+    }
+    [self.indicator startAnimating];
+    
+    [self reload:nil];
 }
 
 - (void)viewDidUnload

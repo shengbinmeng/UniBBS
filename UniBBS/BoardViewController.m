@@ -17,6 +17,10 @@
 #import "BDWMUserModel.h"
 #import <CCBottomRefreshControl/UIScrollView+BottomRefreshControl.h>
 
+@interface BoardViewController ()
+@property (nonatomic, retain) UIActivityIndicatorView *indicator;
+@end
+
 @implementation BoardViewController {
     BOOL topicMode;
 }
@@ -123,6 +127,7 @@
             [self.navigationController popViewControllerAnimated:YES];
         }
         [self.refreshControl endRefreshing];
+        [self.indicator stopAnimating];
     }];
     
     [((UIButton*)self.tableView.tableFooterView) setTitle:@"上拉载入更多" forState:UIControlStateNormal];
@@ -158,6 +163,14 @@
         self.boardReader = reader;
         self.boardReader.showSticky = YES;
     }
+    
+    if (self.indicator == nil) {
+        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [self.view insertSubview:indicator aboveSubview:self.tableView];
+        indicator.center = self.tableView.center;
+        self.indicator = indicator;
+    }
+    [self.indicator startAnimating];
     
     [self reload:nil];
 }
