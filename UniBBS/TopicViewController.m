@@ -56,14 +56,6 @@
             [self.navigationController popViewControllerAnimated:YES];
         }
     }];
-    
-    [((UIButton*)self.tableView.tableFooterView) setTitle:@"上拉载入更多" forState:UIControlStateNormal];
-}
-
-- (void)killScroll
-{
-    CGPoint offset = self.tableView.contentOffset;
-    [self.tableView setContentOffset:offset animated:NO];
 }
 
 - (void) displayMore
@@ -72,12 +64,9 @@
         if (!error) {
             [self.topicPosts addObjectsFromArray:topicPosts_t];
             [self.tableView reloadData];
-            [self killScroll];
         } else {
             [((UIButton*)self.tableView.tableFooterView) setTitle:@"没有更多" forState:UIControlStateNormal];
         }
-        
-        [self.tableView.bottomRefreshControl endRefreshing];
     }];
 }
 
@@ -214,13 +203,10 @@
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
     [self.tableView.tableHeaderView addSubview:self.refreshControl];
     
-    self.tableView.bottomRefreshControl = [[UIRefreshControl alloc] init];
-    [self.tableView.bottomRefreshControl addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventValueChanged];
-    
-    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button1 setTitle:@"上拉载入更多" forState:UIControlStateNormal];
-    [button1 setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
-    [self.tableView setTableFooterView:button1];
+    UIButton *bottomButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [bottomButton setTitle:@"正在加载" forState:UIControlStateNormal];
+    [bottomButton setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
+    [self.tableView setTableFooterView:bottomButton];
     [self.tableView.tableFooterView setHidden:YES];
 
     if (self.topicReader == nil) {
@@ -235,6 +221,7 @@
         indicator.center = self.tableView.center;
         self.indicator = indicator;
     }
+    
     [self.indicator startAnimating];
     
     [self reload:nil];
@@ -356,11 +343,13 @@
     return MAX(size.height, 44.0f) + 40;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // check if indexPath.row is last row
-    if (indexPath.row == self.topicPosts.count - 1) {
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger lastSectionIndex = [tableView numberOfSections] - 1;
+    NSInteger lastRowIndex = [tableView numberOfRowsInSection:lastSectionIndex] - 1;
+    if ((indexPath.section == lastSectionIndex) && (indexPath.row == lastRowIndex)) {
+        // This is the last cell
         [self.tableView.tableFooterView setHidden:NO];
+        [self displayMore];
     }
 }
 

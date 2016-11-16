@@ -45,12 +45,6 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (void)killScroll
-{
-    CGPoint offset = self.tableView.contentOffset;
-    [self.tableView setContentOffset:offset animated:NO];
-}
-
 - (void) displayMore
 {
     [self.boardReader getBoardNextTopicsWithBlock:^(NSMutableArray *topics_t, NSError *error) {
@@ -60,14 +54,12 @@
             if(topics != nil && topics.count > 0) {
                 self.boardTopics = topics;
                 [self.tableView reloadData];
-                [self killScroll];
             } else {
                 [((UIButton*)self.tableView.tableFooterView) setTitle:@"没有更多" forState:UIControlStateNormal];
             }
         } else {
             [BDWMAlertMessage alertAndAutoDismissMessage:@"网络错误"];
         }
-        [self.tableView.bottomRefreshControl endRefreshing];
     }];
 }
 
@@ -129,8 +121,6 @@
         [self.refreshControl endRefreshing];
         [self.indicator stopAnimating];
     }];
-    
-    [((UIButton*)self.tableView.tableFooterView) setTitle:@"上拉载入更多" forState:UIControlStateNormal];
 }
 
 #pragma mark - View lifecycle
@@ -149,13 +139,10 @@
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
     [self.tableView.tableHeaderView addSubview:self.refreshControl];
     
-    self.tableView.bottomRefreshControl = [[UIRefreshControl alloc] init];
-    [self.tableView.bottomRefreshControl addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventValueChanged];
-    
-    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button1 setTitle:@"上拉载入更多" forState:UIControlStateNormal];
-    [button1 setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
-    [self.tableView setTableFooterView:button1];
+    UIButton *bottomButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [bottomButton setTitle:@"正在加载" forState:UIControlStateNormal];
+    [bottomButton setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
+    [self.tableView setTableFooterView:bottomButton];
     [self.tableView.tableFooterView setHidden:YES];
     
     if (self.boardReader == nil) {
@@ -310,6 +297,16 @@
         postViewController.title = [post valueForKey:@"title"];
         postViewController.postURI = [post valueForKey:@"address"];
         [self.navigationController pushViewController:postViewController animated:YES];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger lastSectionIndex = [tableView numberOfSections] - 1;
+    NSInteger lastRowIndex = [tableView numberOfRowsInSection:lastSectionIndex] - 1;
+    if ((indexPath.section == lastSectionIndex) && (indexPath.row == lastRowIndex)) {
+        // This is the last cell
+        [self.tableView.tableFooterView setHidden:NO];
+        [self displayMore];
     }
 }
 
