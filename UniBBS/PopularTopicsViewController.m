@@ -92,15 +92,11 @@
     if (numLimit < self.popularTopics.count) {
         numLimit += 20;
         [self.tableView reloadData];
-    } else {
-//        [((UIButton*)self.tableView.tableFooterView) setTitle:@"没有更多" forState:UIControlStateNormal];
-//        [((UIButton*)self.tableView.tableFooterView) setEnabled:NO];
     }
 }
 
 - (void)reload:(__unused id)sender {
-    
-    NSURLSessionTask *task = [BDWMPopularReader getPopularTopicsOfType: popType WithBlock:^(NSMutableArray *topics, NSError *error) {
+    [BDWMPopularReader getPopularTopicsOfType: popType WithBlock:^(NSMutableArray *topics, NSError *error) {
         if (!error) {
             self.popularTopics = topics;
             [self.tableView reloadData];
@@ -110,8 +106,6 @@
             [BDWMAlertMessage alertAndAutoDismissMessage:@"未取到数据！可能是网络或其他原因导致。"];
         }
     }];
-
-//    [self.refreshControl setRefreshingWithStateOfTask:task];
 }
 
 #pragma mark - View lifecycle
@@ -123,12 +117,6 @@
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStylePlain target:self action:@selector(buttonPressed)];
     // TODO: Remove UI because feature is removed.
     //self.navigationItem.rightBarButtonItem = button;
-    
-//    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    [button1 setTitle:@"更多" forState:UIControlStateNormal];
-//    [button1 setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
-//    [button1 addTarget:self action:@selector(showMore) forControlEvents:UIControlEventTouchUpInside];
-//    [self.tableView setTableFooterView:button1];
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
