@@ -160,7 +160,7 @@
 {
     [super viewDidAppear:animated];
     
-    if ([BDWMUserModel getEnterAppAndAutoLogin]==YES && [BDWMUserModel isLogined]==NO) {
+    if ([BDWMUserModel getEnterAppAndAutoLogin] == YES && [BDWMUserModel isLogined] == NO && [BDWMUserModel getStoredUserInfo] != nil) {
         [BDWMUserModel autoLogin:^() {
         //    [BDWMAlertMessage alertMessage:@"登录成功!"];
         } WithFailurBlock:^(){

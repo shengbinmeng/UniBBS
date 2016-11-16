@@ -58,7 +58,7 @@
                     NSString * msg = (NSString *)[responseObject objectForKey:@"msg"];
                     
                     //token expire
-                    if ([msg  isEqual: @"您所在的IP段被禁止访问该页面。"] && code == -1) {
+                    if ([msg  isEqual: @"您所在的IP段被禁止访问该页面。"] && code == -1 && [BDWMUserModel getEnterAppAndAutoLogin] == YES && [BDWMUserModel isLogined] == YES) {
                         [BDWMUserModel autoLogin:^() {
                             NSString *token = [BDWMUserModel getToken];
                             
@@ -93,7 +93,7 @@
                 NSString * msg = (NSString *)[responseObject objectForKey:@"msg"];
                 
                 //token expire
-                if ([msg  isEqual: @"您所在的IP段被禁止访问该页面。"] && code == -1) {
+                if ([msg  isEqual: @"您所在的IP段被禁止访问该页面。"] && code == -1 && [BDWMUserModel getEnterAppAndAutoLogin] == YES && [BDWMUserModel isLogined] == YES) {
                     [BDWMUserModel autoLogin:^() {
                         NSString *token = [BDWMUserModel getToken];
                         
