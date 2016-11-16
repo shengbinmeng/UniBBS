@@ -15,7 +15,6 @@
 #import "BDWMGlobalData.h"
 #import "BDWMAlertMessage.h"
 #import "BDWMUserModel.h"
-#import <CCBottomRefreshControl/UIScrollView+BottomRefreshControl.h>
 
 @interface BoardViewController ()
 @property (nonatomic, retain) UIActivityIndicatorView *indicator;

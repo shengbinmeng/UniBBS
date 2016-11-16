@@ -14,24 +14,18 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - CCBottomRefreshControl (0.5.1):
-    - Masonry (~> 0.6.2)
   - FMDB (2.6.2):
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
-  - Masonry (0.6.4)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
-  - CCBottomRefreshControl (~> 0.5.1)
   - FMDB (~> 2.6.2)
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  CCBottomRefreshControl: 57a596348855260f627ffc2b311328ed15b94877
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
-  Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
 
-PODFILE CHECKSUM: 8eebd0f7b2a50251398c2767370ec301de0c576f
+PODFILE CHECKSUM: dd4f5e5ba1706bde9ff4fa139f13f418c7c8f0b7
 
 COCOAPODS: 1.1.1

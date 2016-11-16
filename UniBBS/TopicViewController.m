@@ -14,7 +14,6 @@
 #import "WritingMailViewController.h"
 #import "BDWMUserModel.h"
 #import "BDWMAlertMessage.h"
-#import <CCBottomRefreshControl/UIScrollView+BottomRefreshControl.h>
 
 #define ACTION_FROM_BAR_BUTTON 8888
 #define ACTION_FROM_VIEW_ATTACH 9999
