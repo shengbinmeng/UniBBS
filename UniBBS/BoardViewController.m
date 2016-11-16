@@ -17,7 +17,7 @@
 #import "BDWMUserModel.h"
 
 @interface BoardViewController ()
-@property (nonatomic, retain) UIActivityIndicatorView *indicator;
+
 @end
 
 @implementation BoardViewController {
@@ -118,7 +118,6 @@
             [self.navigationController popViewControllerAnimated:YES];
         }
         [self.refreshControl endRefreshing];
-        [self.indicator stopAnimating];
     }];
 }
 
@@ -150,14 +149,8 @@
         self.boardReader.showSticky = YES;
     }
     
-    if (self.indicator == nil) {
-        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [self.view insertSubview:indicator aboveSubview:self.tableView];
-        indicator.center = self.tableView.center;
-        self.indicator = indicator;
-    }
-    [self.indicator startAnimating];
-    
+    [self.refreshControl layoutIfNeeded];
+    [self.refreshControl beginRefreshing];
     [self reload:nil];
 }
 

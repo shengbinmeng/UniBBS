@@ -19,7 +19,7 @@
 #define ACTION_FROM_VIEW_ATTACH 9999
 
 @interface TopicViewController ()
-@property (nonatomic, retain) UIActivityIndicatorView *indicator;
+
 @end
 
 @implementation TopicViewController
@@ -49,7 +49,6 @@
             self.topicPosts = topicPosts_t;
             [self.tableView reloadData];
             [self.refreshControl endRefreshing];
-            [self.indicator stopAnimating];
         }else{
             [BDWMAlertMessage alertMessage:[error localizedDescription]];
             [self.navigationController popViewControllerAnimated:YES];
@@ -214,15 +213,8 @@
         self.topicReader = reader;
     }
     
-    if (self.indicator == nil) {
-        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [self.view insertSubview:indicator aboveSubview:self.tableView];
-        indicator.center = self.tableView.center;
-        self.indicator = indicator;
-    }
-    
-    [self.indicator startAnimating];
-    
+    [self.refreshControl layoutIfNeeded];
+    [self.refreshControl beginRefreshing];
     [self reload:nil];
 }
 
