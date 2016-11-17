@@ -123,30 +123,13 @@
                 break;
             }
             case 1:{
-                [BDWMAlertMessage alertMessage:@"站内信功能暂时下线啦，请在web端进行处理~"];
-                /*
-                 if ([BDWMUserModel isLogined]) {
-                     // reply mail
-                     WritingMailViewController *mail = [[WritingMailViewController alloc] initWithNibName:@"WritingMailViewController" bundle:nil];
-                     NSDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
-                     mail.href = [post objectForKey:@"replyMailAddress"];
-                     [self.navigationController pushViewController:mail animated:YES];
-                 }else{
-                     //did not logined
-                     //Todo: segue to login view, and if login success, segue to reply mail view.
-                     [BDWMAlertMessage alertAndAutoDismissMessage:@"登录以后才能写信呢."];
-                 }
-                */
-                break;
-            }
-            case 2:{
                 // favourite
                 NSMutableDictionary * post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
                 [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:NO];
                 [BDWMFavouritesManager saveFavouritePost:[post mutableCopy]];
                 break;
             }
-            case 3:{
+            case 2:{
                 // attachments
                 AttachmentsViewController *attachViewController = [[AttachmentsViewController alloc] init];
                 NSDictionary *post = [self.topicPosts objectAtIndex:self.tableView.indexPathForSelectedRow.row];
@@ -312,9 +295,9 @@
     NSDictionary * post = [self.topicPosts objectAtIndex:indexPath.row];
     NSString *attaches = [post valueForKey:@"attaches"];
     if (attaches != nil && attaches.length != 0) {
-        sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"回信给作者", @"收藏此帖", @"查看附件", nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"收藏此帖", @"查看附件", nil];
     } else {
-        sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"回信给作者", @"收藏此帖", nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:@"操作" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"收藏此帖", nil];
     }
     [sheet showInView:self.view];
 }
