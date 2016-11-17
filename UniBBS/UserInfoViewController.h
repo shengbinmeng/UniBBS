@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UserInfoViewController : UIViewController
+@interface UserInfoViewController : UITableViewController<UIActionSheetDelegate>
 @property (strong, nonatomic) NSString *userName;
 @property (strong, nonatomic) NSDictionary *userInfoDict;
 @end

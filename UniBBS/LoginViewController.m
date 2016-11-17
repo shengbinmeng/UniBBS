@@ -46,32 +46,19 @@
     
     [BDWMAlertMessage startSpinner:@"正在登录"];
     
-    [BDWMUserModel checkLogin:userName userPass:userPass blockFunction:^(NSString *name, NSError *error){
-        if ( !error && name!=nil ) {
-            [BDWMUserModel saveUsernameAndPassword:userName userPassword:userPass];
-            UserInfoViewController *userInfoViewController = [[[UserInfoViewController alloc] initWithNibName:@"UserInfoViewController" bundle:nil] autorelease];
-            userInfoViewController.userName = userName;
-            
-            NSMutableDictionary *userInfoDict = [BDWMUserModel LoadUserInfo:userName];
-            
-            if (userInfoDict==nil || userInfoDict.count==0) {
-                [BDWMAlertMessage stopSpinner];
-                [BDWMAlertMessage alertMessage:@"获取不到用户数据!"];
-                return;
-            }
-    
-            userInfoViewController.userInfoDict = userInfoDict;
+    [BDWMUserModel checkLogin:userName userPass:userPass blockFunction:^(NSDictionary *responseDict, NSString *error){
+        if (error == nil) {
+            UserInfoViewController *userInfoViewController = [[UserInfoViewController alloc] initWithStyle:UITableViewStylePlain];
+            userInfoViewController.userInfoDict = responseDict;
             [BDWMAlertMessage stopSpinner];
             [self.navigationController pushViewController:userInfoViewController animated:YES];
             self.userNameTextField.text = @"";
             self.userPasswordTextField.text = @"";
-        }else if(name==nil && error==nil){
+        } else {
             [BDWMAlertMessage stopSpinner];
             self.userPasswordTextField.text = @"";
-            [BDWMAlertMessage alertAndAutoDismissMessage:@"用户名或密码错误"];
-        }else{
-            [BDWMAlertMessage stopSpinner];
-            [BDWMAlertMessage alertAndAutoDismissMessage:@"网络错误"];
+            [self.userNameTextField becomeFirstResponder];
+            [BDWMAlertMessage alertAndAutoDismissMessage:error];
         }
     }];
 }
@@ -97,20 +84,6 @@
     [super viewDidAppear:animated];
 
     [self.userNameTextField becomeFirstResponder];
-    
-    if (NO==[BDWMUserModel isLogined]) {
-        NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-        NSString *userName = [userDefaultes stringForKey:@"saved_username"];
-        NSString *password = [userDefaultes stringForKey:@"saved_password"];
-        
-        if( userName==nil || password==nil )
-            return;
-        self.userNameTextField.text = userName;
-        self.userPasswordTextField.text = password;
-        
-        [self clickLoginButton:self];
-        
-    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -118,9 +91,4 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)dealloc {
-    [_userNameTextField release];
-    [_userPasswordTextField release];
-    [super dealloc];
-}
 @end

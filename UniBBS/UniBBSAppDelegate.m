@@ -12,9 +12,8 @@
 #import "BoardListViewController.h"
 #import "SettingsViewController.h"
 #import "ProfileViewController.h"
-#import "BBSFavouritesManager.h"
 #import "BDWMUserModel.h"
-#import "SettingModel.h"
+#import "BDWMSettings.h"
 
 @implementation UniBBSAppDelegate
 
@@ -23,33 +22,33 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.tintColor = [UIColor colorWithRed:246.0/255 green:18.0/255 blue:81.0/255 alpha:1.0];
     
     // Override point for customization after application launch.
-    PopularTopicsViewController *viewController1 = [[[PopularTopicsViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
-    BoardListViewController *viewController2 = [[[BoardListViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
-    viewController2.listAddress = @"http://www.bdwm.net/bbs/bbsxboa.php?group=0";
+    PopularTopicsViewController *viewController1 = [[PopularTopicsViewController alloc] initWithStyle:UITableViewStylePlain];
+    BoardListViewController *viewController2 = [[BoardListViewController alloc] initWithStyle:UITableViewStylePlain];
+    viewController2.listURI = @"http://www.bdwm.net/bbs/bbsxboa.php?group=0";
 
-    ProfileViewController *viewController3 = [[[ProfileViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
-    SettingsViewController *viewController4 = [[[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
+    ProfileViewController *viewController3 = [[ProfileViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    SettingsViewController *viewController4 = [[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
     
     UINavigationController *popularViewController, *boardListViewController, *profileViewController, *settingsViewController;
-    popularViewController = [[[UINavigationController alloc] initWithRootViewController:viewController1] autorelease];
-    boardListViewController = [[[UINavigationController alloc] initWithRootViewController:viewController2] autorelease];
-    profileViewController = [[[UINavigationController alloc] initWithRootViewController:viewController3] autorelease];
-    settingsViewController = [[[UINavigationController alloc] initWithRootViewController:viewController4] autorelease];
+    popularViewController = [[UINavigationController alloc] initWithRootViewController:viewController1];
+    boardListViewController = [[UINavigationController alloc] initWithRootViewController:viewController2];
+    profileViewController = [[UINavigationController alloc] initWithRootViewController:viewController3];
+    settingsViewController = [[UINavigationController alloc] initWithRootViewController:viewController4];
 
     /*
      *Set auto login flag according to "auto login" switch.
      *This switch can be set at setting view.
      *The default value is true.
      */
-    if ([SettingModel boolAutoLogin]) {
+    if ([BDWMSettings boolAutoLogin]) {
         [BDWMUserModel setEnterAppAndAutoLogin:YES];
     }
     
-    self.tabBarController = [[[UITabBarController alloc] init] autorelease];
+    self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.viewControllers = [NSArray arrayWithObjects:popularViewController, boardListViewController, profileViewController, settingsViewController, nil];
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
@@ -71,7 +70,6 @@
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
      If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
- //   [BBSFavouritesManager saveData];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -96,19 +94,5 @@
      See also applicationDidEnterBackground:.
      */
 }
-
-/*
-// Optional UITabBarControllerDelegate method.
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
-{
-}
-*/
-
-/*
-// Optional UITabBarControllerDelegate method.
-- (void)tabBarController:(UITabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed
-{
-}
-*/
 
 @end

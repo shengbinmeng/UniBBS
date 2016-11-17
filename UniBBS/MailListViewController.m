@@ -9,8 +9,7 @@
 #import "MailListViewController.h"
 #import "WritingMailViewController.h"
 #import "UIRefreshControl+AFNetworking.h"
-#import "UIAlertView+AFNetworking.h"
-#import "MailModel.h"
+#import "BDWMMailModel.h"
 #import "MailViewController.h"
 #import "BDWMUserModel.h"
 #import "BDWMAlertMessage.h"
@@ -48,46 +47,17 @@
         return;
     }
     NSString *userName = self.userName;
-    NSURLSessionTask *task = [MailModel getAllMailWithBlock:userName blockFunction:^(NSArray *mails, NSError *error) {
-        if (!error) {
+    [BDWMMailModel getAllMailWithBlock:userName blockFunction:^(NSArray *mails, NSString *error) {
+        if (error == nil) {
             self.mails = mails;
             if (self.mails == nil || self.mails.count == 0) {
-                //login session failed. then relogin.
-                NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-                NSString *userName1 = [userDefaultes stringForKey:@"saved_username"];
-                NSString *password = [userDefaultes stringForKey:@"saved_password"];
-                
-                [BDWMUserModel checkLogin:userName1 userPass:password blockFunction:^(NSString *name, NSError *error){
-                    if ( !error && name != nil ) {
-                        //login success reload mail.
-                        [MailModel getAllMailWithBlock:name blockFunction:^(NSArray *mails, NSError *error){
-                            if (!error){
-                                self.mails = mails;
-                                //login success but no mail.
-                                if (self.mails == nil || self.mails.count == 0) {
-                                    //
-                                    [BDWMAlertMessage alertAndAutoDismissMessage:@"没有信件哦！"];
-                                }else{
-                                    [self.tableView reloadData];
-                                }
-                                
-                            }else{
-                                [BDWMAlertMessage alertMessage:@"获取不到数据."];
-                                [self.navigationController popViewControllerAnimated:YES];
-                            }
-                        }];
-                    }else{
-                        [BDWMAlertMessage alertMessage:@"获取不到数据."];
-                        [self.navigationController popViewControllerAnimated:YES];
-                    }
-                }];
+                [BDWMAlertMessage alertMessage:@"获取不到数据."];
             }else{
                 //find mails.
                 [self.tableView reloadData];
             }
-            
         }else{
-            [BDWMAlertMessage alertMessage:@"获取不到数据."];
+            [BDWMAlertMessage alertMessage:error];
             [self.navigationController popViewControllerAnimated:YES];
         }
     }];
@@ -99,9 +69,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"写信" style:UIBarButtonItemStyleBordered target:self action:@selector(segueToComposeMail)];
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"写信" style:UIBarButtonItemStylePlain target:self action:@selector(segueToComposeMail)];
     self.navigationItem.rightBarButtonItem = button;
-    [button release];
     
     self.refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
@@ -112,7 +81,7 @@
 
 - (void)segueToComposeMail
 {
-    WritingMailViewController *composeMailViewController = [[[WritingMailViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    WritingMailViewController *composeMailViewController = [[WritingMailViewController alloc] initWithNibName:nil bundle:nil];
     
     [self.navigationController pushViewController:composeMailViewController animated:YES];
 }
@@ -141,7 +110,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     // Configure the cell...
     NSDictionary *mail = [self.mails objectAtIndex:indexPath.row];
@@ -162,7 +131,6 @@
     mailViewController.href = [mail objectForKey:@"href"];
     NSLog(@"mail reply href:%@",mailViewController.href);
     [self.navigationController pushViewController:mailViewController animated:YES];
-    [mailViewController release];
 }
 
 @end

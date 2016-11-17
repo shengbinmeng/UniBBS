@@ -1,5 +1,5 @@
 //
-//  SettingModel.h
+//  BDWMSettings.h
 //  UniBBS
 //
 //  Created by fanyingming on 10/19/14.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SettingModel : NSObject
+@interface BDWMSettings : NSObject
 
 + (BOOL)boolUsePostSuffixString;
 + (void)setBoolUsePostSuffixString:(BOOL)value;

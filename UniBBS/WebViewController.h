@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WebViewController : UIViewController
+@interface WebViewController : UIViewController <UIWebViewDelegate>
 
 @property (nonatomic, retain) NSString *webAddress;
 @property (nonatomic, retain) NSString *barTitle;

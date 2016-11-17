@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-@class BBSBoardReader;
+#import "BBSBoardReader.h"
 
 @interface BoardViewController : UITableViewController 
 <UIActionSheetDelegate>
 
+@property (nonatomic, retain) NSString *boardURI;
 @property (nonatomic, retain) NSString *boardName;
-@property (nonatomic, retain) NSString *boardAddress;
 @property (nonatomic, retain) BBSBoardReader *boardReader;
 @property (nonatomic, retain) NSMutableArray *boardPosts;
 @property (nonatomic, retain) NSMutableArray *boardTopics;

@@ -7,9 +7,8 @@
 //
 
 #import "WritingMailViewController.h"
-#import "MailModel.h"
+#import "BDWMMailModel.h"
 #import "BDWMGlobalData.h"
-#import "BDWMString.h"
 #import "AFAppDotNetAPIClient.h"
 #import "BDWMAlertMessage.h"
 #import "MailListViewController.h"
@@ -35,7 +34,7 @@
     [dic setObject:self.titleTextField.text forKey:@"title"];
     [dic setObject:self.contentTextView.text forKey:@"text"];
     
-    NSString *url = [BDWMString linkString:BDWM_PREFIX string:BDWM_REPLY_MAIL_SUFFIX];
+    NSString *url = [BDWM_PREFIX stringByAppendingString:BDWM_REPLY_MAIL_SUFFIX];
     [[AFAppDotNetAPIClient sharedClient] POST:url parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"Reply mail success!");
         [BDWMAlertMessage stopSpinner];
@@ -53,13 +52,13 @@
 {
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
     
-    dic = [MailModel loadComposeMailNeededData];
+    dic = [BDWMMailModel loadComposeMailNeededData];
     
     [dic setObject:self.toTextField.text forKey:@"to"];
     [dic setObject:self.titleTextField.text forKey:@"title"];
     [dic setObject:self.contentTextView.text forKey:@"text"];
     
-    NSString *url = [BDWMString linkString:BDWM_PREFIX string:BDWM_REPLY_MAIL_SUFFIX];
+    NSString *url = [BDWM_PREFIX stringByAppendingString:BDWM_REPLY_MAIL_SUFFIX];
     [[AFAppDotNetAPIClient sharedClient] POST:url parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"compose mail success!");
         [BDWMAlertMessage stopSpinner];
@@ -96,7 +95,7 @@
 - (void)viewDidAppear:(BOOL)animated{
     if (self.href != nil) {//reply mode
         [BDWMAlertMessage startSpinner:@"加载数据..."];
-        self.replyDict = [MailModel loadReplyMailNeededData:self.href];
+        self.replyDict = [BDWMMailModel loadReplyMailNeededData:self.href];
         if (self.replyDict == nil) {
             [BDWMAlertMessage stopSpinner];
             [BDWMAlertMessage alertMessage:@"不能回复!是不是登录过期了？"];
@@ -119,9 +118,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStyleBordered target:self action:@selector(sendButtonPressed)];
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStylePlain target:self action:@selector(sendButtonPressed)];
     self.navigationItem.rightBarButtonItem = button;
-    [button release];
     
     int screenWidth = [[UIScreen mainScreen] bounds].size.width;
     UIToolbar * topView = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, screenWidth, 36)];
@@ -135,8 +133,6 @@
     [topView setItems:buttonsArray];
     
     [self.contentTextView setInputAccessoryView:topView];
-    
-    [topView release];
     
     self.titleTextField.delegate = self;
     self.toTextField.delegate = self;
@@ -156,10 +152,4 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)dealloc {
-    [_toTextField release];
-    [_titleTextField release];
-    [_contentTextView release];
-    [super dealloc];
-}
 @end

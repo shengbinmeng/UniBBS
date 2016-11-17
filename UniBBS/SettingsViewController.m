@@ -8,7 +8,7 @@
 
 #import "SettingsViewController.h"
 #import "WebViewController.h"
-#import "SettingModel.h"
+#import "BDWMSettings.h"
 #import "BDWMAlertMessage.h"
 #import "DatabaseWrapper.h"
 #import "BDWMUserModel.h"
@@ -164,14 +164,14 @@
 - (void) boolUsePostSuffixStringSwitchChanged:(id)sender {
     UISwitch* switchControl = sender;
     NSLog( @"The switch is %@", switchControl.on ? @"ON" : @"OFF" );
-    [SettingModel setBoolUsePostSuffixString:switchControl.on];
+    [BDWMSettings setBoolUsePostSuffixString:switchControl.on];
     
 }
 
 - (void) boolAutoLoginSwitchChanged:(id)sender {
     UISwitch* switchControl = sender;
     NSLog( @"The switch is %@", switchControl.on ? @"ON" : @"OFF" );
-    [SettingModel setBoolAutoLogin:switchControl.on];
+    [BDWMSettings setBoolAutoLogin:switchControl.on];
     
 }
 
@@ -181,16 +181,15 @@
     if ([indexPath section] == 0) {
         UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"DefaultStyleCell"];
         if(cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"] autorelease];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"];
         }
         if ([indexPath row] == 0) {
             [cell.textLabel setText:@"打开小尾巴"];
             //add a switch
             UISwitch *switchview = [[UISwitch alloc] initWithFrame:CGRectZero];
             [switchview addTarget:self action:@selector(boolUsePostSuffixStringSwitchChanged:) forControlEvents:UIControlEventValueChanged];
-            [switchview setOn:[SettingModel boolUsePostSuffixString] animated:NO];
+            [switchview setOn:[BDWMSettings boolUsePostSuffixString] animated:NO];
             cell.accessoryView = switchview;
-            [switchview release];
         }
         return cell;
     }
@@ -198,16 +197,15 @@
     if ([indexPath section] == 1) {
         UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"DefaultStyleCell"];
         if(cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"] autorelease];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"];
         }
         if ([indexPath row] == 0) {
             [cell.textLabel setText:@"自动登录"];
             //add a switch
             UISwitch *switchview = [[UISwitch alloc] initWithFrame:CGRectZero];
             [switchview addTarget:self action:@selector(boolAutoLoginSwitchChanged:) forControlEvents:UIControlEventValueChanged];
-            [switchview setOn:[SettingModel boolAutoLogin] animated:NO];
+            [switchview setOn:[BDWMSettings boolAutoLogin] animated:NO];
             cell.accessoryView = switchview;
-            [switchview release];
         }
         return cell;
     }
@@ -216,7 +214,7 @@
         
         UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"Value1StyleCell"];
         if(cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Value1StyleCell"] autorelease];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Value1StyleCell"];
         }
         
         if ([indexPath row] == 0) {
@@ -237,7 +235,7 @@
     if ([indexPath section] ==3) {
         UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"DefaultStyleCell"];
         if(cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"] autorelease];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"];
         }
         if ([indexPath row] == 0) {
             [cell.textLabel setText:@"给我们发邮件"];
@@ -248,7 +246,7 @@
     if ([indexPath section] == 4) {
         UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"DefaultStyleCell"];
         if(cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"] autorelease];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"];
         }
         if([indexPath row] == 0){
             [cell.textLabel setText:@"清空收藏夹"];
@@ -301,21 +299,21 @@
         
     if ([indexPath section] == 2) {
         if ([indexPath row] == 0) {
-            WebViewController *aboutViewController =[[[WebViewController alloc] init] autorelease];
+            WebViewController *aboutViewController = [[WebViewController alloc] init];
             aboutViewController.webAddress = @"http://unibbs.sinaapp.com/bdwm";
             aboutViewController.barTitle = @"关于此应用";
             [self.navigationController pushViewController:aboutViewController animated:YES];
             return;
         }
         if ([indexPath row] == 1) {
-            WebViewController *aboutViewController =[[[WebViewController alloc] init] autorelease];
+            WebViewController *aboutViewController = [[WebViewController alloc] init];
             aboutViewController.webAddress = @"http://unibbs.sinaapp.com/authors";
             aboutViewController.barTitle = @"关于开发者";
             [self.navigationController pushViewController:aboutViewController animated:YES];
             return;
         }
         if ([indexPath row] == 2) {
-            [[UIApplication sharedApplication] openURL:[[[NSURL alloc] initWithString:@"http://www.bdwm.net/bbs"] autorelease]];
+            [[UIApplication sharedApplication] openURL:[[NSURL alloc] initWithString:@"http://www.bdwm.net/bbs"]];
             return;
         }
     }

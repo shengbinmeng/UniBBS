@@ -73,7 +73,7 @@
     if ([indexPath section] == 0) {
         UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"DefaultStyleCell"];
         if(cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"] autorelease];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"];
         }
         if ([indexPath row] == 0) {
             NSString *cellContent = [[NSString alloc] init];
@@ -96,7 +96,7 @@
         
         UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"DefaultStyleCell"];
         if(cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"] autorelease];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"];
         }
         if ([indexPath row] == 0) {
             [cell.textLabel setText:@"本地收藏"];
@@ -137,10 +137,10 @@
         if ([indexPath row] == 0) {
             //segue to appropriate view.
             if ([BDWMUserModel isLogined]) {
-                UserInfoViewController *userInfo = [[[UserInfoViewController alloc] initWithNibName:@"UserInfoViewController" bundle:nil] autorelease];
+                UserInfoViewController *userInfo = [[UserInfoViewController alloc] initWithStyle:UITableViewStylePlain];
                 [self.navigationController pushViewController:userInfo animated:YES];
             }else{
-                LoginViewController *login = [[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] autorelease];
+                LoginViewController *login = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
                 [self.navigationController pushViewController:login animated:YES];
             }
             
@@ -150,17 +150,20 @@
     
     if ([indexPath section] == 1) {
         if ([indexPath row] == 0) {
-            FavouritesViewController *favourites = [[[FavouritesViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+            FavouritesViewController *favourites = [[FavouritesViewController alloc] initWithStyle:UITableViewStylePlain];
             [self.navigationController pushViewController:favourites animated:YES];
             return;
         }
         if ([indexPath row] == 1) {
+            [BDWMAlertMessage alertMessage:@"站内信功能暂时下线啦，请在web端进行处理~"];
+            /*
             if ([BDWMUserModel isLogined]){
-                MailListViewController *mailListViewController = [[[MailListViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+                MailListViewController *mailListViewController = [[MailListViewController alloc] initWithStyle:UITableViewStylePlain];
                 [self.navigationController pushViewController:mailListViewController animated:YES];
             }else{
                 [BDWMAlertMessage alertAndAutoDismissMessage:@"登录以后才能查看站内信。"];
             }
+             */
             return;
         }
     }

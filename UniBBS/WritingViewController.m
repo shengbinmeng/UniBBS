@@ -7,12 +7,11 @@
 //
 
 #import "WritingViewController.h"
-#import "BDWMTopicModel.h"
 #import "AFAppDotNetAPIClient.h"
 #import "BDWMAlertMessage.h"
-#import "BDWMString.h"
-#import "SettingModel.h"
+#import "BDWMSettings.h"
 #import "BDWMUserModel.h"
+#import "BDWMPostWriter.h"
 
 @interface WritingViewController ()
 @property (retain, nonatomic) IBOutlet UITextField *titleTextField;
@@ -22,7 +21,7 @@
 
 @implementation WritingViewController
 
-
+int anonymous = 0;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nil bundle:nil];
@@ -31,59 +30,27 @@
 
 - (void)doReply
 {
-    NSDictionary *dic_needed_data = self.postDict;
+    NSString *title = self.titleTextField.text;
+    NSString *content = self.contentTextView.text;
     
-    NSString *board         = [dic_needed_data objectForKey:@"board"];
-    NSString *threadid      = [dic_needed_data objectForKey:@"threadid"];
-    NSString *postid        = [dic_needed_data objectForKey:@"postid"];
-    NSString *user_id       = [dic_needed_data objectForKey:@"user_id"];
-    NSString *code          = [dic_needed_data objectForKey:@"code"];
-    NSString *reply_title   = [dic_needed_data objectForKey:@"title_exp"];
-    NSString *notice_author = [dic_needed_data objectForKey:@"notice_author"];
-    NSString *quser         = [dic_needed_data objectForKey:@"quser"];
-    
-    NSLog(@"Reply_title:%@",reply_title);
-    //This dictionary's data was actually needed for reply post.
-    //Which data was need? We find needed data through poat data analyse by network of chrome developer tool.
-    NSMutableDictionary* dic = [NSMutableDictionary dictionary];
-    [dic setObject:board    forKey:@"board"];
-    [dic setObject:threadid forKey:@"threadid"];
-    [dic setObject:postid   forKey:@"postid"];
-    [dic setObject:user_id  forKey:@"id"];
-    
-    [dic setObject:code             forKey:@"code"];
-    [dic setObject:reply_title      forKey:@"title_exp"];
-    [dic setObject:notice_author    forKey:@"notice_author"];
-    [dic setObject:self.titleTextField.text     forKey:@"title"];
-    
-    //SecretGarden plate need weather anonymous flag.
-    if ([board isEqual: @"SecretGarden"]) {
-        [dic setObject:@"Y" forKey:@"anonymous"];
+    if (title.length == 0) {
+        [BDWMAlertMessage alertAndAutoDismissMessage:@"亲，忘记写标题了。"];
+        return;
+    }
+    if (content.length == 0) {
+        [BDWMAlertMessage alertAndAutoDismissMessage:@"怎么也得写点东西再发啊～"];
+        return;
     }
     
-    //some data below may be changeable for user in later version.
-    [dic setObject:@"N" forKey:@"noreply"];
-    [dic setObject:@"0" forKey:@"signature"];
-    NSMutableString *content = [[NSMutableString alloc] init];
-    if ([SettingModel boolUsePostSuffixString]) {
-        content = [BDWMString linkString:self.contentTextView.text string:POST_SUFFIX_STRING];
-    } else {
-        content = [self.contentTextView.text mutableCopy];
-    }
-    
-    [dic setObject:content forKey:@"text"];
-    [dic setObject:quser forKey:@"quser"];
-    [dic setObject:@"on" forKey:@"unfoldpic"];
-    
-    NSString *url = [BDWMString linkString:BDWM_PREFIX string:BDWM_COMPOSE_SUFFIX];
-    [[AFAppDotNetAPIClient sharedClient] POST:url parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSLog(@"Reply success!");
+    [BDWMPostWriter replyPosting:self.board WithTitle:title WithContent:content WithAnonymous:anonymous WithThreadid:self.threadid  WithPostid:self.postid  WithAuthor:self.author blockFunction:^(NSDictionary *responseDict, NSString *error) {
         [BDWMAlertMessage stopSpinner];
-        [self.navigationController popViewControllerAnimated:YES];
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"Reply failed!");
-        [BDWMAlertMessage stopSpinner];
-        [BDWMAlertMessage alertAndAutoDismissMessage:@"发布失败"];
+        if (error == nil) {
+            NSLog(@"Reply pose success!");
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            NSLog(@"Reply failed!");
+            [BDWMAlertMessage alertMessage:error];
+        }
     }];
 }
 
@@ -94,52 +61,23 @@
     
     if (title.length == 0) {
         [BDWMAlertMessage alertAndAutoDismissMessage:@"亲，忘记写标题了。"];
+        return;
     }
     if (content.length == 0) {
         [BDWMAlertMessage alertAndAutoDismissMessage:@"怎么也得写点东西再发啊～"];
+        return;
     }
     
-    NSMutableDictionary* parameters = [NSMutableDictionary dictionary];
-    [parameters setObject:[self.postDict objectForKey:@"board"]    forKey:@"board"];
-    [parameters setObject:[self.postDict objectForKey:@"threadid"] forKey:@"threadid"];
-    [parameters setObject:[self.postDict objectForKey:@"postid"]   forKey:@"postid"];
-    [parameters setObject:[self.postDict objectForKey:@"id"]  forKey:@"id"];
-    
-    [parameters setObject:[self.postDict objectForKey:@"code"]             forKey:@"code"];
-    [parameters setObject:[self.postDict objectForKey:@"title_exp"]      forKey:@"title_exp"];
-    [parameters setObject:[self.postDict objectForKey:@"notice_author"]    forKey:@"notice_author"];
-    [parameters setObject:self.titleTextField.text     forKey:@"title"];
-    
-    //SecretGarden plate need weather anonymous flag.
-    if ( [[self.postDict objectForKey:@"board"]  isEqual: @"SecretGarden"]) {
-        [parameters setObject:@"Y" forKey:@"anonymous"];
-    }
-    
-    //some data below may be changeable for user in later version.
-    [parameters setObject:@"N" forKey:@"noreply"];
-    [parameters setObject:@"0" forKey:@"signature"];
-    NSMutableString *postText = [[NSMutableString alloc] init];
-    
-    if( [SettingModel boolUsePostSuffixString] ){
-        postText = [BDWMString linkString:content string:POST_SUFFIX_STRING];
-    }else{
-        postText = [content mutableCopy];
-    }
-    
-    [parameters setObject:postText forKey:@"text"];
-    [parameters setObject:@"on" forKey:@"unfoldpic"];
-    
-    NSString *url = [BDWMString linkString:BDWM_PREFIX string:BDWM_COMPOSE_SUFFIX];
-    [[AFAppDotNetAPIClient sharedClient] POST:url parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSLog(@"Compose pose success!");
+    [BDWMPostWriter sendPosting:self.board WithTitle:title WithContent:content WithAnonymous:anonymous blockFunction:^(NSDictionary *responseDict, NSString *error) {
         [BDWMAlertMessage stopSpinner];
-        [self.navigationController popViewControllerAnimated:YES];
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"Compose failed!");
-        [BDWMAlertMessage stopSpinner];
-        [BDWMAlertMessage alertAndAutoDismissMessage:@"发布失败"];
+        if (error == nil) {
+            NSLog(@"Compose pose success!");
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            NSLog(@"Compose failed!");
+            [BDWMAlertMessage alertMessage:error];
+        }
     }];
-
 }
 
 - (void) sendButtonPressed {
@@ -163,10 +101,17 @@
     // Do any additional setup after loading the view from its nib.
     if ([self.fromWhere isEqualToString:@"reply"]) {
         self.title = @"回帖";
+        self.titleTextField.text = [NSString stringWithFormat:@"Re: %@", self.replyTitle ];
     }else if( [self.fromWhere isEqualToString:@"compose"]){
         self.title = @"发布新帖";
     }else{
         self.title = @"我去！从哪里点过来的！";
+    }
+    
+    if (self.board == nil || self.board.length == 0) {
+        [BDWMAlertMessage alertMessage:@"从未知版面进入"];
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
     }
     
     int screenWidth = [[UIScreen mainScreen] bounds].size.width;
@@ -182,117 +127,35 @@
     
     [self.contentTextView setInputAccessoryView:topView];
     
-    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStyleBordered target:self action:@selector(sendButtonPressed)];
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStylePlain target:self action:@selector(sendButtonPressed)];
     self.navigationItem.rightBarButtonItem = button;
-    [button release];
-    
-    
 }
 
-
-- (void)viewDidAppear:(BOOL)animated{
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
-    if (self.href == nil) {
-        [BDWMAlertMessage alertMessage:@"无法回复！可能是置顶帖或无回复权限。"];
-        [self.navigationController popViewControllerAnimated:YES];
-        return;
-    }
+    [BDWMAlertMessage startSpinner:@"正在加载数据"];
     
-    [BDWMAlertMessage startSpinner:@"加载数据中"];
-    
-    if ( [self.fromWhere isEqualToString:@"reply"] ) {
-        
-        [BDWMTopicModel loadReplyNeededDataWithBlock:self.href blockFunction:^(NSDictionary *dic, NSError *error) {
-            if (!error) {
-                self.postDict = dic;
-                
-                if (self.postDict != nil) {
-                    self.titleTextField.text = [self.postDict objectForKey:@"title_exp"];
-                    self.contentTextView.text = [self.postDict objectForKey:@"quote"];
-                    [BDWMAlertMessage stopSpinner];
-                } else {
-                    //login session failed. then relogin.
-                    //or can't get need data because no reply authority.
-                    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-                    NSString *userName = [userDefaultes stringForKey:@"saved_username"];
-                    NSString *password = [userDefaultes stringForKey:@"saved_password"];
-                    
-                    [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
-                        if ( !error && name!=nil ) {//relogin success.
-                            
-                            //refetch data.
-                            [BDWMTopicModel loadReplyNeededDataWithBlock:self.href blockFunction:^(NSDictionary *dic, NSError *error){
-                                self.postDict = dic;
-                                
-                                if (!error) {//relogin success and get needed data.
-                                    if (self.postDict!=nil) {
-                                        self.titleTextField.text = [self.postDict objectForKey:@"title_exp"];
-                                        self.contentTextView.text = [self.postDict objectForKey:@"quote"];
-                                        [BDWMAlertMessage stopSpinner];
-                                    } else {
-                                        //relogin success but still can't get needed data.
-                                        [BDWMAlertMessage stopSpinner];
-                                        [BDWMAlertMessage alertMessage:@"可能是没有权限。"];
-                                        [self.navigationController popViewControllerAnimated:YES];
-                                        return;
-                                    }
-                                } else {//relogin, but still can't get needed data.
-                                    [BDWMAlertMessage stopSpinner];
-                                    [BDWMAlertMessage alertMessage:@"获取不到数据！"];
-                                    [self.navigationController popViewControllerAnimated:YES];
-                                }
-                            }];
-                        } else {//relogin failed.
-                            [BDWMAlertMessage stopSpinner];
-                            [BDWMAlertMessage alertMessage:@"获取不到数据！"];
-                            [self.navigationController popViewControllerAnimated:YES];
-                        }
-                    }];
-                }
-            } else {
-                [BDWMAlertMessage stopSpinner];
-                [BDWMAlertMessage alertMessage:@"网络错误"];
-                [self.navigationController popViewControllerAnimated:YES];
-            }
-        }];
-        
-    } else if ([self.fromWhere isEqualToString:@"compose"]){
-        
-        self.postDict = [BDWMTopicModel getNeededComposeData:self.href];
-        
-        if (self.postDict == nil) {
-            //login session failed. then relogin.
-            NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-            NSString *userName = [userDefaultes stringForKey:@"saved_username"];
-            NSString *password = [userDefaultes stringForKey:@"saved_password"];
+    [BDWMPostWriter getReplyQuote:self.board WithNumber:self.number WithTimestamp:self.timestamp blockFunction:^(NSDictionary *responseDict, NSString *error) {
+        if (error == nil) {
+            NSLog(@"get reply quote success!");
+            self.contentTextView.text = [NSString stringWithFormat:@"\n\n\n%@", (NSString *)[responseDict objectForKey:@"text"]];
             
-            [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
-                if ( !error && name!=nil ) {
-                    //refetch data.
-                    self.postDict = [BDWMTopicModel getNeededComposeData:[self href]];
-                    //login success but still can't get needed data.
-                    if (self.postDict == nil) {
-                        [BDWMAlertMessage stopSpinner];
-                        [BDWMAlertMessage alertMessage:@"是不是没有发帖权限？"];
-                        [self.navigationController popViewControllerAnimated:YES];
-                    } else {
-                 //       [BDWMAlertMessage alertAndAutoDismissMessage:@"重新登录成功！"];
-                        [BDWMAlertMessage stopSpinner];
-                    }
-                    
-                } else {//login failed.
-                    [BDWMAlertMessage stopSpinner];
-                    [BDWMAlertMessage alertMessage:@"网络错误？"];
-                    [self.navigationController popViewControllerAnimated:YES];
+            [BDWMPostWriter getThreadsWithFirstPage:self.board blockFunction:^(NSDictionary *responseDict, NSString *error) {
+                [BDWMAlertMessage stopSpinner];
+                if (error == nil) {
+                    NSLog(@"getThreadsWithFirstPage success!");
+                    anonymous = [[responseDict objectForKey:@"anonymous"] intValue];
+                } else {
+                    NSLog(@"getThreadsWithFirstPage failed!");
+                    [BDWMAlertMessage alertMessage:error];
                 }
             }];
         } else {
-            //get compose needed data success.
-            [BDWMAlertMessage stopSpinner];
+            NSLog(@"get reply quote failed!");
+            [BDWMAlertMessage alertMessage:error];
         }
-    } else {
-        [BDWMAlertMessage alertAndAutoDismissMessage:@"我去！从哪里点过来的！"];
-    }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -301,9 +164,4 @@
     [BDWMAlertMessage alertAndAutoDismissMessage:@"哈哈破手机！居然会内存不足！"];
 }
 
-- (void)dealloc {
-    [_titleTextField release];
-    [_contentTextView release];
-    [super dealloc];
-}
 @end

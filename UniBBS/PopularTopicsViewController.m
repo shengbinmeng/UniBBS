@@ -8,23 +8,21 @@
 
 #import "PopularTopicsViewController.h"
 #import "TopicViewController.h"
-#import "BBSPopularReader.h"
 #import "BDWMUserModel.h"
 #import "BDWMAlertMessage.h"
 #import "BDWMUserModel.h"
+#import "BDWMPopularReader.h"
 
 @interface PopularTopicsViewController ()
-@property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl;
+@property (nonatomic, retain) UIActivityIndicatorView *indicator;
 @end
 
 @implementation PopularTopicsViewController {
     int numLimit;
     int popType; // 0 for instance, 1 for day, 2 for week
-    
-    NSString *href;
 }
 
-@synthesize popularReader, popularTopics;
+@synthesize popularTopics;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -37,11 +35,6 @@
     }
     return self;
 }
-
-- (void) dealloc {
-    [super dealloc];
-}
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -69,17 +62,14 @@
     }
     switch (index) {
         case 0:
-            href = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=7";
             popType = 0;
             self.title = @"实时热点";
             break;
         case 1:
-            href = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=180";
             popType = 1;
             self.title = @"当天最热";
             break;
         case 2:
-            href = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=2520";
             popType = 2;
             self.title = @"一周热点";
             break;
@@ -102,36 +92,20 @@
     if (numLimit < self.popularTopics.count) {
         numLimit += 20;
         [self.tableView reloadData];
-    } else {
-//        [((UIButton*)self.tableView.tableFooterView) setTitle:@"没有更多" forState:UIControlStateNormal];
-//        [((UIButton*)self.tableView.tableFooterView) setEnabled:NO];
     }
 }
 
 - (void)reload:(__unused id)sender {
-    
-    NSURLSessionTask *task = [BBSPopularReader getPopularTopicsWithBlock:href blockFunction:^(NSMutableArray *topics, NSError *error) {
+    [BDWMPopularReader getPopularTopicsOfType: popType WithBlock:^(NSMutableArray *topics, NSError *error) {
         if (!error) {
             self.popularTopics = topics;
             [self.tableView reloadData];
-        }else{
-            //try again.
-#ifdef DEBUG
-            NSLog(@"try fetch data again.");
-#endif
-            //todo:continue show refreshing. I can't control refreshing animation.
-            [BBSPopularReader getPopularTopicsWithBlock:href blockFunction:^(NSMutableArray *topics, NSError *error) {
-                if (!error) {
-                    self.popularTopics = topics;
-                    [self.tableView reloadData];
-                }else{
-                    [BDWMAlertMessage alertAndAutoDismissMessage:@"未取到数据！可能是网络或其他原因导致。"];
-                }
-            }];
+            [self.refreshControl endRefreshing];
+            [self.indicator stopAnimating];
+        } else {
+            [BDWMAlertMessage alertAndAutoDismissMessage:@"未取到数据！可能是网络或其他原因导致。"];
         }
     }];
-
-//    [self.refreshControl setRefreshingWithStateOfTask:task];
 }
 
 #pragma mark - View lifecycle
@@ -140,27 +114,22 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(buttonPressed)];
-    self.navigationItem.rightBarButtonItem = button;
-    [button release];
-    
-//    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    [button1 setTitle:@"更多" forState:UIControlStateNormal];
-//    [button1 setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
-//    [button1 addTarget:self action:@selector(showMore) forControlEvents:UIControlEventTouchUpInside];
-//    [self.tableView setTableFooterView:button1];
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStylePlain target:self action:@selector(buttonPressed)];
+    // TODO: Remove UI because feature is removed.
+    //self.navigationItem.rightBarButtonItem = button;
 
-    self.refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
+    self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
-    [self.tableView.tableHeaderView addSubview:self.refreshControl];
     
-    
-    if (self.popularTopics == nil) {
-        href = @"http://www.bdwm.net/bbs/ListPostTops.php?halfLife=180";
+    if (self.indicator == nil) {
+        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [self.view insertSubview:indicator aboveSubview:self.tableView];
+        indicator.center = self.tableView.center;
+        self.indicator = indicator;
     }
+    [self.indicator startAnimating];
     
     [self reload:nil];
-    
 }
 
 - (void)viewDidUnload
@@ -178,27 +147,13 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if ([BDWMUserModel getEnterAppAndAutoLogin]==YES && [BDWMUserModel isLogined]==NO) {
-        NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-        NSString *userName = [userDefaultes stringForKey:@"saved_username"];
-        NSString *password = [userDefaultes stringForKey:@"saved_password"];
-        
-        if (userName==nil || password==nil ) {
-            return;
-        }
-        [BDWMAlertMessage startSpinner:@"正在登录..."];
-        
-        [BDWMUserModel checkLogin:userName userPass:password blockFunction:^(NSString *name, NSError *error){
-            if ( !error && name!=nil ) {
-                // I find it annoying when I want to read the content but alert comes up
-                //[BDWMAlertMessage alertAndAutoDismissMessage:@"登录成功！"];
-                [BDWMUserModel setEnterAppAndAutoLogin:NO];
-                [BDWMAlertMessage stopSpinner];
-            }else{
-                [BDWMAlertMessage alertMessage:@"登录失败!"];
-            }
+    
+    if ([BDWMUserModel getEnterAppAndAutoLogin] == YES && [BDWMUserModel isLogined] == NO && [BDWMUserModel getStoredUserInfo] != nil) {
+        [BDWMUserModel autoLogin:^() {
+        //    [BDWMAlertMessage alertMessage:@"登录成功!"];
+        } WithFailurBlock:^(){
+            [BDWMAlertMessage alertMessage:@"登录失败!"];
         }];
-        
     }
 }
 
@@ -240,8 +195,6 @@
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:alertTitle message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
         [alert show];
-        [alert release];
-        [popularTopics release];
         popularTopics = nil;
         return 0;
     }
@@ -255,14 +208,14 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     NSDictionary *topic = [popularTopics objectAtIndex:[indexPath row]];
     cell.textLabel.text = [topic valueForKey:@"title"];
     cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
     
-    NSString *detail = [NSString stringWithFormat:@"%@    -   %@",[topic valueForKey:@"time"], [topic valueForKey:@"author"]];
+    NSString *detail = [NSString stringWithFormat:@"%@  -  %@  -  %@",[topic valueForKey:@"date"], [topic valueForKey:@"author"], [topic valueForKey:@"boardDescription"]];
     cell.detailTextLabel.text = detail;
     cell.detailTextLabel.font = [UIFont systemFontOfSize:13];
     
@@ -276,9 +229,8 @@
     NSDictionary *topic = [popularTopics objectAtIndex:[indexPath row]];
     TopicViewController *topicViewController = [[TopicViewController alloc] initWithStyle:UITableViewStylePlain];
     topicViewController.title = [topic valueForKey:@"title"];
-    topicViewController.topicAddress = [topic valueForKey:@"address"];
+    topicViewController.topicURI = [NSString stringWithFormat:@"%@/%@", [topic valueForKey:@"boardName"], [topic valueForKey:@"threadid"]];
     [self.navigationController pushViewController:topicViewController animated:YES];
-    [topicViewController release];
 } 
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath

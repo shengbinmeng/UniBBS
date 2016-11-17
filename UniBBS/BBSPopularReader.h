@@ -10,9 +10,6 @@
 
 @interface BBSPopularReader : NSObject
 
-@property (nonatomic, retain) NSString *dataAddress;
++ (NSURLSessionDataTask *)getPopularTopicsOfType:(int)type WithBlock:(void (^)(NSMutableArray *topics, NSError *error))block;
 
-- (id)initWithAddress:(NSString *)address;
-+ (NSMutableArray*)readPopularTopics:(NSData *)returnedData;
-+ (NSURLSessionDataTask *)getPopularTopicsWithBlock:(NSString *)href blockFunction:(void (^)(NSMutableArray *topics, NSError *error))block;
 @end

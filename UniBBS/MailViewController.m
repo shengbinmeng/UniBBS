@@ -7,7 +7,7 @@
 //
 
 #import "MailViewController.h"
-#import "MailModel.h"
+#import "BDWMMailModel.h"
 #import "WritingMailViewController.h"
 
 @interface MailViewController ()
@@ -25,10 +25,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    UIBarButtonItem *barButton = [[[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(barButtonPressed)] autorelease];
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStylePlain target:self action:@selector(barButtonPressed)];
     self.navigationItem.rightBarButtonItem = barButton;
     
-    self.mail = [MailModel loadMailByhref:self.href];
+    self.mail = [BDWMMailModel loadMailByhref:self.href];
     if(self.mail == nil){
         NSLog(@"error: can't get mail.");
         [self.navigationController popViewControllerAnimated:YES];
@@ -41,7 +41,6 @@
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回信", @"删除", nil];
     [sheet setTag:ACTION_FROM_BAR_BUTTON];
     [sheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
-    [sheet release];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -54,14 +53,14 @@
         // action sheet form bar buttom
         switch (index) {
             case 0:{//reply
-                WritingMailViewController *reply = [[[WritingMailViewController alloc] initWithNibName:@"WritingMailViewController" bundle:nil] autorelease];
+                WritingMailViewController *reply = [[WritingMailViewController alloc] initWithNibName:@"WritingMailViewController" bundle:nil] ;
                 reply.href = [self.mail objectForKey:@"href"];
                 [self.navigationController pushViewController:reply animated:YES];
                 break;
             }
             case 1:{//delete
                 NSString *delHref = [self.mail objectForKey:@"delete_href"];
-                [MailModel deleteMailByHref:delHref];
+                [BDWMMailModel deleteMailByHref:delHref];
                 [self.navigationController popViewControllerAnimated:YES];
                 break;
             }
@@ -88,8 +87,4 @@
 }
 */
 
-- (void)dealloc {
-    [_mailContentTextView release];
-    [super dealloc];
-}
 @end

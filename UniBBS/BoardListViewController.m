@@ -7,7 +7,7 @@
 //
 
 #import "BoardListViewController.h"
-#import "BBSBoardListExplorer.h"
+#import "BDWMBoardListExplorer.h"
 #import "BoardViewController.h"
 
 @implementation BoardListViewController {
@@ -18,7 +18,7 @@
     BOOL showingAll;
 }
 
-@synthesize listAddress, boardList, boardExplorer;
+@synthesize listURI, boardList, boardExplorer;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -29,15 +29,6 @@
         showingAll = NO;
     }
     return self;
-}
-
-
-- (void) dealloc
-{
-    self.boardExplorer = nil;
-    self.boardList = nil;
-    self.listAddress = nil;
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,25 +61,28 @@
    
     switch (index) {
         case 0:
+        {
             showingAll = !showingAll;
-            if (showingAll) self.boardList = wholeBoardList;
-            else self.boardList = categaryBoardList;
+            if (showingAll) {
+                self.boardList = wholeBoardList;
+            } else {
+                self.boardList = categaryBoardList;
+            }
+            [self.tableView reloadData];
             break;
+        }
         case 1:
         {
             UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             [self.view insertSubview:indicator aboveSubview:self.tableView];
             indicator.center = self.view.center;
             [indicator startAnimating];
-            
             [self performSelectorInBackground:@selector(loadData:) withObject:indicator];
         }
             break;
         default:
             break;
     }
-    
-    [self.tableView reloadData];
 }
 
 #pragma mark - View lifecycle
@@ -98,9 +92,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     if ([self.title isEqualToString:@"分类讨论区"]) {
-        UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(buttonPressed)];
+        UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStylePlain target:self action:@selector(buttonPressed)];
         self.navigationItem.rightBarButtonItem = button;
-        [button release];
     }
         
     if ([self.title isEqualToString:@"分类讨论区"]) {
@@ -110,16 +103,14 @@
         searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
         self.tableView.tableHeaderView = searchBar;
         searchController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
-        [searchBar release];
         searchController.delegate = self;
         searchController.searchResultsDelegate = self;
         searchController.searchResultsDataSource = self;
     }
     
     if (self.boardExplorer == nil) {
-        BBSBoardListExplorer *explorer = [[BBSBoardListExplorer alloc] initWithAddress:self.listAddress];
+        BDWMBoardListExplorer *explorer = [[BDWMBoardListExplorer alloc] initWithURI:self.listURI];
         self.boardExplorer = explorer;
-        [explorer release];
     }
     
     UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -132,18 +123,11 @@
 
 - (void) loadData:(UIActivityIndicatorView*) indicator {
     if ([self.title isEqualToString:@"分类讨论区"]) {
-        BBSBoardListExplorer *explorer = [[BBSBoardListExplorer alloc] initWithAddress:self.listAddress];
-        wholeBoardList = [[explorer getWholeBoardList] retain];
-        if (wholeBoardList == nil || wholeBoardList.count==0) {
-#ifdef DEBUG
-            NSLog(@"fetch whole board list again.");
-#endif
-            wholeBoardList = [[explorer getWholeBoardList] retain];
-        }
-        [explorer release];
+        wholeBoardList = [self.boardExplorer getWholeBoardList];
     }
-    self.boardList = [self.boardExplorer getBoardList];
-    categaryBoardList = [self.boardList retain];
+    categaryBoardList = [self.boardExplorer getBoardList];
+    
+    self.boardList = categaryBoardList;
   
     [self.tableView reloadData];
     [indicator stopAnimating];
@@ -155,13 +139,12 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:
                               @"name BEGINSWITH[c] %@ OR description CONTAINS %@",
                               searchString, searchString];
-    searchResult = [[wholeBoardList filteredArrayUsingPredicate: predicate] retain];
+    searchResult = [wholeBoardList filteredArrayUsingPredicate: predicate];
     return YES;
 }
 
 - (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
 {
-    [searchResult release];
     searchResult = nil;
 }
 
@@ -170,9 +153,6 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-    [searchController release];
-    [wholeBoardList release];
-    [categaryBoardList release];
     searchController = nil;
     wholeBoardList = nil;
 }
@@ -222,23 +202,13 @@
     } else {
         if (self.boardList != nil && self.boardList.count == 0) {
             NSString *alertTitle = @"消息";
-#ifdef DEBUG
-            alertTitle = @"版块列表";
-#endif
-            
             UIAlertView * alert = [[UIAlertView alloc] initWithTitle:alertTitle message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
             [alert show];
-            [alert release];
-            [wholeBoardList release];
-            [categaryBoardList release];
-            [boardList release];
-            wholeBoardList = nil;
-            categaryBoardList = nil;
-            boardList = nil;
             return 0;
+        } else {
+            return self.boardList.count;
         }
-        return boardList.count;
     }
 }
 
@@ -248,7 +218,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 
     NSDictionary *board;
@@ -277,25 +247,22 @@
         NSDictionary *board = [searchResult objectAtIndex:[indexPath row]];
         BoardViewController *boardViewController = [[BoardViewController alloc] initWithStyle:UITableViewStylePlain];
         boardViewController.title = [board objectForKey:@"description"];
-        boardViewController.boardName = [board objectForKey:@"name"];
+        boardViewController.boardURI = [board objectForKey:@"name"];
         [self.navigationController pushViewController:boardViewController animated:YES];
-        [boardViewController release];
         return;
     }
     
     NSDictionary *board = [boardList objectAtIndex:[indexPath row]];
     if ([[board  valueForKey:@"isGroup"] isEqualToString:@"YES"]) {
         BoardListViewController * nextLevelBoardList = [[BoardListViewController alloc] initWithStyle:UITableViewStylePlain];
-        nextLevelBoardList.listAddress = [board valueForKey:@"address"];
+        nextLevelBoardList.listURI = [board valueForKey:@"address"];
         nextLevelBoardList.title = [board objectForKey:@"description"];
         [self.navigationController pushViewController:nextLevelBoardList animated:YES];
-        [nextLevelBoardList release];
     } else {
         BoardViewController *boardViewController = [[BoardViewController alloc] initWithStyle:UITableViewStylePlain];
         boardViewController.title = [board objectForKey:@"description"];
-        boardViewController.boardName = [board objectForKey:@"name"];
+        boardViewController.boardURI = [board objectForKey:@"name"];
         [self.navigationController pushViewController:boardViewController animated:YES];
-        [boardViewController release];
     }
 }
 

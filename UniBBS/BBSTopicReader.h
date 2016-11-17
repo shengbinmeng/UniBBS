@@ -10,11 +10,8 @@
 
 @interface BBSTopicReader : NSObject
 
-@property (nonatomic, retain) NSString *dataAddress;
+- (id)initWithURI:(NSString *)uri;
+- (NSURLSessionDataTask *)getTopicPostsWithBlock:(void (^)(NSMutableArray *topicPosts, NSError *error))block;
+- (NSURLSessionDataTask *)getNextPostsWithBlock:(void (^)(NSMutableArray *topicPosts, NSError *error))block;
 
-- (id)initWithAddress:(NSString *)address;
-
-- (NSURLSessionDataTask *)getTopicPostsWithBlock:(NSString *)href blockFunction:(void (^)(NSMutableArray *topicPosts, NSError *error))block;
-- (NSMutableArray*) readTopicPosts:(NSData *)returnedData;
--(NSString *)getNextPageHref;
 @end

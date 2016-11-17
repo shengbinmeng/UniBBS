@@ -1,24 +1,27 @@
 //
 //  BDWMUserModel.h
-//  BDWM
+//  UniBBS
 //
 //  Created by fanyingming on 10/6/14.
 //  Copyright (c) 2014 cn.pku.fanyingming. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "TFHpple.h"
+
 @interface BDWMUserModel : NSObject
 
 + (void)logout;
 + (void)deleteUsernameAndPassword;
-+ (void)saveUsernameAndPassword:(NSString *)userName userPassword:(NSString *)userPassword;
-+ (BOOL)checkUserName:(TFHpple *)doc UserName:(NSString *)user_name;
-+ (NSURLSessionDataTask *) checkLogin:(NSString *)UserName userPass:(NSString *)UserPass blockFunction:(void (^)(NSString *name, NSError *error))block;
-+ (NSMutableDictionary *)LoadUserInfo:(NSString *)userName;
++ (void)saveUserInformation:(NSDictionary *)userInfo;
++ (void) checkLogin:(NSString *)UserName userPass:(NSString *)UserPass blockFunction:(void (^)(NSDictionary *name, NSString *error))block;
+
++ (void)autoLogin:(void (^)())success WithFailurBlock:(void (^)())failure;
+
++ (NSDictionary *)getStoredUserInfo;
 
 + (BOOL)isLogined;
 + (NSString*)getLoginUser;
++ (NSString*)getToken;
 + (BOOL)getEnterAppAndAutoLogin;
 + (void)setEnterAppAndAutoLogin:(BOOL)status;
 @end

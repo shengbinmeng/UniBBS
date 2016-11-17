@@ -1,19 +1,19 @@
 //
-//  SettingModel.m
+//  BDWMSettings.m
 //  UniBBS
 //
 //  Created by fanyingming on 10/19/14.
 //  Copyright (c) 2014 Peking University. All rights reserved.
 //
 
-#import "SettingModel.h"
+#import "BDWMSettings.h"
 
-@implementation SettingModel
+@implementation BDWMSettings
 
 + (BOOL)boolUsePostSuffixString
 {
-    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-    NSString * ifUse = [userDefaultes stringForKey:@"bool_use_post_suffix_string"];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString * ifUse = [userDefaults stringForKey:@"bool_use_post_suffix_string"];
     if (ifUse == nil) {
         return YES;//default open.
     } else if ([ifUse isEqualToString:@"YES"]){
@@ -31,15 +31,15 @@
         saveString = @"NO";
     }
     
-    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-    [userDefaultes setObject:saveString forKey:@"bool_use_post_suffix_string"];
-    [userDefaultes synchronize];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:saveString forKey:@"bool_use_post_suffix_string"];
+    [userDefaults synchronize];
 }
 
 + (BOOL)boolAutoLogin
 {
-    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-    NSString * ifUse = [userDefaultes stringForKey:@"bool_auto_login"];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString * ifUse = [userDefaults stringForKey:@"bool_auto_login"];
     if (ifUse == nil) {
         return YES;//default open.
     } else if ([ifUse isEqualToString:@"YES"]){
@@ -57,8 +57,8 @@
         saveString = @"NO";
     }
     
-    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-    [userDefaultes setObject:saveString forKey:@"bool_auto_login"];
-    [userDefaultes synchronize];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:saveString forKey:@"bool_auto_login"];
+    [userDefaults synchronize];
 }
 @end

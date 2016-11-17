@@ -9,25 +9,22 @@
 #import "BoardViewController.h"
 #import "PostViewController.h"
 #import "TopicViewController.h"
-#import "BBSBoardReader.h"
-#import "BBSFavouritesManager.h"
+#import "BDWMBoardReader.h"
+#import "BDWMFavouritesManager.h"
 #import "WritingViewController.h"
-#import "BDWMString.h"
 #import "BDWMGlobalData.h"
 #import "BDWMAlertMessage.h"
 #import "BDWMUserModel.h"
-#import <CCBottomRefreshControl/UIScrollView+BottomRefreshControl.h>
 
 @interface BoardViewController ()
-@property (readwrite, nonatomic, strong) UIRefreshControl *refreshControl;
-@property (readwrite, nonatomic, strong) UIRefreshControl *bottomRefreshControl;
+
 @end
 
 @implementation BoardViewController {
     BOOL topicMode;
 }
 
-@synthesize boardName, boardAddress, boardReader, boardPosts, boardTopics;
+@synthesize boardURI, boardName, boardReader, boardPosts, boardTopics;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -47,55 +44,22 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (void)killScroll
-{
-    CGPoint offset = self.tableView.contentOffset;
-    [self.tableView setContentOffset:offset animated:NO];
-}
-
 - (void) displayMore
 {
-    if (topicMode) {
-        [self.boardReader getBoardNextTopicsWithBlock:^(NSMutableArray *topics_t, NSError *error) {
-            if (!error) {
-                NSMutableArray *topics = self.boardTopics;
-                [topics addObjectsFromArray:topics_t];
-                if(topics != nil && topics.count > 0) {
-                    self.boardTopics = topics;
-                    [self.tableView reloadData];
-                    [self killScroll];
-                    
-                } else {
-                    [BDWMAlertMessage alertAndAutoDismissMessage:@"没有啦～"];
-                }
-            }else{
-                [BDWMAlertMessage alertAndAutoDismissMessage:@"网络错误"];
+    [self.boardReader getBoardNextTopicsWithBlock:^(NSMutableArray *topics_t, NSError *error) {
+        if (!error) {
+            NSMutableArray *topics = self.boardTopics;
+            [topics addObjectsFromArray:topics_t];
+            if(topics != nil && topics.count > 0) {
+                self.boardTopics = topics;
+                [self.tableView reloadData];
+            } else {
+                [((UIButton*)self.tableView.tableFooterView) setTitle:@"没有更多" forState:UIControlStateNormal];
             }
-            [self.tableView.bottomRefreshControl endRefreshing];
-            
-        }];
-        
-        
-    } else {
-        [self.boardReader getBoardNextPostsWithBlock:^(NSMutableArray *posts_t, NSError *error) {
-            if (!error) {
-                NSMutableArray *posts = self.boardPosts;
-                [posts addObjectsFromArray:posts_t];
-                if(posts != nil && posts.count > 0) {
-                    self.boardPosts = posts;
-                    [self.tableView reloadData];
-                } else {
-                    [BDWMAlertMessage alertAndAutoDismissMessage:@"没有啦～"];
-                }
-            }else{
-                [BDWMAlertMessage alertAndAutoDismissMessage:@"网络错误"];
-            }
-            [self.tableView.bottomRefreshControl endRefreshing];
-        }];
-        
-    }
-    
-    
+        } else {
+            [BDWMAlertMessage alertAndAutoDismissMessage:@"网络错误"];
+        }
+    }];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -108,29 +72,22 @@
         case 0:{
             if ([BDWMUserModel isLogined]) {
                 // new post
-                WritingViewController *newPost = [[[WritingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil] autorelease];
+                WritingViewController *newPost = [[WritingViewController alloc] initWithNibName:@"WrittingViewController" bundle:nil];
                 newPost.fromWhere = @"compose";
-                newPost.href  = [BDWMString linkString:@"bbspst.php?board=" string:self.boardName];
-                NSLog(@"compose href:%@",newPost.href);
+                newPost.board  = self.boardURI;
                 [self.navigationController pushViewController:newPost animated:YES];
-            }else{
+            } else {
                 //Todo: segue to login view, and if login success, segue to compose topic view.
                 [BDWMAlertMessage alertAndAutoDismissMessage:@"登录以后才能发帖呢."];
             }
             
             break;
         }
-        case 1:
-            topicMode = !topicMode;
-            self.boardReader.dataAddress = nil;
-            self.boardReader.showSticky = YES;
-            [self reload:nil];
-            break;
-        case 2:{
+        case 1:{
             NSMutableDictionary *boardInfo = [[NSMutableDictionary alloc] init];
             [boardInfo setObject:self.title forKey:@"boardTitle"];
-            [boardInfo setObject:self.boardName forKey:@"boardName"];
-            [BBSFavouritesManager saveFavouriteBoard:boardInfo];
+            [boardInfo setObject:self.boardURI forKey:@"boardName"];
+            [BDWMFavouritesManager saveFavouriteBoard:boardInfo];
             break;
         }
         default:
@@ -146,109 +103,22 @@
         option1 = @"回帖模式";
     }
     
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发表新帖", option1, @"收藏本版", nil];
+    // TODO: Mode selection is disable for now. Enable it later.
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发表新帖", @"收藏本版", nil];
     [sheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
-    [sheet release];
 }
 
 - (void)reload:(__unused id)sender {
-  
-    NSURLSessionTask *task;
-    self.boardReader.dataAddress = nil;
-    if (topicMode){
-        task= [self.boardReader getBoardTopicsWithBlock:^(NSMutableArray *topics, NSError *error) {
+    [self.boardReader getBoardTopicsWithBlock:^(NSMutableArray *topics, NSError *error) {
         if (!error) {
             self.boardTopics = topics;
-            if ( self.boardTopics==nil || self.boardTopics.count == 0 ) {
-                //login session failed. then relogin.
-                NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-                NSString *userName1 = [userDefaultes stringForKey:@"saved_username"];
-                NSString *password = [userDefaultes stringForKey:@"saved_password"];
-                
-                [BDWMUserModel checkLogin:userName1 userPass:password blockFunction:^(NSString *name, NSError *error){
-                    if ( !error && name!=nil ) {
-                        //login success reload mail.
-                        [self.boardReader getBoardTopicsWithBlock:^(NSMutableArray *topics, NSError *error){
-                            if (!error){
-                                self.boardTopics = topics;
-                                //login success but no topics.
-                                if (self.boardTopics==nil || self.boardTopics.count==0) {
-                                    //
-                                    [BDWMAlertMessage alertMessage:@"可能没有查看权限哦！"];
-                                    [self.navigationController popViewControllerAnimated:YES];
-                                }else{
-                                    [self.tableView reloadData];
-                                }
-                                
-                            }else{
-                                [BDWMAlertMessage alertMessage:@"获取不到数据."];
-                                [self.navigationController popViewControllerAnimated:YES];
-                            }
-                        }];
-                    }else{
-                        [BDWMAlertMessage alertMessage:@"获取不到数据."];
-                        [self.navigationController popViewControllerAnimated:YES];
-                    }
-                }];
-            }else{
-                //find topics.
-                [self.tableView reloadData];
-                
-            }
+            [self.tableView reloadData];
         }else{
-            [BDWMAlertMessage alertAndAutoDismissMessage:@"获取不到数据."];
+            [BDWMAlertMessage alertAndAutoDismissMessage:[error localizedDescription]];
             [self.navigationController popViewControllerAnimated:YES];
         }
+        [self.refreshControl endRefreshing];
     }];
-    }else{
-        task= [self.boardReader getBoardPostsWithBlock:^(NSMutableArray *posts, NSError *error) {
-            if (!error) {
-                self.boardPosts = posts;
-                if ( self.boardPosts==nil || self.boardPosts.count == 0 ) {
-                    //login session failed. then relogin.
-                    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-                    NSString *userName1 = [userDefaultes stringForKey:@"saved_username"];
-                    NSString *password = [userDefaultes stringForKey:@"saved_password"];
-                    
-                    [BDWMUserModel checkLogin:userName1 userPass:password blockFunction:^(NSString *name, NSError *error){
-                        if ( !error && name!=nil ) {
-                            //login success reload mail.
-                            [self.boardReader getBoardPostsWithBlock:^(NSMutableArray *posts, NSError *error){
-                                if (!error){
-                                    self.boardPosts = posts;
-                                    //login success but no posts.
-                                    if (self.boardPosts==nil || self.boardPosts.count==0) {
-                                        //
-                                        [BDWMAlertMessage alertMessage:@"可能没有查看权限哦！"];
-                                        [self.navigationController popViewControllerAnimated:YES];
-                                    }else{
-                                        [self.tableView reloadData];
-                                    }
-                                    
-                                }else{
-                                    [BDWMAlertMessage alertMessage:@"获取不到数据."];
-                                    [self.navigationController popViewControllerAnimated:YES];
-                                }
-                            }];
-                        }else{
-                            [BDWMAlertMessage alertMessage:@"获取不到数据."];
-                            [self.navigationController popViewControllerAnimated:YES];
-                        }
-                    }];
-                }else{
-                    //find posts.
-                    [self.tableView reloadData];
-                }
-            }else{
-                [BDWMAlertMessage alertAndAutoDismissMessage:@"获取不到数据."];
-                [self.navigationController popViewControllerAnimated:YES];
-            }
-        }];
-    }
-    
- //   [self.refreshControl setRefreshingWithStateOfTask:task];
-    
-
 }
 
 #pragma mark - View lifecycle
@@ -260,25 +130,27 @@
     // Uncomment the following line to preserve selection between presentations.
     self.clearsSelectionOnViewWillAppear = NO;
  
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStyleBordered target:self action:@selector(barButtonPressed)];
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStylePlain target:self action:@selector(barButtonPressed)];
     self.navigationItem.rightBarButtonItem = barButton;
-    [barButton release];
 
     self.refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
     [self.tableView.tableHeaderView addSubview:self.refreshControl];
     
-    self.bottomRefreshControl = [UIRefreshControl new];
-    [self.bottomRefreshControl addTarget:self action:@selector(displayMore) forControlEvents:UIControlEventValueChanged];
-    self.tableView.bottomRefreshControl = self.bottomRefreshControl;
+    UIButton *bottomButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [bottomButton setTitle:@"正在加载" forState:UIControlStateNormal];
+    [bottomButton setFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 44.0)];
+    [self.tableView setTableFooterView:bottomButton];
+    [self.tableView.tableFooterView setHidden:YES];
     
     if (self.boardReader == nil) {
-        BBSBoardReader *reader = [[BBSBoardReader alloc] initWithBoardName:self.boardName];
+        BDWMBoardReader *reader = [[BDWMBoardReader alloc] initWithURI:self.boardURI];
         self.boardReader = reader;
         self.boardReader.showSticky = YES;
-        [reader release];
     }
     
+    [self.refreshControl layoutIfNeeded];
+    [self.refreshControl beginRefreshing];
     [self reload:nil];
 }
 
@@ -287,12 +159,6 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-    
-    self.boardName = nil;
-    self.boardAddress = nil;
-    self.boardReader = nil;
-    self.boardTopics = nil;
-    self.boardPosts = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -341,7 +207,6 @@
             UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
             [alert show];
-            [alert release];
         }
         return [self.boardTopics count];
     } else {
@@ -349,7 +214,6 @@
             UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
             [alert show];
-            [alert release];
         }
         return [self.boardPosts count];
     }
@@ -361,21 +225,26 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     // Configure the cell...
     if (topicMode) {
         NSDictionary *topic = [boardTopics objectAtIndex:[indexPath row]];
 
-        if ([[topic valueForKey:@"sticky"] isEqualToString:@"YES"]) {
+        if ([[topic valueForKey:@"top"] intValue] == 1) {
             cell.textLabel.text = [NSString stringWithFormat:@"%@%@", @"【置顶】", [topic valueForKey:@"title"]];
         } else {
             cell.textLabel.text = [topic valueForKey:@"title"];
         }
         cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
         
-        NSString *detail = [NSString stringWithFormat:@"%@    -   %@",[topic valueForKey:@"time"], [topic valueForKey:@"author"]];
+        NSInteger timestamp = [[topic valueForKey:@"timestamp"] intValue];
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:timestamp];
+        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+        [format setDateFormat:@"MM-dd HH:mm:ss"];
+        NSString *time = [format stringFromDate:date];
+        NSString *detail = [NSString stringWithFormat:@"%@    -   %@", time , [topic valueForKey:@"author"]];
         cell.detailTextLabel.text = detail;
         cell.detailTextLabel.font = [UIFont systemFontOfSize:13];
 
@@ -388,7 +257,7 @@
         }
         cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
         
-        NSString *detail = [NSString stringWithFormat:@"%@    -   %@",[ post valueForKey:@"time"], [post valueForKey:@"author"]];
+        NSString *detail = [NSString stringWithFormat:@"%@    -   %@",[post valueForKey:@"time"], [post valueForKey:@"author"]];
         cell.detailTextLabel.text = detail;
         cell.detailTextLabel.font = [UIFont systemFontOfSize:13];
     }
@@ -410,16 +279,26 @@
     
     if (topicMode) {
         NSDictionary *topic = [boardTopics objectAtIndex:[indexPath row]];
-        TopicViewController *topicViewController = [[[TopicViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+        TopicViewController *topicViewController = [[TopicViewController alloc] initWithStyle:UITableViewStylePlain];
         topicViewController.title = [topic valueForKey:@"title"];
-        topicViewController.topicAddress = [topic valueForKey:@"address"];
+        topicViewController.topicURI = [NSString stringWithFormat:@"%@/%@", self.boardURI, [topic valueForKey:@"threadid"]];
         [self.navigationController pushViewController:topicViewController animated:YES];    
     } else {
         NSDictionary *post = [boardPosts objectAtIndex:[indexPath row]];
-        PostViewController *postViewController = [[[PostViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+        PostViewController *postViewController = [[PostViewController alloc] initWithStyle:UITableViewStylePlain];
         postViewController.title = [post valueForKey:@"title"];
-        postViewController.postAddress = [post valueForKey:@"address"];
+        postViewController.postURI = [post valueForKey:@"address"];
         [self.navigationController pushViewController:postViewController animated:YES];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger lastSectionIndex = [tableView numberOfSections] - 1;
+    NSInteger lastRowIndex = [tableView numberOfRowsInSection:lastSectionIndex] - 1;
+    if ((indexPath.section == lastSectionIndex) && (indexPath.row == lastRowIndex)) {
+        // This is the last cell
+        [self.tableView.tableFooterView setHidden:NO];
+        [self displayMore];
     }
 }
 
