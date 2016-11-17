@@ -70,4 +70,12 @@
     [self.indicator stopAnimating];
 }
 
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    if(UIWebViewNavigationTypeLinkClicked == navigationType) {
+        [[UIApplication sharedApplication] openURL:[request URL]];
+        return NO;
+    }
+    return YES;
+}
+
 @end
