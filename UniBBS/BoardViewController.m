@@ -7,7 +7,6 @@
 //
 
 #import "BoardViewController.h"
-#import "PostViewController.h"
 #import "TopicViewController.h"
 #import "BDWMBoardReader.h"
 #import "BDWMFavouritesManager.h"
@@ -20,18 +19,15 @@
 
 @end
 
-@implementation BoardViewController {
-    BOOL topicMode;
-}
+@implementation BoardViewController
 
-@synthesize boardURI, boardName, boardReader, boardPosts, boardTopics;
+@synthesize boardURI, boardName, boardReader, boardTopics;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-        topicMode = YES;
     }
     return self;
 }
@@ -98,12 +94,6 @@
 
 - (void) barButtonPressed 
 {
-    NSString *option1 = @"主题模式";
-    if (topicMode) {
-        option1 = @"回帖模式";
-    }
-    
-    // TODO: Mode selection is disable for now. Enable it later.
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发表新帖", @"收藏本版", nil];
     [sheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
 }
@@ -202,21 +192,12 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    if (topicMode) {
-        if (self.boardTopics != nil && self.boardTopics.count == 0) {
-            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
-            [alert show];
-        }
-        return [self.boardTopics count];
-    } else {
-        if (self.boardPosts != nil && self.boardPosts.count == 0) {
-            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
-            [alert show];
-        }
-        return [self.boardPosts count];
+    if (self.boardTopics != nil && self.boardTopics.count == 0) {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
+        [alert show];
     }
+    return [self.boardTopics count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -229,38 +210,23 @@
     }
     
     // Configure the cell...
-    if (topicMode) {
-        NSDictionary *topic = [boardTopics objectAtIndex:[indexPath row]];
+    NSDictionary *topic = [boardTopics objectAtIndex:[indexPath row]];
 
-        if ([[topic valueForKey:@"top"] intValue] == 1) {
-            cell.textLabel.text = [NSString stringWithFormat:@"%@%@", @"【置顶】", [topic valueForKey:@"title"]];
-        } else {
-            cell.textLabel.text = [topic valueForKey:@"title"];
-        }
-        cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
-        
-        NSInteger timestamp = [[topic valueForKey:@"timestamp"] intValue];
-        NSDate *date = [NSDate dateWithTimeIntervalSince1970:timestamp];
-        NSDateFormatter *format = [[NSDateFormatter alloc] init];
-        [format setDateFormat:@"MM-dd HH:mm:ss"];
-        NSString *time = [format stringFromDate:date];
-        NSString *detail = [NSString stringWithFormat:@"%@    -   %@", time , [topic valueForKey:@"author"]];
-        cell.detailTextLabel.text = detail;
-        cell.detailTextLabel.font = [UIFont systemFontOfSize:13];
-
+    if ([[topic valueForKey:@"top"] intValue] == 1) {
+        cell.textLabel.text = [NSString stringWithFormat:@"%@%@", @"【置顶】", [topic valueForKey:@"title"]];
     } else {
-        NSDictionary *post = [boardPosts objectAtIndex:[indexPath row]];
-        if ([[post valueForKey:@"sticky"] isEqualToString:@"YES"]) {
-            cell.textLabel.text = [NSString stringWithFormat:@"%@%@", @"【置顶】", [post valueForKey:@"title"]];
-        } else {
-            cell.textLabel.text = [post valueForKey:@"title"];
-        }
-        cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
-        
-        NSString *detail = [NSString stringWithFormat:@"%@    -   %@",[post valueForKey:@"time"], [post valueForKey:@"author"]];
-        cell.detailTextLabel.text = detail;
-        cell.detailTextLabel.font = [UIFont systemFontOfSize:13];
+        cell.textLabel.text = [topic valueForKey:@"title"];
     }
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
+    
+    NSInteger timestamp = [[topic valueForKey:@"timestamp"] intValue];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:timestamp];
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"MM-dd HH:mm:ss"];
+    NSString *time = [format stringFromDate:date];
+    NSString *detail = [NSString stringWithFormat:@"%@    -   %@", time , [topic valueForKey:@"author"]];
+    cell.detailTextLabel.text = detail;
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:13];
     
     return cell;
 }
@@ -277,19 +243,11 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
-    if (topicMode) {
-        NSDictionary *topic = [boardTopics objectAtIndex:[indexPath row]];
-        TopicViewController *topicViewController = [[TopicViewController alloc] initWithStyle:UITableViewStylePlain];
-        topicViewController.title = [topic valueForKey:@"title"];
-        topicViewController.topicURI = [NSString stringWithFormat:@"%@/%@", self.boardURI, [topic valueForKey:@"threadid"]];
-        [self.navigationController pushViewController:topicViewController animated:YES];    
-    } else {
-        NSDictionary *post = [boardPosts objectAtIndex:[indexPath row]];
-        PostViewController *postViewController = [[PostViewController alloc] initWithStyle:UITableViewStylePlain];
-        postViewController.title = [post valueForKey:@"title"];
-        postViewController.postURI = [post valueForKey:@"address"];
-        [self.navigationController pushViewController:postViewController animated:YES];
-    }
+    NSDictionary *topic = [boardTopics objectAtIndex:[indexPath row]];
+    TopicViewController *topicViewController = [[TopicViewController alloc] initWithStyle:UITableViewStylePlain];
+    topicViewController.title = [topic valueForKey:@"title"];
+    topicViewController.topicURI = [NSString stringWithFormat:@"%@/%@", self.boardURI, [topic valueForKey:@"threadid"]];
+    [self.navigationController pushViewController:topicViewController animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {

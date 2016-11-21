@@ -9,7 +9,6 @@
 #import "ProfileViewController.h"
 #import "LoginViewController.h"
 #import "FavouritesViewController.h"
-#import "MailListViewController.h"
 #import "BDWMUserModel.h"
 #import "BDWMAlertMessage.h"
 #import "UserInfoViewController.h"
@@ -156,14 +155,6 @@
         }
         if ([indexPath row] == 1) {
             [BDWMAlertMessage alertMessage:@"站内信功能暂时下线啦，请在web端进行处理~"];
-            /*
-            if ([BDWMUserModel isLogined]){
-                MailListViewController *mailListViewController = [[MailListViewController alloc] initWithStyle:UITableViewStylePlain];
-                [self.navigationController pushViewController:mailListViewController animated:YES];
-            }else{
-                [BDWMAlertMessage alertAndAutoDismissMessage:@"登录以后才能查看站内信。"];
-            }
-             */
             return;
         }
     }
