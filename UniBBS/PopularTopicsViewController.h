@@ -7,10 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "EGORefreshTableHeaderView.h"
 
 @interface PopularTopicsViewController : UITableViewController<UIActionSheetDelegate>
-//<EGORefreshTableHeaderDelegate, UIActionSheetDelegate>
 
 @property (nonatomic, retain) NSMutableArray *popularTopics;
 

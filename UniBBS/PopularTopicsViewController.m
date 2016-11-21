@@ -19,7 +19,6 @@
 
 @implementation PopularTopicsViewController {
     int numLimit;
-    int popType; // 0 for instance, 1 for day, 2 for week
 }
 
 @synthesize popularTopics;
@@ -31,7 +30,6 @@
         self.title = @"当天最热";
         self.tabBarItem.image = [UIImage imageNamed:@"popular"];
         numLimit = 20;
-        popType = 1;
     }
     return self;
 }
@@ -40,51 +38,6 @@
 {
     [super didReceiveMemoryWarning];
     // Release any cached data, images, etc that aren't in use.
-}
-
-
-- (void) buttonPressed 
-{
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"实时热点", @"当天最热", @"一周热点", nil];
-    [sheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
-}
-
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == actionSheet.cancelButtonIndex) {
-        return;
-    }
-    
-    NSInteger index = buttonIndex - actionSheet.firstOtherButtonIndex;
-    if (index == popType) {
-        return;
-    }
-    switch (index) {
-        case 0:
-            popType = 0;
-            self.title = @"实时热点";
-            break;
-        case 1:
-            popType = 1;
-            self.title = @"当天最热";
-            break;
-        case 2:
-            popType = 2;
-            self.title = @"一周热点";
-            break;
-        default:
-            break;
-    }
-
-    numLimit = 20;
-    [((UIButton*)self.tableView.tableFooterView) setTitle:@"更多" forState:UIControlStateNormal];
-    [((UIButton*)self.tableView.tableFooterView) setEnabled:YES];
-    //todo:show refreshing.
-    [self reload:nil];
-    if (self.popularTopics.count != 0) {
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-    }
 }
 
 - (void) showMore
@@ -96,7 +49,7 @@
 }
 
 - (void)reload:(__unused id)sender {
-    [BDWMPopularReader getPopularTopicsOfType: popType WithBlock:^(NSMutableArray *topics, NSError *error) {
+    [BDWMPopularReader getPopularTopicsOfType:0 WithBlock:^(NSMutableArray *topics, NSError *error) {
         if (!error) {
             self.popularTopics = topics;
             [self.tableView reloadData];
@@ -114,9 +67,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStylePlain target:self action:@selector(buttonPressed)];
-    // TODO: Remove UI because feature is removed.
-    //self.navigationItem.rightBarButtonItem = button;
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
@@ -237,7 +187,7 @@
 {
     // check if indexPath.row is last row
     // Perform operation to load new Cell's.
-    if ( indexPath.row == numLimit-1 ) {
+    if (indexPath.row == numLimit - 1) {
         [self showMore];
     }
 }

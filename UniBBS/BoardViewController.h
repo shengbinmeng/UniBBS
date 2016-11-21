@@ -15,7 +15,6 @@
 @property (nonatomic, retain) NSString *boardURI;
 @property (nonatomic, retain) NSString *boardName;
 @property (nonatomic, retain) BBSBoardReader *boardReader;
-@property (nonatomic, retain) NSMutableArray *boardPosts;
 @property (nonatomic, retain) NSMutableArray *boardTopics;
 
 @end

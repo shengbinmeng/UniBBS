@@ -11,7 +11,6 @@
 #import "BDWMFavouritesManager.h"
 #import "AttachmentsViewController.h"
 #import "WritingViewController.h"
-#import "WritingMailViewController.h"
 #import "BDWMUserModel.h"
 #import "BDWMAlertMessage.h"
 
