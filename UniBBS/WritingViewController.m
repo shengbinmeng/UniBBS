@@ -136,23 +136,31 @@ int anonymous = 0;
     
     [BDWMAlertMessage startSpinner:@"正在加载数据"];
     
-    [BDWMPostWriter getReplyQuote:self.board WithNumber:self.number WithTimestamp:self.timestamp blockFunction:^(NSDictionary *responseDict, NSString *error) {
+    if ([self.fromWhere isEqualToString:@"reply"]) {
+        [BDWMPostWriter getReplyQuote:self.board WithNumber:self.number WithTimestamp:self.timestamp blockFunction:^(NSDictionary *responseDict, NSString *error) {
+            if (error == nil) {
+                NSLog(@"get reply quote success!");
+                self.contentTextView.text = [NSString stringWithFormat:@"\n\n\n%@", (NSString *)[responseDict objectForKey:@"text"]];
+                
+                [self checkAnonymous];
+            } else {
+                NSLog(@"get reply quote failed!");
+                [BDWMAlertMessage alertMessage:error];
+            }
+        }];
+    } else {
+        [self checkAnonymous];
+    }
+}
+
+- (void)checkAnonymous {
+    [BDWMPostWriter getThreadsWithFirstPage:self.board blockFunction:^(NSDictionary *responseDict, NSString *error) {
+        [BDWMAlertMessage stopSpinner];
         if (error == nil) {
-            NSLog(@"get reply quote success!");
-            self.contentTextView.text = [NSString stringWithFormat:@"\n\n\n%@", (NSString *)[responseDict objectForKey:@"text"]];
-            
-            [BDWMPostWriter getThreadsWithFirstPage:self.board blockFunction:^(NSDictionary *responseDict, NSString *error) {
-                [BDWMAlertMessage stopSpinner];
-                if (error == nil) {
-                    NSLog(@"getThreadsWithFirstPage success!");
-                    anonymous = [[responseDict objectForKey:@"anonymous"] intValue];
-                } else {
-                    NSLog(@"getThreadsWithFirstPage failed!");
-                    [BDWMAlertMessage alertMessage:error];
-                }
-            }];
+            NSLog(@"getThreadsWithFirstPage success!");
+            anonymous = [[responseDict objectForKey:@"anonymous"] intValue];
         } else {
-            NSLog(@"get reply quote failed!");
+            NSLog(@"getThreadsWithFirstPage failed!");
             [BDWMAlertMessage alertMessage:error];
         }
     }];
