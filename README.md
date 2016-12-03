@@ -1,6 +1,6 @@
 # UniBBS - University BBS
 
-用于访问[北大未名](http://bbs.pku.edu.cn/)BBS的iOS应用。
+用于访问大学BBS的iOS应用。目前仅支持[北大未名](http://bbs.pku.edu.cn/)。
 
 ## 从源码编译
 
@@ -12,6 +12,10 @@
 
 然后用Xcode打开生成的`UniBBS.xcworkspace`文件。
 
-## 应用商店链接
+## 从应用商店下载
+
+访问如下链接：
 
 <https://itunes.apple.com/cn/app/bei-da-wei-ming/id931393093?mt=8>
+
+或在iTunes App Store搜索“北大未名”。
