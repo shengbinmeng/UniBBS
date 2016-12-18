@@ -118,8 +118,12 @@
     categaryBoardList = [self.boardExplorer getBoardList];
     
     self.boardList = categaryBoardList;
-    
-    [self.tableView reloadData];
+    if (self.boardList.count == 0) {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    } else {
+        [self.tableView reloadData];
+    }
     [self.refreshControl endRefreshing];
 }
 
@@ -189,15 +193,7 @@
     if (tableView == searchController.searchResultsTableView) {
         return searchResult.count;
     } else {
-        if (self.boardList != nil && self.boardList.count == 0) {
-            NSString *alertTitle = @"消息";
-            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:alertTitle message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
-            [alert show];
-            return 0;
-        } else {
-            return self.boardList.count;
-        }
+        return self.boardList.count;
     }
 }
 

@@ -52,9 +52,15 @@
     [BDWMPopularReader getPopularTopicsOfType:0 WithBlock:^(NSMutableArray *topics, NSError *error) {
         if (!error) {
             self.popularTopics = topics;
-            [self.tableView reloadData];
+            if (self.popularTopics.count == 0) {
+                UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+            } else {
+                [self.tableView reloadData];
+            }
         } else {
-            [BDWMAlertMessage alertAndAutoDismissMessage:@"未取到数据！可能是网络或其他原因导致。"];
+            [BDWMAlertMessage alertAndAutoDismissMessage:[error localizedDescription]];
+            [self.navigationController popViewControllerAnimated:YES];
         }
         [self.refreshControl endRefreshing];
     }];
@@ -130,17 +136,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (popularTopics != nil && popularTopics.count == 0) {
-        NSString *alertTitle = @"消息";
-#ifdef DEBUG
-        alertTitle = @"热点列表";
-#endif
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:alertTitle message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
-        [alert show];
-        popularTopics = nil;
-        return 0;
-    }
     NSInteger num = MIN([popularTopics count], numLimit);
     return num;
 }
