@@ -181,7 +181,6 @@
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
-    [self.tableView.tableHeaderView addSubview:self.refreshControl];
     
     UIButton *bottomButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [bottomButton setTitle:@"正在加载" forState:UIControlStateNormal];
