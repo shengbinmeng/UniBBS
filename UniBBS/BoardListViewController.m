@@ -51,7 +51,6 @@
     [sheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
 }
 
-
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == actionSheet.cancelButtonIndex) {
@@ -77,7 +76,7 @@
             [self.view insertSubview:indicator aboveSubview:self.tableView];
             indicator.center = self.view.center;
             [indicator startAnimating];
-            [self performSelectorInBackground:@selector(loadData:) withObject:indicator];
+            [self loadData:indicator];
         }
             break;
         default:
@@ -118,20 +117,24 @@
     indicator.center = self.view.center;
     [indicator startAnimating];
     
-    [self performSelectorInBackground:@selector(loadData:) withObject:indicator];
+    [self loadData:indicator];
 }
 
-- (void) loadData:(UIActivityIndicatorView*) indicator {
-    if ([self.title isEqualToString:@"分类讨论区"]) {
-        wholeBoardList = [self.boardExplorer getWholeBoardList];
-    }
-    categaryBoardList = [self.boardExplorer getBoardList];
-    
-    self.boardList = categaryBoardList;
-  
-    [self.tableView reloadData];
-    [indicator stopAnimating];
-    [indicator removeFromSuperview];
+- (void)loadData:(UIActivityIndicatorView*)indicator {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if ([self.title isEqualToString:@"分类讨论区"]) {
+            wholeBoardList = [self.boardExplorer getWholeBoardList];
+        }
+        categaryBoardList = [self.boardExplorer getBoardList];
+        
+        self.boardList = categaryBoardList;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+            [indicator stopAnimating];
+            [indicator removeFromSuperview];
+        });
+    });
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
