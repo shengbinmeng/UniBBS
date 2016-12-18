@@ -43,9 +43,9 @@
     UIActionSheet *sheet;
     
     if (showingAll) {
-        sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分类版面", @"刷新", nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分类版面", nil];
     }else{
-        sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"全部版面", @"刷新", nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"全部版面", nil];
     }
     
     [sheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
@@ -70,15 +70,6 @@
             [self.tableView reloadData];
             break;
         }
-        case 1:
-        {
-            UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-            [self.view insertSubview:indicator aboveSubview:self.tableView];
-            indicator.center = self.view.center;
-            [indicator startAnimating];
-            [self loadData:indicator];
-        }
-            break;
         default:
             break;
     }
@@ -107,34 +98,33 @@
         searchController.searchResultsDataSource = self;
     }
     
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
+    
     if (self.boardExplorer == nil) {
         BDWMBoardListExplorer *explorer = [[BDWMBoardListExplorer alloc] initWithURI:self.listURI];
         self.boardExplorer = explorer;
     }
     
-    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [self.view insertSubview:indicator aboveSubview:self.tableView];
-    indicator.center = self.view.center;
-    [indicator startAnimating];
-    
-    [self loadData:indicator];
+    [self.refreshControl layoutIfNeeded];
+    [self.refreshControl beginRefreshing];
+    [self reload:nil];
 }
 
-- (void)loadData:(UIActivityIndicatorView*)indicator {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if ([self.title isEqualToString:@"分类讨论区"]) {
-            wholeBoardList = [self.boardExplorer getWholeBoardList];
-        }
-        categaryBoardList = [self.boardExplorer getBoardList];
-        
-        self.boardList = categaryBoardList;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-            [indicator stopAnimating];
-            [indicator removeFromSuperview];
-        });
-    });
+- (void)reload:(__unused id)sender {
+    if ([self.title isEqualToString:@"分类讨论区"]) {
+        wholeBoardList = [self.boardExplorer getWholeBoardList];
+    }
+    categaryBoardList = [self.boardExplorer getBoardList];
+    
+    self.boardList = categaryBoardList;
+    if (self.boardList.count == 0) {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    } else {
+        [self.tableView reloadData];
+    }
+    [self.refreshControl endRefreshing];
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
@@ -203,15 +193,7 @@
     if (tableView == searchController.searchResultsTableView) {
         return searchResult.count;
     } else {
-        if (self.boardList != nil && self.boardList.count == 0) {
-            NSString *alertTitle = @"消息";
-            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:alertTitle message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
-            [alert show];
-            return 0;
-        } else {
-            return self.boardList.count;
-        }
+        return self.boardList.count;
     }
 }
 

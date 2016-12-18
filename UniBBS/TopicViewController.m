@@ -46,12 +46,17 @@
     [self.topicReader getTopicPostsWithBlock:^(NSMutableArray *topicPosts_t, NSError *error) {
         if (!error) {
             self.topicPosts = topicPosts_t;
-            [self.tableView reloadData];
-            [self.refreshControl endRefreshing];
+            if (self.topicPosts.count == 0) {
+                UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+            } else {
+                [self.tableView reloadData];
+            }
         }else{
             [BDWMAlertMessage alertMessage:[error localizedDescription]];
             [self.navigationController popViewControllerAnimated:YES];
         }
+        [self.refreshControl endRefreshing];
     }];
 }
 
@@ -181,7 +186,6 @@
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
-    [self.tableView.tableHeaderView addSubview:self.refreshControl];
     
     UIButton *bottomButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [bottomButton setTitle:@"正在加载" forState:UIControlStateNormal];
@@ -247,11 +251,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    if (self.topicPosts != nil && self.topicPosts.count == 0) {
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert performSelector:@selector(show) withObject:nil afterDelay:0.5];
-        [alert show];
-    }
     return [self.topicPosts count];
 }
 
