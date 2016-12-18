@@ -9,11 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "BBSBoardListExplorer.h"
 
-@interface BoardListViewController : UITableViewController
-<UIActionSheetDelegate, UISearchDisplayDelegate, UISearchBarDelegate>
+@interface BoardListViewController : UITableViewController<UISearchResultsUpdating>
 
-@property (nonatomic, retain) NSString *listURI;
-@property (nonatomic, retain) NSMutableArray *boardList;
-@property (nonatomic, retain) BBSBoardListExplorer *boardExplorer;
+@property (nonatomic, copy) NSString *listURI;
+@property (nonatomic, strong) NSMutableArray *boardList;
+@property (nonatomic, strong) BBSBoardListExplorer *boardExplorer;
 
 @end
