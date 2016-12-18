@@ -11,7 +11,7 @@
 #import "BoardViewController.h"
 
 @implementation BoardListViewController {
-    UISearchDisplayController *searchController;
+    UISearchController *searchController;
     NSMutableArray *wholeBoardList;
     NSMutableArray *categaryBoardList;
     NSArray *searchResult;
@@ -31,155 +31,81 @@
     return self;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
-}
-
-
-- (void) buttonPressed 
-{
-    UIActionSheet *sheet;
-    
-    if (showingAll) {
-        sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分类版面", nil];
-    }else{
-        sheet = [[UIActionSheet alloc] initWithTitle:@"选项" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"全部版面", nil];
-    }
-    
-    [sheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == actionSheet.cancelButtonIndex) {
-        return;
-    }
-    NSInteger index = buttonIndex - actionSheet.firstOtherButtonIndex;
-   
-    switch (index) {
-        case 0:
-        {
-            showingAll = !showingAll;
-            if (showingAll) {
-                self.boardList = wholeBoardList;
-            } else {
-                self.boardList = categaryBoardList;
-            }
-            [self.tableView reloadData];
-            break;
-        }
-        default:
-            break;
-    }
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    if ([self.title isEqualToString:@"分类讨论区"]) {
-        UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStylePlain target:self action:@selector(buttonPressed)];
-        self.navigationItem.rightBarButtonItem = button;
-    }
-        
-    if ([self.title isEqualToString:@"分类讨论区"]) {
-        UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-        searchBar.placeholder = @"搜索讨论区（中文名称或英文ID）";
-        searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
-        searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        self.tableView.tableHeaderView = searchBar;
-        searchController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
-        searchController.delegate = self;
-        searchController.searchResultsDelegate = self;
-        searchController.searchResultsDataSource = self;
-    }
+    
+    UIBarButtonItem *optionButton = [[UIBarButtonItem alloc] initWithTitle:@"选项" style:UIBarButtonItemStylePlain target:self action:@selector(optionButtonPressed:)];
+    self.navigationItem.rightBarButtonItem = optionButton;
+    
+    searchController = [[UISearchController alloc] initWithSearchResultsController:self];
+    searchController.searchResultsUpdater = self;
+    searchController.searchBar.placeholder = @"搜索讨论区（中文名称或英文ID）";
+    self.tableView.tableHeaderView = searchController.searchBar;
     
     self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
+    [self.refreshControl addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
     
-    if (self.boardExplorer == nil) {
-        BDWMBoardListExplorer *explorer = [[BDWMBoardListExplorer alloc] initWithURI:self.listURI];
-        self.boardExplorer = explorer;
-    }
+    self.boardExplorer = [[BDWMBoardListExplorer alloc] initWithURI:listURI];
     
-    [self.refreshControl layoutIfNeeded];
     [self.refreshControl beginRefreshing];
-    [self reload:nil];
+    [self reloadData];
 }
 
-- (void)reload:(__unused id)sender {
-    if ([self.title isEqualToString:@"分类讨论区"]) {
-        wholeBoardList = [self.boardExplorer getWholeBoardList];
-    }
-    categaryBoardList = [self.boardExplorer getBoardList];
-    
-    self.boardList = categaryBoardList;
-    if (self.boardList.count == 0) {
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"消息" message:@"未取到数据！可能是网络或其他原因导致。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
-    } else {
+- (void)optionButtonPressed:(UIBarButtonItem *)sender
+{
+    NSString *current = [NSString stringWithFormat:@"当前选择: %@", showingAll ? @"全部版面" : @"分类版面"];
+    UIAlertController *sheet = [UIAlertController alertControllerWithTitle:@"选择" message:current preferredStyle:UIAlertControllerStyleActionSheet];
+    [sheet addAction:[UIAlertAction actionWithTitle:@"分类版面" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        showingAll = FALSE;
+        self.boardList = categaryBoardList;
         [self.tableView reloadData];
-    }
-    [self.refreshControl endRefreshing];
+    }]];
+    [sheet addAction:[UIAlertAction actionWithTitle:@"全部版面" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        showingAll = TRUE;
+        self.boardList = wholeBoardList;
+        [self.tableView reloadData];
+    }]];
+    [sheet addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:NULL]];
+    sheet.popoverPresentationController.barButtonItem = sender;
+    [self presentViewController:sheet animated:true completion:NULL];
 }
 
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
-{    
+- (void)reloadData
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        wholeBoardList = [self.boardExplorer getWholeBoardList];
+        categaryBoardList = [self.boardExplorer getBoardList];
+        self.boardList = categaryBoardList;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (self.boardList.count == 0) {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"未取到数据！可能是网络或其他原因导致。" preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:NULL]];
+                [self presentViewController:alert animated: TRUE completion:^{
+                    [self.refreshControl endRefreshing];
+                }];
+            } else {
+                [self.tableView reloadData];
+                [self.refreshControl endRefreshing];
+            }
+        });
+    });
+}
+
+#pragma mark - UISearchResultsUpdating
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)aSearchController
+{
+    NSString *searchString = aSearchController.searchBar.text;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:
                               @"name BEGINSWITH[c] %@ OR description CONTAINS %@",
                               searchString, searchString];
-    searchResult = [wholeBoardList filteredArrayUsingPredicate: predicate];
-    return YES;
+    searchResult = [wholeBoardList filteredArrayUsingPredicate:predicate];
+    [self.tableView reloadData];
 }
-
-- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
-{
-    searchResult = nil;
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-    searchController = nil;
-    wholeBoardList = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[super viewDidDisappear:animated];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    } else {
-        return YES;
-    }
-}
-
 
 #pragma mark - Table view data source
 
@@ -190,10 +116,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (tableView == searchController.searchResultsTableView) {
+    if (searchController.active) {
         return searchResult.count;
     } else {
-        return self.boardList.count;
+        return boardList.count;
     }
 }
 
@@ -207,12 +133,12 @@
     }
 
     NSDictionary *board;
-    if (tableView == searchController.searchResultsTableView) {
+    if (searchController.active) {
         board = [searchResult objectAtIndex:[indexPath row]];
     } else {
         board = [boardList objectAtIndex:[indexPath row]];
     }
-    NSString* boardDesc = [board objectForKey:@"description"];
+    NSString *boardDesc = [board objectForKey:@"description"];
     cell.textLabel.text = [boardDesc stringByAppendingFormat:@" (%@)",[board objectForKey:@"name"]];
     if ([[board objectForKey:@"isGroup"] isEqualToString:@"YES"]) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -228,7 +154,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {   
-    if (tableView == searchController.searchResultsTableView) {
+    if (searchController.active) {
         NSDictionary *board = [searchResult objectAtIndex:[indexPath row]];
         BoardViewController *boardViewController = [[BoardViewController alloc] initWithStyle:UITableViewStylePlain];
         boardViewController.title = [board objectForKey:@"description"];
