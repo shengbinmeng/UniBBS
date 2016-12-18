@@ -84,11 +84,13 @@
             if (self.boardList.count == 0) {
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"未取到数据！可能是网络或其他原因导致。" preferredStyle:UIAlertControllerStyleAlert];
                 [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:NULL]];
-                [self presentViewController:alert animated: TRUE completion:NULL];
+                [self presentViewController:alert animated: TRUE completion:^{
+                    [self.refreshControl endRefreshing];
+                }];
             } else {
                 [self.tableView reloadData];
+                [self.refreshControl endRefreshing];
             }
-            [self.refreshControl endRefreshing];
         });
     });
 }
