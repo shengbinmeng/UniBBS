@@ -53,11 +53,10 @@
         if (!error) {
             self.popularTopics = topics;
             [self.tableView reloadData];
-            [self.refreshControl endRefreshing];
-            [self.indicator stopAnimating];
         } else {
             [BDWMAlertMessage alertAndAutoDismissMessage:@"未取到数据！可能是网络或其他原因导致。"];
         }
+        [self.refreshControl endRefreshing];
     }];
 }
 
@@ -71,14 +70,8 @@
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];
     
-    if (self.indicator == nil) {
-        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [self.view insertSubview:indicator aboveSubview:self.tableView];
-        indicator.center = self.tableView.center;
-        self.indicator = indicator;
-    }
-    [self.indicator startAnimating];
-    
+    [self.refreshControl layoutIfNeeded];
+    [self.refreshControl beginRefreshing];
     [self reload:nil];
 }
 
