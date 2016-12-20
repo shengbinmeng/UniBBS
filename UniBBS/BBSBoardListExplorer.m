@@ -16,13 +16,13 @@
     return [super init];
 }
 
-- (NSMutableArray*) getBoardList
+- (NSURLSessionDataTask *)getBoardListWithBlock:(void (^)(NSMutableArray *topics, NSError *error))block
 {
     NSLog(@"Get board list");
     return nil;
 }
 
-- (NSMutableArray*) getWholeBoardList
+- (NSURLSessionDataTask *)getWholeBoardListWithBlock:(void (^)(NSMutableArray *topics, NSError *error))block
 {
     NSLog(@"Get whole board list");
     return nil;

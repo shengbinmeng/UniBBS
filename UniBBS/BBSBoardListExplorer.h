@@ -11,7 +11,7 @@
 @interface BBSBoardListExplorer : NSObject
 
 - (id)initWithURI:(NSString *)uri;
-- (NSMutableArray*) getBoardList;
-- (NSMutableArray*) getWholeBoardList;
+- (NSURLSessionDataTask *)getWholeBoardListWithBlock:(void (^)(NSMutableArray *topics, NSError *error))block;
+- (NSURLSessionDataTask *)getBoardListWithBlock:(void (^)(NSMutableArray *topics, NSError *error))block;
 
 @end
