@@ -16,7 +16,7 @@
     static BDWMNetwork *manager = nil;
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
-        manager = [[self alloc] initWithBaseURL:[NSURL URLWithString:@"https://www.bdwm.net/"]];
+        manager = [[self alloc] initWithBaseURL:[NSURL URLWithString:@"https://bbs.pku.edu.cn/"]];
     });
     return manager;
 }

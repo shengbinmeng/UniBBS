@@ -313,7 +313,7 @@
             return;
         }
         if ([indexPath row] == 2) {
-            [[UIApplication sharedApplication] openURL:[[NSURL alloc] initWithString:@"http://www.bdwm.net/bbs"]];
+            [[UIApplication sharedApplication] openURL:[[NSURL alloc] initWithString:@"https://bbs.pku.edu.cn"]];
             return;
         }
     }
